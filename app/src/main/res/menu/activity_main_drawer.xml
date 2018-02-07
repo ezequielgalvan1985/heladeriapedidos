@@ -11,31 +11,29 @@
                 <item
                     android:id="@+id/nav_home"
                     android:title="Resumen" />
-
                 <item
+                    android:visible="false"
                     android:id="@+id/nav_configuracion"
                     android:title="Configuracion" />
 
-
                 <item
-                    android:visible="true"
+                    android:visible="false"
                     android:id="@+id/nav_enviarpedidospendientes"
                     android:title="Enviar Pedidos Pendientes" />
 
-
-
-
-
-
             </group>
+
+
             <group android:id="@+id/group_distribucion2">
 
 
                 <item
+                    android:visible="false"
                     android:id="@+id/nav_pedidos_pendientes"
                     android:title="Ver Pedidos Pendientes" />
 
                 <item
+                    android:visible="false"
                     android:id="@+id/nav_pedidos_enviados"
                     android:title="Ver Pedidos Enviados" />
 
@@ -53,15 +51,22 @@
 
 
                 <item
+                    android:visible="false"
                     android:id="@+id/nav_clientes"
                     android:title="Clientes"
                     />
 
                 <item
                     android:id="@+id/nav_productos"
-                    android:title="Productos" />
+                    android:title="Helados" />
 
+                <item
+                    android:id="@+id/nav_promos"
+                    android:title="Promos" />
 
+                <item
+                    android:id="@+id/nav_nosotros"
+                    android:title="Nosotros" />
 
             </group>
         </item>
