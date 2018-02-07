@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".Servicios.SyncDatosActivity"
+    tools:showIn="@layout/activity_syncro"
+    android:orientation="vertical">
+
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Categorias"
+        android:id="@+id/btnSyncCategorias" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Marcas"
+        android:id="@+id/btnSyncMarcas" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Productos"
+        android:id="@+id/btnSyncProductos" />
+
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="355dp"
+        android:layout_height="wrap_content"
+        android:text="Sync Clientes"
+        android:id="@+id/btnSyncClientes" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="355dp"
+        android:layout_height="wrap_content"
+        android:text="Hoja de ruta"
+        android:id="@+id/btnSyncHojarutas" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="355dp"
+        android:layout_height="wrap_content"
+        android:text="Hoja de ruta detalle"
+        android:id="@+id/btnSyncHojarutadetalles" />
+
+    <Button
+        android:text="Pedidos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnSyncPedidos" />
+
+    <Button
+        android:text="Pedido Detalle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnSyncPedidodetalle" />
+
+    <TextView
+        android:layout_width="356dp"
+        android:layout_height="wrap_content"
+        android:text="Log:"
+        android:id="@+id/textView2" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Limpiar Pedido detalles"
+        android:id="@+id/btnLimpiarPedidoDetalles" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="201dp"
+        android:layout_height="wrap_content"
+        android:text="Limpiar Pedidos"
+        android:id="@+id/btnLimpiarPedidos" />
+
+</LinearLayout>

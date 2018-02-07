@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/mnu_search"
+        android:title="Buscar..."
+        android:icon="@android:drawable/ic_menu_search"
+        android:orderInCategory="1"
+        app:showAsAction="always"
+        app:actionViewClass="android.support.v7.widget.SearchView"/>
+
+
+    <item android:id="@+id/mnu_nuevo_pedido"
+        android:title="Nuevo Pedido"
+        android:orderInCategory="1"
+        app:showAsAction="never" />
+
+    <item android:id="@+id/mnu_ver_pedido_actual"
+        android:title="Ver Pedido Actual"
+        android:orderInCategory="1"
+        app:showAsAction="never" />
+
+    <item android:id="@+id/mnu_continuar_pedido_actual"
+        android:title="Continuar Carga Pedido Actual"
+        android:orderInCategory="1"
+        app:showAsAction="never" />
+    <item android:id="@+id/mnu_recordatorio"
+        android:title="Recordatorio Productos x Cliente"
+        android:orderInCategory="1"
+        app:showAsAction="never" />
+
+
+    <item android:id="@+id/mnu_hojaruta"
+        android:icon="@android:drawable/ic_menu_agenda"
+        android:orderInCategory="3"
+        app:showAsAction="always" >
+        <menu>
+            <group android:id="@+id/grupo1">
+
+                <item android:id="@+id/mnu_lunes"
+                    android:title="Lunes"
+                />
+
+                <item android:id="@+id/mnu_martes"
+                    android:title="Martes"
+                />
+
+                <item android:id="@+id/mnu_miercoles"
+                    android:title="Miercoles"
+                />
+                <item android:id="@+id/mnu_jueves"
+                    android:title="Jueves"
+                    />
+                <item android:id="@+id/mnu_viernes"
+                    android:title="Viernes"
+                    />
+                <item android:id="@+id/mnu_sabado"
+                    android:title="Sabado"
+                    />
+
+            </group>
+        </menu>
+    </item>
+</menu>

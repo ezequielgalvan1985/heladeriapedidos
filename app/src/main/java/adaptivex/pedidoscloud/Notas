@@ -1,0 +1,50 @@
+Desarrollar:
+
+Login:
+    * guardar en tabla "parametro" el user ingresado
+        crear un parametro para cada dato, userid, entidadid, groupid
+    * click en boton salir
+        limpia globalvalues
+        llama a formulario login
+    * Crear fragment nuevo Mi cuenta, con username, nombre de la empresa,  rol de usuario.
+        Mostrar datos del usuario logueado
+    * En pantalla principal, mostrar resumen, cantidad de pedidos pendientes de envio, enviados, refrescar datos en evento onResume
+
+-----------------------------------------------------
+* crear nuevo activity de configuracion
+    boton activar/desactivar sincroizacion de de
+
+
+------------------------------------------------------
+* separar logica de syncDatosActivity por cada modelo
+    probar descarga de clienes
+    probar descarga de hoja de ruta
+
+
+
+
+* descarga de hojas de ruta no funciona
+* pasar como parametro el empresa_id en los gets a los servicios json productos marcas categorias hoja de ruta
+* regular los menus segun rol de usuario
+* Hoja de ruta descarga de datos
+* Listado de cliente en base a hoja de ruta por el usuario logueado
+* Mejorar el sistema de Login
+* cada vez que inicia preguntar si la base esta creada. leer parametros Userlogin, si es nulo pedir el login.
+si esta logueado cargar variable global userlogin
+* Crear fragment de cambiar contraseña
+* El logue consiste en Leer la primera vez a un web services y autorizar
+* Crear parametro Userloginautorizacion
+* Opcion Cambiar usuario logueado
+    Limpia las variables parametro de user login, y autorizacion loguin
+ si autorizacion loguin esta vacio, se pide logueo y se consume webservices
+
+* Ajustar Formato de Listado de Pedidos, ajustar la fecha
+* Ajustar Formato de Destalle de pedido, quitar idpedido, idtemp, descripcion al final, cantidad y precio arriba
+* el envio del pedido debe enviar la fecha en formato fecha  y chequear en la web pedidos con fecha de hoy
+
+
+
+
+
+LISTO:
+AIzaSyC8m-3Cy_-ER0U_9JVlczUzf96CulFf4cw

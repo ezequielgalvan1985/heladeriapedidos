@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/cvCliente"
+    card_view:cardUseCompatPadding="true"
+    card_view:cardElevation="4dp"
+    card_view:cardCornerRadius="3dp"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="5dp">
+<!--
+    <ImageView
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:id="@+id/ivImagenCli"
+            android:scaleType="centerCrop"
+            android:src="@drawable/icon_cliente2"
+        />
+-->
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:stretchColumns="0,1">
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <TextView
+                    android:id="@+id/lblContactoCliente"
+                    android:layout_column="0"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Contacto:">
+                </TextView>
+
+                <TextView
+                    android:id="@+id/tvContactoCli"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:hint="Contacto"
+                  />
+            </TableRow>
+
+
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <TextView
+                    android:id="@+id/lblRazonCliente"
+                    android:layout_column="0"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Razon Social:">
+                </TextView>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvRazonsocialCli"
+                    android:layout_below="@+id/tvNdocCli"
+                    android:textSize="14sp"
+                    android:textStyle="italic"
+                    android:layout_toRightOf="@+id/ivImagenCli"
+                    android:hint="Razon social" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/lblDireccionCliente"
+                android:layout_column="0"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Direccion:">
+            </TextView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvDireccionCli"
+                android:layout_below="@+id/tvRazonsocialCli"
+                android:textSize="14sp"
+                android:layout_toRightOf="@+id/ivImagenCli"
+                android:hint="Direccion"
+                />
+            </TableRow>
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <TextView
+                    android:id="@+id/lblTelefonoCliente"
+                    android:layout_column="0"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Telefono:">
+                </TextView>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvTelefonoCli"
+                    android:layout_below="@+id/tvDireccionCli"
+                    android:textSize="14sp"
+                    android:layout_toRightOf="@+id/ivImagenCli"
+                    android:hint="Telefono"
+                    />
+            </TableRow>
+
+
+        </TableLayout>
+    </LinearLayout>
+</android.support.v7.widget.CardView>

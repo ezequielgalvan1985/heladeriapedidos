@@ -1,0 +1,150 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="adaptivex.pedidoscloud.View.Consulting.ResumenFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:stretchColumns="0,1">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/lblUsuarioHome"
+                android:layout_column="0"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Usuario Logueado:">
+            </TextView>
+
+
+        </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tvUserLogued"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Usuario Logueado"
+                android:textSize="12dp"
+                />
+        </TableRow>
+
+
+
+        <TableRow
+            android:layout_marginTop="40dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/lblPedidosPendientesHome"
+                android:layout_column="0"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pedidos Pendientes:">
+            </TextView>
+            <TextView
+                android:id="@+id/lblPedidosEnviadosHome"
+                android:layout_column="1"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pedidos Enviados:">
+            </TextView>
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tvPedidosPendientes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pedidos Pendientes"
+                android:textSize="25dp"
+                />
+            <TextView
+                android:id="@+id/tvPedidosEnviados"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pedidos Enviados"
+                android:textSize="25dp"/>
+        </TableRow>
+
+
+
+
+
+        <TableRow
+            android:layout_marginTop="40dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/lblCantidadProductos"
+                android:layout_column="0"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Productos:">
+            </TextView>
+            <TextView
+                android:id="@+id/lblClientes"
+                android:layout_column="1"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Clientes:">
+            </TextView>
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tvCantidadProductos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cantidad de Productos"
+                android:textSize="25dp"/>
+
+            <TextView
+                android:id="@+id/tvCantidadClientes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cantidad de Clientes"
+                android:textSize="25dp"
+                />
+        </TableRow>
+
+
+
+        <TableRow
+            android:layout_marginTop="40dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/btnEliminarPedidosEnviados_resumen"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Eliminar Pedidos Enviados"
+                />
+        </TableRow>
+
+
+
+    </TableLayout>
+
+</FrameLayout>

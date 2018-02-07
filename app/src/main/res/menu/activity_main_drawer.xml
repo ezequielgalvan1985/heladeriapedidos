@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_distribucion"
+            android:title="Distribucion" >
+
+            <group android:id="@+id/group_distribucion">
+                <item
+                    android:id="@+id/nav_home"
+                    android:title="Resumen" />
+
+                <item
+                    android:id="@+id/nav_configuracion"
+                    android:title="Configuracion" />
+
+
+                <item
+                    android:visible="true"
+                    android:id="@+id/nav_enviarpedidospendientes"
+                    android:title="Enviar Pedidos Pendientes" />
+
+
+
+
+
+
+            </group>
+            <group android:id="@+id/group_distribucion2">
+
+
+                <item
+                    android:id="@+id/nav_pedidos_pendientes"
+                    android:title="Ver Pedidos Pendientes" />
+
+                <item
+                    android:id="@+id/nav_pedidos_enviados"
+                    android:title="Ver Pedidos Enviados" />
+
+                <item
+                    android:id="@+id/nav_pedidosentrega"
+                    android:title="Descargar Pedidos para Entregar"
+                    android:visible="false"/>
+
+                <item
+                    android:id="@+id/nav_diagramarrecorrido"
+                    android:title="Diagramar Entrega de Pedidos con GPS"
+                    android:visible="false"/>
+
+
+
+
+                <item
+                    android:id="@+id/nav_clientes"
+                    android:title="Clientes"
+                    />
+
+                <item
+                    android:id="@+id/nav_productos"
+                    android:title="Productos" />
+
+
+
+            </group>
+        </item>
+
+    <group android:id="@+id/group_mantenimiento">
+
+
+        <item
+            android:id="@+id/nav_descargaImagen"
+            android:title="Descargar Imagen"
+            android:visible="false"/>
+
+        <item
+            android:id="@+id/nav_pedidodetalles"
+            android:title="Pedidos Detalles"
+            android:visible="false"/>
+        <item
+            android:id="@+id/nav_categorias"
+            android:title="Categorias"
+            android:visible="false"
+            />
+
+        <item
+            android:id="@+id/nav_marcas"
+            android:title="Marcas"
+            android:visible="false"
+            />
+
+        <item
+            android:id="@+id/nav_hojarutas"
+            android:title="Hojarutas"
+            android:visible="false"/>
+
+
+    </group>
+        <group android:id="@+id/group_usuario">
+
+            <item
+                android:visible="false"
+                android:id="@+id/nav_login"
+                android:title="Cambiar Sesion" />
+
+            <item
+                android:id="@+id/nav_logout"
+                android:title="Cerrar Sesion" />
+
+        </group>
+</group>
+</menu>

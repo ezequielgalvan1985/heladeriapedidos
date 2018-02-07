@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/cvPedidodetalle"
+    android:layout_margin="6dp"
+    card_view:cardUseCompatPadding="true"
+    card_view:cardElevation="4dp"
+    card_view:cardCornerRadius="3dp"
+    >
+
+
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:stretchColumns="0,1"
+            >
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_column="0"
+                    android:textStyle="bold"
+                    android:id="@+id/tvProductoIdtxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:hint="Codigo:"
+
+                    />
+                <TextView
+                    android:layout_column="1"
+                    android:id="@+id/tvIpdProductoId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:hint="ProductoId"
+                    />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_column="0"
+                    android:textStyle="bold"
+                    android:id="@+id/tvIpdProductoNombretxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:hint="Producto: "
+                    />
+
+                <TextView
+                    android:layout_column="1"
+                    android:id="@+id/tvIpdProductoNombre"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:hint="ProductoNombre"
+                    />
+            </TableRow>
+
+
+
+
+
+
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_column="0"
+                    android:textStyle="bold"
+                    android:id="@+id/tvIpdCantidadtxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:hint="Cantidad: "
+                    />
+
+                <TextView
+                    android:layout_column="1"
+                    android:id="@+id/tvCantidad"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:hint="Cantidad"
+
+                    />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <TextView
+                    android:layout_column="0"
+                    android:textStyle="bold"
+                    android:id="@+id/tvPreciounitariotxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:hint="Precio: "
+                    />
+
+                <TextView
+                    android:layout_column="1"
+                    android:id="@+id/tvPreciounitario"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:hint="PrecioUnitario"
+                    />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_column="0"
+                    android:textStyle="bold"
+                    android:id="@+id/tvMontotxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:hint="Monto: "
+                    />
+
+                <TextView
+                    android:layout_column="1"
+                    android:id="@+id/tvMonto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:hint="Monto"
+                    />
+            </TableRow>
+
+
+        </TableLayout>
+    <TextView
+        android:layout_column="0"
+        android:textStyle="bold"
+        android:id="@+id/tvPedidoIdtxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:hint="PedidoID:"
+        android:visibility="invisible"
+        />
+    <TextView
+        android:layout_column="1"
+        android:id="@+id/tvPedidoId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:hint="pedidoId"
+        android:visibility="invisible"
+        />
+
+    <TextView
+        android:layout_column="0"
+        android:textStyle="bold"
+        android:id="@+id/tvPedidoIdTmptxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:hint="PedidoIDTmp:"
+        android:visibility="invisible"
+        />
+    <TextView
+        android:layout_column="1"
+        android:id="@+id/tvPedidoIdTmp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:hint="pedidoIdTmp"
+        android:visibility="invisible"
+        />
+
+
+</android.support.v7.widget.CardView>
