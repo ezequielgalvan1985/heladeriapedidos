@@ -211,49 +211,8 @@ public class MainActivity extends AppCompatActivity
             }
 
 
-        }else if (id==R.id.mnu_recordatorio){
-            try{
-                //Buscar ultimo pedido
-                PedidoController pdba = new PedidoController(this);
-                long nroPedido = pdba.getMaxIdTmpPedido();
-                Pedido p = new Pedido();
-                p = pdba.abrir().buscar(nroPedido,true);
-                GlobalValues.getINSTANCIA().PEDIDO_ID_ACTUAL = p.getIdTmp();
-                GlobalValues.getINSTANCIA().CLIENTE_ID_PEDIDO_ACTUAL = p.getCliente_id();
-                if (GlobalValues.getINSTANCIA().PEDIDO_ID_ACTUAL > 0 ){
-                    if (GlobalValues.getINSTANCIA().CLIENTE_ID_PEDIDO_ACTUAL > 0){
-                        GlobalValues.getINSTANCIA().IS_MEMO = true;
-                        GlobalValues.getINSTANCIA().setActualFragment(GlobalValues.getINSTANCIA().LISTADOPRODUCTOS);
-                        fragment = new ListadoProductosFragment();
-                        fragmentTransaction = true;
-                    }else {
-                        Toast.makeText(this, "Todavia no seleccion un cliente para el pedido...", Toast.LENGTH_LONG);
-                    }
-                }else{
-                    Toast.makeText(this, "Debe generar un pedido...", Toast.LENGTH_LONG);
-                }
-            }catch (Exception e ){
-                Toast.makeText(this, "MainActivity: Hubo un Error" + e.getMessage().toString(), Toast.LENGTH_LONG);
-            }
-        } else if (id == R.id.mnu_lunes || id == R.id.mnu_martes || id == R.id.mnu_miercoles || id == R.id.mnu_jueves || id == R.id.mnu_viernes|| id == R.id.mnu_sabado) {
-            //Obtener dia seleccionado
-            //Pasar dia como argumento
-            //Buscar datos de a hoja de ruta para el dia
-            //HojarutaController hc = new HojarutaController(this);
 
-            if (id == R.id.mnu_lunes){
-                GlobalValues.getINSTANCIA().setDiaSelecionado(GlobalValues.getINSTANCIA().LUNES);
-            }else if (id == R.id.mnu_martes){
-                GlobalValues.getINSTANCIA().setDiaSelecionado(GlobalValues.getINSTANCIA().MARTES);
-            }else if (id == R.id.mnu_miercoles){
-                GlobalValues.getINSTANCIA().setDiaSelecionado(GlobalValues.getINSTANCIA().MIERCOLES);
-            }else if (id == R.id.mnu_jueves){
-                GlobalValues.getINSTANCIA().setDiaSelecionado(GlobalValues.getINSTANCIA().JUEVES);
-            }else if (id == R.id.mnu_viernes){
-                GlobalValues.getINSTANCIA().setDiaSelecionado(GlobalValues.getINSTANCIA().VIERNES);
-            }else if (id == R.id.mnu_sabado){
-                GlobalValues.getINSTANCIA().setDiaSelecionado(GlobalValues.getINSTANCIA().SABADO);
-            }
+
 
             GlobalValues.getINSTANCIA().setActualFragment(GlobalValues.getINSTANCIA().LISTADOCLIENTES);
             GlobalValues.getINSTANCIA().setVgFlagMenuNuevoPedido(true);
