@@ -127,8 +127,8 @@ public class RVAdapterProducto extends RecyclerView.Adapter<RVAdapterProducto.Pr
             cv = (CardView)itemView.findViewById(R.id.cvProducto);
             ptvId = (TextView)itemView.findViewById(R.id.ptvId);
             pNombre = (TextView)itemView.findViewById(R.id.ptvNombre);
-            pStock = (TextView)itemView.findViewById(R.id.ptvStock);
-            pPrecio = (TextView)itemView.findViewById(R.id.ptvPrecio);
+            //pStock = (TextView)itemView.findViewById(R.id.ptvStock);
+            //pPrecio = (TextView)itemView.findViewById(R.id.ptvPrecio);
         }
 
 

@@ -5,7 +5,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="title_activity_login">PedidosCloud</string>
+    <string name="title_activity_login">Heladeria X</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -13,6 +13,9 @@
     <string name="action_sign_in">Ingresar</string>
     <string name="registrarse">Registrarse</string>
     <string name="volver">Volver</string>
+
+    <string name="finalizar_seleccion">Finalizar Seleccion</string>
+    <string name="ver_seleccion">Ver Helados Seleccionados</string>
 
 
     <string name="action_sign_in_short">Ingresar</string>
@@ -27,5 +30,6 @@
     <string name="title_activity_config">ConfigActivity</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="register">Registro de Usuario</string>
+    <string name="title_activity_nuevo_pedido">NuevoPedidoActivity</string>
 </resources>

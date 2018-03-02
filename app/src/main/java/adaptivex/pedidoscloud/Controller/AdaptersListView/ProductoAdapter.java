@@ -34,12 +34,12 @@ public class ProductoAdapter extends ArrayAdapter<Producto> {
         //ImageView imgImg = (ImageView) convertView.findViewById(R.id.pivImagen);
         TextView tvNombre = (TextView) convertView.findViewById(R.id.ptvNombre);
         //TextView tvDescripcion = (TextView) convertView.findViewById(R.id.ptvDescripcion);
-        TextView tvPrecio = (TextView) convertView.findViewById(R.id.ptvPrecio);
+        //TextView tvPrecio = (TextView) convertView.findViewById(R.id.ptvPrecio);
 
         // Populate the data into the template view using the data object
         tvNombre.setText(producto.getNombre());
         //tvDescripcion.setText(producto.getDescripcion());
-        tvPrecio.setText(String.valueOf(producto.getPrecio()));
+        //tvPrecio.setText(String.valueOf(producto.getPrecio()));
 
 
        // tvPrecio.setText(precio);

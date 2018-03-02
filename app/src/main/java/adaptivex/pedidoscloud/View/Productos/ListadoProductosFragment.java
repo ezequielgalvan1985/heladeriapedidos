@@ -84,17 +84,7 @@ public class ListadoProductosFragment extends Fragment {
 
     }
 
-    public void checkServiceWorking(){
-        try {
-            ParameterHelper ph = new ParameterHelper(this.getContext());
-            while (ph.isServiceStockPrecioWorking()) {
-                Toast.makeText(getContext(), "La Aplicación esta actualizando Stocks y Precios, Aguarde un momento por favor...", Toast.LENGTH_SHORT).show();
-                Thread.sleep(2000);
-            }
-        }catch (Exception e ){
-            Toast.makeText(getContext(), "Error " + e.getMessage().toString(), Toast.LENGTH_SHORT).show();
-        }
-    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

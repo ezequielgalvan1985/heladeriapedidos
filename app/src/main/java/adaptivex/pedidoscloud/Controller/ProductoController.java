@@ -8,7 +8,10 @@ import android.database.sqlite.SQLiteException;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 import adaptivex.pedidoscloud.Core.ParameterHelper;
+import adaptivex.pedidoscloud.Model.Cliente;
 import adaptivex.pedidoscloud.Model.Producto;
 import adaptivex.pedidoscloud.Model.ProductoDataBaseHelper;
 
@@ -49,6 +52,28 @@ public class ProductoController
         }
 
     }
+
+    public ArrayList<Producto> parseCursorToArray(Cursor c) {
+        try{
+            ArrayList<Producto> al = new ArrayList<Producto>();
+            while (c.moveToNext()) {
+                Producto registro = new Producto();
+                registro.setId(c.getInt(c.getColumnIndex(ProductoDataBaseHelper.CAMPO_ID)));
+                registro.setCodigoexterno(c.getString(c.getColumnIndex(ProductoDataBaseHelper.CAMPO_CODIGOEXTERNO)));
+                registro.setDescripcion(c.getString(c.getColumnIndex(ProductoDataBaseHelper.CAMPO_DESCRIPCION)));
+                registro.setNombre(c.getString(c.getColumnIndex(ProductoDataBaseHelper.CAMPO_NOMBRE)));
+                registro.setPrecio(c.getFloat(c.getColumnIndex(ProductoDataBaseHelper.CAMPO_PRECIO)));
+                registro.setStock(c.getInt(c.getColumnIndex(ProductoDataBaseHelper.CAMPO_STOCK)));
+                al.add(registro);
+                registro = null;
+            }
+            return al;
+        }catch(Exception e ){
+            Log.d("ProductosController", e.getMessage());
+            return null;
+        }
+    }
+
 
     public long agregar(Producto item)
     {
@@ -105,6 +130,8 @@ public class ProductoController
         }
     }
 
+
+
     public Cursor obtenerTodos()
     {
         try{
@@ -132,6 +159,8 @@ public class ProductoController
             return null;
         }
     }
+
+
 
 
     public Cursor findByNombre(String pNombre){

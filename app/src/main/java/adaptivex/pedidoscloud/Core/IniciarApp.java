@@ -32,6 +32,8 @@ import adaptivex.pedidoscloud.Servicios.HelperMarcas;
 import adaptivex.pedidoscloud.Servicios.HelperMemo;
 import adaptivex.pedidoscloud.Servicios.HelperProductos;
 
+import static java.lang.Thread.sleep;
+
 public  class IniciarApp  {
     private Context context;
 
@@ -65,53 +67,64 @@ public  class IniciarApp  {
             db = dba.getWritableDatabase();
             db.execSQL(dba.DROP_TABLE);
             db.execSQL(dba.CREATE_TABLE);
+            db.close();
 
             ProductoDataBaseHelper dbp = new ProductoDataBaseHelper(this.getContext());
             db = dbp.getWritableDatabase();
             db.execSQL(dbp.DROP_TABLE);
             db.execSQL(dbp.CREATE_TABLE);
-
+            db.close();
 
             MarcaDataBaseHelper m = new MarcaDataBaseHelper(getContext());
             db = m.getWritableDatabase();
             db.execSQL(m.DROP_TABLE);
             db.execSQL(m.CREATE_TABLE);
+            db.close();
 
             CategoriaDataBaseHelper ca = new CategoriaDataBaseHelper(getContext());
             db = ca.getWritableDatabase();
             db.execSQL(ca.DROP_TABLE);
             db.execSQL(ca.CREATE_TABLE);
+            db.close();
 
             PedidoDataBaseHelper pe = new PedidoDataBaseHelper(getContext());
             db = pe.getWritableDatabase();
             db.execSQL(pe.DROP_TABLE);
             db.execSQL(pe.CREATE_TABLE);
+            db.close();
+
 
             PedidodetalleDataBaseHelper ped = new PedidodetalleDataBaseHelper(getContext());
             db = ped.getWritableDatabase();
             db.execSQL(ped.DROP_TABLE);
             db.execSQL(ped.CREATE_TABLE);
+            db.close();
+
 
             HojarutaDataBaseHelper h = new HojarutaDataBaseHelper(getContext());
             db = h.getWritableDatabase();
             db.execSQL(h.DROP_TABLE);
             db.execSQL(h.CREATE_TABLE);
+            db.close();
+
 
             HojarutadetalleDataBaseHelper hd = new HojarutadetalleDataBaseHelper(getContext());
             db = hd.getWritableDatabase();
             db.execSQL(hd.DROP_TABLE);
             db.execSQL(hd.CREATE_TABLE);
+            db.close();
 
             ParameterDataBaseHelper par = new ParameterDataBaseHelper(getContext());
             db = par.getWritableDatabase();
             db.execSQL(par.DROP_TABLE);
             db.execSQL(par.CREATE_TABLE);
+            db.close();
 
             MemoDataBaseHelper mdb = new MemoDataBaseHelper(getContext());
             db = par.getWritableDatabase();
             db.execSQL(mdb.DROP_TABLE);
             db.execSQL(mdb.CREATE_TABLE);
-
+            db.close();
 
             //PARAMETROS...
             ParameterController pc = new ParameterController(getContext());
@@ -356,26 +369,39 @@ public  class IniciarApp  {
             HelperMarcas m = new HelperMarcas(getContext());
             m.execute();
 
+
             HelperCategorias ca = new HelperCategorias(getContext());
             ca.execute();
+
+
 
             HelperClientes c = new HelperClientes(getContext());
             c.execute();
 
+
+
             HelperProductos p = new HelperProductos(getContext());
             p.execute();
+
 
             HelperHojarutas hd = new HelperHojarutas(getContext());
             hd.execute();
 
+
             HelperMemo hp = new HelperMemo(getContext());
             hp.execute();
+
+
 
             ParameterController pc  = new ParameterController(getContext());
             Parameter param1 = pc.abrir().findById(GlobalValues.getINSTANCIA().PARAM_DOWNLOAD_DATABASE);
             param1.setValor_texto("Y");
             pc.abrir().modificar(param1);
             pc.cerrar();
+
+
+
+
 
             return true;
         }catch (Exception e ){

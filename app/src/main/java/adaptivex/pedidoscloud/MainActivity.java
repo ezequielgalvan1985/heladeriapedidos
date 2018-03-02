@@ -39,6 +39,7 @@ import adaptivex.pedidoscloud.View.Marcas.ListadoMarcasFragment;
 import adaptivex.pedidoscloud.View.Pedidodetalles.ListadoPedidodetallesFragment;
 import adaptivex.pedidoscloud.View.Pedidos.DetallePedidoFragment;
 import adaptivex.pedidoscloud.View.Pedidos.ListadoPedidosFragment;
+import adaptivex.pedidoscloud.View.Productos.ListadoHeladosFragment;
 import adaptivex.pedidoscloud.View.Productos.ListadoProductosFragment;
 import adaptivex.pedidoscloud.View.Productos.ProductoDetalleFragment;
 import adaptivex.pedidoscloud.View.Pruebas.DescargaImagenActivity;
@@ -65,7 +66,8 @@ public class MainActivity extends AppCompatActivity
         RVAdapterHojaruta.OnHeadlineSelectedListener,
         HomeFragment.OnFragmentInteractionListener,
         ResumenFragment.OnFragmentInteractionListener,
-        ConfigFragment.OnFragmentInteractionListener
+        ConfigFragment.OnFragmentInteractionListener,
+        ListadoHeladosFragment.OnFragmentInteractionListener
 
 {
     private FloatingActionButton BTN_PRINCIPAL;
@@ -296,7 +298,8 @@ public class MainActivity extends AppCompatActivity
                 GlobalValues.getINSTANCIA().setActualFragment(GlobalValues.getINSTANCIA().LISTADOCLIENTES);
 
             } else if (id == R.id.nav_productos) {
-                fragment = new ListadoProductosFragment();
+                //fragment = new ListadoProductosFragment();
+                fragment = new ListadoHeladosFragment();
                 fragmentTransaction = true;
 
                 GlobalValues.getINSTANCIA().setActualFragment(GlobalValues.getINSTANCIA().LISTADOPRODUCTOS);

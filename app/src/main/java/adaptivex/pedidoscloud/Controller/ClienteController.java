@@ -48,6 +48,9 @@ public class ClienteController
         }
 
     }
+
+
+
     public ArrayList<Cliente> parseCursorToArray(Cursor c) {
         try{
             ArrayList<Cliente> al = new ArrayList<Cliente>();
@@ -69,6 +72,9 @@ public class ClienteController
             return null;
         }
     }
+
+
+
     public long agregar(Cliente item)
     {
         ContentValues valores = new ContentValues();

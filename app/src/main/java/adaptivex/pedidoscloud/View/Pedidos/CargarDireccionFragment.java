@@ -12,43 +12,41 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.stepstone.stepper.Step;
+import com.stepstone.stepper.VerificationError;
 import com.stepstone.stepper.adapter.AbstractFragmentStepAdapter;
 import com.stepstone.stepper.viewmodel.StepViewModel;
 
 import adaptivex.pedidoscloud.R;
 
-public static class CargarDireccionFragment extends AbstractFragmentStepAdapter {
+public class CargarDireccionFragment extends Fragment implements Step {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
 
+    public CargarDireccionFragment(){}
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.fragment_cargar_direccion, container, false);
 
-    public CargarDireccionFragment(FragmentManager fm, Context context) {
-        // Required empty public constructor
-        super(fm, context);
+        //initialize your UI
+
+        return v;
     }
 
     @Override
-    public Step createStep(int position) {
-        final StepFragmentSample step = new StepFragmentSample();
-        Bundle b = new Bundle();
-        b.putInt(CURRENT_STEP_POSITION_KEY, position);
-        step.setArguments(b);
-        return step;
+    public VerificationError verifyStep() {
+        //return null if the user can go to the next step, create a new VerificationError instance otherwise
+        return null;
     }
 
     @Override
-    public int getCount() {
-        return 3;
+    public void onSelected() {
+        //update UI when selected
     }
 
-    @NonNull
     @Override
-    public StepViewModel getViewModel(@IntRange(from = 0) int position) {
-        //Override this method to set Step title for the Tabs, not necessary for other stepper types
-        return new StepViewModel.Builder(context)
-                .setTitle("Carga Direccion") //can be a CharSequence instead
-                .create();
+    public void onError(@NonNull VerificationError error) {
+        //handle error inside of the fragment, e.g. show error on EditText
     }
 }
