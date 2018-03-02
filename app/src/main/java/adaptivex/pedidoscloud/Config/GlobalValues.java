@@ -75,6 +75,7 @@ public class GlobalValues {
     private int diaSelecionado;
 
 
+    //DATOS DE USUARIO
     public static final int PARAM_USERID = 1;
     public static final int PARAM_EMAIL = 2;
     public static final int PARAM_GROUPID = 3;
@@ -88,6 +89,11 @@ public class GlobalValues {
     public static final int PARAM_DOWNLOAD_DATABASE = 11;
     public static final int PARAM_SERVICE_ENVIO_PEDIDOS_ACTIVATE = 12;
     public static final int PARAM_USERNAME = 13;
+    public static final int PARAM_LOCALIDAD = 14;
+    public static final int PARAM_CALLE = 15;
+    public static final int PARAM_NRO = 16;
+    public static final int PARAM_PISO = 17;
+    public static final int PARAM_CONTACTO = 18;
 
 
 

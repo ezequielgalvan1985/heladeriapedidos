@@ -399,9 +399,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         private UserParser parser;
 
 
-
-
-
         UserLoginTask(String email, String password, String localidad, String calle, String nro, String piso, String contacto) {
             mEmail = email;
             mPassword = password;
@@ -412,6 +409,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mContacto = contacto;
 
             user = new User();
+
             user.setEmail(this.mEmail);
             user.setPassword(this.mPassword);
             user.setLocalidad(this.mLocalidad);

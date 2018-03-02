@@ -332,6 +332,43 @@ public  class IniciarApp  {
 
             }
 
+            //AGREGAR LOS OTROS CAMPOS, localidad, calle, nro, piso, contacto
+            //LOCALIDAD
+            p = pc.abrir().findById(GlobalValues.getINSTANCIA().PARAM_LOCALIDAD);
+            if (p==null) {
+                 //SE CREA
+                p = new Parameter();
+                p.setId(GlobalValues.getINSTANCIA().PARAM_LOCALIDAD);
+                p.setValor_texto(user.getLocalidad());
+                p.setDescripcion("Es la Localidad en el sistema web");
+                pc.abrir().agregar(p);
+                pc.cerrar();
+            }else{
+                 //SE MODIFICA
+                p.setId(GlobalValues.getINSTANCIA().PARAM_LOCALIDAD);
+                p.setValor_texto(user.getLocalidad());
+                p.setDescripcion("Es el Localidad en el sistema web");
+                pc.abrir().modificar(p);
+                pc.cerrar();
+            }
+            //CALLE
+            p = pc.abrir().findById(GlobalValues.getINSTANCIA().PARAM_CALLE);
+            if (p==null) {
+                //SE CREA
+                p = new Parameter();
+                p.setId(GlobalValues.getINSTANCIA().PARAM_CALLE);
+                p.setValor_texto(user.getLocalidad());
+                p.setDescripcion("Es la Calle en el sistema web");
+                pc.abrir().agregar(p);
+                pc.cerrar();
+            }else{
+                //SE MODIFICA
+                p.setId(GlobalValues.getINSTANCIA().PARAM_CALLE);
+                p.setValor_texto(user.getLocalidad());
+                p.setDescripcion("Es el Calle en el sistema web");
+                pc.abrir().modificar(p);
+                pc.cerrar();
+            }
 
 
             return true;
