@@ -12,6 +12,13 @@ public class User {
     private int group_id;
     private int empleado_id;
 
+    private String localidad;
+    private String calle;
+    private String nro;
+    private String piso;
+    private String contacto;
+
+
     private static String createTable;
 
     public Integer getId() {
@@ -91,5 +98,45 @@ public class User {
 
     public void setEmpleado_id(int empleado_id) {
         this.empleado_id = empleado_id;
+    }
+
+    public String getLocalidad() {
+        return localidad;
+    }
+
+    public void setLocalidad(String localidad) {
+        this.localidad = localidad;
+    }
+
+    public String getCalle() {
+        return calle;
+    }
+
+    public void setCalle(String calle) {
+        this.calle = calle;
+    }
+
+    public String getNro() {
+        return nro;
+    }
+
+    public void setNro(String nro) {
+        this.nro = nro;
+    }
+
+    public String getPiso() {
+        return piso;
+    }
+
+    public void setPiso(String piso) {
+        this.piso = piso;
+    }
+
+    public String getContacto() {
+        return contacto;
+    }
+
+    public void setContacto(String contacto) {
+        this.contacto = contacto;
     }
 }

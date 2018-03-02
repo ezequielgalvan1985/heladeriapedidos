@@ -36,6 +36,7 @@ public class Configurador {
     public static String urlPostPedidodetalle =strRoot+"/api/pedidodetallessend";
     public static String urlPostClientes = strRoot+"/api/clientes";
     public static String urlPostLogin = strRoot+"/api/user/login";
+    public static String urlPostRegister = strRoot+"/api/user/register";
 
 
     public  static Configurador getConfigurador() {

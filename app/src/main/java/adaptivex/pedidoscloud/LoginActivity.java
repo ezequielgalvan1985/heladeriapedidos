@@ -70,6 +70,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     // UI references.
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
+    private EditText txtLocalidad;
+    private EditText txtCalle;
+    private EditText txtPiso;
+    private EditText txtNro;
+    private EditText txtContacto;
+
+
     private EditText mConfirmPasswordView;
     private View mProgressView;
     private View mLoginFormView;
@@ -94,14 +101,19 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 finish();
             }
 
-
+            //Iniciar los campos
+            mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
+            mPasswordView = (EditText) findViewById(R.id.password);
+            txtLocalidad  = (EditText) findViewById(R.id.register_localidad);
+            txtCalle      = (EditText) findViewById(R.id.register_calle);
+            txtPiso       = (EditText) findViewById(R.id.register_piso);
+            txtNro        = (EditText) findViewById(R.id.register_nro);
+            txtContacto   = (EditText) findViewById(R.id.register_contacto);
             chkRecordarme = (CheckBox) findViewById(R.id.chkRecordarme);
 
-            // Set up the login form.
-            mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
             populateAutoComplete();
 
-            mPasswordView = (EditText) findViewById(R.id.password);
+
             mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
                 @Override
                 public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -201,6 +213,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         // Store values at the time of the login attempt.
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
+        String localidad = txtLocalidad.getText().toString();
+        String calle = txtCalle.getText().toString();
+        String nro = txtNro.getText().toString();
+        String piso = txtPiso.getText().toString();
+        String contacto = txtContacto.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
@@ -219,6 +236,34 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             cancel = true;
         }
 
+        // Localidad Obligatoria.
+        if (TextUtils.isEmpty(localidad)) {
+            txtLocalidad.setError(getString(R.string.error_field_required));
+            focusView = txtLocalidad;
+            cancel = true;
+        }
+
+        // Calle Obligatoria.
+        if (TextUtils.isEmpty(calle)) {
+            txtCalle.setError(getString(R.string.error_field_required));
+            focusView = txtCalle;
+            cancel = true;
+        }
+
+        // Nro Obligatoria.
+        if (TextUtils.isEmpty(nro)) {
+            txtNro.setError(getString(R.string.error_field_required));
+            focusView = txtNro;
+            cancel = true;
+        }
+
+        // Contacto Obligatorio.
+        if (TextUtils.isEmpty(contacto)) {
+            txtContacto.setError(getString(R.string.error_field_required));
+            focusView = txtContacto;
+            cancel = true;
+        }
+
 
         if (cancel) {
             // There was an error; don't attempt login and focus the first
@@ -228,11 +273,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
+            mAuthTask = new UserLoginTask(email, password, localidad, calle, nro, piso, contacto);
             mAuthTask.setCtx(this.getBaseContext());
-
             mAuthTask.execute((Void) null);
-
         }
     }
 
@@ -344,32 +387,60 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         private final String mEmail;
         private final String mPassword;
+        private final String mLocalidad;
+        private final String mCalle;
+        private final String mNro;
+        private final String mPiso;
+        private final String mContacto;
 
         private Context ctx;
         private User user;
         private HashMap<String,String> registro;
         private UserParser parser;
 
-        UserLoginTask(String email, String password) {
+
+
+
+
+        UserLoginTask(String email, String password, String localidad, String calle, String nro, String piso, String contacto) {
             mEmail = email;
             mPassword = password;
+            mLocalidad = localidad;
+            mCalle = calle;
+            mNro = nro;
+            mPiso = piso;
+            mContacto = contacto;
 
             user = new User();
             user.setEmail(this.mEmail);
             user.setPassword(this.mPassword);
+            user.setLocalidad(this.mLocalidad);
+            user.setCalle(this.mCalle);
+            user.setNro(this.mNro);
+            user.setPiso(this.mPiso);
+            user.setContacto(this.mContacto);
+
             parser = new UserParser();
         }
+
+
 
         @Override
         protected Boolean doInBackground(Void... params) {
             try {
-                // Simulate network access.
 
+                //Pasar los datos al JSON,
                 registro = new HashMap<String, String>();
                 registro.put("username", mEmail);
                 registro.put("password", mPassword);
+                registro.put("localidad", mLocalidad);
+                registro.put("calle", mCalle);
+                registro.put("nro", mNro);
+                registro.put("piso", mPiso);
+                registro.put("contacto", mContacto);
+
                 WebRequest webreq = new WebRequest();
-                String jsonStr = webreq.makeWebServiceCall(Configurador.urlPostLogin, WebRequest.POST, registro);
+                String jsonStr = webreq.makeWebServiceCall(Configurador.urlPostRegister, WebRequest.POST, registro);
                 parser.setStrJson(jsonStr);
                 parser.parsearRespuesta();
 
@@ -391,15 +462,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 //LOGIN EXITOSO
                 if ( Integer.parseInt(parser.getStatus())==200 ){
                     GlobalValues.getINSTANCIA().setUserlogued(parser.getUser());
-
+                    //SE INSTALA LA APP, EN CASO DE NO ESTARLO
                     IniciarApp ia = new IniciarApp(this.getCtx());
                     if (!ia.isInstalled()){
                         ia.iniciarBD();
                     }
-
+                    //SE DESCARGAN LOS DATOS
                     if (!ia.isDatabaseDownload()){
                         ia.downloadDatabase();
                     }
+
                     //SI NO ESTA GUARDADO EL REMEMBER, SE GUARDA
                     if(chkRecordarme.isChecked()){
                         ia.loginRememberr(GlobalValues.getINSTANCIA().getUserlogued());

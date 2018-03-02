@@ -1,16 +1,23 @@
 <resources>
-    <string name="app_name">Heladeria X</string>
+    <string name="app_name">Heladeria Roma</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="title_activity_login">Heladeria X</string>
+    <string name="title_activity_login">Heladeria Roma</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
+    <string name="prompt_localidad">Localidad</string>
+    <string name="prompt_calle">Calle</string>
+    <string name="prompt_nro">Nro</string>
+    <string name="prompt_piso">Piso Y Depto</string>
+    <string name="prompt_contacto">Contacto (Nombre y Apellido)</string>
+
+
     <string name="prompt_password">Password (optional)</string>
-    <string name="action_sign_in">Ingresar</string>
+    <string name="action_sign_in">Ingresar/Registrarse</string>
     <string name="registrarse">Registrarse</string>
     <string name="volver">Volver</string>
 
@@ -18,18 +25,18 @@
     <string name="ver_seleccion">Ver Helados Seleccionados</string>
 
 
-    <string name="action_sign_in_short">Ingresar</string>
+    <string name="action_sign_in_short">Ingresar/Registrarse</string>
     <string name="error_invalid_email">El Email es Invalido</string>
     <string name="error_invalid_password">Password demasiado corta</string>
-    <string name="error_incorrect_password">Password incorrecta</string>
+    <string name="error_incorrect_password">Password Incorrecta</string>
     <string name="error_field_required">Este Campo es requerido</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
     <string name="title_activity_maps">Map</string>
-    <string name="title_activity_config">ConfigActivity</string>
+    <string name="title_activity_config">Configuracion</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="register">Registro de Usuario</string>
-    <string name="title_activity_nuevo_pedido">NuevoPedidoActivity</string>
+    <string name="title_activity_nuevo_pedido">Nuevo Pedido</string>
 </resources>
