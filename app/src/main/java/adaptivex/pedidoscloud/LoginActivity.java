@@ -109,7 +109,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             txtPiso       = (EditText) findViewById(R.id.register_piso);
             txtNro        = (EditText) findViewById(R.id.register_nro);
             txtContacto   = (EditText) findViewById(R.id.register_contacto);
-            chkRecordarme = (CheckBox) findViewById(R.id.chkRecordarme);
 
             populateAutoComplete();
 
@@ -134,8 +133,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             });
 
 
-            //Logica Boton register
-            Button btnRegister = (Button) findViewById(R.id.btn_register);
+
 
 
 
@@ -470,10 +468,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         ia.downloadDatabase();
                     }
 
-                    //SI NO ESTA GUARDADO EL REMEMBER, SE GUARDA
-                    if(chkRecordarme.isChecked()){
-                        ia.loginRememberr(GlobalValues.getINSTANCIA().getUserlogued());
-                    };
+                    ia.loginRememberr(GlobalValues.getINSTANCIA().getUserlogued());
 
                     Intent i = new Intent(this.getCtx(), MainActivity.class);
                     startActivity(i);

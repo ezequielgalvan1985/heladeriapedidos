@@ -351,6 +351,7 @@ public  class IniciarApp  {
                 pc.abrir().modificar(p);
                 pc.cerrar();
             }
+
             //CALLE
             p = pc.abrir().findById(GlobalValues.getINSTANCIA().PARAM_CALLE);
             if (p==null) {
