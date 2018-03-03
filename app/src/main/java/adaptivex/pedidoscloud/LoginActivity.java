@@ -70,6 +70,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     // UI references.
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
+    private EditText txtTelefono;
     private EditText txtLocalidad;
     private EditText txtCalle;
     private EditText txtPiso;
@@ -104,6 +105,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             //Iniciar los campos
             mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
             mPasswordView = (EditText) findViewById(R.id.password);
+            txtTelefono  = (EditText) findViewById(R.id.register_telefono);
             txtLocalidad  = (EditText) findViewById(R.id.register_localidad);
             txtCalle      = (EditText) findViewById(R.id.register_calle);
             txtPiso       = (EditText) findViewById(R.id.register_piso);
@@ -209,13 +211,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mPasswordView.setError(null);
 
         // Store values at the time of the login attempt.
-        String email = mEmailView.getText().toString();
-        String password = mPasswordView.getText().toString();
-        String localidad = txtLocalidad.getText().toString();
-        String calle = txtCalle.getText().toString();
-        String nro = txtNro.getText().toString();
-        String piso = txtPiso.getText().toString();
-        String contacto = txtContacto.getText().toString();
+        String email      = mEmailView.getText().toString();
+        String password   = mPasswordView.getText().toString();
+        String telefono   = txtTelefono.getText().toString();
+        String localidad  = txtLocalidad.getText().toString();
+        String calle      = txtCalle.getText().toString();
+        String nro        = txtNro.getText().toString();
+        String piso       = txtPiso.getText().toString();
+        String contacto   = txtContacto.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
@@ -231,6 +234,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         if (TextUtils.isEmpty(email)) {
             mEmailView.setError(getString(R.string.error_field_required));
             focusView = mEmailView;
+            cancel = true;
+        }
+
+        // Telefono Obligatoria.
+        if (TextUtils.isEmpty(telefono)) {
+            txtTelefono.setError(getString(R.string.error_field_required));
+            focusView = txtTelefono;
             cancel = true;
         }
 
@@ -271,7 +281,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password, localidad, calle, nro, piso, contacto);
+            mAuthTask = new UserLoginTask(email, password, telefono, localidad, calle, nro, piso, contacto);
             mAuthTask.setCtx(this.getBaseContext());
             mAuthTask.execute((Void) null);
         }
@@ -385,6 +395,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         private final String mEmail;
         private final String mPassword;
+        private final String mTelefono;
         private final String mLocalidad;
         private final String mCalle;
         private final String mNro;
@@ -397,9 +408,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         private UserParser parser;
 
 
-        UserLoginTask(String email, String password, String localidad, String calle, String nro, String piso, String contacto) {
+        UserLoginTask(String email, String password, String telefono, String localidad, String calle, String nro, String piso, String contacto) {
             mEmail = email;
             mPassword = password;
+            mTelefono = telefono;
             mLocalidad = localidad;
             mCalle = calle;
             mNro = nro;
@@ -410,6 +422,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             user.setEmail(this.mEmail);
             user.setPassword(this.mPassword);
+            user.setTelefono(this.mTelefono);
             user.setLocalidad(this.mLocalidad);
             user.setCalle(this.mCalle);
             user.setNro(this.mNro);
@@ -429,6 +442,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 registro = new HashMap<String, String>();
                 registro.put("username", mEmail);
                 registro.put("password", mPassword);
+                registro.put("telefono", mTelefono);
                 registro.put("localidad", mLocalidad);
                 registro.put("calle", mCalle);
                 registro.put("nro", mNro);
@@ -439,7 +453,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 String jsonStr = webreq.makeWebServiceCall(Configurador.urlPostRegister, WebRequest.POST, registro);
                 parser.setStrJson(jsonStr);
                 parser.parsearRespuesta();
+                if (jsonStr.equals("")){
 
+                    return false;
+                }
             } catch (Exception e) {
                 Log.d("LoginActivity1:", e.getMessage());
                 return false;
@@ -457,6 +474,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
                 //LOGIN EXITOSO
                 if ( Integer.parseInt(parser.getStatus())==200 ){
+
                     GlobalValues.getINSTANCIA().setUserlogued(parser.getUser());
                     //SE INSTALA LA APP, EN CASO DE NO ESTARLO
                     IniciarApp ia = new IniciarApp(this.getCtx());

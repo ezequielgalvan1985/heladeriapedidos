@@ -192,7 +192,7 @@ public  class IniciarApp  {
             Parameter p = pc.abrir().findById(GlobalValues.getINSTANCIA().PARAM_EMAIL);
             User user = new User();
             if (p!=null){
-                if (p.getValor_texto()!=""){
+                if (!p.getValor_texto().equals("")){
                     //CARGAR USUARIO RECORDADO
                     user.setEmail(p.getValor_texto());
 

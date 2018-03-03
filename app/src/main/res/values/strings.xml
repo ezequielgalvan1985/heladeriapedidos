@@ -1,14 +1,15 @@
 <resources>
-    <string name="app_name">Heladeria Roma</string>
+    <string name="app_name">Roma Heladeria</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="title_activity_login">Heladeria Roma</string>
+    <string name="title_activity_login">Roma Heladeria</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
+    <string name="prompt_telefono">Telefono</string>
     <string name="prompt_localidad">Localidad</string>
     <string name="prompt_calle">Calle</string>
     <string name="prompt_nro">Nro</string>
@@ -17,8 +18,8 @@
 
 
     <string name="prompt_password">Password (optional)</string>
-    <string name="action_sign_in">Ingresar/Registrarse</string>
-    <string name="registrarse">Registrarse</string>
+    <string name="action_register">Registrarse</string>
+    <string name="action_login">Iniciar Sesion</string>
     <string name="volver">Volver</string>
 
     <string name="finalizar_seleccion">Finalizar Seleccion</string>

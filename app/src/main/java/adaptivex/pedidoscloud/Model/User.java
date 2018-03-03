@@ -12,6 +12,7 @@ public class User {
     private int group_id;
     private int empleado_id;
 
+    private String telefono;
     private String localidad;
     private String calle;
     private String nro;
@@ -138,5 +139,13 @@ public class User {
 
     public void setContacto(String contacto) {
         this.contacto = contacto;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
     }
 }
