@@ -23,6 +23,13 @@ public class Pedido {
     private Integer estadoId;
     private Integer nroPedidoReal;
 
+    //Para la heladeria
+    private Direccion direccion;
+    private Cantidad cantidad;
+
+
+
+
     //Entidades externas
     private Cliente cliente;
     private ArrayList<Pedidodetalle> detalles;
@@ -159,4 +166,19 @@ public class Pedido {
         return fecha;
     }
 
+    public Direccion getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(Direccion direccion) {
+        this.direccion = direccion;
+    }
+
+    public Cantidad getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(Cantidad cantidad) {
+        this.cantidad = cantidad;
+    }
 }

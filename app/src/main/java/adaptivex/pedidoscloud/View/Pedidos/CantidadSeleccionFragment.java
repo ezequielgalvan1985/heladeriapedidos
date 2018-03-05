@@ -10,11 +10,19 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.Toast;
 
+import adaptivex.pedidoscloud.Config.GlobalValues;
+import adaptivex.pedidoscloud.Model.Cantidad;
 import adaptivex.pedidoscloud.R;
 import ivb.com.materialstepper.stepperFragment;
 
 public class CantidadSeleccionFragment extends stepperFragment {
+    private CheckBox chkKilo;
+    private CheckBox chkTresCuartos;
+    private CheckBox chkMedio;
+    private CheckBox chkCuarto;
 
 
 
@@ -24,7 +32,41 @@ public class CantidadSeleccionFragment extends stepperFragment {
 
     @Override
     public boolean onNextButtonHandler() {
-        return true;
+        // Obtener Cantidad seleccionada
+        //Validar, debe haber un dato seleccionado
+        boolean validate = false;
+        Cantidad c = getCantidad();
+        if (validateForm(c)){
+            GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.setCantidad(c);
+            validate = true;
+        }else{
+            Toast.makeText(getView().getContext(),"Debe Seleccionar al menos una Cantidad",Toast.LENGTH_LONG).show();
+        }
+        return validate;
+    }
+
+    private boolean validateForm(Cantidad c){
+        boolean respuesta = false;
+        if (c.isKilo())   respuesta = true;
+        if (c.isMedio())  respuesta = true;
+        if (c.isCuarto()) respuesta = true;
+        if (c.isTrescuartos()) respuesta = true;
+        return respuesta;
+    }
+
+    private Cantidad getCantidad(){
+        Cantidad c = new Cantidad();
+        chkKilo         = (CheckBox) getView().findViewById(R.id.cantidad_chk_kilo);
+        chkMedio        = (CheckBox) getView().findViewById(R.id.cantidad_chk_medio);
+        chkCuarto       = (CheckBox) getView().findViewById(R.id.cantidad_chk_cuarto);
+        chkTresCuartos  = (CheckBox) getView().findViewById(R.id.cantidad_chk_trescuartos);
+
+        c.setKilo(chkKilo.isChecked());
+        c.setMedio(chkMedio.isChecked());
+        c.setCuarto(chkCuarto.isChecked());
+        c.setTrescuartos(chkTresCuartos.isChecked());
+
+        return c;
     }
 
 

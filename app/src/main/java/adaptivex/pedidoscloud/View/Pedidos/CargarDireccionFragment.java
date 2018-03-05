@@ -14,7 +14,9 @@ import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.Toast;
 
+import adaptivex.pedidoscloud.Config.GlobalValues;
 import adaptivex.pedidoscloud.Controller.UserController;
+import adaptivex.pedidoscloud.Model.Direccion;
 import adaptivex.pedidoscloud.Model.User;
 import adaptivex.pedidoscloud.R;
 import ivb.com.materialstepper.stepperFragment;
@@ -29,13 +31,33 @@ public class CargarDireccionFragment extends stepperFragment {
     private AutoCompleteTextView txtPiso;
     private AutoCompleteTextView txtContacto;
 
+
     @Override
     public boolean onNextButtonHandler() {
-        Toast.makeText(getContext(),"Click en Siguiente",Toast.LENGTH_LONG).show();
-        
-
-
+        Direccion d = getDireccion();
+        Toast.makeText(getContext(),"Click en Siguiente: " + d.getTelefono(),Toast.LENGTH_LONG).show();
+        GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.setDireccion(d);
         return true;
+    }
+
+    private Direccion getDireccion(){
+        Direccion d = new Direccion();
+
+        txtTelefono  = (AutoCompleteTextView) getView().findViewById(R.id.cargar_direccion_telefono);
+        txtLocalidad = (AutoCompleteTextView) getView().findViewById(R.id.cargar_direccion_localidad);
+        txtCalle     = (AutoCompleteTextView) getView().findViewById(R.id.cargar_direccion_calle);
+        txtNro       = (AutoCompleteTextView) getView().findViewById(R.id.cargar_direccion_nro);
+        txtPiso      = (AutoCompleteTextView) getView().findViewById(R.id.cargar_direccion_piso);
+        txtContacto  = (AutoCompleteTextView) getView().findViewById(R.id.cargar_direccion_contacto);
+
+        d.setTelefono(txtTelefono.getText().toString());
+        d.setLocalidad(txtLocalidad.getText().toString());
+        d.setCalle(txtCalle.getText().toString());
+        d.setNro(txtNro.getText().toString());
+        d.setPiso(txtPiso.getText().toString());
+        d.setContacto(txtContacto.getText().toString());
+
+        return d;
     }
 
     public CargarDireccionFragment(){}
@@ -53,13 +75,12 @@ public class CargarDireccionFragment extends stepperFragment {
         }
 
         //Asignar los valores a los campos
-        txtTelefono = (AutoCompleteTextView) v.findViewById(R.id.cargar_direccion_telefono);
-        txtLocalidad = (AutoCompleteTextView) v.findViewById(R.id.cargar_direccion_localidad);
-        txtCalle = (AutoCompleteTextView) v.findViewById(R.id.cargar_direccion_calle);
-        txtNro = (AutoCompleteTextView) v.findViewById(R.id.cargar_direccion_nro);
-        txtPiso = (AutoCompleteTextView) v.findViewById(R.id.cargar_direccion_piso);
-        txtContacto = (AutoCompleteTextView) v.findViewById(R.id.cargar_direccion_contacto);
-
+        txtTelefono   = (AutoCompleteTextView) v.findViewById(R.id.cargar_direccion_telefono);
+        txtLocalidad  = (AutoCompleteTextView) v.findViewById(R.id.cargar_direccion_localidad);
+        txtCalle      = (AutoCompleteTextView) v.findViewById(R.id.cargar_direccion_calle);
+        txtNro        = (AutoCompleteTextView) v.findViewById(R.id.cargar_direccion_nro);
+        txtPiso       = (AutoCompleteTextView) v.findViewById(R.id.cargar_direccion_piso);
+        txtContacto   = (AutoCompleteTextView) v.findViewById(R.id.cargar_direccion_contacto);
 
         txtTelefono.setText(u.getTelefono());
         txtLocalidad.setText(u.getLocalidad());
@@ -67,7 +88,6 @@ public class CargarDireccionFragment extends stepperFragment {
         txtNro.setText(u.getNro());
         txtPiso.setText(u.getPiso());
         txtContacto.setText(u.getContacto());
-
 
         return v;
     }

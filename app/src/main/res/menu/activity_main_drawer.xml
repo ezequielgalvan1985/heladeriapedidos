@@ -10,9 +10,16 @@
             <group android:id="@+id/group_distribucion">
                 <item
                     android:id="@+id/nav_home"
-                    android:title="Resumen" />
+                    android:title="Inicio" />
+
                 <item
-                    android:visible="true"
+                    android:id="@+id/nav_datos_user"
+                    android:title="Mis Datos" />
+
+
+
+                <item
+                    android:visible="false"
                     android:id="@+id/nav_configuracion"
                     android:title="Configuracion" />
 
@@ -25,7 +32,6 @@
 
 
             <group android:id="@+id/group_distribucion2">
-
 
                 <item
                     android:visible="false"
@@ -58,19 +64,12 @@
 
                 <item
                     android:id="@+id/nav_productos"
-                    android:title="Helados" />
+                    android:title="Sabores" />
 
                 <item
-                    android:id="@+id/nav_promos"
-                    android:title="Promos" />
+                    android:id="@+id/nav_postres"
+                    android:title="Postres" />
 
-                <item
-                    android:id="@+id/nav_nosotros"
-                    android:title="Nosotros" />
-
-                <item
-                    android:id="@+id/nav_datos_user"
-                    android:title="Mis Datos" />
 
             </group>
         </item>

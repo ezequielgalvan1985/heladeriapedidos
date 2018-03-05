@@ -9,26 +9,23 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import adaptivex.pedidoscloud.R;
+import ivb.com.materialstepper.stepperFragment;
 
-public class ResumenPedidoFragment extends Fragment {
+public class ResumenPedidoFragment extends stepperFragment {
 
 
 
-    private OnFragmentInteractionListener mListener;
+    @Override
+    public boolean onNextButtonHandler() {
+
+        return true;
+    }
 
     public ResumenPedidoFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ResumenPedidoFragment.
-     */
-    // TODO: Rename and change types and number of parameters
+
     public static ResumenPedidoFragment newInstance(String param1, String param2) {
         ResumenPedidoFragment fragment = new ResumenPedidoFragment();
 
@@ -48,33 +45,5 @@ public class ResumenPedidoFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_resumen_pedido, container, false);
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
 }

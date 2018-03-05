@@ -2,7 +2,38 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="adaptivex.pedidoscloud.View.Resumenes.HomeFragment">
 
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        >
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/floatingNuevoPedidoButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            app:fabSize="normal"
+            app:srcCompat="@mipmap/ic_launcher"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/action_nuevo_pedido"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+
+            />
+
+    </LinearLayout>
 
 </FrameLayout>

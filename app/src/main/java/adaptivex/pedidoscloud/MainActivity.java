@@ -15,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import adaptivex.pedidoscloud.Config.GlobalValues;
@@ -90,7 +91,6 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-
         ParameterHelper ph = new ParameterHelper(getBaseContext());
 
         if (ph.getServiceStockPrecios().equals("Y")){
@@ -102,6 +102,19 @@ public class MainActivity extends AppCompatActivity
             IniciarApp ia = new IniciarApp(getBaseContext());
             ia.downloadDatabase();
         }
+
+
+
+
+
+
+
+        Fragment  fragment = new HomeFragment();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.content_main, fragment).addToBackStack(null)
+                .commit();
+
+
 
     }
 
@@ -223,15 +236,11 @@ public class MainActivity extends AppCompatActivity
             }
 
 
-
-
-
             GlobalValues.getINSTANCIA().setActualFragment(GlobalValues.getINSTANCIA().LISTADOCLIENTES);
             GlobalValues.getINSTANCIA().setVgFlagMenuNuevoPedido(true);
             fragment = new ListadoClientesFragment();
             fragmentTransaction = true;
             fragment.setArguments(args);
-
 
 
         }
@@ -372,7 +381,7 @@ public class MainActivity extends AppCompatActivity
 
             } else if (id == R.id.nav_home) {
                 try{
-                    fragment = new ResumenFragment();
+                    fragment = new HomeFragment();
                     fragmentTransaction = true;
                     GlobalValues.getINSTANCIA().setActualFragment(GlobalValues.getINSTANCIA().HOME);
                 }catch(Exception e){

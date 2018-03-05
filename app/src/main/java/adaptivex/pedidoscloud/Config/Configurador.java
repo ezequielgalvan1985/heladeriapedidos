@@ -19,7 +19,7 @@ public class Configurador {
     public static String strRoot = "http://192.168.0.5:8000";
 
     //claxson
-    //public static String strRoot = "http://10.4.4.76:8000";
+    //public static String strRoot = "http://10.4.4.93:8000";
 
     //amazon
     //public static String strRoot = "http://54.207.7.46";

@@ -1,5 +1,6 @@
 package adaptivex.pedidoscloud.Config;
 
+import adaptivex.pedidoscloud.Model.Pedido;
 import adaptivex.pedidoscloud.Model.User;
 
 /**
@@ -9,9 +10,11 @@ import adaptivex.pedidoscloud.Model.User;
 public class GlobalValues {
 
     private static GlobalValues INSTANCIA;
-
-
     public  static final String ACTION_GET_STOCK_PRECIOS = "1";
+
+
+    public Pedido PEDIDO_TEMPORAL;
+
 
 
     //Variables de Login user

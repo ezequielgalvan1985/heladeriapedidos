@@ -21,6 +21,7 @@
     <string name="action_register">Crear Cuenta</string>
     <string name="action_login">Iniciar Sesion</string>
     <string name="action_save">Guardar</string>
+    <string name="action_nuevo_pedido">Hacé Tu Pedido</string>
     <string name="volver">Volver</string>
 
     <string name="finalizar_seleccion">Finalizar Seleccion</string>
