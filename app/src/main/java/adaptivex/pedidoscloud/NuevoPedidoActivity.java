@@ -1,50 +1,56 @@
 package adaptivex.pedidoscloud;
 
-import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.widget.Toast;
+import android.content.DialogInterface;
+import java.util.ArrayList;
+import java.util.List;
 
-import com.stepstone.stepper.StepperLayout;
-import com.stepstone.stepper.VerificationError;
+import adaptivex.pedidoscloud.View.Pedidos.CantidadSeleccionFragment;
+import adaptivex.pedidoscloud.View.Pedidos.CargarDireccionFragment;
+import adaptivex.pedidoscloud.View.Productos.ListadoHeladosFragment;
+import ivb.com.materialstepper.progressMobileStepper;
 
-import adaptivex.pedidoscloud.View.Pedidos.MyStepperAdapter;
-
-public class NuevoPedidoActivity extends AppCompatActivity implements StepperLayout.StepperListener{
-    private StepperLayout mStepperLayout;
-
+public class NuevoPedidoActivity extends progressMobileStepper {
+    List<Class> stepperFragmentList = new ArrayList<>();
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_nuevo_pedido);
-        mStepperLayout = (StepperLayout) findViewById(R.id.stepperLayout);
-        mStepperLayout.setAdapter(new MyStepperAdapter(getSupportFragmentManager(), this));
-        mStepperLayout.setListener(this);
+    public List<Class> init() {
+        stepperFragmentList.add(CargarDireccionFragment.class);
+        stepperFragmentList.add(CantidadSeleccionFragment.class);
+        stepperFragmentList.add(ListadoHeladosFragment.class);
+        return stepperFragmentList;
     }
-
     @Override
-    public void onCompleted(View completeButton) {
+    public void onStepperCompleted() {
+        showCompletedDialog();
+    }
+
+    protected void showCompletedDialog(){
+        android.support.v7.app.AlertDialog.Builder alertDialogBuilder = new android.support.v7.app.AlertDialog.Builder(
+                NuevoPedidoActivity.this);
+
+        // set title
+        alertDialogBuilder.setTitle("Hooray");
+        alertDialogBuilder
+                .setMessage("We've completed the stepper")
+                .setCancelable(true)
+                .setPositiveButton("Yes",new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,int id) {
+
+                    }
+                });
+
+        // create alert dialog
+        android.support.v7.app.AlertDialog alertDialog = alertDialogBuilder.create();
+
+        // show it
+        alertDialog.show();
 
     }
 
-    @Override
-    public void onError(VerificationError verificationError) {
-        Toast.makeText(this, "onError! -> " + verificationError.getErrorMessage(), Toast.LENGTH_SHORT).show();
-    }
 
-    @Override
-    public void onStepSelected(int newStepPosition) {
-        Toast.makeText(this, "onStepSelected! -> " + newStepPosition, Toast.LENGTH_SHORT).show();
-    }
 
-    @Override
-    public void onReturn() {
-        finish();
-    }
+
+
 
 }

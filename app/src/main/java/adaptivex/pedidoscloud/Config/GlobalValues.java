@@ -29,7 +29,9 @@ public class GlobalValues {
     public static final int PRODUCTODETALLE = 8;
     public static final int LISTADOHOJARUTA = 9;
     public static final int HOME = 10;
-    public static final int CONFIGURACION = 10;
+    public static final int CONFIGURACION = 11;
+    public static final int DATOS_USER = 12;
+
 
     //ERRORES
     public static final int RETURN_OK = 1;
@@ -94,7 +96,7 @@ public class GlobalValues {
     public static final int PARAM_NRO = 16;
     public static final int PARAM_PISO = 17;
     public static final int PARAM_CONTACTO = 18;
-
+    public static final int PARAM_TELEFONO = 19;
 
 
 

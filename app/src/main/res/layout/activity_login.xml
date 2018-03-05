@@ -64,6 +64,7 @@
             </android.support.design.widget.TextInputLayout>
 
 
+
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -154,6 +155,25 @@
                     android:singleLine="true" />
 
             </android.support.design.widget.TextInputLayout>
+            <TextView
+                android:id="@+id/tvCartelLogin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="¿Ya Tienes Cuenta?, Ingresa tu usuario y contraseña, luego click en Iniciar Sesion."
+                android:fontFamily="@string/abc_capital_on"
+                android:paddingBottom="10dp"/>
+            <TextView
+                android:id="@+id/tvCartelRegistrarse"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="¿Eres Nuevo?, completa los datos y haz click en Crear Cuenta"
+                android:fontFamily="@string/abc_capital_on" />
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
 
             <Button
                 android:id="@+id/email_sign_in_button"
@@ -162,18 +182,23 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="@string/action_register"
+                android:layout_gravity="left"
                 android:textStyle="bold"
                 />
 
-            <Button
-                android:id="@+id/register_btn_login"
-                style="?android:textAppearanceSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/action_login"
-                android:textStyle="bold" />
 
+                <Button
+                    android:id="@+id/register_btn_login"
+                    style="?android:textAppearanceSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/action_login"
+                    android:layout_gravity="right"
+                    android:textStyle="bold" />
+
+
+            </LinearLayout>
 
 
         </LinearLayout>

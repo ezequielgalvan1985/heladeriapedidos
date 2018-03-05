@@ -1,0 +1,59 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="adaptivex.pedidoscloud.View.Users.DatosUserFragment">
+
+    <LinearLayout
+        android:id="@+id/email_login_form"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/user_email"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/prompt_email" />
+
+
+        <TextView
+            android:id="@+id/user_telefono"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/prompt_telefono" />
+
+        <TextView
+            android:id="@+id/user_localidad"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/prompt_localidad" />
+
+        <TextView
+            android:id="@+id/user_calle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/prompt_calle" />
+
+        <TextView
+            android:id="@+id/user_nro"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/prompt_nro" />
+
+        <TextView
+            android:id="@+id/user_piso"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/prompt_piso" />
+
+        <TextView
+            android:id="@+id/user_contacto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/prompt_contacto" />
+
+
+    </LinearLayout>
+
+</FrameLayout>

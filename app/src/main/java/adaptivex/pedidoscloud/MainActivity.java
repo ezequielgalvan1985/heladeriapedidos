@@ -48,6 +48,7 @@ import adaptivex.pedidoscloud.View.RVAdapters.RVAdapterHojaruta;
 import adaptivex.pedidoscloud.View.RVAdapters.RVAdapterPedido;
 import adaptivex.pedidoscloud.View.RVAdapters.RVAdapterProducto;
 import adaptivex.pedidoscloud.View.Resumenes.HomeFragment;
+import adaptivex.pedidoscloud.View.Users.DatosUserFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -67,7 +68,7 @@ public class MainActivity extends AppCompatActivity
         HomeFragment.OnFragmentInteractionListener,
         ResumenFragment.OnFragmentInteractionListener,
         ConfigFragment.OnFragmentInteractionListener,
-        ListadoHeladosFragment.OnFragmentInteractionListener
+        DatosUserFragment.OnFragmentInteractionListener
 
 {
     private FloatingActionButton BTN_PRINCIPAL;
@@ -165,14 +166,23 @@ public class MainActivity extends AppCompatActivity
         Fragment fragment = null;
         Bundle args = new Bundle();
         //noinspection SimplifiableIfStatement
+
+
         if (id == R.id.mnu_nuevo_pedido) {
             //setear Flag de nuevo pedido en true
+
+            /*
             GlobalValues.getINSTANCIA().setActualFragment(GlobalValues.getINSTANCIA().LISTADOCLIENTES);
             GlobalValues.getINSTANCIA().setVgFlagMenuNuevoPedido(true);
             fragment = new ListadoClientesFragment();
             fragmentTransaction = true;
             args.putBoolean(ListadoClientesFragment.paramMenuNuevoPedido, true);
             fragment.setArguments(args);
+            */
+            Intent i = new Intent(this, NuevoPedidoActivity.class);
+            startActivity(i);
+
+
 
         }else if (id == R.id.mnu_ver_pedido_actual) {
             //setear Flag de nuevo pedido en true
@@ -329,7 +339,13 @@ public class MainActivity extends AppCompatActivity
                 Intent i = new Intent(this, LoginActivity.class);
                 startActivity(i);
 
-            } else if (id == R.id.nav_configuracion) {
+            } else if (id == R.id.nav_datos_user) {
+
+                fragment = new DatosUserFragment();
+                fragmentTransaction = true;
+                GlobalValues.getINSTANCIA().setActualFragment(GlobalValues.getINSTANCIA().DATOS_USER);
+
+        } else if (id == R.id.nav_configuracion) {
                 try{
 
                     fragment = new ConfigFragment();

@@ -19,7 +19,17 @@ public class UserDataBaseHelper extends SQLiteOpenHelper
     public static final String ENTIDAD_ID = "entidad_id";
     public static final String GROUP_ID = "group_id";
     public static final String EMAIL = "email";
-    public static final String EMPLEADO_ID = "empleoado_id";
+    public static final String EMPLEADO_ID = "empleado_id";
+
+    public static final String LOCALIDAD = "localidad";
+    public static final String CALLE = "calle";
+    public static final String NRO = "nro";
+    public static final String PISO = "piso";
+    public static final String TELEFONO = "telefono";
+    public static final String CONTACTO = "contacto";
+
+
+
 
     //Estructura JSON
     public static final String EMPRESA_JSON = "empresa";

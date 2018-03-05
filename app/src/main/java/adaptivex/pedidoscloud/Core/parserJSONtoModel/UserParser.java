@@ -42,6 +42,13 @@ public class UserParser {
                 JSONObject empresa = new JSONObject(data.getString(UserDataBaseHelper.EMPRESA_JSON));
                 vuser.setEntidad_id(empresa.getInt(UserDataBaseHelper.EMPRESA_ID_JSON));
 
+                vuser.setTelefono(data.getString(UserDataBaseHelper.TELEFONO));
+                vuser.setLocalidad(data.getString(UserDataBaseHelper.LOCALIDAD));
+                vuser.setCalle(data.getString(UserDataBaseHelper.CALLE));
+                vuser.setNro(data.getString(UserDataBaseHelper.NRO));
+                vuser.setPiso(data.getString(UserDataBaseHelper.PISO));
+                vuser.setContacto(data.getString(UserDataBaseHelper.CONTACTO));
+
                 setUser(vuser);
             }else {
                 Log.d("UserParser: ", "Status: " + getStatus().toString());

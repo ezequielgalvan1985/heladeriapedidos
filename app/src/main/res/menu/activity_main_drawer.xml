@@ -68,6 +68,10 @@
                     android:id="@+id/nav_nosotros"
                     android:title="Nosotros" />
 
+                <item
+                    android:id="@+id/nav_datos_user"
+                    android:title="Mis Datos" />
+
             </group>
         </item>
 

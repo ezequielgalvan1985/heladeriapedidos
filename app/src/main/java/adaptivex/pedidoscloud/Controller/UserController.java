@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 
 import adaptivex.pedidoscloud.Config.GlobalValues;
+import adaptivex.pedidoscloud.Model.Parameter;
 import adaptivex.pedidoscloud.Model.User;
 import adaptivex.pedidoscloud.Servicios.HelperUser;
 
@@ -22,6 +23,58 @@ public class UserController extends AppController{
     public UserController(Context context){
         this.setContext(context);
     }
+
+
+    //Obtener datos del usuario guardado en la base de datos
+    public User getUserDB(){
+        try{
+            ParameterController pc = new ParameterController(this.getContext());
+            Parameter p = new Parameter();
+            User u = new User();
+
+            p = pc.abrir().findById(GlobalValues.getINSTANCIA().PARAM_USERID);
+            u.setId(p.getValor_integer());
+
+            p = pc.abrir().findById(GlobalValues.getINSTANCIA().PARAM_USERNAME);
+            u.setUsername(p.getValor_texto());
+
+            p = pc.abrir().findById(GlobalValues.getINSTANCIA().PARAM_EMPRESA_ID);
+            u.setEntidad_id(p.getValor_integer());
+
+            p = pc.abrir().findById(GlobalValues.getINSTANCIA().PARAM_EMAIL);
+            u.setEmail(p.getValor_texto());
+
+            p = pc.abrir().findById(GlobalValues.getINSTANCIA().PARAM_LOCALIDAD);
+            u.setLocalidad(p.getValor_texto());
+
+            p = pc.abrir().findById(GlobalValues.getINSTANCIA().PARAM_CALLE);
+            u.setCalle(p.getValor_texto());
+
+            p = pc.abrir().findById(GlobalValues.getINSTANCIA().PARAM_NRO);
+            u.setNro(p.getValor_texto());
+
+            p = pc.abrir().findById(GlobalValues.getINSTANCIA().PARAM_PISO);
+            u.setPiso(p.getValor_texto());
+
+            p = pc.abrir().findById(GlobalValues.getINSTANCIA().PARAM_TELEFONO);
+            u.setTelefono(p.getValor_texto());
+
+            p = pc.abrir().findById(GlobalValues.getINSTANCIA().PARAM_CONTACTO);
+            u.setContacto(p.getValor_texto());
+
+            p = pc.abrir().findById(GlobalValues.getINSTANCIA().PARAM_GROUPID);
+            u.setGroup_id(p.getValor_integer());
+
+            return u;
+        }catch(Exception e){
+            return null;
+        }
+
+    }
+
+
+
+
 
     public boolean add(User userParam){
 

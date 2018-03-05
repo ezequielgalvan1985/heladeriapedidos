@@ -5,23 +5,31 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AutoCompleteTextView;
+import android.widget.Toast;
 
-import com.stepstone.stepper.Step;
-import com.stepstone.stepper.VerificationError;
-import com.stepstone.stepper.adapter.AbstractFragmentStepAdapter;
-import com.stepstone.stepper.viewmodel.StepViewModel;
-
+import adaptivex.pedidoscloud.Controller.UserController;
+import adaptivex.pedidoscloud.Model.User;
 import adaptivex.pedidoscloud.R;
+import ivb.com.materialstepper.stepperFragment;
 
-public class CargarDireccionFragment extends Fragment implements Step {
+public class CargarDireccionFragment extends stepperFragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    private AutoCompleteTextView txtLocalidad;
+    private AutoCompleteTextView txtCalle;
+    private AutoCompleteTextView txtTelefono;
 
+    @Override
+    public boolean onNextButtonHandler() {
+        return true;
+    }
 
     public CargarDireccionFragment(){}
 
@@ -29,24 +37,31 @@ public class CargarDireccionFragment extends Fragment implements Step {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_cargar_direccion, container, false);
 
-        //initialize your UI
+        //Cargar datos del usuario logueado
+
+        UserController uc = new UserController(v.getContext());
+        User u = uc.getUserDB();
+        if (u==null){
+            Toast.makeText(v.getContext(), "Error: No se pudo obtener los datos de usuario", Toast.LENGTH_SHORT).show();
+        }
+
+        //Asignar los valores a los campos
+        txtTelefono = (AutoCompleteTextView) v.findViewById(R.id.direccion_telefono);
+        txtLocalidad = (AutoCompleteTextView) v.findViewById(R.id.direccion_localidad);
+        txtCalle = (AutoCompleteTextView) v.findViewById(R.id.direccion_calle);
+
+
+        txtTelefono.setText(u.getTelefono());
+        txtLocalidad.setText(u.getLocalidad());
+        txtCalle.setText(u.getCalle());
 
         return v;
     }
 
-    @Override
-    public VerificationError verifyStep() {
-        //return null if the user can go to the next step, create a new VerificationError instance otherwise
-        return null;
-    }
 
     @Override
-    public void onSelected() {
-        //update UI when selected
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
-    @Override
-    public void onError(@NonNull VerificationError error) {
-        //handle error inside of the fragment, e.g. show error on EditText
-    }
 }

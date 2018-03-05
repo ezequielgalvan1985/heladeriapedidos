@@ -333,6 +333,25 @@ public  class IniciarApp  {
             }
 
             //AGREGAR LOS OTROS CAMPOS, localidad, calle, nro, piso, contacto
+            //TELEFONO
+            p = pc.abrir().findById(GlobalValues.getINSTANCIA().PARAM_TELEFONO);
+            if (p==null) {
+                //SE CREA
+                p = new Parameter();
+                p.setId(GlobalValues.getINSTANCIA().PARAM_TELEFONO);
+                p.setValor_texto(user.getTelefono());
+                p.setDescripcion("Es la Telefono en el sistema web");
+                pc.abrir().agregar(p);
+                pc.cerrar();
+            }else{
+                //SE MODIFICA
+                p.setId(GlobalValues.getINSTANCIA().PARAM_TELEFONO);
+                p.setValor_texto(user.getTelefono());
+                p.setDescripcion("Es el Telefono en el sistema web");
+                pc.abrir().modificar(p);
+                pc.cerrar();
+            }
+
             //LOCALIDAD
             p = pc.abrir().findById(GlobalValues.getINSTANCIA().PARAM_LOCALIDAD);
             if (p==null) {
@@ -358,19 +377,75 @@ public  class IniciarApp  {
                 //SE CREA
                 p = new Parameter();
                 p.setId(GlobalValues.getINSTANCIA().PARAM_CALLE);
-                p.setValor_texto(user.getLocalidad());
+                p.setValor_texto(user.getCalle());
                 p.setDescripcion("Es la Calle en el sistema web");
                 pc.abrir().agregar(p);
                 pc.cerrar();
             }else{
                 //SE MODIFICA
                 p.setId(GlobalValues.getINSTANCIA().PARAM_CALLE);
-                p.setValor_texto(user.getLocalidad());
+                p.setValor_texto(user.getCalle());
                 p.setDescripcion("Es el Calle en el sistema web");
                 pc.abrir().modificar(p);
                 pc.cerrar();
             }
 
+            //NRO
+            p = pc.abrir().findById(GlobalValues.getINSTANCIA().PARAM_NRO);
+            if (p==null) {
+                //SE CREA
+                p = new Parameter();
+                p.setId(GlobalValues.getINSTANCIA().PARAM_NRO);
+                p.setValor_texto(user.getNro());
+                p.setDescripcion("Es la Nro en el sistema web");
+                pc.abrir().agregar(p);
+                pc.cerrar();
+            }else{
+                //SE MODIFICA
+                p.setId(GlobalValues.getINSTANCIA().PARAM_NRO);
+                p.setValor_texto(user.getNro());
+                p.setDescripcion("Es el Nro en el sistema web");
+                pc.abrir().modificar(p);
+                pc.cerrar();
+            }
+
+            //PISO
+            p = pc.abrir().findById(GlobalValues.getINSTANCIA().PARAM_PISO);
+            if (p==null) {
+                //SE CREA
+                p = new Parameter();
+                p.setId(GlobalValues.getINSTANCIA().PARAM_PISO);
+                p.setValor_texto(user.getPiso());
+                p.setDescripcion("Es la Piso en el sistema web");
+                pc.abrir().agregar(p);
+                pc.cerrar();
+            }else{
+                //SE MODIFICA
+                p.setId(GlobalValues.getINSTANCIA().PARAM_PISO);
+                p.setValor_texto(user.getPiso());
+                p.setDescripcion("Es el Piso en el sistema web");
+                pc.abrir().modificar(p);
+                pc.cerrar();
+            }
+
+            //CONTACTO
+            p = pc.abrir().findById(GlobalValues.getINSTANCIA().PARAM_CONTACTO);
+            if (p==null) {
+                //SE CREA
+                p = new Parameter();
+                p.setId(GlobalValues.getINSTANCIA().PARAM_CONTACTO);
+                p.setValor_texto(user.getContacto());
+                p.setDescripcion("Es la Contacto en el sistema web");
+                pc.abrir().agregar(p);
+                pc.cerrar();
+            }else{
+                //SE MODIFICA
+                p.setId(GlobalValues.getINSTANCIA().PARAM_CONTACTO);
+                p.setValor_texto(user.getContacto());
+                p.setDescripcion("Es el Contacto en el sistema web");
+                pc.abrir().modificar(p);
+                pc.cerrar();
+            }
 
             return true;
 

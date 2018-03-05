@@ -470,7 +470,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             try{
                 mAuthTask = null;
                 showProgress(false);
-                Log.d("LoginActivity2:", parser.getStatus());
 
                 //LOGIN EXITOSO
                 if ( Integer.parseInt(parser.getStatus())==200 ){
@@ -486,7 +485,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         ia.downloadDatabase();
                     }
 
-                    ia.loginRememberr(GlobalValues.getINSTANCIA().getUserlogued());
+                    ia.loginRememberr(parser.getUser());
 
                     Intent i = new Intent(this.getCtx(), MainActivity.class);
                     startActivity(i);
