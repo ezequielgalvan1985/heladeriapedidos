@@ -25,9 +25,16 @@ public class CargarDireccionFragment extends stepperFragment {
     private AutoCompleteTextView txtLocalidad;
     private AutoCompleteTextView txtCalle;
     private AutoCompleteTextView txtTelefono;
+    private AutoCompleteTextView txtNro;
+    private AutoCompleteTextView txtPiso;
+    private AutoCompleteTextView txtContacto;
 
     @Override
     public boolean onNextButtonHandler() {
+        Toast.makeText(getContext(),"Click en Siguiente",Toast.LENGTH_LONG).show();
+        
+
+
         return true;
     }
 
@@ -46,14 +53,21 @@ public class CargarDireccionFragment extends stepperFragment {
         }
 
         //Asignar los valores a los campos
-        txtTelefono = (AutoCompleteTextView) v.findViewById(R.id.direccion_telefono);
-        txtLocalidad = (AutoCompleteTextView) v.findViewById(R.id.direccion_localidad);
-        txtCalle = (AutoCompleteTextView) v.findViewById(R.id.direccion_calle);
+        txtTelefono = (AutoCompleteTextView) v.findViewById(R.id.cargar_direccion_telefono);
+        txtLocalidad = (AutoCompleteTextView) v.findViewById(R.id.cargar_direccion_localidad);
+        txtCalle = (AutoCompleteTextView) v.findViewById(R.id.cargar_direccion_calle);
+        txtNro = (AutoCompleteTextView) v.findViewById(R.id.cargar_direccion_nro);
+        txtPiso = (AutoCompleteTextView) v.findViewById(R.id.cargar_direccion_piso);
+        txtContacto = (AutoCompleteTextView) v.findViewById(R.id.cargar_direccion_contacto);
 
 
         txtTelefono.setText(u.getTelefono());
         txtLocalidad.setText(u.getLocalidad());
         txtCalle.setText(u.getCalle());
+        txtNro.setText(u.getNro());
+        txtPiso.setText(u.getPiso());
+        txtContacto.setText(u.getContacto());
+
 
         return v;
     }

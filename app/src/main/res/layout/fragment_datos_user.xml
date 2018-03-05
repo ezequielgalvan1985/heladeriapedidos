@@ -4,56 +4,130 @@
     android:layout_height="match_parent"
     tools:context="adaptivex.pedidoscloud.View.Users.DatosUserFragment">
 
-    <LinearLayout
-        android:id="@+id/email_login_form"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/user_email"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/prompt_email" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
 
-        <TextView
-            android:id="@+id/user_telefono"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/prompt_telefono" />
+            <TextView
+                android:id="@+id/email_user"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
 
-        <TextView
-            android:id="@+id/user_localidad"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/prompt_localidad" />
+                />
 
-        <TextView
-            android:id="@+id/user_calle"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/prompt_calle" />
-
-        <TextView
-            android:id="@+id/user_nro"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/prompt_nro" />
-
-        <TextView
-            android:id="@+id/user_piso"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/prompt_piso" />
-
-        <TextView
-            android:id="@+id/user_contacto"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/prompt_contacto" />
+          
 
 
-    </LinearLayout>
+
+
+
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <AutoCompleteTextView
+                    android:id="@+id/datos_user_telefono"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/prompt_telefono"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:singleLine="true" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <AutoCompleteTextView
+                    android:id="@+id/datos_user_localidad"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/prompt_localidad"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:singleLine="true" />
+            </android.support.design.widget.TextInputLayout>
+
+
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <AutoCompleteTextView
+                    android:id="@+id/datos_user_calle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/prompt_calle"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:singleLine="true" />
+            </android.support.design.widget.TextInputLayout>
+
+
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <AutoCompleteTextView
+                    android:id="@+id/datos_user_nro"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/prompt_nro"
+                    android:inputType="number"
+                    android:maxLines="1"
+                    android:singleLine="true" />
+            </android.support.design.widget.TextInputLayout>
+
+
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <AutoCompleteTextView
+                    android:id="@+id/datos_user_piso"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/prompt_piso"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:singleLine="true" />
+            </android.support.design.widget.TextInputLayout>
+
+
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <AutoCompleteTextView
+                    android:id="@+id/datos_user_contacto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/prompt_contacto"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:singleLine="true" />
+            </android.support.design.widget.TextInputLayout>
+
+
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/datos_user_btn_guardar"
+                android:text="@string/action_save"/>
+
+
+
+        </LinearLayout>
+    </ScrollView>
 
 </FrameLayout>

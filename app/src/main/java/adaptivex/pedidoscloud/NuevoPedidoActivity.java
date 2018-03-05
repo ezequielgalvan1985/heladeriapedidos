@@ -30,11 +30,17 @@ public class NuevoPedidoActivity extends progressMobileStepper {
                 NuevoPedidoActivity.this);
 
         // set title
-        alertDialogBuilder.setTitle("Hooray");
+        alertDialogBuilder.setTitle("Enviar Pedido?");
         alertDialogBuilder
-                .setMessage("We've completed the stepper")
                 .setCancelable(true)
-                .setPositiveButton("Yes",new DialogInterface.OnClickListener() {
+                .setPositiveButton("Si",new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,int id) {
+                        //Enviar Pedido
+                        //Finalizar
+                        finish();
+                    }
+                })
+                .setNegativeButton("No",new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,int id) {
 
                     }
