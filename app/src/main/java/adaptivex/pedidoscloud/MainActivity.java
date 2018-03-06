@@ -15,7 +15,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import adaptivex.pedidoscloud.Config.GlobalValues;
@@ -27,9 +26,7 @@ import adaptivex.pedidoscloud.Model.Cliente;
 import adaptivex.pedidoscloud.Model.Hojaruta;
 import adaptivex.pedidoscloud.Model.Pedido;
 import adaptivex.pedidoscloud.Model.Producto;
-import adaptivex.pedidoscloud.Servicios.HelperMemo;
 import adaptivex.pedidoscloud.Servicios.HelperPedidos;
-import adaptivex.pedidoscloud.Servicios.HelperProductos;
 import adaptivex.pedidoscloud.Servicios.IntentServiceStockPrecios;
 import adaptivex.pedidoscloud.View.Categorias.ListadoCategoriasFragment;
 import adaptivex.pedidoscloud.View.Clientes.ListadoClientesFragment;
@@ -345,7 +342,7 @@ public class MainActivity extends AppCompatActivity
 
 
             } else if (id == R.id.nav_login) {
-                Intent i = new Intent(this, LoginActivity.class);
+                Intent i = new Intent(this, RegisterActivity.class);
                 startActivity(i);
 
             } else if (id == R.id.nav_datos_user) {
@@ -372,7 +369,7 @@ public class MainActivity extends AppCompatActivity
                 // Borrar parametro de Base de datos
                 IniciarApp ia = new IniciarApp(getBaseContext());
                 ia.logout();
-                Intent i = new Intent(this, LoginActivity.class);
+                Intent i = new Intent(this, RegisterActivity.class);
                 startActivity(i);
 
             } else if (id == R.id.nav_diagramarrecorrido) {

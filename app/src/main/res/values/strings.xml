@@ -20,6 +20,13 @@
     <string name="prompt_password">Password (optional)</string>
     <string name="action_register">Crear Cuenta</string>
     <string name="action_login">Iniciar Sesion</string>
+    <string name="label_register">Registrarme</string>
+    <string name="label_eres_nuevo">¿Eres Nuevo? Haz Click en Registrarme</string>
+    <string name="label_tienes_cuenta">¿Ya tienes Cuenta?</string>
+    <string name="label_iniciar_sesion">Iniciar Sesion</string>
+    <string name="label_ingresardatos">Ingresá tus datos</string>
+
+
     <string name="action_save">Guardar</string>
     <string name="action_nuevo_pedido">Hacé Tu Pedido</string>
     <string name="volver">Volver</string>
