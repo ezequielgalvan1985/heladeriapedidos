@@ -53,10 +53,12 @@
                 android:textSize="20dp"
                 android:layout_marginRight="15dp"/>
 
-            <CheckBox
-                android:id="@+id/cantidad_chk_kilo"
+            <EditText
+                android:id="@+id/cantidad_num_kilo"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:inputType="number"
+                android:layout_height="wrap_content"
+                />
 
         </LinearLayout>
 
@@ -74,10 +76,12 @@
                 android:textSize="20dp"
                 android:layout_marginRight="15dp"/>
 
-            <CheckBox
-                android:id="@+id/cantidad_chk_trescuartos"
+            <EditText
+                android:id="@+id/cantidad_num_trescuartos"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                />
 
         </LinearLayout>
 
@@ -96,10 +100,12 @@
                 android:textSize="20dp"
                 android:layout_marginRight="15dp"/>
 
-            <CheckBox
-                android:id="@+id/cantidad_chk_medio"
+            <EditText
+                android:id="@+id/cantidad_num_medio"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                />
 
         </LinearLayout>
 
@@ -117,10 +123,12 @@
             android:textSize="20dp"
             android:layout_marginRight="15dp"/>
 
-        <CheckBox
-            android:id="@+id/cantidad_chk_cuarto"
+        <EditText
+            android:id="@+id/cantidad_num_cuarto"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            />
 
        </LinearLayout>
 

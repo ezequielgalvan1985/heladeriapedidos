@@ -96,7 +96,8 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
     private LinearLayout form_login;
     private Button login_btn_login;
 
-
+    private EditText login_password;
+    private EditText login_email;
 
 
     @Override
@@ -128,6 +129,9 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
             txtNro        = (EditText) findViewById(R.id.register_nro);
             txtContacto   = (EditText) findViewById(R.id.register_contacto);
 
+
+            login_password = (EditText) findViewById(R.id.login_password);
+            login_email    = (EditText) findViewById(R.id.login_email);
 
             register_link_login = (Button) findViewById(R.id.register_link_login);
             login_link_register = (Button) findViewById(R.id.login_link_register);
@@ -249,30 +253,28 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
             return;
         }
         // Reset errors.
-        mEmailView.setError(null);
-        mPasswordView.setError(null);
+        login_email.setError(null);
+        login_password.setError(null);
 
-        String email      = mEmailView.getText().toString();
-        String password   = mPasswordView.getText().toString();
+        String email      = login_email.getText().toString();
+        String password   = login_password.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
 
         // Check for a valid password, if the user entered one.
         if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-            mPasswordView.setError(getString(R.string.error_invalid_password));
-            focusView = mPasswordView;
+            login_password.setError(getString(R.string.error_invalid_password));
+            focusView = login_password;
             cancel = true;
         }
 
         // Check for a valid email address.
         if (TextUtils.isEmpty(email)) {
-            mEmailView.setError(getString(R.string.error_field_required));
-            focusView = mEmailView;
+            login_email.setError(getString(R.string.error_field_required));
+            focusView = login_email;
             cancel = true;
         }
-
-
 
 
         if (cancel) {
@@ -282,7 +284,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
-            showProgress(true);
+
             userLoginTask = new UserLoginTask(email, password);
             userLoginTask.setCtx(this.getBaseContext());
             userLoginTask.execute((Void) null);
@@ -370,7 +372,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
-            showProgress(true);
+
             userRegisterTask = new UserRegisterTask(email, password, telefono, localidad, calle, nro, piso, contacto);
             userRegisterTask.setCtx(this.getBaseContext());
             userRegisterTask.execute((Void) null);
@@ -563,7 +565,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
         protected void onPostExecute(final Boolean success) {
             try{
                 userRegisterTask = null;
-                showProgress(false);
+
 
                 //LOGIN EXITOSO
                 if ( Integer.parseInt(parser.getStatus())==200 ){
@@ -597,7 +599,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
         @Override
         protected void onCancelled() {
             userRegisterTask = null;
-            showProgress(false);
+
         }
 
         public Context getCtx() {
@@ -664,7 +666,6 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
         protected void onPostExecute(final Boolean success) {
             try{
                 userRegisterTask = null;
-                showProgress(false);
 
                 //LOGIN EXITOSO
                 if ( Integer.parseInt(parser.getStatus())==200 ){
@@ -698,7 +699,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
         @Override
         protected void onCancelled() {
             userRegisterTask = null;
-            showProgress(false);
+
         }
 
         public Context getCtx() {

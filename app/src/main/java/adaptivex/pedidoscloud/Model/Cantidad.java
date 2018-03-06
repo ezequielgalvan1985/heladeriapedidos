@@ -5,45 +5,15 @@ package adaptivex.pedidoscloud.Model;
  */
 
 public class Cantidad {
-    private boolean kilo;
-    private boolean medio;
-    private boolean cuarto;
-    private boolean trescuartos;
+    private Integer kilo;
+    private Integer medio;
+    private Integer cuarto;
+    private Integer trescuartos;
 
     private Integer cucuruchos;
     private Integer cucharitas;
 
-    public boolean isKilo() {
-        return kilo;
-    }
 
-    public void setKilo(boolean kilo) {
-        this.kilo = kilo;
-    }
-
-    public boolean isMedio() {
-        return medio;
-    }
-
-    public void setMedio(boolean medio) {
-        this.medio = medio;
-    }
-
-    public boolean isCuarto() {
-        return cuarto;
-    }
-
-    public void setCuarto(boolean cuarto) {
-        this.cuarto = cuarto;
-    }
-
-    public boolean isTrescuartos() {
-        return trescuartos;
-    }
-
-    public void setTrescuartos(boolean trescuartos) {
-        this.trescuartos = trescuartos;
-    }
 
     public Integer getCucuruchos() {
         return cucuruchos;
@@ -59,5 +29,37 @@ public class Cantidad {
 
     public void setCucharitas(Integer cucharitas) {
         this.cucharitas = cucharitas;
+    }
+
+    public Integer getKilo() {
+        return kilo;
+    }
+
+    public void setKilo(Integer kilo) {
+        this.kilo = kilo;
+    }
+
+    public Integer getMedio() {
+        return medio;
+    }
+
+    public void setMedio(Integer medio) {
+        this.medio = medio;
+    }
+
+    public Integer getCuarto() {
+        return cuarto;
+    }
+
+    public void setCuarto(Integer cuarto) {
+        this.cuarto = cuarto;
+    }
+
+    public Integer getTrescuartos() {
+        return trescuartos;
+    }
+
+    public void setTrescuartos(Integer trescuartos) {
+        this.trescuartos = trescuartos;
     }
 }

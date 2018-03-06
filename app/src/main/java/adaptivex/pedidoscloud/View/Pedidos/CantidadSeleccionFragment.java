@@ -10,7 +10,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import adaptivex.pedidoscloud.Config.GlobalValues;
@@ -19,10 +20,10 @@ import adaptivex.pedidoscloud.R;
 import ivb.com.materialstepper.stepperFragment;
 
 public class CantidadSeleccionFragment extends stepperFragment {
-    private CheckBox chkKilo;
-    private CheckBox chkTresCuartos;
-    private CheckBox chkMedio;
-    private CheckBox chkCuarto;
+    private EditText numKilo;
+    private EditText numTresCuartos;
+    private EditText numMedio;
+    private EditText numCuarto;
 
 
 
@@ -47,24 +48,25 @@ public class CantidadSeleccionFragment extends stepperFragment {
 
     private boolean validateForm(Cantidad c){
         boolean respuesta = false;
-        if (c.isKilo())   respuesta = true;
-        if (c.isMedio())  respuesta = true;
-        if (c.isCuarto()) respuesta = true;
-        if (c.isTrescuartos()) respuesta = true;
+        if (c.getKilo()>0)   respuesta = true;
+        if (c.getMedio()>0)  respuesta = true;
+        if (c.getTrescuartos()>0) respuesta = true;
+        if (c.getCuarto()>0) respuesta = true;
         return respuesta;
     }
 
     private Cantidad getCantidad(){
         Cantidad c = new Cantidad();
-        chkKilo         = (CheckBox) getView().findViewById(R.id.cantidad_chk_kilo);
-        chkMedio        = (CheckBox) getView().findViewById(R.id.cantidad_chk_medio);
-        chkCuarto       = (CheckBox) getView().findViewById(R.id.cantidad_chk_cuarto);
-        chkTresCuartos  = (CheckBox) getView().findViewById(R.id.cantidad_chk_trescuartos);
 
-        c.setKilo(chkKilo.isChecked());
-        c.setMedio(chkMedio.isChecked());
-        c.setCuarto(chkCuarto.isChecked());
-        c.setTrescuartos(chkTresCuartos.isChecked());
+        numKilo         = (EditText) getView().findViewById(R.id.cantidad_num_kilo);
+        numMedio        = (EditText) getView().findViewById(R.id.cantidad_num_medio);
+        numCuarto       = (EditText) getView().findViewById(R.id.cantidad_num_cuarto);
+        numTresCuartos  = (EditText) getView().findViewById(R.id.cantidad_num_trescuartos);
+
+        c.setKilo(Integer.parseInt(numKilo.getText().toString()));
+        c.setMedio(Integer.parseInt(numMedio.getText().toString()));
+        c.setCuarto(Integer.parseInt(numCuarto.getText().toString()));
+        c.setTrescuartos(Integer.parseInt(numTresCuartos.getText().toString()));
 
         return c;
     }
@@ -86,7 +88,16 @@ public class CantidadSeleccionFragment extends stepperFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_cantidad_seleccion, container, false);
+        View v =inflater.inflate(R.layout.fragment_cantidad_seleccion, container, false);
+
+        numKilo         = (EditText) v.findViewById(R.id.cantidad_num_kilo);
+        numMedio        = (EditText) v.findViewById(R.id.cantidad_num_medio);
+        numCuarto       = (EditText) v.findViewById(R.id.cantidad_num_cuarto);
+        numTresCuartos  = (EditText) v.findViewById(R.id.cantidad_num_trescuartos);
+
+       
+
+        return v;
     }
 
 
