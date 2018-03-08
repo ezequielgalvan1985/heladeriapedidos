@@ -1,20 +1,35 @@
 package adaptivex.pedidoscloud.View.Pedidos;
 
+import android.app.Activity;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.CheckBox;
+import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import adaptivex.pedidoscloud.Config.GlobalValues;
+import adaptivex.pedidoscloud.Model.Pedidodetalle;
+import adaptivex.pedidoscloud.Model.Producto;
 import adaptivex.pedidoscloud.R;
+import adaptivex.pedidoscloud.View.Productos.ListadoHeladosFragment;
 import ivb.com.materialstepper.stepperFragment;
 
 public class ResumenPedidoFragment extends stepperFragment {
 
+    ItemsHeladoAdapter myItemsListAdapter;
+    ArrayList<Pedidodetalle> items;
 
 
     @Override
@@ -24,7 +39,7 @@ public class ResumenPedidoFragment extends stepperFragment {
     }
 
     public ResumenPedidoFragment() {
-        // Required empty public constructor
+
     }
 
 
@@ -56,9 +71,81 @@ public class ResumenPedidoFragment extends stepperFragment {
         cucharitas.setText(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getCantidad().getCucharitas().toString());
         cantidad.setText(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getCantidad().calculateCantidadKilos().toString() +"Kg");
 
+        //cargar listado de productos
+        ListView lv = (ListView) v.findViewById(R.id.resumen_pedido_helados);
+        items = GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getDetalles();
+        myItemsListAdapter = new ItemsHeladoAdapter(getContext(), items);
+        lv.setAdapter(myItemsListAdapter);
 
         return v;
     }
+
+
+
+
+    public class Item {
+        Producto producto;
+
+        Item(Producto t){
+            producto = t;
+        }
+    }
+
+    static class ViewHolder {
+        TextView text;
+    }
+
+
+    public class ItemsHeladoAdapter extends BaseAdapter {
+
+        private Context context;
+        private ArrayList<Pedidodetalle> list;
+
+        ItemsHeladoAdapter(Context c, ArrayList<Pedidodetalle> l) {
+            context = c;
+            list = l;
+        }
+
+        @Override
+        public int getCount() {
+            return list.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return list.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+
+
+        @Override
+        public View getView(final int position, View convertView, ViewGroup parent) {
+            View rowView = convertView;
+
+            // reuse views
+            ViewHolder viewHolder = new ViewHolder();
+            if (rowView == null) {
+                LayoutInflater inflater = ((Activity) context).getLayoutInflater();
+                rowView = inflater.inflate(R.layout.resumen_helado_row, null);
+                viewHolder.text = (TextView) rowView.findViewById(R.id.tvResumenHeladoNombre);
+                rowView.setTag(viewHolder);
+            } else {
+                viewHolder = (ViewHolder) rowView.getTag();
+            }
+            final String itemStr = list.get(position).getProducto().getNombre().toUpperCase().toString();
+            viewHolder.text.setText(itemStr);
+            return rowView;
+        }
+    }
+
+
+
+
 
 
 }

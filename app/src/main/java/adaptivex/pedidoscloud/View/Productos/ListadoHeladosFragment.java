@@ -27,6 +27,7 @@ import java.util.List;
 
 import adaptivex.pedidoscloud.Config.GlobalValues;
 import adaptivex.pedidoscloud.Controller.ProductoController;
+import adaptivex.pedidoscloud.Model.Pedidodetalle;
 import adaptivex.pedidoscloud.Model.Producto;
 import adaptivex.pedidoscloud.R;
 import ivb.com.materialstepper.stepperFragment;
@@ -253,9 +254,28 @@ public class ListadoHeladosFragment extends stepperFragment {
             return false;
         }
 
+        //Cargar Productos seleccionados
+        GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.setDetalles(parseItemsSelectedToDetalle());
+
         return true;
     }
 
+    //Busca los items seleccionados y genera arrayList de pedido detalles para asignarlo al pedido
+    public ArrayList<Pedidodetalle> parseItemsSelectedToDetalle(){
+        ArrayList<Pedidodetalle> detalles = new ArrayList<Pedidodetalle>();
+
+        for (int i=0; i<items.size(); i++){
+            if (items.get(i).isChecked()){
+                Pedidodetalle pd = new Pedidodetalle();
+                pd.setCantidad(1.0);
+                pd.setEstadoId(GlobalValues.getINSTANCIA().ESTADO_NUEVO);
+                pd.setProducto(items.get(i).producto);
+                detalles.add(pd);
+            }
+
+        }
+        return detalles;
+    }
     public Integer getCantidadHeladoSeleccionado(){
         Integer cantidadSeleccionado = 0;
         for (int i=0; i<items.size(); i++){

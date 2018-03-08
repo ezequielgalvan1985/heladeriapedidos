@@ -49,6 +49,7 @@ public class NuevoPedidoActivity extends progressMobileStepper {
                 .setPositiveButton("Si",new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,int id) {
                         //Enviar Pedido
+                        enviarPedido();
                         //Finalizar
                         finish();
                     }
@@ -67,6 +68,11 @@ public class NuevoPedidoActivity extends progressMobileStepper {
 
     }
 
+    public boolean enviarPedido(){
+
+
+        return true;
+    }
 
 
 

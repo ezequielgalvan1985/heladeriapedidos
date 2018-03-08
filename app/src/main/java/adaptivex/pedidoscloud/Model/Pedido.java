@@ -8,8 +8,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-import adaptivex.pedidoscloud.Core.WorkInteger;
-
 /**
  * Created by ezequiel on 25/06/2016.
  */
@@ -132,7 +130,7 @@ public class Pedido {
     public void setDetalles(Cursor c) {
         //Recibe cursor y completa el arralist de pedidodetalles
         Pedidodetalle registro;
-        this.detalles = new ArrayList<Pedidodetalle>();
+        this.setDetalles(new ArrayList<Pedidodetalle>());
 
         for(c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
             registro = new Pedidodetalle();
@@ -148,7 +146,7 @@ public class Pedido {
             registro.setPreciounitario(c.getDouble(c.getColumnIndex(PedidodetalleDataBaseHelper.CAMPO_PRECIOUNITARIO)));
             registro.setMonto(c.getDouble(c.getColumnIndex(PedidodetalleDataBaseHelper.CAMPO_MONTO)));
             registro.setEstadoId(c.getInt(c.getColumnIndex(PedidodetalleDataBaseHelper.CAMPO_ESTADO_ID)));
-            this.detalles.add(registro);
+            this.getDetalles().add(registro);
             registro = null;
         }
     }
@@ -185,4 +183,7 @@ public class Pedido {
     }
 
 
+    public void setDetalles(ArrayList<Pedidodetalle> detalles) {
+        this.detalles = detalles;
+    }
 }
