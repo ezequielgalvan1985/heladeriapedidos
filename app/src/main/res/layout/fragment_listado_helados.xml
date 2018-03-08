@@ -6,14 +6,52 @@ android:layout_height="match_parent"
 android:orientation="vertical"
 tools:context="adaptivex.pedidoscloud.View.Productos.ListadoHeladosFragment">
 
-<Button
-    android:id="@+id/lookup"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:text="@string/action_login"/>
-<ListView
-    android:id="@+id/listview"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content" />
 
+    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        card_view:cardUseCompatPadding="true"
+        card_view:cardElevation="4dp"
+        card_view:cardCornerRadius="3dp"
+        >
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="10dp"
+            >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="3 - Elegir Helados y Postres"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:layout_marginBottom="5dp"
+            />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:layout_marginBottom="15dp"
+                android:id="@+id/helados_message"
+                />
+
+
+                <Button
+                    android:id="@+id/lookup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Ver Helados Seleccionados"/>
+
+                <ListView
+                    android:id="@+id/listview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+        </LinearLayout>
+
+</android.support.v7.widget.CardView>
 </LinearLayout>

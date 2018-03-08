@@ -6,6 +6,7 @@ import java.util.List;
 
 import adaptivex.pedidoscloud.Config.GlobalValues;
 import adaptivex.pedidoscloud.Model.Pedido;
+import adaptivex.pedidoscloud.View.Pedidos.BlankFragment;
 import adaptivex.pedidoscloud.View.Pedidos.CantidadSeleccionFragment;
 import adaptivex.pedidoscloud.View.Pedidos.CargarDireccionFragment;
 import adaptivex.pedidoscloud.View.Pedidos.CargarOtrosDatosFragment;
@@ -24,6 +25,7 @@ public class NuevoPedidoActivity extends progressMobileStepper {
         stepperFragmentList.add(CantidadSeleccionFragment.class);
         stepperFragmentList.add(ListadoHeladosFragment.class);
         stepperFragmentList.add(CargarOtrosDatosFragment.class);
+        stepperFragmentList.add(BlankFragment.class);
         stepperFragmentList.add(ResumenPedidoFragment.class);
 
         //Resetear Pedido
@@ -33,9 +35,6 @@ public class NuevoPedidoActivity extends progressMobileStepper {
     }
     @Override
     public void onStepperCompleted() {
-
-
-
         showCompletedDialog();
     }
 

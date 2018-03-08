@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
+import adaptivex.pedidoscloud.Core.WorkInteger;
+
 /**
  * Created by ezequiel on 25/06/2016.
  */
@@ -181,4 +183,6 @@ public class Pedido {
     public void setCantidad(Cantidad cantidad) {
         this.cantidad = cantidad;
     }
+
+
 }

@@ -20,6 +20,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +33,6 @@ import ivb.com.materialstepper.stepperFragment;
 
 public class ListadoHeladosFragment extends stepperFragment {
     // TODO: Rename parameter arguments, choose names that match
-
 
 
 
@@ -91,6 +92,8 @@ public class ListadoHeladosFragment extends stepperFragment {
         public View getView(final int position, View convertView, ViewGroup parent) {
             View rowView = convertView;
 
+
+
             // reuse views
             ViewHolder viewHolder = new ViewHolder();
             if (rowView == null) {
@@ -98,7 +101,6 @@ public class ListadoHeladosFragment extends stepperFragment {
                 rowView = inflater.inflate(R.layout.helado_row, null);
 
                 viewHolder.checkBox = (CheckBox) rowView.findViewById(R.id.rowCheckBox);
-                //viewHolder.icon = (ImageView) rowView.findViewById(R.id.rowImageView);
                 viewHolder.text = (TextView) rowView.findViewById(R.id.rowTextView);
                 rowView.setTag(viewHolder);
             } else {
@@ -135,7 +137,7 @@ public class ListadoHeladosFragment extends stepperFragment {
     List<Producto> itemsproducto;
     ListView listView;
     ItemsListAdapter myItemsListAdapter;
-
+    TextView tvMessage;
 
     private void initItems(){
         items = new ArrayList<Item>();
@@ -149,7 +151,6 @@ public class ListadoHeladosFragment extends stepperFragment {
             items.add(item);
         }
       }
-
 
 
 
@@ -190,6 +191,14 @@ public class ListadoHeladosFragment extends stepperFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View vista = inflater.inflate(R.layout.fragment_listado_helados, container, false);
+
+
+        if (GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getCantidad()!=null){
+            tvMessage = (TextView) vista.findViewById(R.id.helados_message);
+            tvMessage.setText(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getCantidad().getStringCantidadHelado());
+        }
+
+
         listView = (ListView)vista.findViewById(R.id.listview);
         btnLookup = (Button)vista.findViewById(R.id.lookup);
 
@@ -236,7 +245,25 @@ public class ListadoHeladosFragment extends stepperFragment {
 
     @Override
     public boolean onNextButtonHandler() {
+        //Validar cantidad de helados seleccionados
+        Integer cantidadLimite = GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getCantidad().calculateCantidadGustos();
+        if (getCantidadHeladoSeleccionado()> cantidadLimite){
+            String cartel = "Puedes Seleccionar Solo Hasta "+ cantidadLimite.toString() +". (Cantidad que has seleccionado "+getCantidadHeladoSeleccionado() + ")";
+            Toast.makeText(getView().getContext(),cartel,Toast.LENGTH_LONG).show();
+            return false;
+        }
+
         return true;
+    }
+
+    public Integer getCantidadHeladoSeleccionado(){
+        Integer cantidadSeleccionado = 0;
+        for (int i=0; i<items.size(); i++){
+            if (items.get(i).isChecked()){
+                cantidadSeleccionado += 1;
+            }
+        }
+        return cantidadSeleccionado;
     }
 
 }

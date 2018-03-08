@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import adaptivex.pedidoscloud.Config.GlobalValues;
+import adaptivex.pedidoscloud.Core.WorkInteger;
 import adaptivex.pedidoscloud.Model.Cantidad;
 import adaptivex.pedidoscloud.R;
 import ivb.com.materialstepper.stepperFragment;
@@ -40,6 +41,8 @@ public class CantidadSeleccionFragment extends stepperFragment {
         if (validateForm(c)){
             GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.setCantidad(c);
             validate = true;
+            Toast.makeText(getView().getContext(),GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getCantidad().getStringCantidadHelado(),Toast.LENGTH_LONG).show();
+
         }else{
             Toast.makeText(getView().getContext(),"Debe Seleccionar al menos una Cantidad",Toast.LENGTH_LONG).show();
         }
@@ -63,10 +66,10 @@ public class CantidadSeleccionFragment extends stepperFragment {
         numCuarto       = (EditText) getView().findViewById(R.id.cantidad_num_cuarto);
         numTresCuartos  = (EditText) getView().findViewById(R.id.cantidad_num_trescuartos);
 
-        c.setKilo(Integer.parseInt(numKilo.getText().toString()));
-        c.setMedio(Integer.parseInt(numMedio.getText().toString()));
-        c.setCuarto(Integer.parseInt(numCuarto.getText().toString()));
-        c.setTrescuartos(Integer.parseInt(numTresCuartos.getText().toString()));
+        c.setKilo(WorkInteger.parseInteger(numKilo.getText().toString()));
+        c.setMedio(WorkInteger.parseInteger(numMedio.getText().toString()));
+        c.setCuarto(WorkInteger.parseInteger(numCuarto.getText().toString()));
+        c.setTrescuartos(WorkInteger.parseInteger(numTresCuartos.getText().toString()));
 
         return c;
     }

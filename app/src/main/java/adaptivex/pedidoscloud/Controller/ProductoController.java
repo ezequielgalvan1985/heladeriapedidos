@@ -56,7 +56,8 @@ public class ProductoController
     public ArrayList<Producto> parseCursorToArray(Cursor c) {
         try{
             ArrayList<Producto> al = new ArrayList<Producto>();
-            while (c.moveToNext()) {
+            c.moveToFirst();
+            do {
                 Producto registro = new Producto();
                 registro.setId(c.getInt(c.getColumnIndex(ProductoDataBaseHelper.CAMPO_ID)));
                 registro.setCodigoexterno(c.getString(c.getColumnIndex(ProductoDataBaseHelper.CAMPO_CODIGOEXTERNO)));
@@ -66,7 +67,7 @@ public class ProductoController
                 registro.setStock(c.getInt(c.getColumnIndex(ProductoDataBaseHelper.CAMPO_STOCK)));
                 al.add(registro);
                 registro = null;
-            }
+            }while (c.moveToNext());
             return al;
         }catch(Exception e ){
             Log.d("ProductosController", e.getMessage());

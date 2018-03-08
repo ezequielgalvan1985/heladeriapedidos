@@ -19,7 +19,7 @@
 
 
                 <item
-                    android:visible="false"
+
                     android:id="@+id/nav_configuracion"
                     android:title="Configuracion" />
 

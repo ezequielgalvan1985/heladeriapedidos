@@ -1,5 +1,7 @@
 package adaptivex.pedidoscloud.Model;
 
+import adaptivex.pedidoscloud.Core.WorkInteger;
+
 /**
  * Created by egalvan on 5/3/2018.
  */
@@ -61,5 +63,27 @@ public class Cantidad {
 
     public void setTrescuartos(Integer trescuartos) {
         this.trescuartos = trescuartos;
+    }
+
+    public Double calculateCantidadKilos(){
+        Double cant = 0.0;
+        cant =(Double.parseDouble(getKilo().toString()) * 1) +
+                (Double.parseDouble(getMedio().toString()) * 0.5) +
+                (Double.parseDouble(getCuarto().toString()) * 0.25) +
+                (Double.parseDouble(getTrescuartos().toString()) * 0.75);
+        return cant;
+    }
+    public Integer calculateCantidadGustos(){
+        Integer cant = 0;
+        cant = WorkInteger.parseInteger(getKilo().toString()) * 4;
+        cant += WorkInteger.parseInteger(getMedio().toString()) * 3;
+        cant += WorkInteger.parseInteger(getCuarto().toString()) * 3;
+        cant += WorkInteger.parseInteger(getTrescuartos().toString()) * 3;
+        return cant;
+    }
+    public String getStringCantidadHelado(){
+        String message = "* Tu Compra es de " + this.calculateCantidadKilos().toString();
+        message +=  " Kg, puedes elegir hasta "+ this.calculateCantidadGustos().toString() +" helados ";
+        return message;
     }
 }

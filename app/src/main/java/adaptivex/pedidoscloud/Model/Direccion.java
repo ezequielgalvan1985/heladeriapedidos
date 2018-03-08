@@ -64,4 +64,12 @@ public class Direccion {
     public void setContacto(String contacto) {
         this.contacto = contacto;
     }
+
+    public String getStringDireccion(){
+        String direccion = "Localidad: "+  getLocalidad() + "\n"+
+                 "Calle:" + getCalle() + " " + getNro() + " (Piso:" + getPiso() + ")\n"+
+                 "Telefono: " + getTelefono() +"\n"+
+                 "Contacto: " + getContacto() +" )";
+        return direccion;
+    }
 }

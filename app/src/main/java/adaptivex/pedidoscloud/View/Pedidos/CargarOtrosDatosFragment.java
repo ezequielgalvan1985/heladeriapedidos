@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import adaptivex.pedidoscloud.Config.GlobalValues;
+import adaptivex.pedidoscloud.Core.WorkInteger;
 import adaptivex.pedidoscloud.Model.Cantidad;
 import adaptivex.pedidoscloud.R;
 import ivb.com.materialstepper.stepperFragment;
@@ -35,8 +36,8 @@ public class CargarOtrosDatosFragment extends stepperFragment {
         cantidad_cucuruchos  = (EditText) getView().findViewById(R.id.cantidad_cucuruchos);
         cantidad_cucharitas  = (EditText) getView().findViewById(R.id.cantidad_cucharitas);
 
-        c.setCucuruchos(Integer.parseInt(cantidad_cucuruchos.getText().toString()));
-        c.setCucharitas(Integer.parseInt(cantidad_cucharitas.getText().toString()));
+        c.setCucuruchos(WorkInteger.parseInteger(cantidad_cucuruchos.getText().toString()));
+        c.setCucharitas(WorkInteger.parseInteger(cantidad_cucharitas.getText().toString()));
         GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.setCantidad(c);
     }
 
