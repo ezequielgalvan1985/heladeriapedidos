@@ -11,6 +11,7 @@ import adaptivex.pedidoscloud.Config.Configurador;
  */
 public class PedidoDataBaseHelper extends SQLiteOpenHelper
 {
+    //CAMPOS EN TABLA SQLITE
     public static final String DB_NAME = Configurador.DBName;
     public static final String TABLE_NAME = "pedidos";
     public static final int DB_VERSION = Configurador.DBVersion ;
@@ -24,25 +25,53 @@ public class PedidoDataBaseHelper extends SQLiteOpenHelper
     public static final String CAMPO_ESTADO_ID = "estado_id";
     public static final String CAMPO_ID_TMP = "idtmp";
 
+    //DIRECCION
+    public static final String CAMPO_LOCALIDAD = "localidad";
+    public static final String CAMPO_CALLE     = "calle";
+    public static final String CAMPO_NRO       = "nro";
+    public static final String CAMPO_PISO      = "piso";
+    public static final String CAMPO_TELEFONO  = "telefono";
+    public static final String CAMPO_CONTACTO  = "contacto";
+
+    //CANTIDADES
+    public static final String CAMPO_KILO        = "kilo";
+    public static final String CAMPO_MEDIO       = "medio";
+    public static final String CAMPO_CUARTO      = "cuarto";
+    public static final String CAMPO_TRESCUARTOS = "trescuartos";
+    public static final String CAMPO_CUCHARITAS  = "cucharitas";
+    public static final String CAMPO_CUCURUCHOS  = "cucuruchos";
+
+    //CAMPOS QUE VIENEN EN EL API REST JSON. (NO ESTAN EN LA TABLA SQLITE)
     public static final String ANDROID_ID_JSON = "android_id";
-    public static final String CLIENTE_JSON = "cliente";
+    public static final String CLIENTE_JSON    = "cliente";
     public static final String CLIENTE_ID_JSON = "id";
-    public static final String FECHA_JSON = "fecha";
+    public static final String FECHA_JSON      = "fecha";
 
 
     public static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
 
     public static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" +
-            CAMPO_ID + " integer null," +
-            CAMPO_CREATED + " date null ," +
-            CAMPO_SUBTOTAL + " real null ," +
-            CAMPO_IVA + " real null ," +
-            CAMPO_MONTO + " real null ," +
-            CAMPO_CLIENTE_ID + " integer null ," +
-            CAMPO_BONIFICACION + " real null ," +
-            CAMPO_ESTADO_ID + " integer null ," +
-            CAMPO_ID_TMP + " integer " +
-            "primary key autoincrement " +
+            CAMPO_ID            + " integer null," +
+            CAMPO_CREATED       + " date null ," +
+            CAMPO_SUBTOTAL      + " real null ," +
+            CAMPO_IVA           + " real null ," +
+            CAMPO_MONTO         + " real null ," +
+            CAMPO_CLIENTE_ID    + " integer null, " +
+            CAMPO_BONIFICACION  + " real null, " +
+            CAMPO_ESTADO_ID     + " integer null, " +
+            CAMPO_LOCALIDAD     + " text null , " +
+            CAMPO_CALLE         + " text null , " +
+            CAMPO_NRO           + " text null , " +
+            CAMPO_PISO          + " text null , " +
+            CAMPO_TELEFONO      + " text null , " +
+            CAMPO_CONTACTO      + " text null , " +
+            CAMPO_KILO          + " integer null, " +
+            CAMPO_MEDIO         + " integer null, " +
+            CAMPO_CUARTO        + " integer null, " +
+            CAMPO_TRESCUARTOS   + " integer null, " +
+            CAMPO_CUCHARITAS    + " integer null, " +
+            CAMPO_CUCURUCHOS    + " integer null, " +
+            CAMPO_ID_TMP        + " integer primary key autoincrement " +
             ")";
 
     public PedidoDataBaseHelper(Context context)

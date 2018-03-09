@@ -28,6 +28,7 @@ import adaptivex.pedidoscloud.Config.GlobalValues;
 import adaptivex.pedidoscloud.Controller.PedidoController;
 import adaptivex.pedidoscloud.Controller.PedidodetalleController;
 import adaptivex.pedidoscloud.Core.parserJSONtoModel.PedidoParser;
+import adaptivex.pedidoscloud.Model.ItemPote;
 import adaptivex.pedidoscloud.Model.Pedido;
 import adaptivex.pedidoscloud.Model.Pedidodetalle;
 
@@ -46,6 +47,13 @@ public class HelperPedidos extends AsyncTask<Void, Void, Void> {
     private int respuesta; //1=ok, 200=error
     private int opcion; //1 enviar Post Pedido, 2 ENVIAR TODOS LOS PEDIDOS PENDIENTES
 
+
+
+    //Constructor donde le pasas el numero de pedido temporal y la opcion
+    //ID pedido temporal, es el ID que tiene en la base de datos SQLITE
+    //ID pedido real, es el ID que se asigna en MYSQL
+    //OPCION: 1 enviar solo un pedido
+    //OPCION: 2 enviar todos los pedidos pendientes
     public HelperPedidos(Context pCtx, long pNroPedidoTmp, int opcion){
         this.setCtx(pCtx);
         this.pedidoCtr = new PedidoController(this.getCtx());
@@ -76,11 +84,13 @@ public class HelperPedidos extends AsyncTask<Void, Void, Void> {
                 this.registro.put("cliente_id", paramPedido.getCliente_id().toString());
                 this.registro.put("android_id", paramPedido.getIdTmp().toString());
                 this.registro.put("estado_id", String.valueOf(GlobalValues.getINSTANCIA().consPedidoEstadoEnviado));
-
-                this.registro.put("monto", String.valueOf(paramPedido.getMonto()));
+                this.registro.put("precioxkilo", String.valueOf(paramPedido.getMonto())); //Precio x kilo al dia de la fecha
+                this.registro.put("monto", String.valueOf(paramPedido.getMonto())); //Precio total del helado
                 this.registro.put("iva", String.valueOf(paramPedido.getIva()));
                 this.registro.put("subtotal", String.valueOf(paramPedido.getSubtotal()));
 
+
+                //Agregar campos de Heladeria, Direccion, cucharas, cucuruchos, cantidades.
 
                 //Procesa post
                 String jsonStr = webreq.makeWebServiceCall(Configurador.urlPostPedido, WebRequest.POST,this.registro);
@@ -108,10 +118,10 @@ public class HelperPedidos extends AsyncTask<Void, Void, Void> {
 
                     HashMap<String,String> pedidodetalleitem = new HashMap<String, String>();
                     pedidodetalleitem.put("idtmp", "1");
-                    pedidodetalleitem.put("producto_id", pd.getProductoId() .toString());
-                    pedidodetalleitem.put("cantidad", pd.getCantidad().toString());
-                    pedidodetalleitem.put("precio", pd.getPreciounitario().toString());
-                    pedidodetalleitem.put("monto", pd.getMonto().toString());
+                    pedidodetalleitem.put("producto_id", pd.getProductoId() .toString()); //No iria mas
+                    pedidodetalleitem.put("cantidad", pd.getCantidad().toString());      //cantidad total de helados
+                    pedidodetalleitem.put("precio", pd.getPreciounitario().toString());  //No va
+                    pedidodetalleitem.put("monto", pd.getMonto().toString());            //no va
                     pedidodetalleitem.put("pedidocabecera_idtmp", String.valueOf(pd.getPedidoTmpId()));
                     pedidodetalleitem.put("pedidocabecera_id", paramPedido.getId().toString());
                     pedidodetalleitem.put("created", fechahoystr );
@@ -120,6 +130,15 @@ public class HelperPedidos extends AsyncTask<Void, Void, Void> {
 
                     String jsonStrpedidodetalle = webreq.makeWebServiceCall(Configurador.urlPostPedidodetalle, WebRequest.POST, pedidodetalleitem);
                     System.out.println(jsonStrpedidodetalle);
+
+
+                    //Agregar otro for para buscar los Items del Pote
+                    for (ItemPote ip : pd.getPote().getItemsPote()) {
+                        //LLamar a api rest que se encarga de guardar el contenido de cada pote
+
+                    }
+                            
+
                 }
 
             //}

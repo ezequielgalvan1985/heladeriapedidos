@@ -14,7 +14,7 @@ public class Pedidodetalle {
     private Double monto;
     private Integer estadoId;
     private Producto producto;
-
+    private Pote pote;
 
     public Integer getId() {
         return id;
@@ -100,4 +100,11 @@ public class Pedidodetalle {
     }
 
 
+    public Pote getPote() {
+        return pote;
+    }
+
+    public void setPote(Pote pote) {
+        this.pote = pote;
+    }
 }

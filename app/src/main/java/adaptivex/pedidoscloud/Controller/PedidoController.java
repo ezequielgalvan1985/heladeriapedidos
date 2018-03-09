@@ -114,10 +114,28 @@ public class PedidoController
         valores.put(PedidoDataBaseHelper.CAMPO_ESTADO_ID, item.getEstadoId());
         valores.put(PedidoDataBaseHelper.CAMPO_ID_TMP, item.getIdTmp());
 
+        //Nuevos campos para Heladerias
+        //DIRECCION
+        valores.put(PedidoDataBaseHelper.CAMPO_LOCALIDAD, item.getDireccion().getLocalidad());
+        valores.put(PedidoDataBaseHelper.CAMPO_CALLE,     item.getDireccion().getCalle());
+        valores.put(PedidoDataBaseHelper.CAMPO_NRO,       item.getDireccion().getNro());
+        valores.put(PedidoDataBaseHelper.CAMPO_PISO,      item.getDireccion().getPiso());
+        valores.put(PedidoDataBaseHelper.CAMPO_TELEFONO,  item.getDireccion().getTelefono());
+        valores.put(PedidoDataBaseHelper.CAMPO_CONTACTO,  item.getDireccion().getContacto());
+
+        //CANTIDAD
+        valores.put(PedidoDataBaseHelper.CAMPO_KILO, item.getCantidad().getKilo());
+        valores.put(PedidoDataBaseHelper.CAMPO_MEDIO, item.getCantidad().getMedio());
+        valores.put(PedidoDataBaseHelper.CAMPO_CUARTO, item.getCantidad().getCuarto());
+        valores.put(PedidoDataBaseHelper.CAMPO_TRESCUARTOS, item.getCantidad().getTrescuartos());
+
+
         return db.insert(PedidoDataBaseHelper.TABLE_NAME, null, valores);
     }
 
+    //Busca Maximo pedido por IDTMP, Es decir codigo autonumerico de SQLITE
     public long getMaxIdTmpPedido(){
+
         long nroPedido = 0;
         try{
             String sSelect = "select max("+PedidoDataBaseHelper.CAMPO_ID_TMP +") ";

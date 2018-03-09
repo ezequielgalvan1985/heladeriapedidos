@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
+import adaptivex.pedidoscloud.Core.WorkInteger;
+
 /**
  * Created by ezequiel on 25/06/2016.
  */
@@ -15,6 +17,7 @@ public class Pedido {
     private Integer id;
     private Integer idTmp;
     private String created;
+    private Double precioxkilo;
     private Double subtotal;
     private Double iva;
     private Double monto;
@@ -24,16 +27,158 @@ public class Pedido {
     private Integer nroPedidoReal;
 
     //Para la heladeria
-    private Direccion direccion;
-    private Cantidad cantidad;
-
-
-
+    private ArrayList<Pote> potes;
 
     //Entidades externas
     private Cliente cliente;
     private ArrayList<Pedidodetalle> detalles;
 
+    //CANTIDAD
+    private Integer kilo;
+    private Integer medio;
+    private Integer cuarto;
+    private Integer trescuartos;
+
+    private Integer cucuruchos;
+    private Integer cucharitas;
+
+    //Direccion
+    private String localidad;
+    private String calle;
+    private String nro;
+    private String piso;
+    private String telefono;
+    private String contacto;
+
+    public String getLocalidad() {
+        return localidad;
+    }
+
+    public void setLocalidad(String localidad) {
+        this.localidad = localidad;
+    }
+
+    public String getCalle() {
+        return calle;
+    }
+
+    public void setCalle(String calle) {
+        this.calle = calle;
+    }
+
+    public String getNro() {
+        return nro;
+    }
+
+    public void setNro(String nro) {
+        this.nro = nro;
+    }
+
+    public String getPiso() {
+        return piso;
+    }
+
+    public void setPiso(String piso) {
+        this.piso = piso;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    public String getContacto() {
+        return contacto;
+    }
+
+    public void setContacto(String contacto) {
+        this.contacto = contacto;
+    }
+
+    public String getStringDireccion(){
+        String direccion = "Localidad: "+  getLocalidad() + "\n"+
+                "Calle:" + getCalle() + " " + getNro() + " (Piso:" + getPiso() + ")\n"+
+                "Telefono: " + getTelefono() +"\n"+
+                "Contacto: " + getContacto() +" )";
+        return direccion;
+    }
+
+
+    public Integer getCucuruchos() {
+        return cucuruchos;
+    }
+
+    public void setCucuruchos(Integer cucuruchos) {
+        this.cucuruchos = cucuruchos;
+    }
+
+    public Integer getCucharitas() {
+        return cucharitas;
+    }
+
+    public void setCucharitas(Integer cucharitas) {
+        this.cucharitas = cucharitas;
+    }
+
+    public Integer getKilo() {
+        return kilo;
+    }
+
+    public void setKilo(Integer kilo) {
+        this.kilo = kilo;
+    }
+
+    public Integer getMedio() {
+        return medio;
+    }
+
+    public void setMedio(Integer medio) {
+        this.medio = medio;
+    }
+
+    public Integer getCuarto() {
+        return cuarto;
+    }
+
+    public void setCuarto(Integer cuarto) {
+        this.cuarto = cuarto;
+    }
+
+    public Integer getTrescuartos() {
+        return trescuartos;
+    }
+
+    public void setTrescuartos(Integer trescuartos) {
+        this.trescuartos = trescuartos;
+    }
+
+    public Double calculateCantidadKilos(){
+        Double cant = 0.0;
+        cant =(Double.parseDouble(getKilo().toString()) * 1) +
+                (Double.parseDouble(getMedio().toString()) * 0.5) +
+                (Double.parseDouble(getCuarto().toString()) * 0.25) +
+                (Double.parseDouble(getTrescuartos().toString()) * 0.75);
+        return cant;
+    }
+    public Integer calculateCantidadGustos(){
+        Integer cant = 0;
+        cant = WorkInteger.parseInteger(getKilo().toString()) * 4;
+        cant += WorkInteger.parseInteger(getMedio().toString()) * 3;
+        cant += WorkInteger.parseInteger(getCuarto().toString()) * 3;
+        cant += WorkInteger.parseInteger(getTrescuartos().toString()) * 3;
+        return cant;
+    }
+    public String getStringCantidadHelado(){
+        String message = "* Tu Compra es de " + this.calculateCantidadKilos().toString();
+        message +=  " Kg, puedes elegir hasta "+ this.calculateCantidadGustos().toString() +" helados ";
+        return message;
+    }
+
+
+    //GETTERS AND SETTERS
     public Integer getId() {
         return id;
     }
@@ -166,24 +311,15 @@ public class Pedido {
         return fecha;
     }
 
-    public Direccion getDireccion() {
-        return direccion;
-    }
-
-    public void setDireccion(Direccion direccion) {
-        this.direccion = direccion;
-    }
-
-    public Cantidad getCantidad() {
-        return cantidad;
-    }
-
-    public void setCantidad(Cantidad cantidad) {
-        this.cantidad = cantidad;
-    }
-
-
     public void setDetalles(ArrayList<Pedidodetalle> detalles) {
         this.detalles = detalles;
+    }
+
+    public Double getPrecioxkilo() {
+        return precioxkilo;
+    }
+
+    public void setPrecioxkilo(Double precioxkilo) {
+        this.precioxkilo = precioxkilo;
     }
 }

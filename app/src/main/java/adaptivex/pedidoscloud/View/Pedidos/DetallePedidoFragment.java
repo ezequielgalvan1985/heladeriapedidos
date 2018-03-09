@@ -59,15 +59,7 @@ public class DetallePedidoFragment extends Fragment implements  View.OnClickList
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment DetallePedidoFragment.
-     */
-    // TODO: Rename and change types and number of parameters
+
     public static DetallePedidoFragment newInstance(String param1, String param2) {
         DetallePedidoFragment fragment = new DetallePedidoFragment();
         return fragment;
@@ -98,6 +90,8 @@ public class DetallePedidoFragment extends Fragment implements  View.OnClickList
         dbPedido.abrir();
         pedido = dbPedido.buscar(idtemp, true);
         dbPedido.cerrar();
+
+        //Obtener referencias de objetos en la vista
         tvDpfId = (TextView)vista.findViewById(R.id.tvDpfId);
         tvDpfIdTmp =  (TextView)vista.findViewById(R.id.tvDpfIdTmp);
         tvDpfCreated = (TextView)vista.findViewById(R.id.tvDpfCreated);
@@ -108,7 +102,7 @@ public class DetallePedidoFragment extends Fragment implements  View.OnClickList
         ButtonOnClickListener btnClick = new ButtonOnClickListener(this.getContext());
         btnEliminarPedido =(Button)vista.findViewById(R.id.btnEliminarPedido);
         btnEliminarPedido.setOnClickListener(this);
-        //btnEliminarPedido.setOnClickListener(btnClick);
+
         btnEnviarPedido =(Button)vista.findViewById(R.id.btnEnviarPedido2);
         btnEnviarPedido.setOnClickListener(this);
 

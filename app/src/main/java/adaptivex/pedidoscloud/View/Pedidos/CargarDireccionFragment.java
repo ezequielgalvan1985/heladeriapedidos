@@ -1,13 +1,7 @@
 package adaptivex.pedidoscloud.View.Pedidos;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.IntRange;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +10,6 @@ import android.widget.Toast;
 
 import adaptivex.pedidoscloud.Config.GlobalValues;
 import adaptivex.pedidoscloud.Controller.UserController;
-import adaptivex.pedidoscloud.Model.Direccion;
 import adaptivex.pedidoscloud.Model.User;
 import adaptivex.pedidoscloud.R;
 import ivb.com.materialstepper.stepperFragment;

@@ -195,8 +195,7 @@ public class MainActivity extends AppCompatActivity
 
 
         }else if (id == R.id.mnu_ver_pedido_actual) {
-            //setear Flag de nuevo pedido en true
-            //GlobalValues.getINSTANCIA().setVgFlagMenuPedidoActual(true);
+
             //BUSCAR ULTIMO PEDIDO GENERADO EN EL DISPOSITIVO
             GlobalValues.getINSTANCIA().setActualFragment(GlobalValues.getINSTANCIA().DETALLEPEDIDO);
 
@@ -372,9 +371,7 @@ public class MainActivity extends AppCompatActivity
                 Intent i = new Intent(this, RegisterActivity.class);
                 startActivity(i);
 
-            } else if (id == R.id.nav_diagramarrecorrido) {
-                Intent i = new Intent(this, MapsActivity.class);
-                startActivity(i);
+
 
             } else if (id == R.id.nav_home) {
                 try{

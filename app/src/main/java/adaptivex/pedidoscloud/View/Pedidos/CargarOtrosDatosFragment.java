@@ -1,9 +1,6 @@
 package adaptivex.pedidoscloud.View.Pedidos;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +8,6 @@ import android.widget.EditText;
 
 import adaptivex.pedidoscloud.Config.GlobalValues;
 import adaptivex.pedidoscloud.Core.WorkInteger;
-import adaptivex.pedidoscloud.Model.Cantidad;
 import adaptivex.pedidoscloud.R;
 import ivb.com.materialstepper.stepperFragment;
 

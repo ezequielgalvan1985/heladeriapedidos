@@ -196,7 +196,7 @@ public class ListadoHeladosFragment extends stepperFragment {
 
         if (GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getCantidad()!=null){
             tvMessage = (TextView) vista.findViewById(R.id.helados_message);
-            tvMessage.setText(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getCantidad().getStringCantidadHelado());
+            tvMessage.setText(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getStringCantidadHelado());
         }
 
 
@@ -246,8 +246,17 @@ public class ListadoHeladosFragment extends stepperFragment {
 
     @Override
     public boolean onNextButtonHandler() {
+        //Consultar cantidad de potes a completar
+        //si pote es de un kilo, se pueden seleccionar hasta 4 helados
+        //para todos los demas potes se pueden seleccionar hasta 3 helados
+
+        //donde se almacena el contenido del pote?
+
+
+
+
         //Validar cantidad de helados seleccionados
-        Integer cantidadLimite = GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getCantidad().calculateCantidadGustos();
+        Integer cantidadLimite = GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.calculateCantidadGustos();
         if (getCantidadHeladoSeleccionado()> cantidadLimite){
             String cartel = "Puedes Seleccionar Solo Hasta "+ cantidadLimite.toString() +". (Cantidad que has seleccionado "+getCantidadHeladoSeleccionado() + ")";
             Toast.makeText(getView().getContext(),cartel,Toast.LENGTH_LONG).show();
