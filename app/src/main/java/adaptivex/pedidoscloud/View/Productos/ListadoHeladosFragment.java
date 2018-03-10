@@ -194,11 +194,9 @@ public class ListadoHeladosFragment extends stepperFragment {
         View vista = inflater.inflate(R.layout.fragment_listado_helados, container, false);
 
 
-        if (GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getCantidad()!=null){
-            tvMessage = (TextView) vista.findViewById(R.id.helados_message);
-            tvMessage.setText(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getStringCantidadHelado());
-        }
 
+        tvMessage = (TextView) vista.findViewById(R.id.helados_message);
+        tvMessage.setText(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getStringCantidadHelado());
 
         listView = (ListView)vista.findViewById(R.id.listview);
         btnLookup = (Button)vista.findViewById(R.id.lookup);
@@ -247,6 +245,9 @@ public class ListadoHeladosFragment extends stepperFragment {
     @Override
     public boolean onNextButtonHandler() {
         //Consultar cantidad de potes a completar
+
+        GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getCantidadPotes();
+
         //si pote es de un kilo, se pueden seleccionar hasta 4 helados
         //para todos los demas potes se pueden seleccionar hasta 3 helados
 

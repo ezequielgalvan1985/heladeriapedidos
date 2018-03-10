@@ -16,13 +16,13 @@ import adaptivex.pedidoscloud.Core.WorkInteger;
 public class Pedido {
     private Integer id;
     private Integer idTmp;
-    private String created;
-    private Double precioxkilo;
-    private Double subtotal;
-    private Double iva;
-    private Double monto;
+    private String  created;
+    private Double  precioxkilo;
+    private Double  subtotal;
+    private Double  iva;
+    private Double  monto;
     private Integer cliente_id;
-    private Double bonificacion;
+    private Double  bonificacion;
     private Integer estadoId;
     private Integer nroPedidoReal;
 
@@ -49,6 +49,16 @@ public class Pedido {
     private String piso;
     private String telefono;
     private String contacto;
+
+
+    public Integer getCantidadPotes(){
+        Integer cantidadPotes = WorkInteger.parseInteger(kilo.toString())   +
+                                WorkInteger.parseInteger(medio.toString())  +
+                                WorkInteger.parseInteger(cuarto.toString()) +
+                                WorkInteger.parseInteger(trescuartos.toString());
+        return cantidadPotes;
+    }
+
 
     public String getLocalidad() {
         return localidad;

@@ -14,7 +14,7 @@ public class GlobalValues {
 
 
     public Pedido PEDIDO_TEMPORAL;
-
+    public Integer CURRENT_FRAGMENT_NUEVO_PEDIDO;
 
 
     //Variables de Login user
@@ -34,6 +34,16 @@ public class GlobalValues {
     public static final int HOME = 10;
     public static final int CONFIGURACION = 11;
     public static final int DATOS_USER = 12;
+
+    //FRAGMENTS Heladerias
+    public static final int NP_CARGAR_DIRECCION         = 13;
+    public static final int NP_CARGAR_CANTIDAD          = 14;
+    public static final int NP_LISTADO_POTES            = 15;
+    public static final int NP_CARGAR_HELADOS           = 16;
+    public static final int NP_CARGAR_PROPORCION_HELADO = 17;
+    public static final int NP_CARGAR_OTROS_DATOS       = 18;
+    public static final int NP_RESUMEN_PEDIDO           = 19;
+
 
 
     //ERRORES

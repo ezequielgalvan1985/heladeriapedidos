@@ -28,13 +28,12 @@ public class CargarOtrosDatosFragment extends stepperFragment {
     }
 
     private void getOtrosDatos(){
-        Cantidad c = GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getCantidad();
         cantidad_cucuruchos  = (EditText) getView().findViewById(R.id.cantidad_cucuruchos);
         cantidad_cucharitas  = (EditText) getView().findViewById(R.id.cantidad_cucharitas);
 
-        c.setCucuruchos(WorkInteger.parseInteger(cantidad_cucuruchos.getText().toString()));
-        c.setCucharitas(WorkInteger.parseInteger(cantidad_cucharitas.getText().toString()));
-        GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.setCantidad(c);
+        GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.setCucuruchos(WorkInteger.parseInteger(cantidad_cucuruchos.getText().toString()));
+        GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.setCucharitas(WorkInteger.parseInteger(cantidad_cucharitas.getText().toString()));
+
     }
 
     public CargarOtrosDatosFragment() {

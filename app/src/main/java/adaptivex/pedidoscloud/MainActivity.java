@@ -189,6 +189,7 @@ public class MainActivity extends AppCompatActivity
             args.putBoolean(ListadoClientesFragment.paramMenuNuevoPedido, true);
             fragment.setArguments(args);
             */
+            GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL = new Pedido();
             Intent i = new Intent(this, NuevoPedidoActivity.class);
             startActivity(i);
 

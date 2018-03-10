@@ -28,7 +28,7 @@ import adaptivex.pedidoscloud.Config.GlobalValues;
 import adaptivex.pedidoscloud.Controller.PedidoController;
 import adaptivex.pedidoscloud.Controller.PedidodetalleController;
 import adaptivex.pedidoscloud.Core.parserJSONtoModel.PedidoParser;
-import adaptivex.pedidoscloud.Model.ItemPote;
+import adaptivex.pedidoscloud.Model.PoteItem;
 import adaptivex.pedidoscloud.Model.Pedido;
 import adaptivex.pedidoscloud.Model.Pedidodetalle;
 
@@ -133,7 +133,7 @@ public class HelperPedidos extends AsyncTask<Void, Void, Void> {
 
 
                     //Agregar otro for para buscar los Items del Pote
-                    for (ItemPote ip : pd.getPote().getItemsPote()) {
+                    for (PoteItem ip : pd.getPote().getItemsPote()) {
                         //LLamar a api rest que se encarga de guardar el contenido de cada pote
 
                     }

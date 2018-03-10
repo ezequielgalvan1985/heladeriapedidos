@@ -116,18 +116,18 @@ public class PedidoController
 
         //Nuevos campos para Heladerias
         //DIRECCION
-        valores.put(PedidoDataBaseHelper.CAMPO_LOCALIDAD, item.getDireccion().getLocalidad());
-        valores.put(PedidoDataBaseHelper.CAMPO_CALLE,     item.getDireccion().getCalle());
-        valores.put(PedidoDataBaseHelper.CAMPO_NRO,       item.getDireccion().getNro());
-        valores.put(PedidoDataBaseHelper.CAMPO_PISO,      item.getDireccion().getPiso());
-        valores.put(PedidoDataBaseHelper.CAMPO_TELEFONO,  item.getDireccion().getTelefono());
-        valores.put(PedidoDataBaseHelper.CAMPO_CONTACTO,  item.getDireccion().getContacto());
+        valores.put(PedidoDataBaseHelper.CAMPO_LOCALIDAD, item.getLocalidad());
+        valores.put(PedidoDataBaseHelper.CAMPO_CALLE,     item.getCalle());
+        valores.put(PedidoDataBaseHelper.CAMPO_NRO,       item.getNro());
+        valores.put(PedidoDataBaseHelper.CAMPO_PISO,      item.getPiso());
+        valores.put(PedidoDataBaseHelper.CAMPO_TELEFONO,  item.getTelefono());
+        valores.put(PedidoDataBaseHelper.CAMPO_CONTACTO,  item.getContacto());
 
         //CANTIDAD
-        valores.put(PedidoDataBaseHelper.CAMPO_KILO, item.getCantidad().getKilo());
-        valores.put(PedidoDataBaseHelper.CAMPO_MEDIO, item.getCantidad().getMedio());
-        valores.put(PedidoDataBaseHelper.CAMPO_CUARTO, item.getCantidad().getCuarto());
-        valores.put(PedidoDataBaseHelper.CAMPO_TRESCUARTOS, item.getCantidad().getTrescuartos());
+        valores.put(PedidoDataBaseHelper.CAMPO_KILO,        item.getKilo());
+        valores.put(PedidoDataBaseHelper.CAMPO_MEDIO,       item.getMedio());
+        valores.put(PedidoDataBaseHelper.CAMPO_CUARTO,      item.getCuarto());
+        valores.put(PedidoDataBaseHelper.CAMPO_TRESCUARTOS, item.getTrescuartos());
 
 
         return db.insert(PedidoDataBaseHelper.TABLE_NAME, null, valores);

@@ -4,7 +4,7 @@ package adaptivex.pedidoscloud.Model;
  * Created by egalvan on 9/3/2018.
  */
 
-public class ItemPote {
+public class PoteItem {
     private long idweb;
     private long idandroid;
 

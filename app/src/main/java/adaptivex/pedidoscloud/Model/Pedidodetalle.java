@@ -4,17 +4,17 @@ package adaptivex.pedidoscloud.Model;
  * Created by ezequiel on 25/06/2016.
  */
 public class Pedidodetalle {
-    private Integer id;
-    private Integer idTmp;
-    private Integer pedidoId;
-    private long pedidoTmpId;
-    private Integer productoId;
-    private Double cantidad;
-    private Double preciounitario;
-    private Double monto;
-    private Integer estadoId;
-    private Producto producto;
-    private Pote pote;
+    private Integer   id;
+    private Integer   idTmp;
+    private Integer   pedidoId;
+    private long      pedidoTmpId;
+    private Integer   productoId;
+    private Double    cantidad;
+    private Double    preciounitario;
+    private Double    monto;
+    private Integer   estadoId;
+    private Producto  producto;
+    private Pote      pote;
 
     public Integer getId() {
         return id;

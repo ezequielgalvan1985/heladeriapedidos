@@ -1,7 +1,10 @@
 package adaptivex.pedidoscloud;
 
 import android.content.DialogInterface;
+import android.os.Bundle;
 import android.provider.Settings;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -19,11 +22,10 @@ import adaptivex.pedidoscloud.View.Pedidos.ResumenPedidoFragment;
 import adaptivex.pedidoscloud.View.Productos.ListadoHeladosFragment;
 import ivb.com.materialstepper.progressMobileStepper;
 
-public class NuevoPedidoActivity extends progressMobileStepper {
-    List<Class> stepperFragmentList = new ArrayList<>();
+public class NuevoPedidoActivity extends AppCompatActivity {
+    //List<Class> stepperFragmentList = new ArrayList<>();
 
-
-
+    /*
     @Override
     public List<Class> init() {
         stepperFragmentList.add(CargarDireccionFragment.class);
@@ -72,6 +74,30 @@ public class NuevoPedidoActivity extends progressMobileStepper {
         alertDialog.show();
 
     }
+    */
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_nuevo_pedido);
+        GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL = new Pedido();
+        Fragment fragment = new CargarDireccionFragment();
+        GlobalValues.getINSTANCIA().CURRENT_FRAGMENT_NUEVO_PEDIDO = GlobalValues.getINSTANCIA().NP_CARGAR_DIRECCION;
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.content_nuevo_pedido, fragment).addToBackStack(null)
+                .commit();
+
+
+
+    }
+
+
+
+
+
+
+
+
 
     public boolean enviarPedido(){
         try{
