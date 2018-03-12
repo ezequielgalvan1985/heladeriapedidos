@@ -71,7 +71,7 @@ public class PedidoDataBaseHelper extends SQLiteOpenHelper
             CAMPO_TRESCUARTOS   + " integer null, " +
             CAMPO_CUCHARITAS    + " integer null, " +
             CAMPO_CUCURUCHOS    + " integer null, " +
-            CAMPO_ID_TMP        + " integer primary key autoincrement " +
+            CAMPO_ID_TMP        + " integer primary key autoincrement not null" +
             ")";
 
     public PedidoDataBaseHelper(Context context)

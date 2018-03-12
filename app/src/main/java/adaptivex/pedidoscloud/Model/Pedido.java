@@ -1,6 +1,8 @@
 package adaptivex.pedidoscloud.Model;
 
 import android.database.Cursor;
+import android.provider.Settings;
+import android.util.Log;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -8,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
+import adaptivex.pedidoscloud.Config.Constants;
+import adaptivex.pedidoscloud.Config.GlobalValues;
 import adaptivex.pedidoscloud.Core.WorkInteger;
 
 /**
@@ -15,7 +19,7 @@ import adaptivex.pedidoscloud.Core.WorkInteger;
  */
 public class Pedido {
     private Integer id;
-    private Integer idTmp;
+    private long idTmp;
     private String  created;
     private Double  precioxkilo;
     private Double  subtotal;
@@ -50,6 +54,11 @@ public class Pedido {
     private String telefono;
     private String contacto;
 
+    private Integer cantidadPotes = 0 ;
+
+    public Integer agregarPote(){
+        return this.cantidadPotes++;
+    }
 
     public Integer getCantidadPotes(){
         Integer cantidadPotes = WorkInteger.parseInteger(kilo.toString())   +
@@ -57,6 +66,12 @@ public class Pedido {
                                 WorkInteger.parseInteger(cuarto.toString()) +
                                 WorkInteger.parseInteger(trescuartos.toString());
         return cantidadPotes;
+    }
+
+
+
+    public void addPedidodetalle(Pedidodetalle pd){
+        this.detalles.add(pd);
     }
 
 
@@ -262,11 +277,11 @@ public class Pedido {
         this.nroPedidoReal = nroPedidoReal;
     }
 
-    public Integer getIdTmp() {
+    public long getIdTmp() {
         return idTmp;
     }
 
-    public void setIdTmp(Integer idTmp) {
+    public void setIdTmp(long idTmp) {
         this.idTmp = idTmp;
     }
 

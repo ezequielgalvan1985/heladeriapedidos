@@ -50,6 +50,11 @@ public class PedidodetalleController
         valores.put(PedidodetalleDataBaseHelper.CAMPO_MONTO, item.getMonto());
         valores.put(PedidodetalleDataBaseHelper.CAMPO_ESTADO_ID, item.getEstadoId());
 
+        //Heladeria
+        valores.put(PedidodetalleDataBaseHelper.CAMPO_NRO_POTE, item.getNroPote());
+        valores.put(PedidodetalleDataBaseHelper.CAMPO_MEDIDA_POTE, item.getMedidaPote());
+        valores.put(PedidodetalleDataBaseHelper.CAMPO_PROPORCION_HELADO, item.getProporcionHelado());
+
         return db.insert(PedidodetalleDataBaseHelper.TABLE_NAME, null, valores);
     }
 

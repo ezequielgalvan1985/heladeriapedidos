@@ -53,6 +53,18 @@ public class ProductoController
 
     }
 
+    public ArrayList<Producto> findAll(){
+        try{
+            ArrayList<Producto> lista = new ArrayList<Producto>();
+            Cursor c = obtenerTodos();
+            lista = parseCursorToArray(c);
+            return lista;
+        }catch (Exception e){
+            Log.d("ProductosController", e.getMessage());
+            return null;
+        }
+    }
+
     public ArrayList<Producto> parseCursorToArray(Cursor c) {
         try{
             ArrayList<Producto> al = new ArrayList<Producto>();

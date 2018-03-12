@@ -17,6 +17,10 @@ public class GlobalValues {
     public Integer CURRENT_FRAGMENT_NUEVO_PEDIDO;
 
 
+
+
+
+
     //Variables de Login user
     private int USER_ID_LOGIN;
     private User userlogued;
@@ -120,13 +124,13 @@ public class GlobalValues {
     public static  String[] ESTADOS = {"Nuevo","Enviado","Preparado","Entregado"};
 
     //Variables globales para Generar Pedido
-    private long vgPedidoIdActual;
-    private long vgPedidoSeleccionado;
-    private int vgClienteSelecionado;
-    private boolean vgFlagMenuNuevoPedido;
-    private int ESTADO_ID_SELECCIONADO;
-    public int PEDIDO_ID_ACTUAL;
-    public int CLIENTE_ID_PEDIDO_ACTUAL;
+    private long        vgPedidoIdActual;
+    private long        vgPedidoSeleccionado;
+    private int         vgClienteSelecionado;
+    private boolean     vgFlagMenuNuevoPedido;
+    private int         ESTADO_ID_SELECCIONADO;
+    public long         PEDIDO_ID_ACTUAL;
+    public int          CLIENTE_ID_PEDIDO_ACTUAL;
 
     public boolean IS_MEMO;
 

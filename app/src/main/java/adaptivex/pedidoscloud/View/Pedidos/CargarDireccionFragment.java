@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import adaptivex.pedidoscloud.Config.GlobalValues;
+import adaptivex.pedidoscloud.Controller.PedidoController;
 import adaptivex.pedidoscloud.Controller.UserController;
 import adaptivex.pedidoscloud.Model.User;
 import adaptivex.pedidoscloud.R;
@@ -119,13 +120,14 @@ public class CargarDireccionFragment extends Fragment {
                 //Realizar validaciones
                 if(validateForm()){
                     //LLAMAR AL SIGUIENTE FRAMENT
-                    CantidadSeleccionFragment fragment      = new CantidadSeleccionFragment();
-                    FragmentManager fragmentManager         = getFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.content_nuevo_pedido, fragment);
-                    fragmentTransaction.addToBackStack(null);
-                    fragmentTransaction.commit();
-
+                    if (saveDireccion()){
+                        CantidadSeleccionFragment fragment      = new CantidadSeleccionFragment();
+                        FragmentManager fragmentManager         = getFragmentManager();
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.replace(R.id.content_nuevo_pedido, fragment);
+                        fragmentTransaction.addToBackStack(null);
+                        fragmentTransaction.commit();
+                    }
 
                 }
             }
@@ -133,6 +135,14 @@ public class CargarDireccionFragment extends Fragment {
 
 
         return v;
+    }
+
+    public boolean saveDireccion(){
+        boolean validate = false;
+        PedidoController pc = new PedidoController(getContext());
+        // pc.abrir().modificar(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL,true);
+        validate = true;
+        return validate;
     }
 
 

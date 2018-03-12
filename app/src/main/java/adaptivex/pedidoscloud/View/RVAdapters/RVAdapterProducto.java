@@ -23,8 +23,6 @@ public class RVAdapterProducto extends RecyclerView.Adapter<RVAdapterProducto.Pr
 {
     private ArrayList<Producto> productos;
     private ContextWrapper cw;
-
-
     private Context ctx;
 
     public Context getCtx() {
@@ -38,9 +36,6 @@ public class RVAdapterProducto extends RecyclerView.Adapter<RVAdapterProducto.Pr
     public ArrayList<Producto> getProductos() {
         return productos;
     }
-
-
-
 
     public void RVAdapterProducto(ArrayList<Producto> productos){
 

@@ -8,7 +8,7 @@ import adaptivex.pedidoscloud.Model.User;
  */
 public class Configurador {
 
-    public static final int DBVersion = 9;
+    public static final int DBVersion = 11;
     public static final String DBName = "pedidosapp1";
     private static Configurador INSTANCIA;
     public static  User userlogin;
@@ -18,7 +18,7 @@ public class Configurador {
     //public static String strRoot = "http://192.168.43.44:8000";
 
     //Casa
-    public static String strRoot = "http://192.168.0.5:8000";
+    public static String strRoot = "http://192.168.0.2:8000";
 
     //claxson
     //public static String strRoot = "http://10.4.4.93:8000";

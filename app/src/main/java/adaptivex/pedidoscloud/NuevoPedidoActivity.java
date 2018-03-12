@@ -7,7 +7,11 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import adaptivex.pedidoscloud.Config.GlobalValues;
@@ -79,6 +83,7 @@ public class NuevoPedidoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        crearNuevoPedido();
         setContentView(R.layout.activity_nuevo_pedido);
         GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL = new Pedido();
         Fragment fragment = new CargarDireccionFragment();
@@ -94,6 +99,36 @@ public class NuevoPedidoActivity extends AppCompatActivity {
 
 
 
+    public long crearNuevoPedido(){
+        try{
+
+            PedidoController gestdb = new PedidoController(this);
+            Date fecha = new Date();
+            Calendar cal = Calendar.getInstance();
+            fecha = cal.getTime();
+            DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd");
+            String fechaDMY = df1.format(fecha);
+            //Nuevo Pedido
+            Pedido pedido = new Pedido();
+            pedido.setEstadoId(GlobalValues.consPedidoEstadoNuevo);
+            pedido.setCliente_id(GlobalValues.getINSTANCIA().getUserlogued().getId());
+            pedido.setCreated(fechaDMY);
+            pedido.setId(0);
+            gestdb.abrir();
+            long id = gestdb.agregar(pedido);
+            pedido.setIdTmp(id);
+            gestdb.cerrar();
+            GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL = new Pedido();
+            GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL = pedido;
+
+            gestdb.cerrar();
+            Toast.makeText(this, "Generando Nuevo Pedido  "+ String.valueOf(id) , Toast.LENGTH_SHORT).show();
+            return id;
+        }catch (Exception e ){
+            Toast.makeText(this, "Error: " +e.getMessage(),Toast.LENGTH_LONG).show();
+            return 0;
+        }
+    }
 
 
 

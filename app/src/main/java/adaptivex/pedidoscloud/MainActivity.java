@@ -3,6 +3,7 @@ package adaptivex.pedidoscloud;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -16,6 +17,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import adaptivex.pedidoscloud.Config.GlobalValues;
 import adaptivex.pedidoscloud.Controller.PedidoController;
@@ -166,6 +172,8 @@ public class MainActivity extends AppCompatActivity
         return  super.onCreateOptionsMenu(menu);
     }
 
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -179,21 +187,8 @@ public class MainActivity extends AppCompatActivity
 
 
         if (id == R.id.mnu_nuevo_pedido) {
-            //setear Flag de nuevo pedido en true
-
-            /*
-            GlobalValues.getINSTANCIA().setActualFragment(GlobalValues.getINSTANCIA().LISTADOCLIENTES);
-            GlobalValues.getINSTANCIA().setVgFlagMenuNuevoPedido(true);
-            fragment = new ListadoClientesFragment();
-            fragmentTransaction = true;
-            args.putBoolean(ListadoClientesFragment.paramMenuNuevoPedido, true);
-            fragment.setArguments(args);
-            */
-            GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL = new Pedido();
             Intent i = new Intent(this, NuevoPedidoActivity.class);
             startActivity(i);
-
-
 
         }else if (id == R.id.mnu_ver_pedido_actual) {
 

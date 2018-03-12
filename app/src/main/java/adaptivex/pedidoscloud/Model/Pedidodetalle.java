@@ -8,13 +8,19 @@ public class Pedidodetalle {
     private Integer   idTmp;
     private Integer   pedidoId;
     private long      pedidoTmpId;
+
     private Integer   productoId;
     private Double    cantidad;
     private Double    preciounitario;
     private Double    monto;
     private Integer   estadoId;
     private Producto  producto;
-    private Pote      pote;
+
+
+    private Integer nroPote;
+    private Integer proporcionHelado;
+    private Integer medidaPote;
+
 
     public Integer getId() {
         return id;
@@ -100,11 +106,28 @@ public class Pedidodetalle {
     }
 
 
-    public Pote getPote() {
-        return pote;
+    public Integer getNroPote() {
+        return nroPote;
     }
 
-    public void setPote(Pote pote) {
-        this.pote = pote;
+    public void setNroPote(Integer nroPote) {
+        this.nroPote = nroPote;
+    }
+
+    public Integer getProporcionHelado() {
+        return proporcionHelado;
+    }
+
+    public void setProporcionHelado(Integer proporcionHelado) {
+        this.proporcionHelado = proporcionHelado;
+    }
+
+
+    public Integer getMedidaPote() {
+        return medidaPote;
+    }
+
+    public void setMedidaPote(Integer medidaPote) {
+        this.medidaPote = medidaPote;
     }
 }

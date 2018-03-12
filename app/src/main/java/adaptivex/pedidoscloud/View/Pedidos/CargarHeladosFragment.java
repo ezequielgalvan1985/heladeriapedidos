@@ -1,14 +1,23 @@
 package adaptivex.pedidoscloud.View.Pedidos;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+
+import adaptivex.pedidoscloud.Controller.ProductoController;
+import adaptivex.pedidoscloud.Model.Producto;
 import adaptivex.pedidoscloud.R;
+import adaptivex.pedidoscloud.View.RVAdapters.RVAdapterHelado;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -19,53 +28,51 @@ import adaptivex.pedidoscloud.R;
  * create an instance of this fragment.
  */
 public class CargarHeladosFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    private Cursor cursorHelados;
+    //Variables
+    private RecyclerView rvHelados;
+    private RecyclerView.Adapter mAdapter;
+    private ArrayList<Producto> arrayOfProductos = new ArrayList<Producto>();
 
     public CargarHeladosFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment CargarHeladosFragment.
-     */
-    // TODO: Rename and change types and number of parameters
+
     public static CargarHeladosFragment newInstance(String param1, String param2) {
         CargarHeladosFragment fragment = new CargarHeladosFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
+
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_cargar_helados, container, false);
+        View v = inflater.inflate(R.layout.fragment_cargar_helados, container, false);
+        ProductoController dbHelper = new ProductoController(v.getContext());
+
+        rvHelados = (RecyclerView)v.findViewById(R.id.rvHelados);
+        rvHelados.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        LinearLayoutManager llm = new LinearLayoutManager(v.getContext());
+        rvHelados.setLayoutManager(llm);
+
+        RVAdapterHelado rvAdapterHelado = new RVAdapterHelado();
+        rvAdapterHelado.setCtx(getContext());
+
+        rvAdapterHelado.setProductos(dbHelper.findAll());
+
+        return v;
+
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -92,16 +99,7 @@ public class CargarHeladosFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
+
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);

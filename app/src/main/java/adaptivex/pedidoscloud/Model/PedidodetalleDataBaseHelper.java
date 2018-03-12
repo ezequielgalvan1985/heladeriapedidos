@@ -11,32 +11,39 @@ import adaptivex.pedidoscloud.Config.Configurador;
  */
 public class PedidodetalleDataBaseHelper extends SQLiteOpenHelper
 {
-    public static final String DB_NAME = Configurador.DBName;
-    public static final String TABLE_NAME = "pedidodetalles";
-    public static final int DB_VERSION = Configurador.DBVersion;
-    public static final String CAMPO_ID = "id";
-    public static final String CAMPO_PEDIDO_ID = "pedidocabecera_id";
-    public static final String CAMPO_PRODUCTO_ID = "producto_id";
-    public static final String CAMPO_CANTIDAD= "cantidad";
+    public static final String DB_NAME              = Configurador.DBName;
+    public static final String TABLE_NAME           = "pedidodetalles";
+    public static final int DB_VERSION              = Configurador.DBVersion;
+    public static final String CAMPO_ID             = "id";
+    public static final String CAMPO_PEDIDO_ID      = "pedidocabecera_id";
+    public static final String CAMPO_PRODUCTO_ID    = "producto_id";
+    public static final String CAMPO_CANTIDAD       = "cantidad";
     public static final String CAMPO_PRECIOUNITARIO = "preciounitario";
-    public static final String CAMPO_MONTO = "monto";
-    public static final String CAMPO_ESTADO_ID = "estado_id";
-    public static final String CAMPO_ID_TMP = "idtmp";
-    public static final String CAMPO_PEDIDO_ID_TMP = "pedidoidtmp";
+    public static final String CAMPO_MONTO          = "monto";
+    public static final String CAMPO_ESTADO_ID      = "estado_id";
+    public static final String CAMPO_ID_TMP         = "idtmp";
+    public static final String CAMPO_PEDIDO_ID_TMP  = "pedidoidtmp";
 
+    //HELADERIA
+    public static final String CAMPO_NRO_POTE            = "nropote";
+    public static final String CAMPO_PROPORCION_HELADO   = "proporcion_helado";
+    public static final String CAMPO_MEDIDA_POTE         = "medida_pote";
 
     public static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
 
     public static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" +
-            CAMPO_ID + " integer null," +
-            CAMPO_PEDIDO_ID + " integer null ," +
-            CAMPO_PRODUCTO_ID + " integer null ," +
-            CAMPO_CANTIDAD + " real null ," +
+            CAMPO_ID             + " integer null," +
+            CAMPO_PEDIDO_ID      + " integer null ," +
+            CAMPO_PRODUCTO_ID    + " integer null ," +
+            CAMPO_CANTIDAD       + " real null ," +
             CAMPO_PRECIOUNITARIO + " real null ," +
-            CAMPO_MONTO + " real null ," +
-            CAMPO_ESTADO_ID + " integer null, " +
-            CAMPO_ID_TMP + " integer primary key autoincrement not null," +
-            CAMPO_PEDIDO_ID_TMP + " integer  null " +
+            CAMPO_MONTO          + " real null ," +
+            CAMPO_ESTADO_ID      + " integer null, " +
+            CAMPO_ID_TMP         + " integer primary key autoincrement not null," +
+            CAMPO_PEDIDO_ID_TMP  + " integer  null, " +
+            CAMPO_NRO_POTE           + " integer  null, " +
+            CAMPO_PROPORCION_HELADO  + " integer  null, " +
+            CAMPO_MEDIDA_POTE        + " integer  null " +
             ")";
 
     public PedidodetalleDataBaseHelper(Context context)

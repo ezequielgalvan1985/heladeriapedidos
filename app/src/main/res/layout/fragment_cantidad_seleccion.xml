@@ -25,7 +25,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="2 - ¿Qué tamaño querés?"
+            android:text="2 - Agregar Cantidad de Helados al Pedido"
             android:textSize="20dp"
             android:textStyle="bold"
             android:layout_marginBottom="5dp"
@@ -50,11 +50,12 @@
                     android:textSize="20dp"
                     android:layout_marginRight="15dp"/>
 
-                <EditText
-                    android:id="@+id/cantidad_num_kilo"
+                <Button
+                    android:id="@+id/cantidad_btn_kilo"
                     android:layout_width="wrap_content"
-                    android:inputType="number"
                     android:layout_height="wrap_content"
+                    android:drawableStart="@android:drawable/ic_input_add"
+                    android:text="Agregar"
                     />
 
             </LinearLayout>
@@ -73,11 +74,12 @@
                 android:textSize="20dp"
                 android:layout_marginRight="15dp"/>
 
-            <EditText
-                android:id="@+id/cantidad_num_trescuartos"
+            <Button
+                android:id="@+id/cantidad_btn_trescuartos"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:inputType="number"
+                android:drawableStart="@android:drawable/ic_input_add"
+                android:text="Agregar"
                 />
 
         </LinearLayout>
@@ -97,11 +99,12 @@
                 android:textSize="20dp"
                 android:layout_marginRight="15dp"/>
 
-            <EditText
-                android:id="@+id/cantidad_num_medio"
+            <Button
+                android:id="@+id/cantidad_btn_medio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:inputType="number"
+                android:drawableStart="@android:drawable/ic_input_add"
+                android:text="Agregar"
                 />
 
         </LinearLayout>
@@ -120,11 +123,12 @@
                 android:textSize="20dp"
                 android:layout_marginRight="15dp"/>
 
-            <EditText
-                android:id="@+id/cantidad_num_cuarto"
+            <Button
+                android:id="@+id/cantidad_btn_cuarto"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:inputType="number"
+                android:drawableStart="@android:drawable/ic_input_add"
+                android:text="Agregar"
                 />
 
            </LinearLayout>
@@ -145,14 +149,24 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/cantidad_btn_anterior"
-                android:text=" Anterior "
+                android:text="Anterior"
+                />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/cantidad_btn_ver_pedido"
+                android:text=" Ver Pedido "
+                android:drawableStart="@android:drawable/ic_search_category_default"
+
                 />
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/cantidad_btn_siguiente"
-                android:text="Siguiente "
+                android:text="Siguiente"
+
                 />
         </LinearLayout>
 

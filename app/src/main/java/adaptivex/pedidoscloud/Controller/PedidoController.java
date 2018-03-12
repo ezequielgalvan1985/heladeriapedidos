@@ -175,6 +175,13 @@ public class PedidoController
         valores.put(PedidoDataBaseHelper.CAMPO_BONIFICACION, item.getBonificacion());
         valores.put(PedidoDataBaseHelper.CAMPO_ESTADO_ID, item.getEstadoId());
 
+        //Campos direccion
+
+        //Campos cantidad
+
+
+
+
         valores.put(PedidoDataBaseHelper.CAMPO_ID_TMP, item.getIdTmp());
 
         if (isIdTmp){

@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,16 +13,20 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import adaptivex.pedidoscloud.Config.Constants;
 import adaptivex.pedidoscloud.Config.GlobalValues;
+import adaptivex.pedidoscloud.Controller.PedidodetalleController;
 import adaptivex.pedidoscloud.Core.WorkInteger;
+import adaptivex.pedidoscloud.Model.Pedidodetalle;
+import adaptivex.pedidoscloud.Model.Pote;
 import adaptivex.pedidoscloud.R;
 import ivb.com.materialstepper.stepperFragment;
 
-public class CantidadSeleccionFragment extends Fragment {
-    private EditText numKilo;
-    private EditText numTresCuartos;
-    private EditText numMedio;
-    private EditText numCuarto;
+public class CantidadSeleccionFragment extends Fragment implements View.OnClickListener{
+    private Button btnKilo;
+    private Button btnTresCuartos;
+    private Button btnMedio;
+    private Button btnCuarto;
 
     private Button btnSiguiente;
     private Button btnAnterior;
@@ -33,24 +38,10 @@ public class CantidadSeleccionFragment extends Fragment {
 
 
 
-
-
     private boolean validateForm(){
         boolean validate = false;
-        numKilo         = (EditText) getView().findViewById(R.id.cantidad_num_kilo);
-        numMedio        = (EditText) getView().findViewById(R.id.cantidad_num_medio);
-        numCuarto       = (EditText) getView().findViewById(R.id.cantidad_num_cuarto);
-        numTresCuartos  = (EditText) getView().findViewById(R.id.cantidad_num_trescuartos);
 
-        GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.setKilo(WorkInteger.parseInteger(numKilo.getText().toString()));
-        GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.setMedio(WorkInteger.parseInteger(numMedio.getText().toString()));
-        GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.setCuarto(WorkInteger.parseInteger(numCuarto.getText().toString()));
-        GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.setTrescuartos(WorkInteger.parseInteger(numTresCuartos.getText().toString()));
 
-        if (GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getKilo()>0)        validate = true;
-        if (GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getMedio()>0)       validate = true;
-        if (GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getTrescuartos()>0) validate = true;
-        if (GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getCuarto()>0)      validate = true;
 
         if (validate==false){
             Toast.makeText(getView().getContext(),"Debe Seleccionar al menos una Cantidad",Toast.LENGTH_LONG).show();
@@ -59,7 +50,7 @@ public class CantidadSeleccionFragment extends Fragment {
     }
 
 
-    // TODO: Rename and change types and number of parameters
+    // TODO: Rename and change types and btnber of parameters
     public static CantidadSeleccionFragment newInstance(String param1, String param2) {
         CantidadSeleccionFragment fragment = new CantidadSeleccionFragment();
 
@@ -76,34 +67,84 @@ public class CantidadSeleccionFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v =inflater.inflate(R.layout.fragment_cantidad_seleccion, container, false);
+
         GlobalValues.getINSTANCIA().CURRENT_FRAGMENT_NUEVO_PEDIDO = GlobalValues.getINSTANCIA().NP_CARGAR_CANTIDAD;
-        numKilo         = (EditText) v.findViewById(R.id.cantidad_num_kilo);
-        numMedio        = (EditText) v.findViewById(R.id.cantidad_num_medio);
-        numCuarto       = (EditText) v.findViewById(R.id.cantidad_num_cuarto);
-        numTresCuartos  = (EditText) v.findViewById(R.id.cantidad_num_trescuartos);
 
-        btnSiguiente = (Button) v.findViewById(R.id.cantidad_btn_siguiente);
+        btnKilo         = (Button) v.findViewById(R.id.cantidad_btn_kilo);
+        btnMedio        = (Button) v.findViewById(R.id.cantidad_btn_medio);
+        btnCuarto       = (Button) v.findViewById(R.id.cantidad_btn_cuarto);
+        btnTresCuartos  = (Button) v.findViewById(R.id.cantidad_btn_trescuartos);
+        btnSiguiente    = (Button) v.findViewById(R.id.cantidad_btn_siguiente);
+        btnAnterior     = (Button) v.findViewById(R.id.cantidad_btn_anterior);
 
-        btnSiguiente.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        btnKilo.setOnClickListener(this);
+        btnMedio.setOnClickListener(this);
+        btnCuarto.setOnClickListener(this);
+        btnTresCuartos.setOnClickListener(this);
+        btnAnterior.setOnClickListener(this);
+        btnSiguiente.setOnClickListener(this);
+        return v;
+    }
+
+
+    public void openCargarHelados(){
+        CargarHeladosFragment fragment          = new CargarHeladosFragment();
+        FragmentManager fragmentManager         = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.content_nuevo_pedido, fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+    }
+
+
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.cantidad_btn_kilo:
+                agregarPote(Constants.MEDIDA_KILO);
+                openCargarHelados();
+
+                break;
+            case R.id.cantidad_btn_trescuartos:
+
+                break;
+            case R.id.cantidad_btn_medio:
+
+                break;
+            case R.id.cantidad_btn_cuarto:
+
+                break;
+
+            case R.id.cantidad_btn_anterior:
+
+                break;
+
+            case R.id.cantidad_btn_siguiente:
                 //Realizar validaciones
                 if(validateForm()){
 
-                    ListadoPotesFragment fragment           = new ListadoPotesFragment();
-                    FragmentManager fragmentManager         = getFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.content_nuevo_pedido, fragment);
-                    fragmentTransaction.addToBackStack(null);
-                    fragmentTransaction.commit();
-
                 }
-            }
-        });
+                break;
 
+        }
+    }
 
+    public void agregarPote(Integer medidapote){
+        try{
+            Pedidodetalle pd = new Pedidodetalle();
+            pd.setEstadoId(Constants.ESTADO_NUEVO);
+            pd.setId(0);
+            pd.setPedidoTmpId(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getIdTmp());
+            pd.setNroPote(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.agregarPote());
+            pd.setMedidaPote(medidapote);
 
-        return v;
+            PedidodetalleController pdc = new PedidodetalleController(getContext());
+            pdc.abrir().agregar(pd);
+
+        }catch(Exception e){
+            Log.d("Pedido_",e.getMessage());
+        }
     }
 
 
