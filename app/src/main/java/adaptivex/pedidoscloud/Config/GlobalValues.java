@@ -1,7 +1,11 @@
 package adaptivex.pedidoscloud.Config;
 
+import java.util.List;
+
+import adaptivex.pedidoscloud.Model.ItemHelado;
 import adaptivex.pedidoscloud.Model.Pedido;
 import adaptivex.pedidoscloud.Model.User;
+import adaptivex.pedidoscloud.View.RVAdapters.RVAdapterHelado;
 
 /**
  * Created by ezequiel on 26/06/2016.
@@ -241,5 +245,11 @@ public class GlobalValues {
     }
 
 
+
+
+
+    public List<ItemHelado> listaHeladosSeleccionados;
+    public Integer PEDIDO_ACTUAL_NRO_POTE;
+    public Integer PEDIDO_ACTUAL_MEDIDA_POTE;
 
 }

@@ -99,7 +99,7 @@ public class IntentServiceEnvioPedidos extends IntentService {
                         pedido_json.put("user_id", String.valueOf(GlobalValues.getINSTANCIA().getUserlogued().getId()));
                         pedido_json.put("empresa_id", String.valueOf(GlobalValues.getINSTANCIA().getUserlogued().getEntidad_id()));
                         pedido_json.put("cliente_id", paramPedido.getCliente_id().toString());
-                        pedido_json.put("android_id", paramPedido.getIdTmp().toString());
+                        pedido_json.put("android_id", String.valueOf(paramPedido.getIdTmp()));
                         pedido_json.put("estado_id", String.valueOf(GlobalValues.getINSTANCIA().consPedidoEstadoEnviado));
                         pedido_json.put("monto", String.valueOf(paramPedido.getMonto()));
                         pedido_json.put("iva", String.valueOf(paramPedido.getIva()));

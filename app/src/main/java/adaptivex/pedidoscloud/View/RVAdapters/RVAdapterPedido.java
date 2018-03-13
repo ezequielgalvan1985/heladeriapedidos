@@ -136,7 +136,7 @@ public class RVAdapterPedido extends RecyclerView.Adapter<RVAdapterPedido.Pedido
                 */
                 try{
 
-                    HelperPedidos hp = new HelperPedidos(v.getContext(), pedido.getIdTmp());
+                    HelperPedidos hp = new HelperPedidos(v.getContext(), pedido.getIdTmp(), GlobalValues.getINSTANCIA().OPTION_HELPER_ENVIO_PEDIDO );
                     hp.execute();
                     if (hp.getRespuesta()==GlobalValues.getINSTANCIA().RETURN_OK){
                         //Toast.makeText(v.getContext(), "Pedido "+ String.valueOf(pedido.getIdTmp())+ " Sincronizado OK ", Toast.LENGTH_SHORT).show();

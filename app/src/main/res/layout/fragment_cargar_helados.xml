@@ -4,12 +4,13 @@
     android:layout_height="match_parent"
     tools:context="adaptivex.pedidoscloud.View.Pedidos.CargarHeladosFragment">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/cargar_helados_lbl_titulo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="3 - Elegir Helados y Postres"
@@ -17,19 +18,23 @@
             android:textStyle="bold"
             android:layout_marginBottom="5dp"
             />
+        <Button
+            android:layout_below="@id/cargar_helados_lbl_titulo"
+            android:id="@+id/cargar_helados_btn_listo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/listo"
+            android:textAlignment="center"/>
 
         <android.support.v7.widget.RecyclerView
+            android:layout_below="@id/cargar_helados_btn_listo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="2dp"
             android:id="@+id/rvHelados"
             />
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/finalizar_seleccion"
-            android:textAlignment="center"/>
-    </LinearLayout>
+
+    </RelativeLayout>
 
 </FrameLayout>

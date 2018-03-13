@@ -102,7 +102,8 @@ public class CantidadSeleccionFragment extends Fragment implements View.OnClickL
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.cantidad_btn_kilo:
-                agregarPote(Constants.MEDIDA_KILO);
+                GlobalValues.getINSTANCIA().PEDIDO_ACTUAL_NRO_POTE =GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.agregarPote();
+                GlobalValues.getINSTANCIA().PEDIDO_ACTUAL_MEDIDA_POTE = Constants.MEDIDA_KILO;
                 openCargarHelados();
 
                 break;
@@ -130,22 +131,7 @@ public class CantidadSeleccionFragment extends Fragment implements View.OnClickL
         }
     }
 
-    public void agregarPote(Integer medidapote){
-        try{
-            Pedidodetalle pd = new Pedidodetalle();
-            pd.setEstadoId(Constants.ESTADO_NUEVO);
-            pd.setId(0);
-            pd.setPedidoTmpId(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getIdTmp());
-            pd.setNroPote(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.agregarPote());
-            pd.setMedidaPote(medidapote);
 
-            PedidodetalleController pdc = new PedidodetalleController(getContext());
-            pdc.abrir().agregar(pd);
-
-        }catch(Exception e){
-            Log.d("Pedido_",e.getMessage());
-        }
-    }
 
 
 

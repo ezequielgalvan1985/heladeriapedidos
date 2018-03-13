@@ -56,7 +56,7 @@ public class ProductoController
     public ArrayList<Producto> findAll(){
         try{
             ArrayList<Producto> lista = new ArrayList<Producto>();
-            Cursor c = obtenerTodos();
+            Cursor c = this.abrir().obtenerTodos();
             lista = parseCursorToArray(c);
             return lista;
         }catch (Exception e){

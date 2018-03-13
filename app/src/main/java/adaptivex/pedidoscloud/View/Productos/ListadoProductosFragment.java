@@ -128,12 +128,12 @@ public class ListadoProductosFragment extends Fragment {
             rvAdapterProducto.setProductos(arrayOfProductos);
 
             rvProductos.setAdapter(rvAdapterProducto);
-
+            return vista;
         }catch(Exception e ){
             Toast.makeText(getContext(), "Error: " +e.getMessage().toString(), Toast.LENGTH_SHORT).show();
-
+            return null;
         }
-            return vista;
+
     }
 
     public ArrayList<Producto> cargarListadoTodosProductos(){

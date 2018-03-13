@@ -41,6 +41,7 @@ import adaptivex.pedidoscloud.View.Consulting.ResumenFragment;
 import adaptivex.pedidoscloud.View.Hojarutas.ListadoHojarutasFragment;
 import adaptivex.pedidoscloud.View.Marcas.ListadoMarcasFragment;
 import adaptivex.pedidoscloud.View.Pedidodetalles.ListadoPedidodetallesFragment;
+import adaptivex.pedidoscloud.View.Pedidos.CargarHeladosFragment;
 import adaptivex.pedidoscloud.View.Pedidos.DetallePedidoFragment;
 import adaptivex.pedidoscloud.View.Pedidos.ListadoPedidosFragment;
 import adaptivex.pedidoscloud.View.Productos.ListadoHeladosFragment;
@@ -72,7 +73,8 @@ public class MainActivity extends AppCompatActivity
         HomeFragment.OnFragmentInteractionListener,
         ResumenFragment.OnFragmentInteractionListener,
         ConfigFragment.OnFragmentInteractionListener,
-        DatosUserFragment.OnFragmentInteractionListener
+        DatosUserFragment.OnFragmentInteractionListener,
+        CargarHeladosFragment.OnFragmentInteractionListener
 
 {
     private FloatingActionButton BTN_PRINCIPAL;
@@ -310,7 +312,9 @@ public class MainActivity extends AppCompatActivity
 
             } else if (id == R.id.nav_productos) {
                 //fragment = new ListadoProductosFragment();
-                fragment = new ListadoHeladosFragment();
+                //fragment = new ListadoHeladosFragment();
+                fragment = new CargarHeladosFragment();
+
                 fragmentTransaction = true;
 
                 GlobalValues.getINSTANCIA().setActualFragment(GlobalValues.getINSTANCIA().LISTADOPRODUCTOS);

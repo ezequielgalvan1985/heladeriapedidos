@@ -82,7 +82,7 @@ public class HelperPedidos extends AsyncTask<Void, Void, Void> {
                 this.registro.put("user_id", String.valueOf(GlobalValues.getINSTANCIA().getUserlogued().getId()));
                 this.registro.put("empresa_id", String.valueOf(GlobalValues.getINSTANCIA().getUserlogued().getEntidad_id()));
                 this.registro.put("cliente_id", paramPedido.getCliente_id().toString());
-                this.registro.put("android_id", paramPedido.getIdTmp().toString());
+                this.registro.put("android_id", String.valueOf(paramPedido.getIdTmp()));
                 this.registro.put("estado_id", String.valueOf(GlobalValues.getINSTANCIA().consPedidoEstadoEnviado));
                 this.registro.put("precioxkilo", String.valueOf(paramPedido.getMonto())); //Precio x kilo al dia de la fecha
                 this.registro.put("monto", String.valueOf(paramPedido.getMonto())); //Precio total del helado
@@ -132,11 +132,7 @@ public class HelperPedidos extends AsyncTask<Void, Void, Void> {
                     System.out.println(jsonStrpedidodetalle);
 
 
-                    //Agregar otro for para buscar los Items del Pote
-                    for (PoteItem ip : pd.getPote().getItemsPote()) {
-                        //LLamar a api rest que se encarga de guardar el contenido de cada pote
 
-                    }
                             
 
                 }
@@ -186,7 +182,7 @@ public class HelperPedidos extends AsyncTask<Void, Void, Void> {
             pedido.put("user_id", String.valueOf(GlobalValues.getINSTANCIA().getUserlogued().getId()));
             pedido.put("empresa_id", String.valueOf(GlobalValues.getINSTANCIA().getUserlogued().getEntidad_id()));
             pedido.put("cliente_id", paramPedido.getCliente_id().toString());
-            pedido.put("android_id", paramPedido.getIdTmp().toString());
+            pedido.put("android_id", String.valueOf(paramPedido.getIdTmp()));
             pedido.put("estado_id", String.valueOf(GlobalValues.getINSTANCIA().consPedidoEstadoEnviado));
             pedido.put("monto", String.valueOf(paramPedido.getMonto()));
             pedido.put("iva", String.valueOf(paramPedido.getIva()));
