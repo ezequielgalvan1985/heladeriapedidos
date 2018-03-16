@@ -118,6 +118,7 @@ public class User {
     }
 
     public String getNro() {
+        if (nro==null) nro = "";
         return nro;
     }
 
@@ -126,6 +127,7 @@ public class User {
     }
 
     public String getPiso() {
+        if (piso==null) piso = "";
         return piso;
     }
 
@@ -134,6 +136,9 @@ public class User {
     }
 
     public String getContacto() {
+        if (contacto==null){
+            contacto = "";
+        }
         return contacto;
     }
 
@@ -142,6 +147,9 @@ public class User {
     }
 
     public String getTelefono() {
+        if (telefono==null){
+            telefono = "";
+        }
         return telefono;
     }
 

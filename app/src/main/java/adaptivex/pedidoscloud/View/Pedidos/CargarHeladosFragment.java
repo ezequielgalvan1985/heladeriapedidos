@@ -5,6 +5,8 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -15,10 +17,10 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import adaptivex.pedidoscloud.Config.Constants;
 import adaptivex.pedidoscloud.Config.GlobalValues;
+import adaptivex.pedidoscloud.Controller.PedidoController;
 import adaptivex.pedidoscloud.Controller.PedidodetalleController;
 import adaptivex.pedidoscloud.Controller.ProductoController;
 import adaptivex.pedidoscloud.Model.ItemHelado;
@@ -34,9 +36,11 @@ public class CargarHeladosFragment extends Fragment implements View.OnClickListe
     //Variables
     private RecyclerView rvHelados;
     private RecyclerView.Adapter mAdapter;
-    private ArrayList<Producto> arrayOfProductos = new ArrayList<Producto>();
+    private ArrayList<Producto> listaHelados = new ArrayList<Producto>();
     private RVAdapterHelado rvAdapterHelado;
-
+    private long    pedido_android_id;
+    private Integer pedido_nro_pote;
+    private ArrayList<Pedidodetalle> listaHeladosSelected = new ArrayList<Pedidodetalle>();
 
 
 
@@ -57,6 +61,17 @@ public class CargarHeladosFragment extends Fragment implements View.OnClickListe
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            pedido_android_id = getArguments().getLong(Constants.PARAM_PEDIDO_ANDROID_ID);
+            pedido_nro_pote = getArguments().getInt(Constants.PARAM_PEDIDO_NRO_POTE);
+            //Leer Pedidod detalles por pedidoId y nroPote
+            PedidodetalleController pdc = new PedidodetalleController(getContext());
+            Cursor c = pdc.abrir().findByPedidoAndroidIdAndNroPote(pedido_android_id,pedido_nro_pote);
+            pdc.cerrar();
+            listaHeladosSelected = pdc.abrir().parseCursorToArrayList(c);
+
+
+        }
 
     }
 
@@ -75,10 +90,10 @@ public class CargarHeladosFragment extends Fragment implements View.OnClickListe
 
             rvAdapterHelado = new RVAdapterHelado();
             rvAdapterHelado.setCtx(getContext());
-            arrayOfProductos = dbHelper.findAll();
-            rvAdapterHelado.setProductos(arrayOfProductos);
+            listaHelados = dbHelper.findAll();
+            rvAdapterHelado.setListaHeladosSelected(listaHeladosSelected);
+            rvAdapterHelado.setProductos(listaHelados);
             rvHelados.setAdapter(rvAdapterHelado);
-
 
             Button btnListo = (Button) v.findViewById(R.id.cargar_helados_btn_listo);
             btnListo.setOnClickListener(this);
@@ -120,19 +135,35 @@ public class CargarHeladosFragment extends Fragment implements View.OnClickListe
         mListener = null;
     }
 
+    public void clickListo(){
+        if (validateForm()){
+            // Gennerar los pedidos detalles
+            if(savePedidodetalle()){
+                //Cerrar Fragment actual
+                openFragmentCargarCantidad();
+            };
+        }
+    }
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.cargar_helados_btn_listo:
-                showSelection();
-
-                // Obtener Lista de Seleccion de helados
-                // Gennerar los pedidos detalles
+                clickListo();
                 break;
 
 
 
         }
+    }
+
+    public void openFragmentCargarCantidad(){
+        getFragmentManager().beginTransaction().remove(this).commit();
+        CargarCantidadFragment fragment      = new CargarCantidadFragment();
+        FragmentManager fragmentManager         = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.content_nuevo_pedido, fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 
     public boolean savePedidodetalle(){
@@ -142,13 +173,19 @@ public class CargarHeladosFragment extends Fragment implements View.OnClickListe
                 if (GlobalValues.getINSTANCIA().listaHeladosSeleccionados.get(i).isChecked()){
                     ItemHelado item = (ItemHelado) (GlobalValues.getINSTANCIA().listaHeladosSeleccionados.get(i));
                     Pedidodetalle pd = new Pedidodetalle();
+
                     pd.setId(0);
+                    pd.setPedidoTmpId(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getIdTmp());
                     pd.setEstadoId(Constants.ESTADO_NUEVO);
-                    pd.setCantidad(Double.parseDouble(String.valueOf(GlobalValues.getINSTANCIA().PEDIDO_ACTUAL_MEDIDA_POTE)));
-                    pd.setMonto(0.0);
-                    pd.setMedidaPote(item.getProporcion());
+
+                    pd.setMedidaPote(GlobalValues.getINSTANCIA().PEDIDO_ACTUAL_MEDIDA_POTE);
+                    pd.setMonto(GlobalValues.getINSTANCIA().getPrecioMedidaPote(GlobalValues.getINSTANCIA().PEDIDO_ACTUAL_MEDIDA_POTE));
+                    pd.setCantidad(Double.parseDouble(item.getProporcion().toString())); //POCO - EQUILIBRADO - MUCHO
                     pd.setNroPote(GlobalValues.getINSTANCIA().PEDIDO_ACTUAL_NRO_POTE);
                     pd.setProducto(item.getHelado());
+
+                    GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.addPedidodetalle(pd);
+
                     PedidodetalleController pdc = new PedidodetalleController(getContext());
                     long idAndroid =pdc.abrir().agregar(pd);
                     Toast.makeText(getContext(), "Pedidodetalle Generado: " + String.valueOf(idAndroid), Toast.LENGTH_LONG).show();
@@ -160,6 +197,7 @@ public class CargarHeladosFragment extends Fragment implements View.OnClickListe
             return false;
         }
     }
+
     public void showSelection(){
         String str = "Helados Seleccionados:\n";
 
@@ -175,6 +213,39 @@ public class CargarHeladosFragment extends Fragment implements View.OnClickListe
         }
 
         Toast.makeText(getContext(), str, Toast.LENGTH_LONG).show();
+    }
+
+
+    public boolean validateForm(){
+        boolean validate = true;
+        Integer contador = 0;
+        try{
+
+            for (int i=0; i<GlobalValues.getINSTANCIA().listaHeladosSeleccionados.size(); i++){
+                if (GlobalValues.getINSTANCIA().listaHeladosSeleccionados.get(i).isChecked()){
+                    contador++;
+                }
+            }
+
+            if (GlobalValues.getINSTANCIA().PEDIDO_ACTUAL_MEDIDA_POTE==Constants.MEDIDA_KILO && contador > 4){
+                Toast.makeText(getContext(), "Solo se Pueden Elegir Hasta 4 Helados ",Toast.LENGTH_LONG).show();
+                validate = false;
+            }
+
+            if (GlobalValues.getINSTANCIA().PEDIDO_ACTUAL_MEDIDA_POTE!=Constants.MEDIDA_KILO && contador > 3){
+                Toast.makeText(getContext(), "Solo se Pueden Elegir Hasta 3 Helados ",Toast.LENGTH_LONG).show();
+                validate = false;
+            }
+            if ( contador == 0){
+                Toast.makeText(getContext(), "Debe Seleccionar al Menos 1 Helado ",Toast.LENGTH_LONG).show();
+                validate = false;
+            }
+            return validate;
+
+        }catch (Exception e){
+            Toast.makeText(getContext(), "Error: " + e.getMessage(),Toast.LENGTH_LONG).show();
+            return validate;
+        }
     }
 
 

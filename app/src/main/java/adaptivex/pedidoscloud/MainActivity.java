@@ -126,8 +126,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onResume() {
         super.onResume();
-        IniciarApp ia = new IniciarApp(this.getBaseContext());
-        ia.isLoginRememberr();
+
     }
 
     @Override

@@ -12,6 +12,10 @@ import adaptivex.pedidoscloud.Config.GlobalValues;
 import adaptivex.pedidoscloud.Model.Cliente;
 import adaptivex.pedidoscloud.Model.Pedido;
 import adaptivex.pedidoscloud.Model.PedidoDataBaseHelper;
+import adaptivex.pedidoscloud.Model.Pedidodetalle;
+import adaptivex.pedidoscloud.Model.PedidodetalleDataBaseHelper;
+import adaptivex.pedidoscloud.Model.Pote;
+import adaptivex.pedidoscloud.Model.PoteItem;
 
 import java.util.ArrayList;
 
@@ -43,6 +47,74 @@ public class PedidoController
         }
     }
 
+
+
+    public ArrayList<Pote> getPotesArrayList(long idAndroid ){
+        try{
+            PedidodetalleController pdc = new PedidodetalleController(context);
+            //Crear arraylist de potes
+            ArrayList<Pote> listaPotes = new ArrayList<Pote>();
+            Pedido p = new Pedido();
+
+            //Debe Buscar el
+            //Buscar el Pedido
+            p = this.abrir().findByIdTmp(idAndroid);
+            //obtener total de potes
+            int potesTotal = p.getCantidadPotes();
+            int poteActual = 0;
+
+            //hacer un for por cantidad total de potes
+            for(int i= 1; i <= potesTotal; i++){
+                poteActual = i;
+                //crear un pote
+                Pote pote = new Pote();
+                pote.setPedido(p);
+
+                //buscar pedido detalle por idpedido y nro pote
+                Cursor c = pdc.abrir().findByPedidoAndroidIdAndNroPote(idAndroid,poteActual);
+                ArrayList<Pedidodetalle> listaHeladosPote = pdc.abrir().parseCursorToArrayList(c);
+                //recorrer arraylist
+                for(Pedidodetalle pd: listaHeladosPote){
+                    //Crear poteitem
+                    pote.setNroPote(pd.getNroPote());
+                    pote.setKilos(pd.getMedidaPote());
+                    pote.setHeladomonto(pd.getMonto());
+
+                    PoteItem item = new PoteItem();
+                    item.setCantidad(pd.getProporcionHelado());
+                    item.setProducto(pd.getProducto());
+                    //agregar poteitem al pote
+                    pote.addItemPote(item);
+                }
+                //Agregar pote al arraylist de potes
+                listaPotes.add(pote);
+            }
+            return listaPotes;
+        }catch(Exception e ){
+            Toast.makeText(context, "Error:" + e.getMessage(),Toast.LENGTH_LONG).show();
+            return null;
+        }
+    }
+
+
+
+
+
+
+
+    public ArrayList<Pedidodetalle> findByIdAndroidAndNroPote(long idAndroid, long nroPote) {
+
+        try{
+            ArrayList<Pedidodetalle> lista = new ArrayList<Pedidodetalle>();
+
+
+            return lista;
+
+        }catch(Exception e){
+            Toast.makeText(context,"Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            return null;
+        }
+    }
 
     public void actualizarTotales(int pedidoIdTmp){
         //PedidodetalleController dbDetalles = new PedidodetalleController(this.context);
@@ -103,34 +175,42 @@ public class PedidoController
 
     public long agregar(Pedido item)
     {
-        ContentValues valores = new ContentValues();
-        valores.put(PedidoDataBaseHelper.CAMPO_ID, item.getId());
-        valores.put(PedidoDataBaseHelper.CAMPO_CREATED, item.getCreated());
-        valores.put(PedidoDataBaseHelper.CAMPO_SUBTOTAL, item.getSubtotal());
-        valores.put(PedidoDataBaseHelper.CAMPO_IVA, item.getIva());
-        valores.put(PedidoDataBaseHelper.CAMPO_MONTO, item.getMonto());
-        valores.put(PedidoDataBaseHelper.CAMPO_CLIENTE_ID, item.getCliente_id());
-        valores.put(PedidoDataBaseHelper.CAMPO_BONIFICACION, item.getBonificacion());
-        valores.put(PedidoDataBaseHelper.CAMPO_ESTADO_ID, item.getEstadoId());
-        valores.put(PedidoDataBaseHelper.CAMPO_ID_TMP, item.getIdTmp());
+        try{
 
-        //Nuevos campos para Heladerias
-        //DIRECCION
-        valores.put(PedidoDataBaseHelper.CAMPO_LOCALIDAD, item.getLocalidad());
-        valores.put(PedidoDataBaseHelper.CAMPO_CALLE,     item.getCalle());
-        valores.put(PedidoDataBaseHelper.CAMPO_NRO,       item.getNro());
-        valores.put(PedidoDataBaseHelper.CAMPO_PISO,      item.getPiso());
-        valores.put(PedidoDataBaseHelper.CAMPO_TELEFONO,  item.getTelefono());
-        valores.put(PedidoDataBaseHelper.CAMPO_CONTACTO,  item.getContacto());
-
-        //CANTIDAD
-        valores.put(PedidoDataBaseHelper.CAMPO_KILO,        item.getKilo());
-        valores.put(PedidoDataBaseHelper.CAMPO_MEDIO,       item.getMedio());
-        valores.put(PedidoDataBaseHelper.CAMPO_CUARTO,      item.getCuarto());
-        valores.put(PedidoDataBaseHelper.CAMPO_TRESCUARTOS, item.getTrescuartos());
+            ContentValues valores = new ContentValues();
+            //valores.put(PedidoDataBaseHelper.CAMPO_ID_TMP, item.getIdTmp()); // es ID Autonumerico
+            valores.put(PedidoDataBaseHelper.CAMPO_ID, item.getId());
+            valores.put(PedidoDataBaseHelper.CAMPO_CREATED, item.getCreated());
+            valores.put(PedidoDataBaseHelper.CAMPO_SUBTOTAL, item.getSubtotal());
+            valores.put(PedidoDataBaseHelper.CAMPO_IVA, item.getIva());
+            valores.put(PedidoDataBaseHelper.CAMPO_MONTO, item.getMonto());
+            valores.put(PedidoDataBaseHelper.CAMPO_CLIENTE_ID, item.getCliente_id());
+            valores.put(PedidoDataBaseHelper.CAMPO_BONIFICACION, item.getBonificacion());
+            valores.put(PedidoDataBaseHelper.CAMPO_ESTADO_ID, item.getEstadoId());
 
 
-        return db.insert(PedidoDataBaseHelper.TABLE_NAME, null, valores);
+            //Nuevos campos para Heladerias
+            //DIRECCION
+            valores.put(PedidoDataBaseHelper.CAMPO_LOCALIDAD, item.getLocalidad());
+            valores.put(PedidoDataBaseHelper.CAMPO_CALLE,     item.getCalle());
+            valores.put(PedidoDataBaseHelper.CAMPO_NRO,       item.getNro());
+            valores.put(PedidoDataBaseHelper.CAMPO_PISO,      item.getPiso());
+            valores.put(PedidoDataBaseHelper.CAMPO_TELEFONO,  item.getTelefono());
+            valores.put(PedidoDataBaseHelper.CAMPO_CONTACTO,  item.getContacto());
+
+            //CANTIDAD
+            valores.put(PedidoDataBaseHelper.CAMPO_CANTIDAD_KILOS, item.getCantidadKilos());
+            valores.put(PedidoDataBaseHelper.CAMPO_CUCHARITAS,     item.getCucharitas());
+            valores.put(PedidoDataBaseHelper.CAMPO_CUCURUCHOS,     item.getCucuruchos());
+            valores.put(PedidoDataBaseHelper.CAMPO_ENVIO_DOMICILIO, item.isEnvioDomicilio());
+
+
+            return db.insert(PedidoDataBaseHelper.TABLE_NAME, null, valores);
+        }catch(Exception e ){
+            Toast.makeText(this.context,"Error:" + e.getMessage(),Toast.LENGTH_LONG).show();
+            return -1;
+        }
+
     }
 
     //Busca Maximo pedido por IDTMP, Es decir codigo autonumerico de SQLITE
@@ -162,38 +242,46 @@ public class PedidoController
 
     public void modificar(Pedido item, boolean isIdTmp )
     {
-       // String[] argumentos = new String[]
-        //        {String.valueOf(item.getId())};
+        try{
+            ContentValues valores = new ContentValues();
+            valores.put(PedidoDataBaseHelper.CAMPO_ID, item.getId());
+            valores.put(PedidoDataBaseHelper.CAMPO_CREATED, item.getCreated());
+            valores.put(PedidoDataBaseHelper.CAMPO_SUBTOTAL, item.getSubtotal());
+            valores.put(PedidoDataBaseHelper.CAMPO_IVA, item.getIva());
+            valores.put(PedidoDataBaseHelper.CAMPO_MONTO, item.getMonto());
+            valores.put(PedidoDataBaseHelper.CAMPO_CLIENTE_ID, item.getCliente_id());
+            valores.put(PedidoDataBaseHelper.CAMPO_BONIFICACION, item.getBonificacion());
+            valores.put(PedidoDataBaseHelper.CAMPO_ESTADO_ID, item.getEstadoId());
 
-        ContentValues valores = new ContentValues();
-        valores.put(PedidoDataBaseHelper.CAMPO_ID, item.getId());
-        valores.put(PedidoDataBaseHelper.CAMPO_CREATED, item.getCreated());
-        valores.put(PedidoDataBaseHelper.CAMPO_SUBTOTAL, item.getSubtotal());
-        valores.put(PedidoDataBaseHelper.CAMPO_IVA, item.getIva());
-        valores.put(PedidoDataBaseHelper.CAMPO_MONTO, item.getMonto());
-        valores.put(PedidoDataBaseHelper.CAMPO_CLIENTE_ID, item.getCliente_id());
-        valores.put(PedidoDataBaseHelper.CAMPO_BONIFICACION, item.getBonificacion());
-        valores.put(PedidoDataBaseHelper.CAMPO_ESTADO_ID, item.getEstadoId());
+            //DIRECCION
+            valores.put(PedidoDataBaseHelper.CAMPO_LOCALIDAD, item.getLocalidad());
+            valores.put(PedidoDataBaseHelper.CAMPO_CALLE,     item.getCalle());
+            valores.put(PedidoDataBaseHelper.CAMPO_NRO,       item.getNro());
+            valores.put(PedidoDataBaseHelper.CAMPO_PISO,      item.getPiso());
+            valores.put(PedidoDataBaseHelper.CAMPO_TELEFONO,  item.getTelefono());
+            valores.put(PedidoDataBaseHelper.CAMPO_CONTACTO,  item.getContacto());
 
-        //Campos direccion
+            //CANTIDAD
+            valores.put(PedidoDataBaseHelper.CAMPO_CANTIDAD_KILOS, item.getCantidadKilos());
+            valores.put(PedidoDataBaseHelper.CAMPO_CANTIDAD_POTES, item.getCantidadPotes()  );
+            valores.put(PedidoDataBaseHelper.CAMPO_CUCHARITAS,     item.getCucharitas());
+            valores.put(PedidoDataBaseHelper.CAMPO_CUCURUCHOS,     item.getCucuruchos());
+            valores.put(PedidoDataBaseHelper.CAMPO_ENVIO_DOMICILIO, item.isEnvioDomicilio());
 
-        //Campos cantidad
+            valores.put(PedidoDataBaseHelper.CAMPO_ID_TMP, item.getIdTmp());
 
-
-
-
-        valores.put(PedidoDataBaseHelper.CAMPO_ID_TMP, item.getIdTmp());
-
-        if (isIdTmp){
-            String[] argumentos = new String[]
-                    {String.valueOf(item.getIdTmp())};
-            db.update(PedidoDataBaseHelper.TABLE_NAME, valores,
-                    PedidoDataBaseHelper.CAMPO_ID_TMP + " = ?", argumentos);
-        }else{
-            String[] argumentos = new String[]
-                    {String.valueOf(item.getId())};
-            db.update(PedidoDataBaseHelper.TABLE_NAME, valores,
-                    PedidoDataBaseHelper.CAMPO_ID + " = ?", argumentos);
+            if (isIdTmp){
+                String[] argumentos = new String[] {String.valueOf(item.getIdTmp())};
+                db.update(PedidoDataBaseHelper.TABLE_NAME, valores,
+                        PedidoDataBaseHelper.CAMPO_ID_TMP + " = ?", argumentos);
+            }else{
+                String[] argumentos = new String[]
+                        {String.valueOf(item.getId())};
+                db.update(PedidoDataBaseHelper.TABLE_NAME, valores,
+                        PedidoDataBaseHelper.CAMPO_ID + " = ?", argumentos);
+            }
+        }catch(Exception e){
+            Toast.makeText(context, "Error " + e.getMessage(),Toast.LENGTH_LONG).show();
         }
 
     }
@@ -386,6 +474,10 @@ public class PedidoController
 
     }
 
+
+
+
+
     public Pedido findByIdTmp(long idTmp)
     {
         Pedido registro = null;
@@ -398,23 +490,25 @@ public class PedidoController
                 PedidoDataBaseHelper.CAMPO_MONTO,
                 PedidoDataBaseHelper.CAMPO_CLIENTE_ID,
                 PedidoDataBaseHelper.CAMPO_BONIFICACION,
-                PedidoDataBaseHelper.CAMPO_ESTADO_ID
-
+                PedidoDataBaseHelper.CAMPO_ESTADO_ID,
+                //Campos nuevos de heladeria
+                PedidoDataBaseHelper.CAMPO_ENVIO_DOMICILIO,
+                PedidoDataBaseHelper.CAMPO_CUCURUCHOS,
+                PedidoDataBaseHelper.CAMPO_CUCHARITAS,
+                PedidoDataBaseHelper.CAMPO_CANTIDAD_KILOS,
+                PedidoDataBaseHelper.CAMPO_CANTIDAD_POTES,
+                PedidoDataBaseHelper.CAMPO_CALLE,
+                PedidoDataBaseHelper.CAMPO_NRO,
+                PedidoDataBaseHelper.CAMPO_PISO,
+                PedidoDataBaseHelper.CAMPO_CONTACTO,
+                PedidoDataBaseHelper.CAMPO_TELEFONO
 
         };
 
 
-
-        String CAMPOID = "";
-
-            CAMPOID = PedidoDataBaseHelper.CAMPO_ID_TMP;
-
-        Log.d("Deb Buscar Pedido ", CAMPOID);
-
-
         String[] argumentos = {String.valueOf(idTmp)};
         Cursor resultado = db.query(PedidoDataBaseHelper.TABLE_NAME, campos,
-                CAMPOID + " = ?", argumentos, null, null, null);
+                PedidoDataBaseHelper.CAMPO_ID_TMP + " = ?", argumentos, null, null, null);
 
         ClienteController dbCliente = new ClienteController(this.context);
         PedidodetalleController dbDetalles = new PedidodetalleController(this.context);
@@ -429,19 +523,33 @@ public class PedidoController
             registro.setIva(resultado.getDouble(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_IVA)));
             registro.setMonto(resultado.getDouble(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_MONTO)));
             registro.setCliente_id(resultado.getInt(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_CLIENTE_ID)));
-            Cliente cliente = dbCliente.abrir().buscar(registro.getCliente_id());
-            registro.setCliente(cliente);
-            dbCliente.cerrar();
 
+            //Cliente cliente = dbCliente.abrir().buscar(registro.getCliente_id());
+            //registro.setCliente(cliente);
+            //dbCliente.cerrar();
 
             registro.setBonificacion(resultado.getDouble(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_BONIFICACION)));
             registro.setEstadoId(resultado.getInt(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_ESTADO_ID)));
             registro.setIdTmp(resultado.getInt(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_ID_TMP)));
 
+            //Nuevos campos de PEdido para Heladeria
+            registro.setEnvioDomicilio(Boolean.parseBoolean(resultado.getString(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_ENVIO_DOMICILIO))));
+            registro.setCucuruchos(resultado.getInt(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_CUCURUCHOS)));
+            registro.setCucharitas(resultado.getInt(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_CUCHARITAS)));
+            registro.setCantidadKilos(resultado.getInt(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_CANTIDAD_KILOS)));
+            registro.setCantidadPotes(resultado.getInt(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_CANTIDAD_POTES)));
+            registro.setCalle(resultado.getString(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_CALLE)));
+            registro.setNro(resultado.getString(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_NRO)));
+            registro.setPiso(resultado.getString(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_PISO)));
+            registro.setContacto(resultado.getString(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_CONTACTO)));
+            registro.setTelefono(resultado.getString(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_TELEFONO)));
+
+
             //Carga Detalles
             //Cursor detallecursor = dbDetalles.abrir().obtenerTodos();
             Cursor detallecursor = dbDetalles.abrir().findByPedidoIdTmp(registro.getIdTmp());
-            registro.setDetalles(detallecursor);
+            ArrayList<Pedidodetalle> lista = dbDetalles.abrir().parseCursorToArrayList(detallecursor);
+            registro.setDetalles(lista);
             dbDetalles.cerrar();
 
         }

@@ -94,7 +94,9 @@ public class Pedidodetalle {
     }
 
     public void setProducto(Producto producto) {
+
         this.producto = producto;
+        this.productoId = producto.getId();
     }
 
     public long getPedidoTmpId() {

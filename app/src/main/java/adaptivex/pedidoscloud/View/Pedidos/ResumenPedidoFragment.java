@@ -69,7 +69,7 @@ public class ResumenPedidoFragment extends stepperFragment {
         direccion.setText(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getStringDireccion());
         cucuruchos.setText(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getCucuruchos().toString());
         cucharitas.setText(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getCucharitas().toString());
-        cantidad.setText(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.calculateCantidadKilos().toString() +"Kg");
+        cantidad.setText(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getCantidadKilos().toString() +"Kg");
 
         //cargar listado de productos
         ListView lv = (ListView) v.findViewById(R.id.resumen_pedido_helados);

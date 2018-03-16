@@ -19,6 +19,7 @@ import java.util.List;
 
 import adaptivex.pedidoscloud.Config.GlobalValues;
 import adaptivex.pedidoscloud.Model.ItemHelado;
+import adaptivex.pedidoscloud.Model.Pedidodetalle;
 import adaptivex.pedidoscloud.Model.Producto;
 import adaptivex.pedidoscloud.R;
 
@@ -30,6 +31,8 @@ public class RVAdapterHelado extends RecyclerView.Adapter<RVAdapterHelado.Helado
     private ArrayList<Producto> productos;
     private ContextWrapper cw;
     private Context ctx;
+    private ArrayList<Pedidodetalle> listaHeladosSelected = new ArrayList<Pedidodetalle>();
+
 
 
 
@@ -46,8 +49,13 @@ public class RVAdapterHelado extends RecyclerView.Adapter<RVAdapterHelado.Helado
     private void initItems(){
         GlobalValues.getINSTANCIA().listaHeladosSeleccionados = new ArrayList<ItemHelado>();
 
+
+        //Lista todos los helados
         for(Producto producto: productos){
-            ItemHelado item = new ItemHelado(producto, false, 0);
+
+            ItemHelado item = new ItemHelado(producto, false, 75);
+
+
             GlobalValues.getINSTANCIA().listaHeladosSeleccionados.add(item);
         }
     }
@@ -116,7 +124,13 @@ public class RVAdapterHelado extends RecyclerView.Adapter<RVAdapterHelado.Helado
         super.onAttachedToRecyclerView(recyclerView);
     }
 
+    public ArrayList<Pedidodetalle> getListaHeladosSelected() {
+        return listaHeladosSelected;
+    }
 
+    public void setListaHeladosSelected(ArrayList<Pedidodetalle> listaHeladosSelected) {
+        this.listaHeladosSelected = listaHeladosSelected;
+    }
 
 
     public static class HeladoViewHolder extends RecyclerView.ViewHolder

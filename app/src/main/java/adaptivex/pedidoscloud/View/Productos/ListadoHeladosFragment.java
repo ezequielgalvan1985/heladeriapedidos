@@ -196,7 +196,7 @@ public class ListadoHeladosFragment extends stepperFragment {
 
 
         tvMessage = (TextView) vista.findViewById(R.id.helados_message);
-        tvMessage.setText(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getStringCantidadHelado());
+        tvMessage.setText(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getCantidadKilos());
 
         listView = (ListView)vista.findViewById(R.id.listview);
         btnLookup = (Button)vista.findViewById(R.id.lookup);
@@ -257,7 +257,7 @@ public class ListadoHeladosFragment extends stepperFragment {
 
 
         //Validar cantidad de helados seleccionados
-        Integer cantidadLimite = GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.calculateCantidadGustos();
+        Integer cantidadLimite = GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getCantidadKilos();
         if (getCantidadHeladoSeleccionado()> cantidadLimite){
             String cartel = "Puedes Seleccionar Solo Hasta "+ cantidadLimite.toString() +". (Cantidad que has seleccionado "+getCantidadHeladoSeleccionado() + ")";
             Toast.makeText(getView().getContext(),cartel,Toast.LENGTH_LONG).show();

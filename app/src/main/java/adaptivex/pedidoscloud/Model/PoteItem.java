@@ -1,31 +1,14 @@
 package adaptivex.pedidoscloud.Model;
 
+import adaptivex.pedidoscloud.Config.Constants;
+
 /**
  * Created by egalvan on 9/3/2018.
  */
 
 public class PoteItem {
-    private long idweb;
-    private long idandroid;
-
     private Producto producto;
     private Integer  cantidad;
-
-    public long getIdweb() {
-        return idweb;
-    }
-
-    public void setIdweb(long idweb) {
-        this.idweb = idweb;
-    }
-
-    public long getIdandroid() {
-        return idandroid;
-    }
-
-    public void setIdandroid(long idandroid) {
-        this.idandroid = idandroid;
-    }
 
     public Producto getProducto() {
         return producto;
@@ -39,6 +22,19 @@ public class PoteItem {
         return cantidad;
     }
 
+    public String getCantidadDescripction(){
+        String texto = "";
+        if (this.cantidad < Constants.MEDIDA_HELADO_EQUILIBRADO_DESDE){
+            texto =  Constants.MEDIDA_HELADO_POCO;
+        }
+        if (this.cantidad >= Constants.MEDIDA_HELADO_EQUILIBRADO_DESDE && this.cantidad <= Constants.MEDIDA_HELADO_EQUILIBRADO_HASTA  ){
+            texto =  Constants.MEDIDA_HELADO_EQUILIBRADO;
+        }
+        if (this.cantidad >= Constants.MEDIDA_HELADO_MUCHO_LIMIT_DESDE && this.cantidad <= Constants.MEDIDA_HELADO_MUCHO_LIMIT_HASTA  ){
+            texto =  Constants.MEDIDA_HELADO_MUCHO;
+        }
+        return texto;
+    }
     public void setCantidad(Integer cantidad) {
         this.cantidad = cantidad;
     }

@@ -1,0 +1,240 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="adaptivex.pedidoscloud.View.Pedidos.CargarCantidadFragment"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="2 - Agregar Cantidad de Helado"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:layout_marginBottom="5dp"
+        />
+
+
+    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/cvCargarDireccion"
+        card_view:cardUseCompatPadding="true"
+        card_view:cardElevation="4dp"
+        card_view:cardCornerRadius="3dp"
+        >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="5dp">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_margin="5dp">
+
+               <Spinner
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:id="@+id/cantidad_spn_cantidad"
+                   >
+               </Spinner>
+
+                <Button
+                    android:id="@+id/cantidad_btn_agregar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@android:drawable/ic_input_add"
+                    android:text="@string/agregar_pote"
+                    />
+
+            </LinearLayout>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/cantidad_btn_editar"
+            android:text=" Editar Pedido "
+            />
+    </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+
+
+    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        card_view:cardUseCompatPadding="true"
+        card_view:cardElevation="4dp"
+        card_view:cardCornerRadius="3dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Detalle Pedido: "
+                android:textStyle="bold"/>
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                >
+                <TableRow>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cantidad Cargarda: "
+                    android:layout_column="0"/>
+
+                <TextView
+                    android:id="@+id/cargar_cantidad_lbl_cantidad_kilos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" 0.0 KG"
+                    android:layout_gravity="right"
+                    android:gravity="right"
+                    android:layout_column="1"/>
+
+                <TextView
+                    android:id="@+id/cargar_cantidad_lbl_kilos_monto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="$ 0.00 "
+
+                    android:layout_marginLeft="40dp"
+                    android:layout_column="2"/>
+
+                </TableRow>
+
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cucuruchos ($5 C/u): "
+                    android:layout_column="0"/>
+
+                <EditText
+                    android:id="@+id/cargar_cantidad_cucuruchos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="1"
+                    android:inputType="number"/>
+
+                <TextView
+                    android:id="@+id/cargar_cantidad_lbl_cucuruchos_monto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="$ 0.0"
+                    android:layout_marginLeft="40dp"
+                    android:layout_column="2"/>
+
+            </TableRow>
+
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:text="Cucharitas: "
+                    android:layout_column="0"/>
+
+                <EditText
+                    android:id="@+id/cargar_cantidad_cucharitas"
+                    android:layout_column="1"
+                    android:inputType="number"/>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:padding="5dp"
+                >
+
+                <TextView
+                    android:text="Importe a Pagar: "
+                    android:layout_column="0"
+                    android:textStyle="bold"
+                   />
+
+
+                <TextView
+                    android:id="@+id/cargar_cantidad_lbl_monto_total"
+                    android:layout_column="2"
+                    android:text="$ 0.0"
+                    android:textStyle="bold"/>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                >
+
+                <TextView
+                    android:text="Enviar a Domicilio?"
+                    android:layout_column="0"
+                    />
+
+
+                <CheckBox
+                    android:id="@+id/cargar_cantidad_chk_envio"
+                    android:layout_column="2"
+                    android:state_checked="true"/>
+            </TableRow>
+
+
+        </TableLayout>
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+
+        <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            card_view:cardUseCompatPadding="true"
+            card_view:cardElevation="4dp"
+            card_view:cardCornerRadius="3dp"
+            >
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/cargar_cantidad_btn_listo"
+                android:text="@string/listo"/>
+
+        </android.support.v7.widget.CardView>
+
+</LinearLayout>
+
+
+
+
+
+</FrameLayout>

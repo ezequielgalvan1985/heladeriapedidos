@@ -1,8 +1,8 @@
 package adaptivex.pedidoscloud.Model;
 
 import android.database.Cursor;
-import android.provider.Settings;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -10,9 +10,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-import adaptivex.pedidoscloud.Config.Constants;
 import adaptivex.pedidoscloud.Config.GlobalValues;
-import adaptivex.pedidoscloud.Core.WorkInteger;
 
 /**
  * Created by ezequiel on 25/06/2016.
@@ -35,16 +33,14 @@ public class Pedido {
 
     //Entidades externas
     private Cliente cliente;
-    private ArrayList<Pedidodetalle> detalles;
+    private ArrayList<Pedidodetalle> detalles ;
 
-    //CANTIDAD
-    private Integer kilo;
-    private Integer medio;
-    private Integer cuarto;
-    private Integer trescuartos;
 
-    private Integer cucuruchos;
-    private Integer cucharitas;
+    private Integer cantidadKilos= 0;
+    private Integer cucuruchos= 0 ;
+    private Integer cucharitas= 0 ;
+    private boolean envioDomicilio;
+    private Integer cantidadPotes = 0 ;
 
     //Direccion
     private String localidad;
@@ -54,21 +50,48 @@ public class Pedido {
     private String telefono;
     private String contacto;
 
-    private Integer cantidadPotes = 0 ;
+    private double montoCucuruchos;
+    private double montoHelados;
 
-    public Integer agregarPote(){
-        return this.cantidadPotes++;
+
+    public Pedido(){
+        this.detalles = new ArrayList<Pedidodetalle>();
+        this.cantidadKilos = 0;
+        this.cantidadPotes = 0;
+        this.cucharitas = 0 ;
+        this.cucuruchos = 0;
+        this.montoCucuruchos = 0.0;
+        this.montoHelados = 0.0;
+        this.monto = 0.0;
+
     }
 
-    public Integer getCantidadPotes(){
-        Integer cantidadPotes = WorkInteger.parseInteger(kilo.toString())   +
-                                WorkInteger.parseInteger(medio.toString())  +
-                                WorkInteger.parseInteger(cuarto.toString()) +
-                                WorkInteger.parseInteger(trescuartos.toString());
-        return cantidadPotes;
+
+    //Cantidad, es la medida del pote
+    public void agregarPote(Integer cantidad){
+        try{
+            this.cantidadKilos += cantidad;
+            this.setCantidadPotes(this.getCantidadPotes() + 1);
+            this.setMontoHelados(this.getMontoHelados() + GlobalValues.getINSTANCIA().getPrecioMedidaPote(cantidad));
+            this.setMonto(this.getMontoHelados() + this.getMontoCucuruchos());
+        }catch (Exception e){
+            Log.d("PedidoError", e.getMessage());
+        }
+
+    }
+    public String getKilosHeladosString(){
+        String cartel = String.valueOf(this.cantidadKilos/1000)+ " KG " ;
+        return cartel;
+    }
+    public void setMontoCucuruchos(Integer cucuruchos){
+        this.setMontoCucuruchos(cucuruchos * GlobalValues.getINSTANCIA().PRECIO_CUCURUCHO);
     }
 
 
+    public void quitarPote(Integer cantidad){
+        this.cantidadKilos -= cantidad;
+        this.setCantidadPotes(this.getCantidadPotes() - 1);
+    }
 
     public void addPedidodetalle(Pedidodetalle pd){
         this.detalles.add(pd);
@@ -138,6 +161,9 @@ public class Pedido {
 
     public void setCucuruchos(Integer cucuruchos) {
         this.cucuruchos = cucuruchos;
+        //Cada vez que se setea los cucuruchos se calcula su monto
+        setMontoCucuruchos(this.cucuruchos);
+        this.setMonto(this.getMontoHelados() + this.getMontoCucuruchos());
     }
 
     public Integer getCucharitas() {
@@ -148,59 +174,8 @@ public class Pedido {
         this.cucharitas = cucharitas;
     }
 
-    public Integer getKilo() {
-        return kilo;
-    }
 
-    public void setKilo(Integer kilo) {
-        this.kilo = kilo;
-    }
 
-    public Integer getMedio() {
-        return medio;
-    }
-
-    public void setMedio(Integer medio) {
-        this.medio = medio;
-    }
-
-    public Integer getCuarto() {
-        return cuarto;
-    }
-
-    public void setCuarto(Integer cuarto) {
-        this.cuarto = cuarto;
-    }
-
-    public Integer getTrescuartos() {
-        return trescuartos;
-    }
-
-    public void setTrescuartos(Integer trescuartos) {
-        this.trescuartos = trescuartos;
-    }
-
-    public Double calculateCantidadKilos(){
-        Double cant = 0.0;
-        cant =(Double.parseDouble(getKilo().toString()) * 1) +
-                (Double.parseDouble(getMedio().toString()) * 0.5) +
-                (Double.parseDouble(getCuarto().toString()) * 0.25) +
-                (Double.parseDouble(getTrescuartos().toString()) * 0.75);
-        return cant;
-    }
-    public Integer calculateCantidadGustos(){
-        Integer cant = 0;
-        cant = WorkInteger.parseInteger(getKilo().toString()) * 4;
-        cant += WorkInteger.parseInteger(getMedio().toString()) * 3;
-        cant += WorkInteger.parseInteger(getCuarto().toString()) * 3;
-        cant += WorkInteger.parseInteger(getTrescuartos().toString()) * 3;
-        return cant;
-    }
-    public String getStringCantidadHelado(){
-        String message = "* Tu Compra es de " + this.calculateCantidadKilos().toString();
-        message +=  " Kg, puedes elegir hasta "+ this.calculateCantidadGustos().toString() +" helados ";
-        return message;
-    }
 
 
     //GETTERS AND SETTERS
@@ -297,6 +272,8 @@ public class Pedido {
         return detalles;
     }
 
+
+
     public void setDetalles(Cursor c) {
         //Recibe cursor y completa el arralist de pedidodetalles
         Pedidodetalle registro;
@@ -346,5 +323,45 @@ public class Pedido {
 
     public void setPrecioxkilo(Double precioxkilo) {
         this.precioxkilo = precioxkilo;
+    }
+
+    public Integer getCantidadKilos() {
+        return cantidadKilos;
+    }
+
+    public void setCantidadKilos(Integer cantidadKilos) {
+        this.cantidadKilos = cantidadKilos;
+    }
+
+    public boolean isEnvioDomicilio() {
+        return envioDomicilio;
+    }
+
+    public void setEnvioDomicilio(boolean envioDomicilio) {
+        this.envioDomicilio = envioDomicilio;
+    }
+
+    public Integer getCantidadPotes() {
+        return cantidadPotes;
+    }
+
+    public void setCantidadPotes(Integer cantidadPotes) {
+        this.cantidadPotes = cantidadPotes;
+    }
+
+    public double getMontoCucuruchos() {
+        return montoCucuruchos;
+    }
+
+    public void setMontoCucuruchos(double montoCucuruchos) {
+        this.montoCucuruchos = montoCucuruchos;
+    }
+
+    public double getMontoHelados() {
+        return montoHelados;
+    }
+
+    public void setMontoHelados(double montoHelados) {
+        this.montoHelados = montoHelados;
     }
 }

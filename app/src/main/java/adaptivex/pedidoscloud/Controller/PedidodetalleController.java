@@ -5,7 +5,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
+import android.util.Log;
+import android.widget.Toast;
 
+import java.util.ArrayList;
+
+import adaptivex.pedidoscloud.Model.PedidoDataBaseHelper;
 import adaptivex.pedidoscloud.Model.Pedidodetalle;
 import adaptivex.pedidoscloud.Model.PedidodetalleDataBaseHelper;
 import adaptivex.pedidoscloud.Model.Producto;
@@ -95,7 +100,6 @@ public class PedidodetalleController
                 PedidodetalleDataBaseHelper.CAMPO_MONTO,
                 PedidodetalleDataBaseHelper.CAMPO_ESTADO_ID,
 
-
         };
 
 
@@ -108,9 +112,85 @@ public class PedidodetalleController
         return resultado;
     }
 
+    public ArrayList<Pedidodetalle> parseCursorToArrayList(Cursor c){
+        try{
+            ArrayList<Pedidodetalle> lista = new ArrayList<Pedidodetalle>();
+
+            //Recibe cursor y completa el arralist de pedidodetalles
+            Pedidodetalle registro;
+            Producto p = new Producto();
+            ProductoController prodCtrl = new ProductoController(context);
+            for(c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
+                registro = new Pedidodetalle();
+                registro.setIdTmp(c.getInt(c.getColumnIndex(PedidodetalleDataBaseHelper.CAMPO_ID_TMP)));
+                registro.setId(c.getInt(c.getColumnIndex(PedidodetalleDataBaseHelper.CAMPO_ID)));
+
+                registro.setPedidoId(c.getInt(c.getColumnIndex(PedidodetalleDataBaseHelper.CAMPO_PEDIDO_ID)));
+                registro.setPedidoTmpId(c.getInt(c.getColumnIndex(PedidodetalleDataBaseHelper.CAMPO_PEDIDO_ID_TMP)));
+                //Producto
+                registro.setProductoId(c.getInt(c.getColumnIndex(PedidodetalleDataBaseHelper.CAMPO_PRODUCTO_ID)));
+                p = prodCtrl.abrir().buscar(registro.getProductoId());
+                registro.setProducto(p);
+
+
+                registro.setCantidad(c.getDouble(c.getColumnIndex(PedidodetalleDataBaseHelper.CAMPO_CANTIDAD)));
+                registro.setPreciounitario(c.getDouble(c.getColumnIndex(PedidodetalleDataBaseHelper.CAMPO_PRECIOUNITARIO)));
+                registro.setMonto(c.getDouble(c.getColumnIndex(PedidodetalleDataBaseHelper.CAMPO_MONTO)));
+                registro.setEstadoId(c.getInt(c.getColumnIndex(PedidodetalleDataBaseHelper.CAMPO_ESTADO_ID)));
+
+                //Nuevos Campos para heladeria
+                registro.setNroPote(c.getInt(c.getColumnIndex(PedidodetalleDataBaseHelper.CAMPO_NRO_POTE)));
+                registro.setProporcionHelado(c.getInt(c.getColumnIndex(PedidodetalleDataBaseHelper.CAMPO_PROPORCION_HELADO)));
+                registro.setMedidaPote(c.getInt(c.getColumnIndex(PedidodetalleDataBaseHelper.CAMPO_MEDIDA_POTE)));
+                lista.add(registro);
+                registro = null;
+            }
+            return lista;
+        }catch(Exception e){
+            Toast.makeText(context,"Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            return null;
+        }
+    }
+
+    public Cursor findByPedidoAndroidIdAndNroPote(long pedidoAndroidId, long nroPote){
+        try{
+            String[] campos = {
+                    PedidodetalleDataBaseHelper.CAMPO_ID,
+                    PedidodetalleDataBaseHelper.CAMPO_PEDIDO_ID,
+                    PedidodetalleDataBaseHelper.CAMPO_PEDIDO_ID_TMP,
+                    PedidodetalleDataBaseHelper.CAMPO_PRODUCTO_ID,
+                    PedidodetalleDataBaseHelper.CAMPO_CANTIDAD,
+                    PedidodetalleDataBaseHelper.CAMPO_PRECIOUNITARIO,
+                    PedidodetalleDataBaseHelper.CAMPO_MONTO,
+                    PedidodetalleDataBaseHelper.CAMPO_ESTADO_ID,
+                    PedidodetalleDataBaseHelper.CAMPO_ID_TMP,
+                    PedidodetalleDataBaseHelper.CAMPO_PROPORCION_HELADO,
+                    PedidodetalleDataBaseHelper.CAMPO_NRO_POTE,
+                    PedidodetalleDataBaseHelper.CAMPO_MEDIDA_POTE,
+
+            };
+
+
+            String[] argumentos =   {String.valueOf(pedidoAndroidId), String.valueOf(nroPote)};
+            Cursor resultado = db.query(PedidodetalleDataBaseHelper.TABLE_NAME, campos,
+                    PedidodetalleDataBaseHelper.CAMPO_PEDIDO_ID_TMP +"=? AND " +
+                            PedidodetalleDataBaseHelper.CAMPO_NRO_POTE +"=? ",
+                    argumentos, null, null, null);
+            if (resultado != null)
+            {
+                resultado.moveToFirst();
+            }
+            return resultado;
+        }catch(Exception e ){
+            Toast.makeText(context,"Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            return null;
+        }
+
+    }
+
+
     public Cursor findByPedidoIdTmp(long pedidoIdTmp)
     {
-
         String[] campos = {
                 PedidodetalleDataBaseHelper.CAMPO_ID,
                 PedidodetalleDataBaseHelper.CAMPO_PEDIDO_ID,
@@ -120,7 +200,10 @@ public class PedidodetalleController
                 PedidodetalleDataBaseHelper.CAMPO_PRECIOUNITARIO,
                 PedidodetalleDataBaseHelper.CAMPO_MONTO,
                 PedidodetalleDataBaseHelper.CAMPO_ESTADO_ID,
-                PedidodetalleDataBaseHelper.CAMPO_ID_TMP
+                PedidodetalleDataBaseHelper.CAMPO_ID_TMP,
+                PedidodetalleDataBaseHelper.CAMPO_NRO_POTE,
+                PedidodetalleDataBaseHelper.CAMPO_PROPORCION_HELADO,
+                PedidodetalleDataBaseHelper.CAMPO_MEDIDA_POTE
         };
 
 
@@ -136,6 +219,9 @@ public class PedidodetalleController
 
         return resultado;
     }
+
+
+
 
     public Pedidodetalle buscar(long id)
     {

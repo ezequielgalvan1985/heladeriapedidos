@@ -17,7 +17,6 @@ import adaptivex.pedidoscloud.Controller.PedidoController;
 import adaptivex.pedidoscloud.Controller.UserController;
 import adaptivex.pedidoscloud.Model.User;
 import adaptivex.pedidoscloud.R;
-import ivb.com.materialstepper.stepperFragment;
 
 public class CargarDireccionFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
@@ -121,12 +120,7 @@ public class CargarDireccionFragment extends Fragment {
                 if(validateForm()){
                     //LLAMAR AL SIGUIENTE FRAMENT
                     if (saveDireccion()){
-                        CantidadSeleccionFragment fragment      = new CantidadSeleccionFragment();
-                        FragmentManager fragmentManager         = getFragmentManager();
-                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                        fragmentTransaction.replace(R.id.content_nuevo_pedido, fragment);
-                        fragmentTransaction.addToBackStack(null);
-                        fragmentTransaction.commit();
+                        openFragmentCargarCantidad();
                     }
 
                 }
@@ -135,6 +129,16 @@ public class CargarDireccionFragment extends Fragment {
 
 
         return v;
+    }
+
+    public void openFragmentCargarCantidad(){
+        getFragmentManager().beginTransaction().remove(this).commit();
+        CargarCantidadFragment fragment      = new CargarCantidadFragment();
+        FragmentManager fragmentManager         = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.content_nuevo_pedido, fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 
     public boolean saveDireccion(){

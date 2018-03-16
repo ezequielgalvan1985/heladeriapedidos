@@ -106,14 +106,13 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
         setContentView(R.layout.activity_register);
         try{
 
-
             IniciarApp ia = new IniciarApp(this.getBaseContext());
             if (!ia.isInstalled()){
                 ia.iniciarBD();
             }
 
 
-            if(ia.isLoginRememberr()){
+            if(ia.isLoginRemember()){
                 Intent i = new Intent(this.getBaseContext(), MainActivity.class);
                 startActivity(i);
                 finish();
@@ -692,7 +691,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
                     Log.d("LoginActivity3:", parser.getStatus());
                 }
             }catch(Exception e ){
-                Log.d("LoginActivity4:", e.getMessage());
+                Toast.makeText(getBaseContext(), "No se Puedo Establecer la Conexion (Error: "+e.getMessage() + ")", Toast.LENGTH_LONG).show();
             }
         }
 

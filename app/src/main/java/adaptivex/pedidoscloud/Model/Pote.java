@@ -7,45 +7,49 @@ import java.util.ArrayList;
  */
 
 public class Pote {
-    private long idweb;  //Clave web
-    private long idandroid; //Clave android
-    private long pedidodetalle_id; //FK
-
-    private Integer contenido; //medida si es de 1 kilo 3/4, medio, o cuarto, expresado en gramos 1000, 750, 500, 250
+    private Pedido pedido;
+    private Integer nroPote;
+    private Integer kilos;
+    private double heladomonto;
     private ArrayList <PoteItem> itemsPote; // es el helado que va a estar en el pote
-    private long  nroPote;
 
+    public Pote(){
+        nroPote = 0;
+        kilos = 0;
+        heladomonto = 0.0;
+        itemsPote = new ArrayList <PoteItem>();
 
-    public long getIdweb() {
-        return idweb;
     }
 
-    public void setIdweb(long idweb) {
-        this.idweb = idweb;
+    public void addItemPote(PoteItem it){
+        this.itemsPote.add(it);
+    }
+    public String getMontoString(){
+        return "$ " + String.valueOf(this.getHeladomonto());
     }
 
-    public long getIdandroid() {
-        return idandroid;
+    public Integer getNroPote() {
+        return nroPote;
     }
 
-    public void setIdandroid(long idandroid) {
-        this.idandroid = idandroid;
+    public void setNroPote(Integer nroPote) {
+        this.nroPote = nroPote;
     }
 
-    public long getPedidodetalle_id() {
-        return pedidodetalle_id;
+    public Integer getKilos() {
+        return kilos;
     }
 
-    public void setPedidodetalle_id(long pedidodetalle_id) {
-        this.pedidodetalle_id = pedidodetalle_id;
+    public void setKilos(Integer kilos) {
+        this.kilos = kilos;
     }
 
-    public Integer getContenido() {
-        return contenido;
+    public double getHeladomonto() {
+        return heladomonto;
     }
 
-    public void setContenido(Integer contenido) {
-        this.contenido = contenido;
+    public void setHeladomonto(double heladomonto) {
+        this.heladomonto = heladomonto;
     }
 
     public ArrayList<PoteItem> getItemsPote() {
@@ -55,12 +59,12 @@ public class Pote {
     public void setItemsPote(ArrayList<PoteItem> itemsPote) {
         this.itemsPote = itemsPote;
     }
-    public long getNroPote() {
-        return nroPote;
+
+    public Pedido getPedido() {
+        return pedido;
     }
 
-    public void setNroPote(long nroPote) {
-        this.nroPote = nroPote;
+    public void setPedido(Pedido pedido) {
+        this.pedido = pedido;
     }
-
 }

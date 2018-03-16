@@ -54,4 +54,10 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="direction">1 - Direccion</string>
+    <string name="elegir_cantidad">2 - Elegir Cantidad</string>
+    <string name="elegir_sabores">3 - Elegir Sabores </string>
+    <string name="ver_pedido"> Ver Pedido </string>
+    <string name="confirmacion">4 - Confirmacion </string>
+    <string name="agregar_pote">Agregar Pote</string>
 </resources>
