@@ -5,6 +5,9 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +26,9 @@ import adaptivex.pedidoscloud.Config.Constants;
 import adaptivex.pedidoscloud.Config.GlobalValues;
 import adaptivex.pedidoscloud.Controller.PedidoController;
 import adaptivex.pedidoscloud.Core.WorkInteger;
+import adaptivex.pedidoscloud.Model.Pote;
 import adaptivex.pedidoscloud.R;
+import adaptivex.pedidoscloud.View.RVAdapters.RVAdapterPote;
 
 public class CargarCantidadFragment extends Fragment implements View.OnClickListener{
     private Button btnAgregar,btnEditar, btnListo;
@@ -32,6 +37,8 @@ public class CargarCantidadFragment extends Fragment implements View.OnClickList
     private Spinner spn_cantidad;
     private TextView lbl_cantidad_kilos, lbl_kilos_monto, lbl_cucuruchos_monto, lbl_monto_total;
 
+    private RecyclerView rvPotes;
+    private RVAdapterPote rvAdapterPote;
 
     public CargarCantidadFragment() {
         // Required empty public constructor
@@ -75,7 +82,7 @@ public class CargarCantidadFragment extends Fragment implements View.OnClickList
         GlobalValues.getINSTANCIA().CURRENT_FRAGMENT_NUEVO_PEDIDO = GlobalValues.getINSTANCIA().NP_CARGAR_CANTIDAD;
 
         btnAgregar      = (Button)   v.findViewById(R.id.cantidad_btn_agregar);
-        btnEditar      = (Button)    v.findViewById(R.id.cantidad_btn_editar);
+        //btnEditar      = (Button)    v.findViewById(R.id.cantidad_btn_editar);
         btnListo        = (Button)   v.findViewById(R.id.cargar_cantidad_btn_listo);
         spn_cantidad    = (Spinner)  v.findViewById(R.id.cantidad_spn_cantidad);
         txtCucharas     = (EditText) v.findViewById(R.id.cargar_cantidad_cucharitas);
@@ -103,11 +110,31 @@ public class CargarCantidadFragment extends Fragment implements View.OnClickList
         // attaching data adapter to spinner
         spn_cantidad.setAdapter(dataAdapter);
 
-        btnEditar.setOnClickListener(this);
+        //btnEditar.setOnClickListener(this);
         btnAgregar.setOnClickListener(this);
         btnListo.setOnClickListener(this);
 
         refreshTextViews();
+
+
+        //Se agrega Recycle view de Potes Cargados
+        PedidoController pc = new PedidoController(v.getContext());
+        ArrayList<Pote> listaPotes = pc.abrir().getPotesArrayList(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getIdTmp());
+        rvPotes = (RecyclerView)v.findViewById(R.id.cargar_cantidad_rvPotes);
+        rvPotes.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        LinearLayoutManager llm = new LinearLayoutManager(v.getContext());
+        rvPotes.setLayoutManager(llm);
+
+        rvAdapterPote = new RVAdapterPote();
+        rvAdapterPote.setCtx(getContext());
+        rvAdapterPote.setFragmentManager(getFragmentManager());
+        rvAdapterPote.setPotes(listaPotes);
+        rvPotes.setAdapter(rvAdapterPote);
+
+
+
+
+
 
         return v;
     }
@@ -221,11 +248,11 @@ public class CargarCantidadFragment extends Fragment implements View.OnClickList
                 //Agregar pote, se suma cantidad de potes y se agrega cantidad de kilos
                 clickAgregar();
                 break;
-            case R.id.cantidad_btn_editar:
+            /*case R.id.cantidad_btn_editar:
                 //Agregar pote, se suma cantidad de potes y se agrega cantidad de kilos
                 clickEditar();
                 break;
-
+            */
 
 
             case R.id.cargar_cantidad_btn_listo:

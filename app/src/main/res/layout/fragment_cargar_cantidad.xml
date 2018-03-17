@@ -55,22 +55,29 @@
                     android:id="@+id/cantidad_btn_agregar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:drawableStart="@android:drawable/ic_input_add"
+                    android:drawableStart="@drawable/ic_playlist_add_black_24dp"
                     android:text="@string/agregar_pote"
                     />
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/cargar_cantidad_btn_listo"
+                    android:drawableBottom="@drawable/ic_playlist_add_check_black_24dp"
+                    android:text="@string/listo"/>
+
 
             </LinearLayout>
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/cantidad_btn_editar"
-            android:text=" Editar Pedido "
-            />
+
     </LinearLayout>
 
     </android.support.v7.widget.CardView>
 
-
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="2dp"
+            android:id="@+id/cargar_cantidad_rvPotes"
+            />
 
     <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
@@ -78,7 +85,8 @@
         android:layout_height="wrap_content"
         card_view:cardUseCompatPadding="true"
         card_view:cardElevation="4dp"
-        card_view:cardCornerRadius="3dp">
+        card_view:cardCornerRadius="3dp"
+        android:visibility="invisible">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -214,22 +222,7 @@
     </android.support.v7.widget.CardView>
 
 
-        <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:card_view="http://schemas.android.com/apk/res-auto"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            card_view:cardUseCompatPadding="true"
-            card_view:cardElevation="4dp"
-            card_view:cardCornerRadius="3dp"
-            >
 
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/cargar_cantidad_btn_listo"
-                android:text="@string/listo"/>
-
-        </android.support.v7.widget.CardView>
 
 </LinearLayout>
 
