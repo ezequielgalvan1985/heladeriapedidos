@@ -77,13 +77,18 @@ public class PedidodetalleController
         valores.put(PedidodetalleDataBaseHelper.CAMPO_ESTADO_ID, item.getEstadoId());
         valores.put(PedidodetalleDataBaseHelper.CAMPO_ID_TMP, item.getIdTmp());
 
+        //Heladeria
+        valores.put(PedidodetalleDataBaseHelper.CAMPO_NRO_POTE, item.getNroPote());
+        valores.put(PedidodetalleDataBaseHelper.CAMPO_MEDIDA_POTE, item.getMedidaPote());
+        valores.put(PedidodetalleDataBaseHelper.CAMPO_PROPORCION_HELADO, item.getProporcionHelado());
+
         db.update(PedidodetalleDataBaseHelper.TABLE_NAME, valores,
                 PedidodetalleDataBaseHelper.CAMPO_ID_TMP + " = ?", argumentos);
     }
     public void eliminar(Pedidodetalle registro)
     {
         String[] argumentos = new String[]
-                {String.valueOf(registro.getId())};
+                {String.valueOf(registro.getIdTmp())};
         db.delete(PedidodetalleDataBaseHelper.TABLE_NAME,
                 PedidodetalleDataBaseHelper.CAMPO_ID_TMP + " = ?", argumentos);
     }

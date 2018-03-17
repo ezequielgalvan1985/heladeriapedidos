@@ -34,42 +34,16 @@ public class RVAdapterHelado extends RecyclerView.Adapter<RVAdapterHelado.Helado
     private ArrayList<Pedidodetalle> listaHeladosSelected = new ArrayList<Pedidodetalle>();
 
 
-
-
-
-
-    //Item que representa a un Helado dentro del recycle view,
-    // este Item se almacenara en en un List para almacenar en memoria la seleccion
-    // y luego utilizarla para recorrer el List y generar los registros
-
-
-
-
     //Inicializa el vector o Lista donde se almacenara el estado de cada registro(helado)
     private void initItems(){
         GlobalValues.getINSTANCIA().listaHeladosSeleccionados = new ArrayList<ItemHelado>();
 
-
         //Lista todos los helados
         for(Producto producto: productos){
-
             ItemHelado item = new ItemHelado(producto, false, 75);
-
-
             GlobalValues.getINSTANCIA().listaHeladosSeleccionados.add(item);
         }
     }
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -114,10 +88,54 @@ public class RVAdapterHelado extends RecyclerView.Adapter<RVAdapterHelado.Helado
     @Override
     public void onBindViewHolder(HeladoViewHolder holder, int i) {
         //Completa el Item Helado dentro del recycle view
-        holder.tvId.setText(String.valueOf(getProductos().get(i).getId()));
-        holder.tvNombre.setText(getProductos().get(i).getNombre());
+        Producto p = getProductos().get(i);
+
+        holder.tvId.setText(String.valueOf(p.getId()));
+        holder.tvNombre.setText(p.getNombre());
+
+        // Chequear si producto esta seleccionado
+        Pedidodetalle pd = checkHelado(p);
+
+
+
+        if (pd!=null){
+            //Cargar en memoria el Item Seleccionado
+            ItemHelado item = new ItemHelado(p, true, pd.getProporcionHelado(),pd);
+            GlobalValues.getINSTANCIA().listaHeladosSeleccionados.set(i,item);
+
+            holder.chkHelado.setChecked(true);
+            holder.seekProporcionHelado.setVisibility(View.VISIBLE);
+            holder.seekProporcionHelado.setProgress(pd.getProporcionHelado());
+            holder.seekProporcionHelado.refreshDrawableState();
+            holder.tvProporcionDescripcion.setVisibility(View.VISIBLE);
+            holder.tvProporcionDescripcion.setText(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getProporcionDesc(pd.getProporcionHelado()));
+        }
+
 
     }
+
+    public Pedidodetalle checkHelado(Producto p){
+        //recorrer lista de itemSelecetd
+        try{
+            Pedidodetalle pdSelected = null;
+            if (listaHeladosSelected != null){
+                if (listaHeladosSelected.size()> 0 ){
+                    for(Pedidodetalle pd: listaHeladosSelected){
+                        if (pd.getProducto().getId()==p.getId()) {
+                            // El Item fue seleccionado
+                            pdSelected =  pd;
+                        }
+                    }
+                }
+            }
+            return pdSelected;
+
+        }catch (Exception e ){
+            Toast.makeText(ctx,"Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            return null;
+        }
+    }
+
 
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
@@ -142,7 +160,7 @@ public class RVAdapterHelado extends RecyclerView.Adapter<RVAdapterHelado.Helado
         private CardView cv;
         private TextView tvNombre, tvId, tvOptions, tvProporcionDescripcion;
         private CheckBox chkHelado;
-        private SeekBar  proporcionHelado;
+        private SeekBar  seekProporcionHelado;
 
         OnHeadlineSelectedListener mCallback;
 
@@ -165,9 +183,9 @@ public class RVAdapterHelado extends RecyclerView.Adapter<RVAdapterHelado.Helado
             tvProporcionDescripcion = (TextView) itemView.findViewById(R.id.item_helado_cantidad_desc);
 
             chkHelado.setOnClickListener(this);
-            proporcionHelado = (SeekBar) itemView.findViewById(R.id.item_helado_proporcion);
+            seekProporcionHelado = (SeekBar) itemView.findViewById(R.id.item_helado_proporcion);
 
-            proporcionHelado.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            seekProporcionHelado.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                 int progressChangedValue = 0;
                 @Override
                 public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -198,12 +216,6 @@ public class RVAdapterHelado extends RecyclerView.Adapter<RVAdapterHelado.Helado
 
                 }
             });
-            //Crear vector tipo productoid, proporcion
-            //Cada click en check deberia cargar un registro en un vector con el id del producto y su actual medida
-            //Cada vez que se mueva el seekbar se deberia registrar en el vector
-
-
-
 
         }
 
@@ -218,10 +230,10 @@ public class RVAdapterHelado extends RecyclerView.Adapter<RVAdapterHelado.Helado
                     boolean newState = !GlobalValues.getINSTANCIA().listaHeladosSeleccionados.get(position).isChecked();
                     GlobalValues.getINSTANCIA().listaHeladosSeleccionados.get(position).setChecked( newState);
                     if (newState){
-                        proporcionHelado.setVisibility(View.VISIBLE);
+                        seekProporcionHelado.setVisibility(View.VISIBLE);
                         tvProporcionDescripcion.setVisibility(View.VISIBLE);
                     }else{
-                        proporcionHelado.setVisibility(View.INVISIBLE);
+                        seekProporcionHelado.setVisibility(View.INVISIBLE);
                         tvProporcionDescripcion.setVisibility(View.INVISIBLE);
                     }
                     break;

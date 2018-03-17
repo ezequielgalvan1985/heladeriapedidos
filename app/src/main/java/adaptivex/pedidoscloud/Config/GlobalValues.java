@@ -21,30 +21,9 @@ public class GlobalValues {
     public Integer CURRENT_FRAGMENT_NUEVO_PEDIDO;
 
 
-    //PRECIO DEL HELADO, simula el parametro hasta que se desarrolle la funcionalidad
-    public double PRECIO_HELADO_KILO = 250.00;
-    public double PRECIO_HELADO_MEDIO = 125.00;
-    public static final double PRECIO_HELADO_CUARTO = 60.00;
-    public static final double PRECIO_HELADO_TRESCUARTOS = 180.00;
 
-    public static final double PRECIO_CUCURUCHO = 5;
 
-    public double getPrecioMedidaPote(Integer medidaPote){
-        double precio = 0.0;
-        if (medidaPote==Constants.MEDIDA_KILO){
-            precio = PRECIO_HELADO_KILO;
-        }
-        if (medidaPote==Constants.MEDIDA_MEDIO){
-            precio = PRECIO_HELADO_MEDIO;
-        }
-        if (medidaPote==Constants.MEDIDA_CUARTO){
-            precio = PRECIO_HELADO_CUARTO;
-        }
-        if (medidaPote==Constants.MEDIDA_TRESCUARTOS){
-            precio = PRECIO_HELADO_TRESCUARTOS;
-        }
-        return precio;
-    }
+
 
 
 
@@ -273,6 +252,9 @@ public class GlobalValues {
 
 
 
+    // Lista de los items que se seleccinaron en pantalla.
+    // NOTA! cuando se edita un Pote, se debe cargar la ListaHeladosSeleecionados con los Items Seleccionados
+    // Se pone aca la lista, porque se debe ver desde CargarHeladosFragment y RVAdapterHelado
     public List<ItemHelado> listaHeladosSeleccionados;
     public Integer PEDIDO_ACTUAL_NRO_POTE;
     public Integer PEDIDO_ACTUAL_MEDIDA_POTE;

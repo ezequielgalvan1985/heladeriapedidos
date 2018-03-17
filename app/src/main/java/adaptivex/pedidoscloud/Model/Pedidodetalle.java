@@ -22,6 +22,10 @@ public class Pedidodetalle {
     private Integer medidaPote;
 
 
+
+
+
+
     public Integer getId() {
         return id;
     }

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
+import adaptivex.pedidoscloud.Config.Constants;
 import adaptivex.pedidoscloud.Config.GlobalValues;
 
 /**
@@ -54,6 +55,38 @@ public class Pedido {
     private double montoHelados;
 
 
+    public String getProporcionDesc(Integer proporcion){
+        String cadena = "";
+        if (proporcion >=Constants.MEDIDA_HELADO_POCO_DESDE  && proporcion <= Constants.MEDIDA_HELADO_POCO_HASTA){
+            cadena = Constants.MEDIDA_HELADO_POCO;
+        }
+        if (proporcion >=Constants.MEDIDA_HELADO_EQUILIBRADO_DESDE  && proporcion <= Constants.MEDIDA_HELADO_EQUILIBRADO_HASTA){
+            cadena = Constants.MEDIDA_HELADO_EQUILIBRADO;
+        }
+        if (proporcion >=Constants.MEDIDA_HELADO_MUCHO_LIMIT_DESDE  && proporcion <= Constants.MEDIDA_HELADO_MUCHO_LIMIT_HASTA){
+            cadena = Constants.MEDIDA_HELADO_MUCHO;
+        }
+        return cadena;
+    }
+
+    public double getPrecioMedidaPote(Integer medidaPote){
+        double precio = 0.0;
+        if (medidaPote== Constants.MEDIDA_KILO){
+            precio = Constants.PRECIO_HELADO_KILO;
+        }
+        if (medidaPote==Constants.MEDIDA_MEDIO){
+            precio = Constants.PRECIO_HELADO_MEDIO;
+        }
+        if (medidaPote==Constants.MEDIDA_CUARTO){
+            precio = Constants.PRECIO_HELADO_CUARTO;
+        }
+        if (medidaPote==Constants.MEDIDA_TRESCUARTOS){
+            precio = Constants.PRECIO_HELADO_TRESCUARTOS;
+        }
+        return precio;
+    }
+
+
     public Pedido(){
         this.detalles = new ArrayList<Pedidodetalle>();
         this.cantidadKilos = 0;
@@ -72,7 +105,7 @@ public class Pedido {
         try{
             this.cantidadKilos += cantidad;
             this.setCantidadPotes(this.getCantidadPotes() + 1);
-            this.setMontoHelados(this.getMontoHelados() + GlobalValues.getINSTANCIA().getPrecioMedidaPote(cantidad));
+            this.setMontoHelados(this.getMontoHelados() + getPrecioMedidaPote(cantidad));
             this.setMonto(this.getMontoHelados() + this.getMontoCucuruchos());
         }catch (Exception e){
             Log.d("PedidoError", e.getMessage());
@@ -83,8 +116,9 @@ public class Pedido {
         String cartel = String.valueOf(this.cantidadKilos/1000)+ " KG " ;
         return cartel;
     }
+
     public void setMontoCucuruchos(Integer cucuruchos){
-        this.setMontoCucuruchos(cucuruchos * GlobalValues.getINSTANCIA().PRECIO_CUCURUCHO);
+        this.setMontoCucuruchos(cucuruchos * Constants.PRECIO_CUCURUCHO);
     }
 
 

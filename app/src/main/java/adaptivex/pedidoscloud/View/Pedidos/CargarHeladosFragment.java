@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import adaptivex.pedidoscloud.Config.Constants;
 import adaptivex.pedidoscloud.Config.GlobalValues;
@@ -35,12 +36,14 @@ public class CargarHeladosFragment extends Fragment implements View.OnClickListe
     private Cursor cursorHelados;
     //Variables
     private RecyclerView rvHelados;
-    private RecyclerView.Adapter mAdapter;
+
     private ArrayList<Producto> listaHelados = new ArrayList<Producto>();
     private RVAdapterHelado rvAdapterHelado;
+
+    //Lista que se carga cuando se recibe por parametro el pedidoid y nropote
+    private ArrayList<Pedidodetalle> listaHeladosSelected = new ArrayList<Pedidodetalle>();
     private long    pedido_android_id;
     private Integer pedido_nro_pote;
-    private ArrayList<Pedidodetalle> listaHeladosSelected = new ArrayList<Pedidodetalle>();
 
 
 
@@ -69,8 +72,12 @@ public class CargarHeladosFragment extends Fragment implements View.OnClickListe
             Cursor c = pdc.abrir().findByPedidoAndroidIdAndNroPote(pedido_android_id,pedido_nro_pote);
             pdc.cerrar();
             listaHeladosSelected = pdc.abrir().parseCursorToArrayList(c);
+            String str = "";
+            for (Pedidodetalle pd :listaHeladosSelected){
+                str = str + " Pedidodetalle: " + pd.getIdTmp().toString() + "\n";
 
-
+            }
+            Toast.makeText(getContext(),str,Toast.LENGTH_LONG ).show();
         }
 
     }
@@ -165,29 +172,39 @@ public class CargarHeladosFragment extends Fragment implements View.OnClickListe
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
-
+    public void deletePedidodetalleIfExists(ArrayList<Pedidodetalle> paramListaHeladosSelected){
+        PedidodetalleController pdc = new PedidodetalleController(getContext());
+        for(Pedidodetalle pd: paramListaHeladosSelected){
+            pdc.abrir().eliminar(pd);
+        }
+    }
     public boolean savePedidodetalle(){
 
         try{
+            //Primero se deben eliminar todos los pedidodetalles para este pedido y pote
+            deletePedidodetalleIfExists(listaHeladosSelected);
+            PedidodetalleController pdc = new PedidodetalleController(getContext());
+            //Se limpia el array de Pedidodetalle dentro de Pedido, para luego agregar todos los que se seleccionaro ahora
+            ArrayList<Pedidodetalle> lista = new ArrayList<Pedidodetalle>();
+            GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.setDetalles(lista);
             for (int i=0; i<GlobalValues.getINSTANCIA().listaHeladosSeleccionados.size(); i++){
                 if (GlobalValues.getINSTANCIA().listaHeladosSeleccionados.get(i).isChecked()){
                     ItemHelado item = (ItemHelado) (GlobalValues.getINSTANCIA().listaHeladosSeleccionados.get(i));
                     Pedidodetalle pd = new Pedidodetalle();
-
                     pd.setId(0);
                     pd.setPedidoTmpId(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getIdTmp());
                     pd.setEstadoId(Constants.ESTADO_NUEVO);
-
                     pd.setMedidaPote(GlobalValues.getINSTANCIA().PEDIDO_ACTUAL_MEDIDA_POTE);
-                    pd.setMonto(GlobalValues.getINSTANCIA().getPrecioMedidaPote(GlobalValues.getINSTANCIA().PEDIDO_ACTUAL_MEDIDA_POTE));
+                    pd.setMonto(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getPrecioMedidaPote(GlobalValues.getINSTANCIA().PEDIDO_ACTUAL_MEDIDA_POTE));
                     pd.setCantidad(Double.parseDouble(item.getProporcion().toString())); //POCO - EQUILIBRADO - MUCHO
+                    pd.setProporcionHelado(item.getProporcion()); //POCO - EQUILIBRADO - MUCHO
                     pd.setNroPote(GlobalValues.getINSTANCIA().PEDIDO_ACTUAL_NRO_POTE);
                     pd.setProducto(item.getHelado());
 
                     GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.addPedidodetalle(pd);
 
-                    PedidodetalleController pdc = new PedidodetalleController(getContext());
-                    long idAndroid =pdc.abrir().agregar(pd);
+                    long idAndroid = pdc.abrir().agregar(pd);
+
                     Toast.makeText(getContext(), "Pedidodetalle Generado: " + String.valueOf(idAndroid), Toast.LENGTH_LONG).show();
                 }
             }

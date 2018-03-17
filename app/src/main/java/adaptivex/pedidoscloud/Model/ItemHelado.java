@@ -8,11 +8,18 @@ public class ItemHelado {
     private boolean checked;
     private Producto helado;
     private Integer proporcion;
+    private Pedidodetalle pedidodetalle;
 
     public ItemHelado(Producto h, boolean c, Integer p){
         setHelado(h);
         setChecked(c);
         setProporcion(p);
+    }
+    public ItemHelado(Producto h, boolean c, Integer p, Pedidodetalle pd){
+        setHelado(h);
+        setChecked(c);
+        setProporcion(p);
+        setPedidodetalle(pd);
     }
 
     public boolean isChecked(){
@@ -37,5 +44,13 @@ public class ItemHelado {
 
     public void setProporcion(Integer proporcion) {
         this.proporcion = proporcion;
+    }
+
+    public Pedidodetalle getPedidodetalle() {
+        return pedidodetalle;
+    }
+
+    public void setPedidodetalle(Pedidodetalle pedidodetalle) {
+        this.pedidodetalle = pedidodetalle;
     }
 }

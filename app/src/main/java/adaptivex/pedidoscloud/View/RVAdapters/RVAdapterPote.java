@@ -90,7 +90,7 @@ public class RVAdapterPote extends RecyclerView.Adapter<RVAdapterPote.PoteViewHo
 
                                                             switch (item.getItemId()) {
                                                                 case R.id.menu_editar_helados:
-                                                                    openEditarHelados(pote.getPedido().getIdTmp(), pote.getNroPote());
+                                                                    openEditarHelados(pote);
                                                                     Toast.makeText(ctx, "Click en Elegir Helados", Toast.LENGTH_LONG).show();
                                                                     break;
                                                                 case R.id.menu_eliminar_pote:
@@ -110,11 +110,11 @@ public class RVAdapterPote extends RecyclerView.Adapter<RVAdapterPote.PoteViewHo
                         }
 
 
-    public void openEditarHelados(long pedidoAndroidId, Integer nroPote){
+    public void openEditarHelados(Pote p){
         try{
             Bundle args =new Bundle();
-            args.putLong(Constants.PARAM_PEDIDO_ANDROID_ID, pedidoAndroidId);
-            args.putLong(Constants.PARAM_PEDIDO_NRO_POTE, nroPote);
+            args.putLong(Constants.PARAM_PEDIDO_ANDROID_ID, p.getPedido().getIdTmp());
+            args.putInt(Constants.PARAM_PEDIDO_NRO_POTE, p.getNroPote());
 
             CargarHeladosFragment fragment      = new CargarHeladosFragment();
             fragment.setArguments(args);

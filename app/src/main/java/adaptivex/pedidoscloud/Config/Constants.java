@@ -40,4 +40,14 @@ public class Constants {
     public static final String PARAM_PEDIDODETALLE_ANDROID_ID = "pedidodetalle_android_id";
     public static final String PARAM_PEDIDO_NRO_POTE = "nro_pte";
 
+
+
+    //PRECIO DEL HELADO, simula el parametro hasta que se desarrolle la funcionalidad
+    public static double PRECIO_HELADO_KILO = 250.00;
+    public static double PRECIO_HELADO_MEDIO = 125.00;
+    public static final double PRECIO_HELADO_CUARTO = 60.00;
+    public static final double PRECIO_HELADO_TRESCUARTOS = 180.00;
+
+    public static final double PRECIO_CUCURUCHO = 5;
+
 }
