@@ -25,12 +25,6 @@
         android:id="@+id/include" />
 
 
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/nuevo_pedido_ngv_menu"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        design:menu="@menu/menu_nuevo_pedido">
-    </android.support.design.widget.BottomNavigationView>
+
 
 </android.support.design.widget.CoordinatorLayout>

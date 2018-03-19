@@ -102,18 +102,6 @@ public  class IniciarApp  {
             db.close();
 
 
-            HojarutaDataBaseHelper h = new HojarutaDataBaseHelper(getContext());
-            db = h.getWritableDatabase();
-            db.execSQL(h.DROP_TABLE);
-            db.execSQL(h.CREATE_TABLE);
-            db.close();
-
-
-            HojarutadetalleDataBaseHelper hd = new HojarutadetalleDataBaseHelper(getContext());
-            db = hd.getWritableDatabase();
-            db.execSQL(hd.DROP_TABLE);
-            db.execSQL(hd.CREATE_TABLE);
-            db.close();
 
             ParameterDataBaseHelper par = new ParameterDataBaseHelper(getContext());
             db = par.getWritableDatabase();
@@ -121,12 +109,7 @@ public  class IniciarApp  {
             db.execSQL(par.CREATE_TABLE);
             db.close();
 
-            MemoDataBaseHelper mdb = new MemoDataBaseHelper(getContext());
-            db = par.getWritableDatabase();
-            db.execSQL(mdb.DROP_TABLE);
-            db.execSQL(mdb.CREATE_TABLE);
-            db.close();
-            //FIN de tablas
+
 
 
 
@@ -542,11 +525,8 @@ public  class IniciarApp  {
             HelperProductos p = new HelperProductos(getContext());
             p.execute();
 
-            HelperHojarutas hd = new HelperHojarutas(getContext());
-            hd.execute();
 
-            HelperMemo hp = new HelperMemo(getContext());
-            hp.execute();
+
 
             ParameterController pc  = new ParameterController(getContext());
             Parameter param1 = pc.abrir().findById(GlobalValues.getINSTANCIA().PARAM_DOWNLOAD_DATABASE);

@@ -115,6 +115,9 @@ public class RVAdapterPote extends RecyclerView.Adapter<RVAdapterPote.PoteViewHo
             Bundle args =new Bundle();
             args.putLong(Constants.PARAM_PEDIDO_ANDROID_ID, p.getPedido().getIdTmp());
             args.putInt(Constants.PARAM_PEDIDO_NRO_POTE, p.getNroPote());
+            //Estas variables se usan cuando se da de alta un nuevo pedidodetalle
+            GlobalValues.getINSTANCIA().PEDIDO_ACTUAL_NRO_POTE    = p.getNroPote();
+            GlobalValues.getINSTANCIA().PEDIDO_ACTUAL_MEDIDA_POTE = p.getKilos();
 
             CargarHeladosFragment fragment      = new CargarHeladosFragment();
             fragment.setArguments(args);

@@ -53,7 +53,118 @@
                     android:id="@+id/resumen_pedido_direccion"/>
 
             </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Detalle Pedido: "
+                android:textStyle="bold"/>
 
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                >
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Cantidad Cargarda: "
+                        android:layout_column="0"/>
+
+                    <TextView
+                        android:id="@+id/cargar_cantidad_lbl_cantidad_kilos"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=" 0.0 KG"
+                        android:layout_gravity="right"
+                        android:gravity="right"
+                        android:layout_column="1"/>
+
+                    <TextView
+                        android:id="@+id/cargar_cantidad_lbl_kilos_monto"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="$ 0.00 "
+
+                        android:layout_marginLeft="40dp"
+                        android:layout_column="2"/>
+
+                </TableRow>
+
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Cucuruchos ($5 C/u): "
+                        android:layout_column="0"/>
+
+
+
+                    <TextView
+                        android:id="@+id/cargar_cantidad_lbl_cucuruchos_monto"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="$ 0.0"
+                        android:layout_marginLeft="40dp"
+                        android:layout_column="2"/>
+
+                </TableRow>
+
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:text="Cucharitas: "
+                        android:layout_column="0"/>
+
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:padding="5dp"
+                    >
+
+                    <TextView
+                        android:text="Importe a Pagar: "
+                        android:layout_column="0"
+                        android:textStyle="bold"
+                        />
+
+
+                    <TextView
+                        android:id="@+id/cargar_cantidad_lbl_monto_total"
+                        android:layout_column="2"
+                        android:text="$ 0.0"
+                        android:textStyle="bold"/>
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    >
+
+                    <TextView
+                        android:text="Enviar a Domicilio?"
+                        android:layout_column="0"
+                        />
+
+
+
+                </TableRow>
+            </TableLayout>
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

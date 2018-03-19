@@ -67,6 +67,7 @@ public class CargarHeladosFragment extends Fragment implements View.OnClickListe
         if (getArguments() != null) {
             pedido_android_id = getArguments().getLong(Constants.PARAM_PEDIDO_ANDROID_ID);
             pedido_nro_pote = getArguments().getInt(Constants.PARAM_PEDIDO_NRO_POTE);
+
             //Leer Pedidod detalles por pedidoId y nroPote
             PedidodetalleController pdc = new PedidodetalleController(getContext());
             Cursor c = pdc.abrir().findByPedidoAndroidIdAndNroPote(pedido_android_id,pedido_nro_pote);
@@ -181,12 +182,15 @@ public class CargarHeladosFragment extends Fragment implements View.OnClickListe
     public boolean savePedidodetalle(){
 
         try{
+            PedidodetalleController pdc = new PedidodetalleController(getContext());
+
             //Primero se deben eliminar todos los pedidodetalles para este pedido y pote
             deletePedidodetalleIfExists(listaHeladosSelected);
-            PedidodetalleController pdc = new PedidodetalleController(getContext());
+
             //Se limpia el array de Pedidodetalle dentro de Pedido, para luego agregar todos los que se seleccionaro ahora
             ArrayList<Pedidodetalle> lista = new ArrayList<Pedidodetalle>();
             GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.setDetalles(lista);
+
             for (int i=0; i<GlobalValues.getINSTANCIA().listaHeladosSeleccionados.size(); i++){
                 if (GlobalValues.getINSTANCIA().listaHeladosSeleccionados.get(i).isChecked()){
                     ItemHelado item = (ItemHelado) (GlobalValues.getINSTANCIA().listaHeladosSeleccionados.get(i));
@@ -215,22 +219,7 @@ public class CargarHeladosFragment extends Fragment implements View.OnClickListe
         }
     }
 
-    public void showSelection(){
-        String str = "Helados Seleccionados:\n";
 
-        for (int i=0; i<GlobalValues.getINSTANCIA().listaHeladosSeleccionados.size(); i++){
-            if (GlobalValues.getINSTANCIA().listaHeladosSeleccionados.get(i).isChecked()){
-
-                ItemHelado item = (ItemHelado) (GlobalValues.getINSTANCIA().listaHeladosSeleccionados.get(i));
-                Producto p = (Producto)item.getHelado();
-                String texto = p.getNombre().toString();
-                texto += " Cantidad -> " +String.valueOf(item.getProporcion());
-                str += texto + "\n";
-            }
-        }
-
-        Toast.makeText(getContext(), str, Toast.LENGTH_LONG).show();
-    }
 
 
     public boolean validateForm(){

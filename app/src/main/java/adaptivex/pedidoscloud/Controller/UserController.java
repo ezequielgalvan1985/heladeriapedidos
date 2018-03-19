@@ -2,6 +2,7 @@ package adaptivex.pedidoscloud.Controller;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.widget.Toast;
 
 import adaptivex.pedidoscloud.Config.GlobalValues;
 import adaptivex.pedidoscloud.Model.Parameter;
@@ -38,7 +39,7 @@ public class UserController extends AppController{
             p = pc.abrir().findById(GlobalValues.getINSTANCIA().PARAM_USERNAME);
             u.setUsername(p.getValor_texto());
 
-            p = pc.abrir().findById(GlobalValues.getINSTANCIA().PARAM_EMPRESA_ID);
+            p = pc.abrir().findById(GlobalValues.getINSTANCIA().PARAM_ENTIDADID);
             u.setEntidad_id(p.getValor_integer());
 
             p = pc.abrir().findById(GlobalValues.getINSTANCIA().PARAM_EMAIL);
@@ -67,6 +68,7 @@ public class UserController extends AppController{
 
             return u;
         }catch(Exception e){
+            Toast.makeText(getContext(), "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
             return null;
         }
 

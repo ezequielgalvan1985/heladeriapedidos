@@ -4,6 +4,7 @@ import java.util.List;
 
 import adaptivex.pedidoscloud.Model.ItemHelado;
 import adaptivex.pedidoscloud.Model.Pedido;
+import adaptivex.pedidoscloud.Model.Pote;
 import adaptivex.pedidoscloud.Model.User;
 import adaptivex.pedidoscloud.View.RVAdapters.RVAdapterHelado;
 
@@ -103,25 +104,25 @@ public class GlobalValues {
 
 
     //DATOS DE USUARIO
-    public static final int PARAM_USERID = 1;
-    public static final int PARAM_EMAIL = 2;
-    public static final int PARAM_GROUPID = 3;
-    public static final int PARAM_ENTIDADID = 4;
-    public static final int PARAM_INSTALLED = 5;
-    public static final int PARAM_CONFIGFILE =6;
-    public static final int PARAM_REINICIARAPP = 7;
-    public static final int PARAM_SERVICE_STOCK_PRECIOS_ACTIVATE = 8;
-    public static final int PARAM_SERVICE_STOCK_PRECIOS_WORKING = 9;
-    public static final int PARAM_EMPRESA_ID = 10;
-    public static final int PARAM_DOWNLOAD_DATABASE = 11;
-    public static final int PARAM_SERVICE_ENVIO_PEDIDOS_ACTIVATE = 12;
-    public static final int PARAM_USERNAME = 13;
-    public static final int PARAM_LOCALIDAD = 14;
-    public static final int PARAM_CALLE = 15;
-    public static final int PARAM_NRO = 16;
-    public static final int PARAM_PISO = 17;
-    public static final int PARAM_CONTACTO = 18;
-    public static final int PARAM_TELEFONO = 19;
+    public static final Integer PARAM_USERID = 1;
+    public static final Integer PARAM_EMAIL = 2;
+    public static final Integer PARAM_GROUPID = 3;
+    public static final Integer PARAM_ENTIDADID = 4;
+    public static final Integer PARAM_INSTALLED = 5;
+    public static final Integer PARAM_CONFIGFILE =6;
+    public static final Integer PARAM_REINICIARAPP = 7;
+    public static final Integer PARAM_SERVICE_STOCK_PRECIOS_ACTIVATE = 8;
+    public static final Integer PARAM_SERVICE_STOCK_PRECIOS_WORKING = 9;
+    public static final Integer PARAM_EMPRESA_ID = 10;
+    public static final Integer PARAM_DOWNLOAD_DATABASE = 11;
+    public static final Integer PARAM_SERVICE_ENVIO_PEDIDOS_ACTIVATE = 12;
+    public static final Integer PARAM_USERNAME = 13;
+    public static final Integer PARAM_LOCALIDAD = 14;
+    public static final Integer PARAM_CALLE = 15;
+    public static final Integer PARAM_NRO = 16;
+    public static final Integer PARAM_PISO = 17;
+    public static final Integer PARAM_CONTACTO = 18;
+    public static final Integer PARAM_TELEFONO = 19;
 
 
 
@@ -258,5 +259,6 @@ public class GlobalValues {
     public List<ItemHelado> listaHeladosSeleccionados;
     public Integer PEDIDO_ACTUAL_NRO_POTE;
     public Integer PEDIDO_ACTUAL_MEDIDA_POTE;
+    public Pote PEDIDO_ACTUAL_POTE;
 
 }

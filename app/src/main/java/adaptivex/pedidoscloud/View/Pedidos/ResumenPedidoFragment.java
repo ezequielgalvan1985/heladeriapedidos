@@ -15,6 +15,7 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,17 +27,14 @@ import adaptivex.pedidoscloud.R;
 import adaptivex.pedidoscloud.View.Productos.ListadoHeladosFragment;
 import ivb.com.materialstepper.stepperFragment;
 
-public class ResumenPedidoFragment extends stepperFragment {
+public class ResumenPedidoFragment extends Fragment {
 
     ItemsHeladoAdapter myItemsListAdapter;
     ArrayList<Pedidodetalle> items;
+    private TextView lbl_cantidad_kilos, lbl_kilos_monto, lbl_cucuruchos_monto, lbl_monto_total;
 
 
-    @Override
-    public boolean onNextButtonHandler() {
 
-        return true;
-    }
 
     public ResumenPedidoFragment() {
 
@@ -65,6 +63,10 @@ public class ResumenPedidoFragment extends stepperFragment {
         TextView cucuruchos = (TextView) v.findViewById(R.id.resumen_pedido_cucuruchos);
         TextView cucharitas = (TextView) v.findViewById(R.id.resumen_pedido_cucharitas);
 
+        lbl_cantidad_kilos    = (TextView) v.findViewById(R.id.cargar_cantidad_lbl_cantidad_kilos);
+        lbl_kilos_monto       = (TextView) v.findViewById(R.id.cargar_cantidad_lbl_kilos_monto);
+        lbl_cucuruchos_monto  = (TextView) v.findViewById(R.id.cargar_cantidad_lbl_cucuruchos_monto);
+        lbl_monto_total       = (TextView) v.findViewById(R.id.cargar_cantidad_lbl_monto_total);
 
         direccion.setText(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getStringDireccion());
         cucuruchos.setText(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getCucuruchos().toString());
@@ -76,11 +78,21 @@ public class ResumenPedidoFragment extends stepperFragment {
         items = GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getDetalles();
         myItemsListAdapter = new ItemsHeladoAdapter(getContext(), items);
         lv.setAdapter(myItemsListAdapter);
-
+        refreshTextViews();
         return v;
     }
 
-
+    public void refreshTextViews(){
+        try{
+            //Actualizar valor de los textview, formatear valores pesos a #.##
+            lbl_cantidad_kilos.setText(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getKilosHeladosString());
+            lbl_kilos_monto.setText("$ " + String.valueOf(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getMontoHelados()));
+            lbl_cucuruchos_monto.setText("$ " + String.valueOf(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getMontoCucuruchos()));
+            lbl_monto_total.setText("$ " + String.valueOf(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getMonto()));
+        }catch(Exception e ){
+            Toast.makeText(getContext(),"Error: " + e.getMessage(),Toast.LENGTH_LONG).show();
+        }
+    }
 
 
     public class Item {

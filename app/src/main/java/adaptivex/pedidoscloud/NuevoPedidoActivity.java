@@ -14,6 +14,7 @@ import java.util.Date;
 import adaptivex.pedidoscloud.Config.Constants;
 import adaptivex.pedidoscloud.Config.GlobalValues;
 import adaptivex.pedidoscloud.Controller.PedidoController;
+import adaptivex.pedidoscloud.Core.IniciarApp;
 import adaptivex.pedidoscloud.Model.Pedido;
 import adaptivex.pedidoscloud.Servicios.HelperPedidos;
 import adaptivex.pedidoscloud.View.Pedidos.CargarDireccionFragment;
@@ -42,7 +43,8 @@ public class NuevoPedidoActivity extends AppCompatActivity implements  CargarHel
 
     public long crearNuevoPedido(){
         try{
-
+            IniciarApp ia = new IniciarApp(this);
+            ia.isLoginRemember();
             PedidoController gestdb = new PedidoController(this);
             Date fecha = new Date();
             Calendar cal = Calendar.getInstance();
@@ -54,9 +56,7 @@ public class NuevoPedidoActivity extends AppCompatActivity implements  CargarHel
             pedido.setEstadoId(Constants.ESTADO_NUEVO);
             pedido.setCliente_id(GlobalValues.getINSTANCIA().getUserlogued().getId());
             pedido.setCreated(fechaDMY);
-            pedido.setId(0);
-            gestdb.abrir();
-            long id = gestdb.agregar(pedido);
+            long id = gestdb.abrir().agregar(pedido);
             pedido.setIdTmp(id);
             gestdb.cerrar();
             GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL = new Pedido();

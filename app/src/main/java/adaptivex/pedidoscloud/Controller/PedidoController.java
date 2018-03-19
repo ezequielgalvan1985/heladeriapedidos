@@ -175,9 +175,10 @@ public class PedidoController
 
     public long agregar(Pedido item)
     {
+
+        ContentValues valores = new ContentValues();
         try{
 
-            ContentValues valores = new ContentValues();
             //valores.put(PedidoDataBaseHelper.CAMPO_ID_TMP, item.getIdTmp()); // es ID Autonumerico
             valores.put(PedidoDataBaseHelper.CAMPO_ID, item.getId());
             valores.put(PedidoDataBaseHelper.CAMPO_CREATED, item.getCreated());
@@ -199,18 +200,20 @@ public class PedidoController
             valores.put(PedidoDataBaseHelper.CAMPO_CONTACTO,  item.getContacto());
 
             //CANTIDAD
-            valores.put(PedidoDataBaseHelper.CAMPO_CANTIDAD_KILOS, item.getCantidadKilos());
-            valores.put(PedidoDataBaseHelper.CAMPO_CUCHARITAS,     item.getCucharitas());
-            valores.put(PedidoDataBaseHelper.CAMPO_CUCURUCHOS,     item.getCucuruchos());
-            valores.put(PedidoDataBaseHelper.CAMPO_ENVIO_DOMICILIO, item.isEnvioDomicilio());
+            valores.put(PedidoDataBaseHelper.CAMPO_CANTIDAD_KILOS,   item.getCantidadKilos());
+            valores.put(PedidoDataBaseHelper.CAMPO_CANTIDAD_POTES,   item.getCantidadPotes()  );
+            valores.put(PedidoDataBaseHelper.CAMPO_CUCHARITAS,       item.getCucharitas());
+            valores.put(PedidoDataBaseHelper.CAMPO_CUCURUCHOS,       item.getCucuruchos());
+            valores.put(PedidoDataBaseHelper.CAMPO_ENVIO_DOMICILIO,  item.isEnvioDomicilio());
+            valores.put(PedidoDataBaseHelper.CAMPO_MONTO_CUCURUCHOS, item.getMontoCucuruchos());
 
 
-            return db.insert(PedidoDataBaseHelper.TABLE_NAME, null, valores);
+
         }catch(Exception e ){
-            Toast.makeText(this.context,"Error:" + e.getMessage(),Toast.LENGTH_LONG).show();
-            return -1;
-        }
+            Toast.makeText(context,"Error:" + e.getMessage(),Toast.LENGTH_LONG).show();
 
+        }
+        return db.insert(PedidoDataBaseHelper.TABLE_NAME, null, valores);
     }
 
     //Busca Maximo pedido por IDTMP, Es decir codigo autonumerico de SQLITE
@@ -262,11 +265,12 @@ public class PedidoController
             valores.put(PedidoDataBaseHelper.CAMPO_CONTACTO,  item.getContacto());
 
             //CANTIDAD
-            valores.put(PedidoDataBaseHelper.CAMPO_CANTIDAD_KILOS, item.getCantidadKilos());
-            valores.put(PedidoDataBaseHelper.CAMPO_CANTIDAD_POTES, item.getCantidadPotes()  );
-            valores.put(PedidoDataBaseHelper.CAMPO_CUCHARITAS,     item.getCucharitas());
-            valores.put(PedidoDataBaseHelper.CAMPO_CUCURUCHOS,     item.getCucuruchos());
-            valores.put(PedidoDataBaseHelper.CAMPO_ENVIO_DOMICILIO, item.isEnvioDomicilio());
+            valores.put(PedidoDataBaseHelper.CAMPO_CANTIDAD_KILOS,   item.getCantidadKilos());
+            valores.put(PedidoDataBaseHelper.CAMPO_CANTIDAD_POTES,   item.getCantidadPotes()  );
+            valores.put(PedidoDataBaseHelper.CAMPO_CUCHARITAS,       item.getCucharitas());
+            valores.put(PedidoDataBaseHelper.CAMPO_CUCURUCHOS,       item.getCucuruchos());
+            valores.put(PedidoDataBaseHelper.CAMPO_ENVIO_DOMICILIO,  item.isEnvioDomicilio());
+            valores.put(PedidoDataBaseHelper.CAMPO_MONTO_CUCURUCHOS, item.getMontoCucuruchos());
 
             valores.put(PedidoDataBaseHelper.CAMPO_ID_TMP, item.getIdTmp());
 

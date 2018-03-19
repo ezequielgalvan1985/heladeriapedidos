@@ -35,7 +35,6 @@ public class CargarCantidadFragment extends Fragment implements View.OnClickList
     private EditText txtCucuruchos, txtCucharas;
     private CheckBox chkEnvio;
     private Spinner spn_cantidad;
-    private TextView lbl_cantidad_kilos, lbl_kilos_monto, lbl_cucuruchos_monto, lbl_monto_total;
 
     private RecyclerView rvPotes;
     private RVAdapterPote rvAdapterPote;
@@ -85,15 +84,8 @@ public class CargarCantidadFragment extends Fragment implements View.OnClickList
         //btnEditar      = (Button)    v.findViewById(R.id.cantidad_btn_editar);
         btnListo        = (Button)   v.findViewById(R.id.cargar_cantidad_btn_listo);
         spn_cantidad    = (Spinner)  v.findViewById(R.id.cantidad_spn_cantidad);
-        txtCucharas     = (EditText) v.findViewById(R.id.cargar_cantidad_cucharitas);
-        txtCucuruchos   = (EditText) v.findViewById(R.id.cargar_cantidad_cucuruchos);
-        chkEnvio        = (CheckBox) v.findViewById(R.id.cargar_cantidad_chk_envio);
 
 
-        lbl_cantidad_kilos    = (TextView) v.findViewById(R.id.cargar_cantidad_lbl_cantidad_kilos);
-        lbl_kilos_monto       = (TextView) v.findViewById(R.id.cargar_cantidad_lbl_kilos_monto);
-        lbl_cucuruchos_monto  = (TextView) v.findViewById(R.id.cargar_cantidad_lbl_cucuruchos_monto);
-        lbl_monto_total       = (TextView) v.findViewById(R.id.cargar_cantidad_lbl_monto_total);
 
         List<String> categories = new ArrayList<String>();
         categories.add("1 Kg");
@@ -114,12 +106,12 @@ public class CargarCantidadFragment extends Fragment implements View.OnClickList
         btnAgregar.setOnClickListener(this);
         btnListo.setOnClickListener(this);
 
-        refreshTextViews();
 
 
         //Se agrega Recycle view de Potes Cargados
         PedidoController pc = new PedidoController(v.getContext());
-        ArrayList<Pote> listaPotes = pc.abrir().getPotesArrayList(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getIdTmp());
+        ArrayList<Pote> listaPotes = new ArrayList<Pote>();
+        listaPotes = pc.abrir().getPotesArrayList(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getIdTmp());
         rvPotes = (RecyclerView)v.findViewById(R.id.cargar_cantidad_rvPotes);
         rvPotes.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         LinearLayoutManager llm = new LinearLayoutManager(v.getContext());
@@ -171,13 +163,25 @@ public class CargarCantidadFragment extends Fragment implements View.OnClickList
             return null;
         }
     }
+    /*
+
+    */
+
+
+
+
+
+    public void clickAgregar(){
+        GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.agregarPote(getSpinnerSelection());
+        GlobalValues.getINSTANCIA().PEDIDO_ACTUAL_NRO_POTE    = GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getCantidadPotes();
+        GlobalValues.getINSTANCIA().PEDIDO_ACTUAL_MEDIDA_POTE = getSpinnerSelection();
+        savePedido();
+        openCargarHelados();
+    }
 
     public boolean savePedido(){
         //Obtiene valores del formulario, y luego lo guarda en la base de datos
         try{
-            GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.setEnvioDomicilio(chkEnvio.isChecked());
-            GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.setCucharitas(WorkInteger.parseInteger(txtCucharas.getText().toString()));
-            GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.setCucuruchos(WorkInteger.parseInteger(txtCucuruchos.getText().toString()));
 
             PedidoController pc = new PedidoController(getContext());
             pc.abrir().modificar(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL,true);
@@ -189,46 +193,9 @@ public class CargarCantidadFragment extends Fragment implements View.OnClickList
     }
 
 
-    public void refreshTextViews(){
-        try{
-            //Actualizar valor de los textview, formatear valores pesos a #.##
-            lbl_cantidad_kilos.setText(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getKilosHeladosString());
-            lbl_kilos_monto.setText("$ " + String.valueOf(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getMontoHelados()));
-            lbl_cucuruchos_monto.setText("$ " + String.valueOf(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getMontoCucuruchos()));
-            lbl_monto_total.setText("$ " + String.valueOf(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getMonto()));
-        }catch(Exception e ){
-            Toast.makeText(getContext(),"Error: " + e.getMessage(),Toast.LENGTH_LONG).show();
-        }
-    }
 
-
-    public void clickAgregar(){
-        GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.agregarPote(getSpinnerSelection());
-        GlobalValues.getINSTANCIA().PEDIDO_ACTUAL_NRO_POTE    = GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getCantidadPotes();
-        GlobalValues.getINSTANCIA().PEDIDO_ACTUAL_MEDIDA_POTE = getSpinnerSelection();
-        refreshTextViews();
-        savePedido();
-        openCargarHelados();
-    }
-
-    public void clickEditar(){
-        try{
-            //Obtener pedido Id TMP O ANDROID
-            long idAndroid = GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getIdTmp();
-            ListadoPotesFragment fragment  = new ListadoPotesFragment();
-            Bundle args = new Bundle();
-            args.putLong(Constants.PARAM_ANDROID_ID, idAndroid);
-            //Pasar como parametro al frament LIsta de Potes
-            fragment.setArguments(args);
-            //LLamar al frament LIsta potes
-            callFragment(fragment);
-        }catch(Exception e){
-            Toast.makeText(getContext(),"Error: "+ e.getMessage(), Toast.LENGTH_LONG).show();
-        }
-    }
-
-    public void openResumenFragment(){
-        ResumenPedidoFragment fragment      = new ResumenPedidoFragment();
+    public void openCargarOtrosDatos(){
+        CargarOtrosDatosFragment fragment = new CargarOtrosDatosFragment();
         callFragment(fragment);
     }
 
@@ -248,20 +215,14 @@ public class CargarCantidadFragment extends Fragment implements View.OnClickList
                 //Agregar pote, se suma cantidad de potes y se agrega cantidad de kilos
                 clickAgregar();
                 break;
-            /*case R.id.cantidad_btn_editar:
-                //Agregar pote, se suma cantidad de potes y se agrega cantidad de kilos
-                clickEditar();
-                break;
-            */
+
 
 
             case R.id.cargar_cantidad_btn_listo:
                 //Realizar validaciones
                 if(validateForm()){
                     //Guardar datos en Pedido
-                    if (savePedido()){
-                        openResumenFragment();
-                    }
+                    openCargarOtrosDatos();
                 }
                 break;
 

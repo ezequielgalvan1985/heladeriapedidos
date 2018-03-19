@@ -117,8 +117,8 @@ public class Pedido {
         return cartel;
     }
 
-    public void setMontoCucuruchos(Integer cucuruchos){
-        this.setMontoCucuruchos(cucuruchos * Constants.PRECIO_CUCURUCHO);
+    public void setMontoCucuruchos(Double monto){
+        this.montoCucuruchos= monto;
     }
 
 
@@ -196,7 +196,8 @@ public class Pedido {
     public void setCucuruchos(Integer cucuruchos) {
         this.cucuruchos = cucuruchos;
         //Cada vez que se setea los cucuruchos se calcula su monto
-        setMontoCucuruchos(this.cucuruchos);
+        Double monto = cucuruchos * Constants.PRECIO_CUCURUCHO;
+        setMontoCucuruchos(monto);
         this.setMonto(this.getMontoHelados() + this.getMontoCucuruchos());
     }
 
@@ -387,9 +388,7 @@ public class Pedido {
         return montoCucuruchos;
     }
 
-    public void setMontoCucuruchos(double montoCucuruchos) {
-        this.montoCucuruchos = montoCucuruchos;
-    }
+
 
     public double getMontoHelados() {
         return montoHelados;

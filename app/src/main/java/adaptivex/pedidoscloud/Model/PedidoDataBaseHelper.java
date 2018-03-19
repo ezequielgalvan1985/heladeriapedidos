@@ -39,6 +39,7 @@ public class PedidoDataBaseHelper extends SQLiteOpenHelper
     public static final String CAMPO_CUCHARITAS      = "cucharitas";
     public static final String CAMPO_CUCURUCHOS      = "cucuruchos";
     public static final String CAMPO_ENVIO_DOMICILIO = "envio";
+    public static final String CAMPO_MONTO_CUCURUCHOS      = "monto_cucuruchos";
 
     //CAMPOS QUE VIENEN EN EL API REST JSON. (NO ESTAN EN LA TABLA SQLITE)
     public static final String ANDROID_ID_JSON = "android_id";
@@ -64,11 +65,12 @@ public class PedidoDataBaseHelper extends SQLiteOpenHelper
             CAMPO_PISO          + " text null , " +
             CAMPO_TELEFONO      + " text null , " +
             CAMPO_CONTACTO      + " text null , " +
-            CAMPO_CANTIDAD_KILOS  + " integer null, " +
-            CAMPO_CANTIDAD_POTES  + " integer null, " +
-            CAMPO_CUCHARITAS    + " integer null, " +
-            CAMPO_CUCURUCHOS    + " integer null, " +
-            CAMPO_ENVIO_DOMICILIO + " integer null, " +
+            CAMPO_CANTIDAD_KILOS   + " integer null, " +
+            CAMPO_CANTIDAD_POTES   + " integer null, " +
+            CAMPO_CUCHARITAS       + " integer null, " +
+            CAMPO_CUCURUCHOS       + " integer null, " +
+            CAMPO_ENVIO_DOMICILIO  + " integer null, " +
+            CAMPO_MONTO_CUCURUCHOS + " real null ," +
             CAMPO_ID_TMP        + " integer primary key autoincrement not null" +
             ")";
 
