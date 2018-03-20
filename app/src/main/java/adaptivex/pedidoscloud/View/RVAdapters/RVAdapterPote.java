@@ -124,7 +124,7 @@ public class RVAdapterPote extends RecyclerView.Adapter<RVAdapterPote.PoteViewHo
 
             FragmentManager fragmentManager         = getFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.content_nuevo_pedido, fragment);
+            fragmentTransaction.replace(R.id.content_main, fragment);
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
         }catch (Exception e){

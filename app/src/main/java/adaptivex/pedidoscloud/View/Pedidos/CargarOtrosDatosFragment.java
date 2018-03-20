@@ -12,6 +12,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import adaptivex.pedidoscloud.Config.Constants;
 import adaptivex.pedidoscloud.Config.GlobalValues;
 import adaptivex.pedidoscloud.Controller.PedidoController;
 import adaptivex.pedidoscloud.Core.WorkInteger;
@@ -85,11 +86,11 @@ public class CargarOtrosDatosFragment extends Fragment implements View.OnClickLi
 
     public void openResumenFragment(){
         ResumenPedidoFragment fragment = new ResumenPedidoFragment();
-        getFragmentManager().beginTransaction().remove(this).commit();
+        //getFragmentManager().beginTransaction().remove(this).commit();
         FragmentManager fragmentManager         = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.content_nuevo_pedido, fragment);
-        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.replace(R.id.content_main, fragment);
+        fragmentTransaction.addToBackStack(Constants.FRAGMENT_CARGAR_OTROS_DATOS);
         fragmentTransaction.commit();
     }
 

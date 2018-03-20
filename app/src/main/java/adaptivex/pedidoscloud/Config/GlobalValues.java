@@ -1,7 +1,16 @@
 package adaptivex.pedidoscloud.Config;
 
+import android.content.Context;
+import android.widget.Toast;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
+import adaptivex.pedidoscloud.Controller.PedidoController;
+import adaptivex.pedidoscloud.Core.IniciarApp;
 import adaptivex.pedidoscloud.Model.ItemHelado;
 import adaptivex.pedidoscloud.Model.Pedido;
 import adaptivex.pedidoscloud.Model.Pote;
@@ -20,7 +29,7 @@ public class GlobalValues {
 
     public Pedido PEDIDO_TEMPORAL;
     public Integer CURRENT_FRAGMENT_NUEVO_PEDIDO;
-
+    public Context ctxTemporal;
 
 
 
@@ -260,5 +269,37 @@ public class GlobalValues {
     public Integer PEDIDO_ACTUAL_NRO_POTE;
     public Integer PEDIDO_ACTUAL_MEDIDA_POTE;
     public Pote PEDIDO_ACTUAL_POTE;
+
+
+
+    public long crearNuevoPedido(Context ctx){
+        try{
+            IniciarApp ia = new IniciarApp(ctx);
+            ia.isLoginRemember();
+            PedidoController gestdb = new PedidoController(ctx);
+            Date fecha = new Date();
+            Calendar cal = Calendar.getInstance();
+            fecha = cal.getTime();
+            DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd");
+            String fechaDMY = df1.format(fecha);
+            //Nuevo Pedido
+            Pedido pedido = new Pedido();
+            pedido.setEstadoId(Constants.ESTADO_NUEVO);
+            pedido.setCliente_id(GlobalValues.getINSTANCIA().getUserlogued().getId());
+            pedido.setCreated(fechaDMY);
+            long id = gestdb.abrir().agregar(pedido);
+            pedido.setIdTmp(id);
+            gestdb.cerrar();
+            GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL = new Pedido();
+            GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL = pedido;
+
+            gestdb.cerrar();
+            Toast.makeText(ctx, "Generando Nuevo Pedido  "+ String.valueOf(id) , Toast.LENGTH_SHORT).show();
+            return id;
+        }catch (Exception e ){
+            Toast.makeText(ctx, "Error: " +e.getMessage(),Toast.LENGTH_LONG).show();
+            return 0;
+        }
+    }
 
 }

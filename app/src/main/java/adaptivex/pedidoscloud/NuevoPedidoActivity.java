@@ -26,19 +26,23 @@ public class NuevoPedidoActivity extends AppCompatActivity implements  CargarHel
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        crearNuevoPedido();
-        setContentView(R.layout.activity_nuevo_pedido);
-        Fragment fragment = new CargarDireccionFragment();
-        GlobalValues.getINSTANCIA().CURRENT_FRAGMENT_NUEVO_PEDIDO = GlobalValues.getINSTANCIA().NP_CARGAR_DIRECCION;
+/*
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.content_nuevo_pedido, fragment).addToBackStack(null)
                 .commit();
-
+*/
 
 
     }
 
-
+    @Override
+    public void onBackPressed() {
+        if (getFragmentManager().getBackStackEntryCount() > 0) {
+            getFragmentManager().popBackStack();
+        } else {
+            super.onBackPressed();
+        }
+    }
 
 
     public long crearNuevoPedido(){

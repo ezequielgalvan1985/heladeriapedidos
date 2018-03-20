@@ -165,12 +165,12 @@ public class CargarHeladosFragment extends Fragment implements View.OnClickListe
     }
 
     public void openFragmentCargarCantidad(){
-        getFragmentManager().beginTransaction().remove(this).commit();
+        //getFragmentManager().beginTransaction().remove(this).commit();
         CargarCantidadFragment fragment      = new CargarCantidadFragment();
         FragmentManager fragmentManager         = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.content_nuevo_pedido, fragment);
-        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.replace(R.id.content_main, fragment);
+        fragmentTransaction.addToBackStack(Constants.FRAGMENT_CARGAR_HELADOS);
         fragmentTransaction.commit();
     }
     public void deletePedidodetalleIfExists(ArrayList<Pedidodetalle> paramListaHeladosSelected){

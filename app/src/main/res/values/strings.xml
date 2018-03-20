@@ -60,4 +60,6 @@
     <string name="ver_pedido"> Ver Pedido </string>
     <string name="confirmacion">4 - Confirmacion </string>
     <string name="agregar_pote">Agregar</string>
+    <string name="agregar">Agregar</string>
+    <string name="promos">Ver Promos</string>
 </resources>

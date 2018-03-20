@@ -113,7 +113,8 @@ public class Pedido {
 
     }
     public String getKilosHeladosString(){
-        String cartel = String.valueOf(this.cantidadKilos/1000)+ " KG " ;
+        //String cartel = String.valueOf(this.cantidadKilos/1000)+ " KG " ;
+        String cartel =  GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getCantidadKilos().toString() +"Kg";
         return cartel;
     }
 
@@ -396,5 +397,11 @@ public class Pedido {
 
     public void setMontoHelados(double montoHelados) {
         this.montoHelados = montoHelados;
+    }
+
+    public String getEnvioDomicilio(){
+        String cartel = "NO";
+        if (this.envioDomicilio) cartel = "SI";
+        return cartel;
     }
 }

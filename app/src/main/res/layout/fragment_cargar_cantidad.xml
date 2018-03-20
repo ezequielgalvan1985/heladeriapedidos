@@ -2,13 +2,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="adaptivex.pedidoscloud.View.Pedidos.CargarCantidadFragment"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="adaptivex.pedidoscloud.View.Pedidos.CargarCantidadFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp">
+        android:padding="@dimen/relative_layout_main_padding">
 
     <TextView
         android:id="@+id/cargar_cantidad_lbl_titulo"
@@ -17,7 +17,7 @@
         android:text="2 - Agregar Cantidad de Helado"
         android:textSize="20dp"
         android:textStyle="bold"
-        android:layout_marginBottom="5dp"
+        android:layout_margin="@dimen/margin_titulo"
         />
 
 
@@ -34,29 +34,43 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
                 >
 
-               <Spinner
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:id="@+id/cantidad_spn_cantidad"
-                   android:layout_alignParentLeft="true"
+                <Button
+                    android:id="@+id/cantidad_btn_promos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_notifications_active_black_24dp"
+                    android:text="@string/promos"
+                    android:layout_alignParentLeft="true"
+                    android:textColor="@color/white"
+                    app:backgroundTint="@color/colorPrimaryDark"
 
-                   >
-               </Spinner>
+                    />
+
+
+
 
                 <Button
                     android:id="@+id/cantidad_btn_agregar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:drawableStart="@drawable/ic_playlist_add_black_24dp"
-                    android:text="@string/agregar_pote"
-                    android:layout_alignParentRight="true"
+                    android:drawableStart="@drawable/ic_add_shopping_cart_black_24dp"
+                    android:text="@string/agregar"
                     android:layout_toLeftOf="@+id/cantidad_spn_cantidad"
                     style="@style/Widget.AppCompat.Button.Colored"
                     />
 
+                <Spinner
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/cantidad_spn_cantidad"
+                    android:layout_alignParentRight="true"
+                    android:textSize="30dp"
+                    android:padding="10dp"
+
+                    >
+                </Spinner>
             </RelativeLayout>
 
 

@@ -11,12 +11,13 @@ android:orientation="vertical">
     android:layout_margin="4dp"
     android:elevation="4dp"
     android:id="@+id/cvHelado"
+
     >
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/activity_horizontal_margin">
+        android:padding="8dp">
 
         <TextView
             android:id="@+id/item_helado_id"
@@ -36,7 +37,8 @@ android:orientation="vertical">
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/item_helado_chk"
             android:text="Chocolate Con Granizado"
-            android:textSize="20dp"/>
+            android:textSize="20dp"
+            />
 
         <TextView
             android:id="@+id/item_helado_cantidad_desc"
@@ -47,9 +49,8 @@ android:orientation="vertical">
             android:layout_alignParentRight="true"
             android:gravity="right"
             android:textAlignment="gravity"
-            android:layout_margin="5dp"
+            android:padding="2dp"
             android:visibility="invisible"/>
-
 
 
         <SeekBar

@@ -9,8 +9,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="10dp">
+        android:padding="@dimen/relative_layout_main_padding">
 
         <TextView
             android:id="@+id/cargar_helados_lbl_titulo"
@@ -19,25 +18,28 @@
             android:text="3 - Elegir Helados y Postres"
             android:textSize="20dp"
             android:textStyle="bold"
-            android:layout_marginBottom="5dp"
+            android:layout_margin="@dimen/margin_titulo"
             />
-        <Button
-            android:layout_below="@id/cargar_helados_lbl_titulo"
-            android:id="@+id/cargar_helados_btn_listo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/listo"
-            android:textAlignment="center"/>
+
 
         <android.support.v7.widget.RecyclerView
-            android:layout_below="@id/cargar_helados_btn_listo"
+            android:layout_below="@id/cargar_helados_lbl_titulo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="2dp"
             android:id="@+id/rvHelados"
+            android:layout_above="@+id/cargar_helados_btn_listo"
             />
 
 
+        <Button
+            android:id="@+id/cargar_helados_btn_listo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/listo"
+            android:drawableRight="@drawable/ic_check_black_24dp"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_alignParentBottom="true"/>
     </RelativeLayout>
 
 </FrameLayout>

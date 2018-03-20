@@ -1,5 +1,6 @@
 package adaptivex.pedidoscloud.View.Pedidos;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,6 +13,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.Toast;
 
+import adaptivex.pedidoscloud.Config.Constants;
 import adaptivex.pedidoscloud.Config.GlobalValues;
 import adaptivex.pedidoscloud.Controller.PedidoController;
 import adaptivex.pedidoscloud.Controller.UserController;
@@ -132,12 +134,12 @@ public class CargarDireccionFragment extends Fragment {
     }
 
     public void openFragmentCargarCantidad(){
-        getFragmentManager().beginTransaction().remove(this).commit();
+        //getFragmentManager().beginTransaction().remove(this).commit();
         CargarCantidadFragment fragment      = new CargarCantidadFragment();
         FragmentManager fragmentManager         = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.content_nuevo_pedido, fragment);
-        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.replace(R.id.content_main, fragment);
+        fragmentTransaction.addToBackStack(Constants.FRAGMENT_CARGAR_DIRECCION);
         fragmentTransaction.commit();
     }
 
@@ -154,5 +156,6 @@ public class CargarDireccionFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
+
 
 }

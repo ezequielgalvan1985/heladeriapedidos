@@ -23,6 +23,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import adaptivex.pedidoscloud.Config.Constants;
 import adaptivex.pedidoscloud.Config.GlobalValues;
 import adaptivex.pedidoscloud.Controller.PedidoController;
 import adaptivex.pedidoscloud.Core.IniciarApp;
@@ -41,6 +42,7 @@ import adaptivex.pedidoscloud.View.Consulting.ResumenFragment;
 import adaptivex.pedidoscloud.View.Hojarutas.ListadoHojarutasFragment;
 import adaptivex.pedidoscloud.View.Marcas.ListadoMarcasFragment;
 import adaptivex.pedidoscloud.View.Pedidodetalles.ListadoPedidodetallesFragment;
+import adaptivex.pedidoscloud.View.Pedidos.CargarDireccionFragment;
 import adaptivex.pedidoscloud.View.Pedidos.CargarHeladosFragment;
 import adaptivex.pedidoscloud.View.Pedidos.DetallePedidoFragment;
 import adaptivex.pedidoscloud.View.Pedidos.ListadoPedidosFragment;
@@ -75,6 +77,7 @@ public class MainActivity extends AppCompatActivity
         ConfigFragment.OnFragmentInteractionListener,
         DatosUserFragment.OnFragmentInteractionListener,
         CargarHeladosFragment.OnFragmentInteractionListener
+
 
 {
     private FloatingActionButton BTN_PRINCIPAL;
@@ -116,7 +119,7 @@ public class MainActivity extends AppCompatActivity
 
         Fragment  fragment = new HomeFragment();
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.content_main, fragment).addToBackStack(null)
+                .replace(R.id.content_main, fragment).addToBackStack(Constants.FRAGMENT_CARGAR_HOME)
                 .commit();
 
 
@@ -131,9 +134,8 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
+        if (getFragmentManager().getBackStackEntryCount() > 0) {
+            getFragmentManager().popBackStack();
         } else {
             super.onBackPressed();
         }
@@ -188,9 +190,10 @@ public class MainActivity extends AppCompatActivity
 
 
         if (id == R.id.mnu_nuevo_pedido) {
-            Intent i = new Intent(this, NuevoPedidoActivity.class);
-            startActivity(i);
 
+            GlobalValues.getINSTANCIA().crearNuevoPedido(this);
+            fragment = new CargarDireccionFragment();
+            GlobalValues.getINSTANCIA().CURRENT_FRAGMENT_NUEVO_PEDIDO = GlobalValues.getINSTANCIA().NP_CARGAR_DIRECCION;
         }else if (id == R.id.mnu_ver_pedido_actual) {
 
             //BUSCAR ULTIMO PEDIDO GENERADO EN EL DISPOSITIVO
@@ -481,4 +484,9 @@ public class MainActivity extends AppCompatActivity
     public void onHojarutaSelected(int position, Hojaruta hojaruta) {
         Toast.makeText(MainActivity.this,"ID Hoja de ruta seleccionada: "+ hojaruta.getId(), Toast.LENGTH_LONG);
     }
+
+
+
+
+
 }

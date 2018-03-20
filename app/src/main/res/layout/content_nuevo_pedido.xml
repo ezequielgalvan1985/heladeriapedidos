@@ -10,11 +10,5 @@
     >
 
 
-    <RelativeLayout
-        android:layout_width="368dp"
-        android:layout_height="495dp"
-        android:id="@+id/content_nuevo_pedido"
-        tools:layout_editor_absoluteY="8dp"
-        tools:layout_editor_absoluteX="8dp">
-    </RelativeLayout>
+
 </android.support.constraint.ConstraintLayout>

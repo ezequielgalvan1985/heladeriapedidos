@@ -4,6 +4,13 @@
     android:layout_height="match_parent"
     tools:context="adaptivex.pedidoscloud.View.Pedidos.ResumenPedidoFragment">
 
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/relative_layout_main_padding"
+        >
+
     <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
@@ -11,6 +18,7 @@
         card_view:cardUseCompatPadding="true"
         card_view:cardElevation="4dp"
         card_view:cardCornerRadius="3dp"
+        android:layout_above="@+id/resumen_btn_enviar"
         >
 
 
@@ -18,15 +26,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:padding="10dp"
+
             >
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="5 - Confirmacion del Pedido"
                 android:textStyle="bold"
-
-                android:textSize="20dp"
+                android:textSize="@dimen/textsize_resumen_titulo_h1"
                 android:padding="5dp"
 
                 />
@@ -34,11 +41,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="10dp">
+                android:padding="15dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="@dimen/textsize_resumen_titulo_h2"
                     android:text="Datos de Contacto:"
                     android:textStyle="bold"
                     />
@@ -48,6 +56,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="direccion"
+                    android:textSize="@dimen/textsize_resumen_p"
                     android:maxLines="4"
                     android:lines="4"
                     android:id="@+id/resumen_pedido_direccion"/>
@@ -57,12 +66,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Detalle Pedido: "
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:textSize="@dimen/textsize_resumen_titulo_h2"
+                android:layout_marginLeft="15dp"/>
 
             <TableLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="5dp"
+                android:padding="15dp"
+                android:textSize="@dimen/textsize_resumen_p"
                 >
                 <TableRow>
 
@@ -73,21 +85,24 @@
                         android:layout_column="0"/>
 
                     <TextView
-                        android:id="@+id/cargar_cantidad_lbl_cantidad_kilos"
+                        android:id="@+id/resumen_pedido_lbl_cantidad_kilos"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=" 0.0 KG"
                         android:layout_gravity="right"
+                        android:layout_alignParentRight="true"
                         android:gravity="right"
+
                         android:layout_column="1"/>
 
                     <TextView
-                        android:id="@+id/cargar_cantidad_lbl_kilos_monto"
+                        android:id="@+id/resumen_pedido_lbl_kilos_monto"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="$ 0.00 "
 
-                        android:layout_marginLeft="40dp"
+                        android:layout_gravity="right"
+                        android:gravity="right"
                         android:layout_column="2"/>
 
                 </TableRow>
@@ -104,10 +119,16 @@
                         android:text="Cucuruchos ($5 C/u): "
                         android:layout_column="0"/>
 
-
+                    <TextView
+                        android:id="@+id/resumen_pedido_txt_cucuruchos"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:layout_marginLeft="40dp"
+                        android:layout_column="1"/>
 
                     <TextView
-                        android:id="@+id/cargar_cantidad_lbl_cucuruchos_monto"
+                        android:id="@+id/resumen_pedido_txt_cucuruchos_monto"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="$ 0.0"
@@ -121,39 +142,32 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
-
                     <TextView
                         android:text="Cucharitas: "
-                        android:layout_column="0"/>
-
-
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:padding="5dp"
-                    >
+                        android:layout_column="0"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
 
                     <TextView
-                        android:text="Importe a Pagar: "
-                        android:layout_column="0"
-                        android:textStyle="bold"
+                        android:id="@+id/resumen_pedido_txt_cucharitas"
+                        android:text="0"
+                        android:layout_column="1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:gravity="right"
+                        android:textAlignment="gravity"
                         />
 
 
-                    <TextView
-                        android:id="@+id/cargar_cantidad_lbl_monto_total"
-                        android:layout_column="2"
-                        android:text="$ 0.0"
-                        android:textStyle="bold"/>
                 </TableRow>
+
+
 
                 <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="5dp"
+
                     >
 
                     <TextView
@@ -161,60 +175,21 @@
                         android:layout_column="0"
                         />
 
+                    <TextView
+                        android:id="@+id/resumen_pedido_txt_envio"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="1"
+
+                        />
+
 
 
                 </TableRow>
             </TableLayout>
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="10dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Cantidad: "
-                    android:textStyle="bold"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="cantidad"
-                    android:id="@+id/resumen_pedido_cantidad"/>
-            </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="10dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Cucuruchos: "
-                    android:textStyle="bold"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="cucuruchos"
-                    android:id="@+id/resumen_pedido_cucuruchos"/>
-            </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="10dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Cucharitas: "
-                    android:textStyle="bold"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="cucharitas"
-                    android:id="@+id/resumen_pedido_cucharitas"/>
-            </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -234,32 +209,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="100"
-                    android:id="@+id/resumen_pedido_importe"
+                    android:id="@+id/resumen_pedido_txt_monto_total"
                     android:textSize="20dp"/>
             </LinearLayout>
 
 
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:orientation="vertical"
-                android:padding="10dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Helados:"
-                    android:textStyle="bold"/>
 
-
-                <ListView
-                    android:layout_marginLeft="5dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:id="@+id/resumen_pedido_helados"
-                    />
-
-            </LinearLayout>
 
 
 
@@ -270,4 +226,15 @@
 
     </android.support.v7.widget.CardView>
 
+
+        <Button
+            android:id="@+id/resumen_btn_enviar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableRight="@drawable/ic_send_black_24dp"
+            android:text=" Enviar "
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_alignParentBottom="true"
+            />
+</RelativeLayout>
 </FrameLayout>

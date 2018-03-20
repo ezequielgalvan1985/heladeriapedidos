@@ -1,5 +1,6 @@
 package adaptivex.pedidoscloud.View.Pedidos;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -88,10 +89,10 @@ public class CargarCantidadFragment extends Fragment implements View.OnClickList
 
 
         List<String> categories = new ArrayList<String>();
-        categories.add("1 Kg");
-        categories.add("3/4 Kg");
-        categories.add("1/2 Kg");
-        categories.add("1/4 Kg");
+        categories.add("1 Kilo");
+        categories.add("3/4 Kilo");
+        categories.add("1/2 Kilo");
+        categories.add("1/4 Kilo");
 
         // Creating adapter for spinner
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, categories);
@@ -136,7 +137,7 @@ public class CargarCantidadFragment extends Fragment implements View.OnClickList
         CargarHeladosFragment fragment          = new CargarHeladosFragment();
         FragmentManager fragmentManager         = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.content_nuevo_pedido, fragment);
+        fragmentTransaction.replace(R.id.content_main, fragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
@@ -200,11 +201,10 @@ public class CargarCantidadFragment extends Fragment implements View.OnClickList
     }
 
     public void callFragment(Fragment fragment){
-        getFragmentManager().beginTransaction().remove(this).commit();
         FragmentManager fragmentManager         = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.content_nuevo_pedido, fragment);
-        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.replace(R.id.content_main, fragment);
+        fragmentTransaction.addToBackStack(Constants.FRAGMENT_CARGAR_CANTIDAD);
         fragmentTransaction.commit();
     }
 
@@ -230,7 +230,10 @@ public class CargarCantidadFragment extends Fragment implements View.OnClickList
     }
 
 
-
+    public interface OnFragmentInteractionListener {
+        // TODO: Update argument type and name
+        void onFragmentInteraction(Uri uri);
+    }
 
 
 }

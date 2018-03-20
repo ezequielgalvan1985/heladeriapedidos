@@ -49,5 +49,12 @@ public class Constants {
     public static final double PRECIO_HELADO_TRESCUARTOS = 180.00;
 
     public static final double PRECIO_CUCURUCHO = 5;
+    public static final String FRAGMENT_CARGAR_DIRECCION = "cargar_direccion";
+    public static final String FRAGMENT_CARGAR_CANTIDAD = "cargar_cantidad";
+    public static final String FRAGMENT_CARGAR_HELADOS = "cargar_helados";
+    public static final String FRAGMENT_CARGAR_OTROS_DATOS = "cargar_otros_datos";
+    public static final String FRAGMENT_CARGAR_RESUMEN = "cargar_resumen";
+    public static final String FRAGMENT_CARGAR_HOME = "cargar_home";
+
 
 }

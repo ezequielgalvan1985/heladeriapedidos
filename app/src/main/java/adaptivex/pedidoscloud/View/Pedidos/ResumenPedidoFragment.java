@@ -17,6 +17,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,12 +31,9 @@ import ivb.com.materialstepper.stepperFragment;
 
 public class ResumenPedidoFragment extends Fragment {
 
-    ItemsHeladoAdapter myItemsListAdapter;
-    ArrayList<Pedidodetalle> items;
+
     private TextView lbl_cantidad_kilos, lbl_kilos_monto, lbl_cucuruchos_monto, lbl_monto_total;
-
-
-
+    private TextView txt_cucuruchos, txt_direccion, txt_cucharitas, txt_monto_total, txtEnvio;
 
     public ResumenPedidoFragment() {
 
@@ -58,26 +57,16 @@ public class ResumenPedidoFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_resumen_pedido, container, false);
-        TextView direccion = (TextView) v.findViewById(R.id.resumen_pedido_direccion);
-        TextView cantidad = (TextView) v.findViewById(R.id.resumen_pedido_cantidad);
-        TextView cucuruchos = (TextView) v.findViewById(R.id.resumen_pedido_cucuruchos);
-        TextView cucharitas = (TextView) v.findViewById(R.id.resumen_pedido_cucharitas);
+        txt_direccion        = (TextView) v.findViewById(R.id.resumen_pedido_direccion);
+        lbl_cantidad_kilos   = (TextView) v.findViewById(R.id.resumen_pedido_lbl_cantidad_kilos);
+        lbl_kilos_monto      = (TextView) v.findViewById(R.id.resumen_pedido_lbl_kilos_monto);
+        txt_cucuruchos       = (TextView) v.findViewById(R.id.resumen_pedido_txt_cucuruchos);
+        lbl_cucuruchos_monto = (TextView) v.findViewById(R.id.resumen_pedido_txt_cucuruchos_monto);
+        txt_cucharitas       = (TextView) v.findViewById(R.id.resumen_pedido_txt_cucharitas);
+        lbl_monto_total      = (TextView) v.findViewById(R.id.resumen_pedido_txt_monto_total);
+        txtEnvio             = (TextView) v.findViewById(R.id.resumen_pedido_txt_envio);
+        txt_monto_total      = (TextView) v.findViewById(R.id.resumen_pedido_txt_monto_total);
 
-        lbl_cantidad_kilos    = (TextView) v.findViewById(R.id.cargar_cantidad_lbl_cantidad_kilos);
-        lbl_kilos_monto       = (TextView) v.findViewById(R.id.cargar_cantidad_lbl_kilos_monto);
-        lbl_cucuruchos_monto  = (TextView) v.findViewById(R.id.cargar_cantidad_lbl_cucuruchos_monto);
-        lbl_monto_total       = (TextView) v.findViewById(R.id.cargar_cantidad_lbl_monto_total);
-
-        direccion.setText(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getStringDireccion());
-        cucuruchos.setText(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getCucuruchos().toString());
-        cucharitas.setText(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getCucharitas().toString());
-        cantidad.setText(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getCantidadKilos().toString() +"Kg");
-
-        //cargar listado de productos
-        ListView lv = (ListView) v.findViewById(R.id.resumen_pedido_helados);
-        items = GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getDetalles();
-        myItemsListAdapter = new ItemsHeladoAdapter(getContext(), items);
-        lv.setAdapter(myItemsListAdapter);
         refreshTextViews();
         return v;
     }
@@ -85,75 +74,22 @@ public class ResumenPedidoFragment extends Fragment {
     public void refreshTextViews(){
         try{
             //Actualizar valor de los textview, formatear valores pesos a #.##
+            txt_direccion.setText(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getStringDireccion());
             lbl_cantidad_kilos.setText(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getKilosHeladosString());
             lbl_kilos_monto.setText("$ " + String.valueOf(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getMontoHelados()));
+            txt_cucuruchos.setText(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getCucuruchos().toString());
             lbl_cucuruchos_monto.setText("$ " + String.valueOf(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getMontoCucuruchos()));
-            lbl_monto_total.setText("$ " + String.valueOf(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getMonto()));
+            txt_cucharitas.setText(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getCucharitas().toString());
+            txt_monto_total.setText("$ " + String.valueOf(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getMonto()));
+            txtEnvio.setText(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getEnvioDomicilio());
+
         }catch(Exception e ){
             Toast.makeText(getContext(),"Error: " + e.getMessage(),Toast.LENGTH_LONG).show();
         }
     }
 
 
-    public class Item {
-        Producto producto;
 
-        Item(Producto t){
-            producto = t;
-        }
-    }
-
-    static class ViewHolder {
-        TextView text;
-    }
-
-
-    public class ItemsHeladoAdapter extends BaseAdapter {
-
-        private Context context;
-        private ArrayList<Pedidodetalle> list;
-
-        ItemsHeladoAdapter(Context c, ArrayList<Pedidodetalle> l) {
-            context = c;
-            list = l;
-        }
-
-        @Override
-        public int getCount() {
-            return list.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return list.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-
-
-        @Override
-        public View getView(final int position, View convertView, ViewGroup parent) {
-            View rowView = convertView;
-
-            // reuse views
-            ViewHolder viewHolder = new ViewHolder();
-            if (rowView == null) {
-                LayoutInflater inflater = ((Activity) context).getLayoutInflater();
-                rowView = inflater.inflate(R.layout.resumen_helado_row, null);
-                viewHolder.text = (TextView) rowView.findViewById(R.id.tvResumenHeladoNombre);
-                rowView.setTag(viewHolder);
-            } else {
-                viewHolder = (ViewHolder) rowView.getTag();
-            }
-            final String itemStr = list.get(position).getProducto().getNombre().toUpperCase().toString();
-            viewHolder.text.setText(itemStr);
-            return rowView;
-        }
-    }
 
 
 

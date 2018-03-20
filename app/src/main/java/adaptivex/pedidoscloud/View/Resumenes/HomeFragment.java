@@ -6,16 +6,21 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import adaptivex.pedidoscloud.Config.Constants;
+import adaptivex.pedidoscloud.Config.GlobalValues;
 import adaptivex.pedidoscloud.Controller.ClienteController;
 import adaptivex.pedidoscloud.Controller.HojarutaController;
 import adaptivex.pedidoscloud.Controller.HojarutadetalleController;
 import adaptivex.pedidoscloud.NuevoPedidoActivity;
 import adaptivex.pedidoscloud.R;
+import adaptivex.pedidoscloud.View.Pedidos.CargarDireccionFragment;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -60,8 +65,13 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                Intent i = new Intent(v.getContext(), NuevoPedidoActivity.class);
-                startActivity(i);
+                GlobalValues.getINSTANCIA().crearNuevoPedido(getContext());
+                Fragment fragment = new CargarDireccionFragment();
+                FragmentManager fragmentManager         = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.content_main, fragment);
+                fragmentTransaction.addToBackStack(Constants.FRAGMENT_CARGAR_HOME);
+                fragmentTransaction.commit();
             }
         });
 

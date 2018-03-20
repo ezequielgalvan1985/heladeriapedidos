@@ -9,38 +9,36 @@
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
         android:elevation="4dp">
-        <LinearLayout
+
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
-
-
-        <TableLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="5dp"
+            android:layout_margin="@dimen/relative_layout_main_padding"
             >
 
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
 
                 <TextView
+                    android:id="@+id/item_pote_lbl_nro_pote"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Nro Pote:"
                     android:layout_column="0"
                     android:textStyle="bold"
-                    android:textSize="20dp"/>
+                    android:textSize="15dp"/>
 
                 <TextView
+
+                    android:layout_toRightOf="@+id/item_pote_lbl_nro_pote"
                     android:id="@+id/item_pote_nro"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=" 0"
                     android:layout_column="1"
                     android:textStyle="bold"
-                    android:textSize="20dp"/>
+                    android:textSize="15dp"
+
+                    />
 
                 <TextView
                     android:id="@+id/item_pote_option"
@@ -49,61 +47,56 @@
                     android:text="    &#8942;   "
                     android:textSize="30dp"
                     android:layout_marginLeft="70dp"
-                    android:layout_below="@+id/item_detail"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentEnd="true"
                     android:layout_column="3"
                     />
 
-            </TableRow>
 
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
 
                 <TextView
+                    android:layout_below="@+id/item_pote_lbl_nro_pote"
+                    android:id="@+id/item_pote_lbl_kilos"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Kilos: "
                     android:layout_column="0"
-                    android:textSize="20dp"/>
+                    android:textSize="15dp"/>
 
                 <TextView
+                    android:layout_below="@+id/item_pote_nro"
+                    android:layout_toRightOf="@+id/item_pote_lbl_nro_pote"
                     android:id="@+id/item_pote_kilos"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=" 0 KG "
                     android:layout_column="1"
-                    android:textSize="20dp"/>
+                    android:textSize="15dp"/>
 
 
-            </TableRow>
 
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
 
                 <TextView
-                    android:text="Monto Pote: "
+                    android:layout_below="@+id/item_pote_lbl_kilos"
+                    android:id="@+id/item_pote_lbl_monto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Monto: "
                     android:layout_column="0"
-                    android:textSize="20dp"/>
+                    android:textSize="15dp"/>
 
                 <TextView
+                    android:layout_below="@+id/item_pote_kilos"
+                    android:layout_toRightOf="@+id/item_pote_lbl_monto"
                     android:id="@+id/item_pote_monto"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=" $ 0 "
                     android:layout_column="1"
-                    android:textSize="20dp"/>
-            </TableRow>
+                    android:textSize="15dp"/>
 
-        </TableLayout>
 
-        </LinearLayout>
+        </RelativeLayout>
     </android.support.v7.widget.CardView>
 
 </LinearLayout>
