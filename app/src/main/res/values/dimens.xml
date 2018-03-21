@@ -12,6 +12,7 @@
     <dimen name="textsize_resumen_p">15dp</dimen>
     <dimen name="textsize_resumen_titulo_h1">20dp</dimen>
     <dimen name="textsize_resumen_titulo_h2">16dp</dimen>
+    <dimen name="resumen_rowpadding">2dp</dimen>
 
 
 </resources>

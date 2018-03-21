@@ -35,13 +35,106 @@
                 android:textStyle="bold"
                 android:textSize="@dimen/textsize_resumen_titulo_h1"
                 android:padding="5dp"
+                />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Estado del Pedido: "
+                android:textStyle="bold"
+                android:textSize="@dimen/textsize_resumen_titulo_h2"
+                android:layout_marginLeft="15dp"
 
                 />
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:textSize="@dimen/textsize_resumen_p"
+                >
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Nro de Pedido: "
+                        android:layout_column="0"/>
+
+                    <TextView
+                        android:id="@+id/resumen_pedido_txt_pedido_id"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=" 1"
+                        android:layout_gravity="right"
+                        android:layout_alignParentRight="true"
+                        android:gravity="right"
+                        android:layout_column="1"/>
+
+                </TableRow>
+
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Estado: "
+                        android:layout_column="0"/>
+
+                    <TextView
+                        android:id="@+id/resumen_pedido_txt_estado"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="PENDIENTE"
+                        android:layout_marginLeft="40dp"
+                        android:layout_column="1"/>
+
+                </TableRow>
+
+
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:text="Hora Estimada de Entrega: "
+                        android:layout_column="0"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:id="@+id/resumen_pedido_txt_hora_entrega"
+                        android:text="0"
+                        android:layout_column="1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:gravity="right"
+                        android:textAlignment="gravity"
+                        />
+                </TableRow>
+
+
+            </TableLayout>
+
+
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="15dp">
+                android:paddingTop="10dp"
+                android:paddingLeft="15dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -52,7 +145,6 @@
                     />
 
                 <TextView
-                    android:layout_marginLeft="5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="direccion"
@@ -62,21 +154,36 @@
                     android:id="@+id/resumen_pedido_direccion"/>
 
             </LinearLayout>
+
+
+
+
+
+
+
+
+
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Detalle Pedido: "
                 android:textStyle="bold"
                 android:textSize="@dimen/textsize_resumen_titulo_h2"
-                android:layout_marginLeft="15dp"/>
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"/>
 
             <TableLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="15dp"
+                android:layout_marginLeft="15dp"
                 android:textSize="@dimen/textsize_resumen_p"
                 >
-                <TableRow>
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -158,8 +265,39 @@
                         android:gravity="right"
                         android:textAlignment="gravity"
                         />
+                </TableRow>
 
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp">
+                    <TextView
+                        android:text="Descuento x Promo: "
+                        android:layout_column="0"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
 
+                    <TextView
+                        android:id="@+id/resumen_pedido_txt_descuento_cantidad"
+                        android:text="0"
+                        android:layout_column="1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:gravity="right"
+                        android:textAlignment="gravity"
+                        />
+                    <TextView
+                        android:id="@+id/resumen_pedido_txt_descuento_monto"
+                        android:text="0"
+                        android:layout_column="1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:gravity="right"
+                        android:textAlignment="gravity"
+                        />
                 </TableRow>
 
 
@@ -167,7 +305,8 @@
                 <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp"
                     >
 
                     <TextView
@@ -182,9 +321,6 @@
                         android:layout_column="1"
 
                         />
-
-
-
                 </TableRow>
             </TableLayout>
 
@@ -201,7 +337,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Total a Pagar: $"
+                    android:text="Total a Pagar: "
                     android:textStyle="bold"
                     android:textSize="20dp"
                    />

@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +31,7 @@ import adaptivex.pedidoscloud.Model.Producto;
 import adaptivex.pedidoscloud.R;
 import adaptivex.pedidoscloud.View.RVAdapters.RVAdapterHelado;
 
-public class CargarHeladosFragment extends Fragment implements View.OnClickListener {
+public class CargarHeladosFragment extends Fragment implements View.OnClickListener, View.OnKeyListener {
 
     private OnFragmentInteractionListener mListener;
     private Cursor cursorHelados;
@@ -74,11 +75,12 @@ public class CargarHeladosFragment extends Fragment implements View.OnClickListe
             pdc.cerrar();
             listaHeladosSelected = pdc.abrir().parseCursorToArrayList(c);
             String str = "";
+            /*
             for (Pedidodetalle pd :listaHeladosSelected){
                 str = str + " Pedidodetalle: " + pd.getIdTmp().toString() + "\n";
-
             }
-            Toast.makeText(getContext(),str,Toast.LENGTH_LONG ).show();
+            */
+
         }
 
     }
@@ -107,6 +109,8 @@ public class CargarHeladosFragment extends Fragment implements View.OnClickListe
             btnListo.setOnClickListener(this);
 
 
+
+
             return v;
         }catch(Exception e){
             Toast.makeText(getContext(), "Error: " +e.getMessage().toString(), Toast.LENGTH_SHORT).show();
@@ -119,12 +123,15 @@ public class CargarHeladosFragment extends Fragment implements View.OnClickListe
 
 
 
+
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
     }
+
+
 
     @Override
     public void onAttach(Context context) {
@@ -209,7 +216,7 @@ public class CargarHeladosFragment extends Fragment implements View.OnClickListe
 
                     long idAndroid = pdc.abrir().agregar(pd);
 
-                    Toast.makeText(getContext(), "Pedidodetalle Generado: " + String.valueOf(idAndroid), Toast.LENGTH_LONG).show();
+
                 }
             }
             return true;
@@ -252,6 +259,17 @@ public class CargarHeladosFragment extends Fragment implements View.OnClickListe
             Toast.makeText(getContext(), "Error: " + e.getMessage(),Toast.LENGTH_LONG).show();
             return validate;
         }
+    }
+
+    @Override
+    public boolean onKey(View v, int keyCode, KeyEvent event) {
+        if( keyCode == KeyEvent.KEYCODE_BACK )
+        {
+            if (validateForm()){
+                return true;
+            }
+        }
+        return false;
     }
 
 

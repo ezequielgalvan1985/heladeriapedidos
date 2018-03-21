@@ -33,7 +33,8 @@ public class ResumenPedidoFragment extends Fragment {
 
 
     private TextView lbl_cantidad_kilos, lbl_kilos_monto, lbl_cucuruchos_monto, lbl_monto_total;
-    private TextView txt_cucuruchos, txt_direccion, txt_cucharitas, txt_monto_total, txtEnvio;
+    private TextView txt_cucuruchos, txt_direccion, txt_cucharitas, txt_monto_total, txtEnvio,
+                     txt_pedido_id, txt_hora_entrega, txt_estado;
 
     public ResumenPedidoFragment() {
 
@@ -67,6 +68,10 @@ public class ResumenPedidoFragment extends Fragment {
         txtEnvio             = (TextView) v.findViewById(R.id.resumen_pedido_txt_envio);
         txt_monto_total      = (TextView) v.findViewById(R.id.resumen_pedido_txt_monto_total);
 
+        txt_estado           = (TextView) v.findViewById(R.id.resumen_pedido_txt_estado);
+        txt_hora_entrega     = (TextView) v.findViewById(R.id.resumen_pedido_txt_hora_entrega);
+        txt_pedido_id        = (TextView) v.findViewById(R.id.resumen_pedido_txt_pedido_id);
+
         refreshTextViews();
         return v;
     }
@@ -82,6 +87,12 @@ public class ResumenPedidoFragment extends Fragment {
             txt_cucharitas.setText(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getCucharitas().toString());
             txt_monto_total.setText("$ " + String.valueOf(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getMonto()));
             txtEnvio.setText(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getEnvioDomicilio());
+
+            txt_pedido_id.setText(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getId());
+            txt_estado.setText(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getEstadoId());
+            txt_hora_entrega.setText("20:30");
+
+
 
         }catch(Exception e ){
             Toast.makeText(getContext(),"Error: " + e.getMessage(),Toast.LENGTH_LONG).show();

@@ -495,6 +495,7 @@ public class PedidoController
                 PedidoDataBaseHelper.CAMPO_CLIENTE_ID,
                 PedidoDataBaseHelper.CAMPO_BONIFICACION,
                 PedidoDataBaseHelper.CAMPO_ESTADO_ID,
+
                 //Campos nuevos de heladeria
                 PedidoDataBaseHelper.CAMPO_ENVIO_DOMICILIO,
                 PedidoDataBaseHelper.CAMPO_CUCURUCHOS,

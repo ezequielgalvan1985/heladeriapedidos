@@ -46,6 +46,7 @@ import adaptivex.pedidoscloud.View.Pedidos.CargarDireccionFragment;
 import adaptivex.pedidoscloud.View.Pedidos.CargarHeladosFragment;
 import adaptivex.pedidoscloud.View.Pedidos.DetallePedidoFragment;
 import adaptivex.pedidoscloud.View.Pedidos.ListadoPedidosFragment;
+import adaptivex.pedidoscloud.View.Pedidos.ResumenPedidoFragment;
 import adaptivex.pedidoscloud.View.Productos.ListadoHeladosFragment;
 import adaptivex.pedidoscloud.View.Productos.ListadoProductosFragment;
 import adaptivex.pedidoscloud.View.Productos.ProductoDetalleFragment;
@@ -202,13 +203,10 @@ public class MainActivity extends AppCompatActivity
             PedidoController pdba = new PedidoController(this);
             long nroPedido = pdba.getMaxIdTmpPedido();
             if (nroPedido > 0) {
-                GlobalValues.getINSTANCIA().setVgPedidoIdActual(pdba.getMaxIdTmpPedido());
-                GlobalValues.getINSTANCIA().setVgPedidoSeleccionado(GlobalValues.getINSTANCIA().getVgPedidoIdActual());
-
-                fragment = new DetallePedidoFragment();
+                Pedido p = pdba.abrir().findByIdTmp(nroPedido);
+                GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL = p;
+                fragment = new ResumenPedidoFragment();
                 fragmentTransaction = true;
-                args.putLong(DetallePedidoFragment.paramPedidoIdTmp, GlobalValues.getINSTANCIA().getVgPedidoIdActual());
-                fragment.setArguments(args);
 
             } else {
                 Toast.makeText(this, "MainActivity: No Hay Pedidos Generados", Toast.LENGTH_LONG);
