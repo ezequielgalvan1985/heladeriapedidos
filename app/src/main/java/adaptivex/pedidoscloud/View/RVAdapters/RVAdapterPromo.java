@@ -52,7 +52,7 @@ public class RVAdapterPromo extends RecyclerView.Adapter<RVAdapterPromo.PromoVie
 
     @Override
     public PromoViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_producto, viewGroup, false);
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_promo, viewGroup, false);
         cw = new ContextWrapper(v.getContext());
         PromoViewHolder pvh = new PromoViewHolder(v,ctx, getPromos());
         return pvh;
@@ -60,12 +60,13 @@ public class RVAdapterPromo extends RecyclerView.Adapter<RVAdapterPromo.PromoVie
 
     @Override
     public void onBindViewHolder(PromoViewHolder productoViewHolder, int i) {
-        productoViewHolder.ptvId.setText(String.valueOf(getPromos().get(i).getId()));
-        productoViewHolder.pNombre.setText(getPromos().get(i).getNombre());
-        productoViewHolder.pStock.setText(String.valueOf(getPromos().get(i).getStock()));
-        productoViewHolder.pPrecio.setText("$"+ String.valueOf( getPromos().get(i).getPrecio()));
-
-
+        productoViewHolder.txtNombre.setText(String.valueOf(getPromos().get(i).getNombre()));
+        productoViewHolder.txtDescripcion.setText(getPromos().get(i).getDescripcion());
+        productoViewHolder.txtCantKilos.setText(String.valueOf(getPromos().get(i).getCantKilos()));
+        productoViewHolder.txtImporteDescuento.setText(String.valueOf( getPromos().get(i).getImporteDescuento()));
+        productoViewHolder.txtFechaDesde.setText(getPromos().get(i).getFechaDesdeFormatDMY());
+        productoViewHolder.txtFechaHasta.setText(String.valueOf( getPromos().get(i).getFechaHastaFormatDMY()));
+        productoViewHolder.txtPrecioPromo.setText(String.valueOf( getPromos().get(i).getPrecioPromo()));
     }
 
     @Override
@@ -78,40 +79,25 @@ public class RVAdapterPromo extends RecyclerView.Adapter<RVAdapterPromo.PromoVie
     }
 
 
-    public static class PromoViewHolder extends RecyclerView.ViewHolder implements  View.OnClickListener{
+    public static class PromoViewHolder extends RecyclerView.ViewHolder{
         ArrayList<Promo> promos = new ArrayList<Promo>();
         Context ctx;
+        TextView txtNombre, txtDescripcion, txtCantKilos, txtImporteDescuento, txtFechaDesde, txtFechaHasta, txtPrecioPromo ;
 
-        CardView cv;
-        TextView txtNombre, txtDescripcion, txtImporteDescuento, txtFechaDesde, txtFechaHasta, txtPrecioPromo ;
-
-        OnHeadlineSelectedListener mCallback;
 
         public PromoViewHolder(View itemView, Context ctx, ArrayList<Promo> promos) {
             super(itemView);
-
-            mCallback = (OnHeadlineSelectedListener) ctx;
             this.promos = promos;
             this.ctx = ctx;
-            ptvId = (TextView)itemView.findViewById(R.id.ptvId);
-            pNombre = (TextView)itemView.findViewById(R.id.ptvNombre);
-            //pStock = (TextView)itemView.findViewById(R.id.ptvStock);
-            //pPrecio = (TextView)itemView.findViewById(R.id.ptvPrecio);
+            txtNombre              = (TextView)itemView.findViewById(R.id.item_promo_txt_nombre);
+            txtDescripcion         = (TextView)itemView.findViewById(R.id.item_promo_txt_descripcion);
+            txtCantKilos           = (TextView)itemView.findViewById(R.id.item_promo_txt_cantidad_kilos);
+            txtImporteDescuento    = (TextView)itemView.findViewById(R.id.item_promo_txt_importe_descuento);
+            txtFechaDesde          = (TextView)itemView.findViewById(R.id.item_promo_txt_fechadesde);
+            txtFechaHasta          = (TextView)itemView.findViewById(R.id.item_promo_txt_fechahasta);
+            txtPrecioPromo         = (TextView)itemView.findViewById(R.id.item_promo_txt_precio_monto);
         }
 
-
-        @Override
-        public void onClick(View v) {
-            int position  = getAdapterPosition();
-            Promo producto = this.promos.get(position);
-            Log.d("Debug: OnClick ", producto.getNombre());
-
-            mCallback.onPromoSelected(position, producto);
-
-        }
     }
-    // La actividad contenedora debe implementar esta interfaz
-    public interface OnHeadlineSelectedListener {
-        public void onPromoSelected(int position, Promo producto);
-    }
+
 }

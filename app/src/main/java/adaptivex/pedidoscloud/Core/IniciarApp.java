@@ -5,14 +5,17 @@ package adaptivex.pedidoscloud.Core;
  */
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+import android.util.Property;
 import android.widget.Toast;
 
 import adaptivex.pedidoscloud.Config.GlobalValues;
 import adaptivex.pedidoscloud.Controller.ClienteController;
 import adaptivex.pedidoscloud.Controller.ParameterController;
 import adaptivex.pedidoscloud.Controller.ProductoController;
+import adaptivex.pedidoscloud.Controller.PromoController;
 import adaptivex.pedidoscloud.Controller.UserController;
 import adaptivex.pedidoscloud.Model.CategoriaDataBaseHelper;
 import adaptivex.pedidoscloud.Model.ClienteDataBaseHelper;
@@ -25,6 +28,8 @@ import adaptivex.pedidoscloud.Model.ParameterDataBaseHelper;
 import adaptivex.pedidoscloud.Model.PedidoDataBaseHelper;
 import adaptivex.pedidoscloud.Model.PedidodetalleDataBaseHelper;
 import adaptivex.pedidoscloud.Model.ProductoDataBaseHelper;
+import adaptivex.pedidoscloud.Model.Promo;
+import adaptivex.pedidoscloud.Model.PromoDataBaseHelper;
 import adaptivex.pedidoscloud.Model.User;
 import adaptivex.pedidoscloud.Servicios.HelperCategorias;
 import adaptivex.pedidoscloud.Servicios.HelperClientes;
@@ -43,7 +48,7 @@ public  class IniciarApp  {
         //leer valor de parametro
         setContext(c);
     }
-    public void logout(){
+    public  void logout(){
         try{
         ParameterController pc = new ParameterController(getContext());
         Parameter p = pc.abrir().findById(GlobalValues.getINSTANCIA().PARAM_USERID);
@@ -58,7 +63,6 @@ public  class IniciarApp  {
             Log.d("IniciarAPP", e.getMessage());
         }
     }
-
 
     public  boolean  iniciarBD(){
         try{
@@ -109,6 +113,12 @@ public  class IniciarApp  {
             db.execSQL(par.CREATE_TABLE);
             db.close();
 
+
+            PromoDataBaseHelper promo = new PromoDataBaseHelper(getContext());
+            db = ped.getWritableDatabase();
+            db.execSQL(promo.DROP_TABLE);
+            db.execSQL(promo.CREATE_TABLE);
+            db.close();
 
 
 

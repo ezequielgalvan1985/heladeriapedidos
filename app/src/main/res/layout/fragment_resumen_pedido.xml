@@ -148,7 +148,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="direccion"
-                    android:textSize="@dimen/textsize_resumen_p"
+
                     android:maxLines="4"
                     android:lines="4"
                     android:id="@+id/resumen_pedido_direccion"/>

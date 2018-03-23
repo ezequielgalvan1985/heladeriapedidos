@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import adaptivex.pedidoscloud.Config.Constants;
@@ -21,6 +22,8 @@ import adaptivex.pedidoscloud.Controller.HojarutadetalleController;
 import adaptivex.pedidoscloud.NuevoPedidoActivity;
 import adaptivex.pedidoscloud.R;
 import adaptivex.pedidoscloud.View.Pedidos.CargarDireccionFragment;
+import adaptivex.pedidoscloud.View.Productos.ListadoHeladosFragment;
+import adaptivex.pedidoscloud.View.Users.DatosUserFragment;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,9 +33,9 @@ import adaptivex.pedidoscloud.View.Pedidos.CargarDireccionFragment;
  * Use the {@link HomeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements View.OnClickListener {
 
-
+    private Button btn_nuevo, btn_micuenta, btn_postres, btn_helados;
     private OnFragmentInteractionListener mListener;
 
     public HomeFragment() {
@@ -60,20 +63,16 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View vista = inflater.inflate(R.layout.fragment_home, container, false);
 
-        FloatingActionButton floatingNuevoPedidoButton = (FloatingActionButton) vista.findViewById(R.id.floatingNuevoPedidoButton);
-        floatingNuevoPedidoButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        btn_helados  = (Button) vista.findViewById(R.id.home_btn_helados);
+        btn_micuenta = (Button) vista.findViewById(R.id.home_btn_mi_cuenta);
+        btn_nuevo    = (Button) vista.findViewById(R.id.home_btn_nuevo_pedido);
+        btn_postres  = (Button) vista.findViewById(R.id.home_btn_postres);
 
-                GlobalValues.getINSTANCIA().crearNuevoPedido(getContext());
-                Fragment fragment = new CargarDireccionFragment();
-                FragmentManager fragmentManager         = getFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.content_main, fragment);
-                fragmentTransaction.addToBackStack(Constants.FRAGMENT_CARGAR_HOME);
-                fragmentTransaction.commit();
-            }
-        });
+        btn_nuevo.setOnClickListener(this);
+        btn_postres.setOnClickListener(this);
+        btn_micuenta.setOnClickListener(this);
+        btn_helados.setOnClickListener(this);
+
 
 
         return vista;
@@ -103,6 +102,39 @@ public class HomeFragment extends Fragment {
         mListener = null;
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.home_btn_helados:
+                Fragment fragment = new ListadoHeladosFragment();
+                openFragment(fragment);
+
+                break;
+            case R.id.home_btn_postres:
+                Fragment fragment1 = new ListadoHeladosFragment();
+                openFragment(fragment1);
+                break;
+
+            case R.id.home_btn_mi_cuenta:
+                Fragment fragment2  = new DatosUserFragment();
+                openFragment(fragment2);
+                break;
+
+            case R.id.home_btn_nuevo_pedido:
+                GlobalValues.getINSTANCIA().crearNuevoPedido(getContext());
+                Fragment fragment3 =  new CargarDireccionFragment();
+                openFragment(fragment3);
+                break;
+
+        }
+    }
+    public void openFragment(Fragment fragment){
+        FragmentManager fragmentManager         = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.content_main, fragment);
+        fragmentTransaction.addToBackStack(Constants.FRAGMENT_CARGAR_HOME);
+        fragmentTransaction.commit();
+    }
 
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name

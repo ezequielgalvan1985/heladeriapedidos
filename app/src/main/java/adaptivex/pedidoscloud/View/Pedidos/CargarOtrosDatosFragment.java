@@ -15,9 +15,8 @@ import android.widget.Toast;
 import adaptivex.pedidoscloud.Config.Constants;
 import adaptivex.pedidoscloud.Config.GlobalValues;
 import adaptivex.pedidoscloud.Controller.PedidoController;
-import adaptivex.pedidoscloud.Core.WorkInteger;
+import adaptivex.pedidoscloud.Core.WorkNumber;
 import adaptivex.pedidoscloud.R;
-import ivb.com.materialstepper.stepperFragment;
 
 public class CargarOtrosDatosFragment extends Fragment implements View.OnClickListener {
 
@@ -29,8 +28,8 @@ public class CargarOtrosDatosFragment extends Fragment implements View.OnClickLi
 
 
     private void getDataForm(){
-        GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.setCucuruchos(WorkInteger.parseInteger(txtCucuruchos.getText().toString()));
-        GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.setCucharitas(WorkInteger.parseInteger(txtCucharitas.getText().toString()));
+        GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.setCucuruchos(WorkNumber.parseInteger(txtCucuruchos.getText().toString()));
+        GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.setCucharitas(WorkNumber.parseInteger(txtCucharitas.getText().toString()));
         GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.setEnvioDomicilio(chkEnvio.isChecked());
 
     }

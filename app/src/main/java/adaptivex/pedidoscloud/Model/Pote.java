@@ -2,6 +2,8 @@ package adaptivex.pedidoscloud.Model;
 
 import java.util.ArrayList;
 
+import adaptivex.pedidoscloud.Core.WorkNumber;
+
 /**
  * Created by egalvan on 9/3/2018.
  */
@@ -10,7 +12,7 @@ public class Pote {
     private Pedido pedido;
     private Integer nroPote;
     private Integer kilos;
-    private double heladomonto;
+    private Double heladomonto;
     private ArrayList <PoteItem> itemsPote; // es el helado que va a estar en el pote
 
     public Pote(){
@@ -24,9 +26,18 @@ public class Pote {
     public void addItemPote(PoteItem it){
         this.itemsPote.add(it);
     }
+
     public String getMontoString(){
         return "$ " + String.valueOf(this.getHeladomonto());
     }
+
+    public String getMontoHeladoFormatMoney(){
+        return WorkNumber.moneyFormat(this.getHeladomonto());
+    }
+    public String getCantidadKilosFormatString(){
+        return WorkNumber.kilosFormat(this.getKilos());
+    }
+
 
     public Integer getNroPote() {
         return nroPote;
@@ -44,11 +55,11 @@ public class Pote {
         this.kilos = kilos;
     }
 
-    public double getHeladomonto() {
+    public Double getHeladomonto() {
         return heladomonto;
     }
 
-    public void setHeladomonto(double heladomonto) {
+    public void setHeladomonto(Double heladomonto) {
         this.heladomonto = heladomonto;
     }
 

@@ -25,6 +25,7 @@ import java.util.Date;
 
 import adaptivex.pedidoscloud.Config.Constants;
 import adaptivex.pedidoscloud.Config.GlobalValues;
+import adaptivex.pedidoscloud.Config.InsertRowsTest;
 import adaptivex.pedidoscloud.Controller.PedidoController;
 import adaptivex.pedidoscloud.Core.IniciarApp;
 import adaptivex.pedidoscloud.Core.ParameterHelper;
@@ -50,6 +51,7 @@ import adaptivex.pedidoscloud.View.Pedidos.ResumenPedidoFragment;
 import adaptivex.pedidoscloud.View.Productos.ListadoHeladosFragment;
 import adaptivex.pedidoscloud.View.Productos.ListadoProductosFragment;
 import adaptivex.pedidoscloud.View.Productos.ProductoDetalleFragment;
+import adaptivex.pedidoscloud.View.Promos.ListadoPromosFragment;
 import adaptivex.pedidoscloud.View.Pruebas.DescargaImagenActivity;
 import adaptivex.pedidoscloud.View.RVAdapters.RVAdapterCliente;
 import adaptivex.pedidoscloud.View.RVAdapters.RVAdapterHojaruta;
@@ -77,7 +79,8 @@ public class MainActivity extends AppCompatActivity
         ResumenFragment.OnFragmentInteractionListener,
         ConfigFragment.OnFragmentInteractionListener,
         DatosUserFragment.OnFragmentInteractionListener,
-        CargarHeladosFragment.OnFragmentInteractionListener
+        CargarHeladosFragment.OnFragmentInteractionListener,
+        ListadoPromosFragment.OnFragmentInteractionListener
 
 
 {
@@ -264,10 +267,18 @@ public class MainActivity extends AppCompatActivity
             if (id == R.id.nav_pedidodetalles) {
                 fragment = new ListadoPedidodetallesFragment();
                 fragmentTransaction = true;
-
                 GlobalValues.getINSTANCIA().setActualFragment(GlobalValues.getINSTANCIA().LISTADOPEDIDODETALLES);
 
+            }else if (id == R.id.nav_promos) {
+                try{
 
+                    InsertRowsTest.insertPromos(this);
+                    fragment = new ListadoPromosFragment();
+                    fragmentTransaction = true;
+
+                }catch(Exception e){
+                    Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                }
             }else if (id == R.id.nav_pedidos_pendientes) {
                 try{
                     fragment = new ListadoPedidosFragment();
@@ -303,12 +314,6 @@ public class MainActivity extends AppCompatActivity
 
                 GlobalValues.getINSTANCIA().setActualFragment(GlobalValues.getINSTANCIA().LISTADOCATEGORIAS);
 
-            } else if (id == R.id.nav_clientes) {
-                fragment = new ListadoClientesFragment();
-                fragmentTransaction = true;
-                Log.d("Debug: ClickCliente ", String.valueOf(id));
-
-                GlobalValues.getINSTANCIA().setActualFragment(GlobalValues.getINSTANCIA().LISTADOCLIENTES);
 
             } else if (id == R.id.nav_productos) {
                 //fragment = new ListadoProductosFragment();
@@ -332,8 +337,6 @@ public class MainActivity extends AppCompatActivity
             } else if (id == R.id.nav_pedidosentrega) {
                 Toast.makeText(this, "Descarga de Pedidos para entregar " , Toast.LENGTH_LONG).show();
 
-            } else if (id == R.id.nav_diagramarrecorrido) {
-                Toast.makeText(this, "Diagramar en GPS " , Toast.LENGTH_LONG).show();
 
             } else if (id == R.id.nav_descargaImagen) {
                 Intent i = new Intent(this, DescargaImagenActivity.class);

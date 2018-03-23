@@ -48,19 +48,11 @@
                     android:title="Descargar Pedidos para Entregar"
                     android:visible="false"/>
 
-                <item
-                    android:id="@+id/nav_diagramarrecorrido"
-                    android:title="Diagramar Entrega de Pedidos con GPS"
-                    android:visible="false"/>
 
 
 
 
-                <item
-                    android:visible="false"
-                    android:id="@+id/nav_clientes"
-                    android:title="Clientes"
-                    />
+
 
                 <item
                     android:id="@+id/nav_productos"
@@ -69,6 +61,10 @@
                 <item
                     android:id="@+id/nav_postres"
                     android:title="Postres" />
+
+                <item
+                    android:id="@+id/nav_promos"
+                    android:title="Promociones" />
 
 
             </group>

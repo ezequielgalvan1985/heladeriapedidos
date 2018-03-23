@@ -17,7 +17,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -26,7 +25,6 @@ import java.util.List;
 import adaptivex.pedidoscloud.Config.Constants;
 import adaptivex.pedidoscloud.Config.GlobalValues;
 import adaptivex.pedidoscloud.Controller.PedidoController;
-import adaptivex.pedidoscloud.Core.WorkInteger;
 import adaptivex.pedidoscloud.Model.Pote;
 import adaptivex.pedidoscloud.R;
 import adaptivex.pedidoscloud.View.RVAdapters.RVAdapterPote;
@@ -176,16 +174,16 @@ public class CargarCantidadFragment extends Fragment implements View.OnClickList
         GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.agregarPote(getSpinnerSelection());
         GlobalValues.getINSTANCIA().PEDIDO_ACTUAL_NRO_POTE    = GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getCantidadPotes();
         GlobalValues.getINSTANCIA().PEDIDO_ACTUAL_MEDIDA_POTE = getSpinnerSelection();
-        savePedido();
+        PedidoController pc = new PedidoController(getContext());
+        pc.abrir().edit(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL);
         openCargarHelados();
     }
 
     public boolean savePedido(){
         //Obtiene valores del formulario, y luego lo guarda en la base de datos
         try{
-
             PedidoController pc = new PedidoController(getContext());
-            pc.abrir().modificar(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL,true);
+            pc.abrir().calculatePromoBeforeEdit(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL);
             return true;
         }catch (Exception e){
             Toast.makeText(getContext(),"Error: " + e.getMessage(),Toast.LENGTH_LONG).show();
@@ -222,6 +220,7 @@ public class CargarCantidadFragment extends Fragment implements View.OnClickList
                 //Realizar validaciones
                 if(validateForm()){
                     //Guardar datos en Pedido
+                    savePedido();
                     openCargarOtrosDatos();
                 }
                 break;

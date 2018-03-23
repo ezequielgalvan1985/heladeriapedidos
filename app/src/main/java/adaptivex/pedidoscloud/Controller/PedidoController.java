@@ -9,6 +9,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import adaptivex.pedidoscloud.Config.GlobalValues;
+import adaptivex.pedidoscloud.Core.Interfaces.ControllerInterface;
 import adaptivex.pedidoscloud.Model.Cliente;
 import adaptivex.pedidoscloud.Model.Pedido;
 import adaptivex.pedidoscloud.Model.PedidoDataBaseHelper;
@@ -16,13 +17,14 @@ import adaptivex.pedidoscloud.Model.Pedidodetalle;
 import adaptivex.pedidoscloud.Model.PedidodetalleDataBaseHelper;
 import adaptivex.pedidoscloud.Model.Pote;
 import adaptivex.pedidoscloud.Model.PoteItem;
+import adaptivex.pedidoscloud.Model.Promo;
 
 import java.util.ArrayList;
 
 /**
  * Created by ezequiel on 30/05/2016.
  */
-public class PedidoController
+public class PedidoController implements ControllerInterface
 {
     private Context context;
     private PedidoDataBaseHelper dbHelper;
@@ -116,62 +118,6 @@ public class PedidoController
         }
     }
 
-    public void actualizarTotales(int pedidoIdTmp){
-        //PedidodetalleController dbDetalles = new PedidodetalleController(this.context);
-        //Double subtotal, iva, total;
-        this.abrir();
-
-        Log.d("Deb actualizarTotales", PedidoDataBaseHelper.get_ACT_PED_TOTALES_TMP_ID(pedidoIdTmp));
-        db.execSQL(PedidoDataBaseHelper.get_ACT_PED_TOTALES_TMP_ID(pedidoIdTmp));
-       // db.execSQL(PedidoDataBaseHelper.get_ACT_PED_TOTALES_TMP_ID(pedidoIdTmp));
-        this.cerrar();
-/*
-        String[] campos = {"sum("+ PedidodetalleDataBaseHelper.CAMPO_MONTO +") as monto "
-        };
-
-        Cursor resultado = db.query(PedidodetalleDataBaseHelper.TABLE_NAME, campos,
-                null, null, null, null, null);
-        if (resultado != null)
-        {
-            resultado.moveToFirst();
-        }
-        return resultado;
-        */
-        /*
-        //Obtener pedido por ID
-        this.abrir();
-        pedido =  this.buscar(pedidoId,true);
-        this.cerrar();
-
-        //Iniciar Variables
-        total = 0.00; subtotal = 0.00 ; iva = 0.00;
-
-        //si pedido todavia no esta definido
-        Cursor c;
-        //buscar pedidodetalles para idtmp
-        c = dbDetalles.findByPedidoIdTmp(pedido);
-
-
-
-        for(c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
-           subtotal =+ c.getDouble(c.getColumnIndex(PedidodetalleDataBaseHelper.CAMPO_MONTO));
-        }
-
-        iva = subtotal * GlobalValues.consIva;
-        total = subtotal + iva;
-        pedido.setIva(iva);
-        pedido.setSubtotal(subtotal);
-        pedido.setMonto(total);
-
-        this.abrir();
-        this.modificar(pedido, true);
-        this.cerrar();
-*/
-
-    }
-
-
-
 
     public long agregar(Pedido item)
     {
@@ -207,14 +153,18 @@ public class PedidoController
             valores.put(PedidoDataBaseHelper.CAMPO_ENVIO_DOMICILIO,  item.isEnvioDomicilio());
             valores.put(PedidoDataBaseHelper.CAMPO_MONTO_CUCURUCHOS, item.getMontoCucuruchos());
 
-
+            valores.put(PedidoDataBaseHelper.CAMPO_MONTO_DESCUENTO,  item.getMontoDescuento());
+            valores.put(PedidoDataBaseHelper.CAMPO_CANTIDAD_DESCUENTO, item.getCantidadDescuento());
 
         }catch(Exception e ){
             Toast.makeText(context,"Error:" + e.getMessage(),Toast.LENGTH_LONG).show();
-
         }
         return db.insert(PedidoDataBaseHelper.TABLE_NAME, null, valores);
     }
+
+
+
+
 
     //Busca Maximo pedido por IDTMP, Es decir codigo autonumerico de SQLITE
     public long getMaxIdTmpPedido(){
@@ -271,6 +221,10 @@ public class PedidoController
             valores.put(PedidoDataBaseHelper.CAMPO_CUCURUCHOS,       item.getCucuruchos());
             valores.put(PedidoDataBaseHelper.CAMPO_ENVIO_DOMICILIO,  item.isEnvioDomicilio());
             valores.put(PedidoDataBaseHelper.CAMPO_MONTO_CUCURUCHOS, item.getMontoCucuruchos());
+
+            valores.put(PedidoDataBaseHelper.CAMPO_MONTO_DESCUENTO,    item.getMontoDescuento());
+            valores.put(PedidoDataBaseHelper.CAMPO_CANTIDAD_DESCUENTO, item.getCantidadDescuento());
+
 
             valores.put(PedidoDataBaseHelper.CAMPO_ID_TMP, item.getIdTmp());
 
@@ -348,7 +302,12 @@ public class PedidoController
                     PedidoDataBaseHelper.CAMPO_CLIENTE_ID,
                     PedidoDataBaseHelper.CAMPO_BONIFICACION,
                     PedidoDataBaseHelper.CAMPO_ESTADO_ID,
-                    PedidoDataBaseHelper.CAMPO_ID_TMP
+                    PedidoDataBaseHelper.CAMPO_ID_TMP,
+
+                    PedidoDataBaseHelper.CAMPO_CUCURUCHOS,
+                    PedidoDataBaseHelper.CAMPO_MONTO_CUCURUCHOS,
+                    PedidoDataBaseHelper.CAMPO_MONTO_DESCUENTO,
+                    PedidoDataBaseHelper.CAMPO_CANTIDAD_DESCUENTO
 
             };
             String[] argumentos = {String.valueOf(pEstadoId)};
@@ -388,30 +347,291 @@ public class PedidoController
     }
 
 
-    public Cursor obtenerTodosWithSubquery() {
-        String[] campos = {PedidoDataBaseHelper.CAMPO_ID,
-                PedidoDataBaseHelper.CAMPO_CREATED,
-                PedidoDataBaseHelper.CAMPO_SUBTOTAL,
-                PedidoDataBaseHelper.CAMPO_IVA,
-                PedidoDataBaseHelper.CAMPO_MONTO,
-                PedidoDataBaseHelper.CAMPO_CLIENTE_ID,
-                PedidoDataBaseHelper.CAMPO_BONIFICACION,
-                PedidoDataBaseHelper.CAMPO_ESTADO_ID,
-                PedidoDataBaseHelper.CAMPO_ID_TMP
-
-        };
-
-        //String sql = "select p.*, c.* from pedidos p inner join clientes c on p.cliente_id = c.id ";
 
 
-        Cursor resultado = db.query(PedidoDataBaseHelper.TABLE_NAME, campos,
-                null, null, null, null, null);
-        if (resultado != null)
-        {
-            resultado.moveToFirst();
-        }
-        return resultado;
+
+    public boolean calculatePromoBeforeEdit(Pedido pedido){
+         try{
+             // Primero calcula el descuento
+             // Actualiza los valores en el pedido
+             // y luego lo guarda en la base de datos
+             PromoController promoCtr = new PromoController(context);
+             Promo promo = promoCtr.abrir().calculateDiscount(pedido.getCantidadKilos());
+             promoCtr.cerrar();
+             if (promo!=null){
+                 pedido.setMontoDescuento(promo.getMountDiscount());
+                 pedido.setCantidadDescuento(Integer.parseInt(promo.getCountDiscount().toString()));
+             }
+             this.edit(pedido);
+             return true;
+         }catch (Exception e){
+             Toast.makeText(context,"Error:" + e.getMessage(),Toast.LENGTH_LONG).show();
+             return false;
+         }
     }
+
+
+
+    //Metodos de Interface
+    @Override
+    public long add(Object object)
+    {
+        Pedido item = (Pedido) object;
+        ContentValues valores = new ContentValues();
+        try{
+            //valores.put(PedidoDataBaseHelper.CAMPO_ID_TMP, item.getIdTmp()); // es ID Autonumerico
+            valores.put(PedidoDataBaseHelper.CAMPO_ID, item.getId());
+            valores.put(PedidoDataBaseHelper.CAMPO_CREATED, item.getCreated());
+            valores.put(PedidoDataBaseHelper.CAMPO_SUBTOTAL, item.getSubtotal());
+            valores.put(PedidoDataBaseHelper.CAMPO_IVA, item.getIva());
+            valores.put(PedidoDataBaseHelper.CAMPO_MONTO, item.getMonto());
+            valores.put(PedidoDataBaseHelper.CAMPO_CLIENTE_ID, item.getCliente_id());
+            valores.put(PedidoDataBaseHelper.CAMPO_BONIFICACION, item.getBonificacion());
+            valores.put(PedidoDataBaseHelper.CAMPO_ESTADO_ID, item.getEstadoId());
+
+
+            //Nuevos campos para Heladerias
+            //DIRECCION
+            valores.put(PedidoDataBaseHelper.CAMPO_LOCALIDAD, item.getLocalidad());
+            valores.put(PedidoDataBaseHelper.CAMPO_CALLE,     item.getCalle());
+            valores.put(PedidoDataBaseHelper.CAMPO_NRO,       item.getNro());
+            valores.put(PedidoDataBaseHelper.CAMPO_PISO,      item.getPiso());
+            valores.put(PedidoDataBaseHelper.CAMPO_TELEFONO,  item.getTelefono());
+            valores.put(PedidoDataBaseHelper.CAMPO_CONTACTO,  item.getContacto());
+
+            //CANTIDAD
+            valores.put(PedidoDataBaseHelper.CAMPO_CANTIDAD_KILOS,   item.getCantidadKilos());
+            valores.put(PedidoDataBaseHelper.CAMPO_CANTIDAD_POTES,   item.getCantidadPotes()  );
+            valores.put(PedidoDataBaseHelper.CAMPO_CUCHARITAS,       item.getCucharitas());
+            valores.put(PedidoDataBaseHelper.CAMPO_CUCURUCHOS,       item.getCucuruchos());
+            valores.put(PedidoDataBaseHelper.CAMPO_ENVIO_DOMICILIO,  item.isEnvioDomicilio());
+            valores.put(PedidoDataBaseHelper.CAMPO_MONTO_CUCURUCHOS, item.getMontoCucuruchos());
+
+            valores.put(PedidoDataBaseHelper.CAMPO_MONTO_DESCUENTO,  item.getMontoDescuento());
+            valores.put(PedidoDataBaseHelper.CAMPO_CANTIDAD_DESCUENTO, item.getCantidadDescuento());
+            valores.put(PedidoDataBaseHelper.CAMPO_HORA_ENTREGA, item.getHoraEntrega());
+
+            return db.insert(PedidoDataBaseHelper.TABLE_NAME, null, valores);
+        }catch(Exception e ){
+            Toast.makeText(context,"Error:" + e.getMessage(),Toast.LENGTH_LONG).show();
+            return -1;
+        }
+    }
+
+    @Override
+    public boolean edit(Object object) {
+
+        try {
+            Pedido item = (Pedido) object;
+            ContentValues valores = new ContentValues();
+            valores.put(PedidoDataBaseHelper.CAMPO_ID, item.getId());
+            valores.put(PedidoDataBaseHelper.CAMPO_CREATED, item.getCreated());
+            valores.put(PedidoDataBaseHelper.CAMPO_SUBTOTAL, item.getSubtotal());
+            valores.put(PedidoDataBaseHelper.CAMPO_IVA, item.getIva());
+            valores.put(PedidoDataBaseHelper.CAMPO_MONTO, item.getMonto());
+            valores.put(PedidoDataBaseHelper.CAMPO_CLIENTE_ID, item.getCliente_id());
+            valores.put(PedidoDataBaseHelper.CAMPO_BONIFICACION, item.getBonificacion());
+            valores.put(PedidoDataBaseHelper.CAMPO_ESTADO_ID, item.getEstadoId());
+
+            //DIRECCION
+            valores.put(PedidoDataBaseHelper.CAMPO_LOCALIDAD, item.getLocalidad());
+            valores.put(PedidoDataBaseHelper.CAMPO_CALLE, item.getCalle());
+            valores.put(PedidoDataBaseHelper.CAMPO_NRO, item.getNro());
+            valores.put(PedidoDataBaseHelper.CAMPO_PISO, item.getPiso());
+            valores.put(PedidoDataBaseHelper.CAMPO_TELEFONO, item.getTelefono());
+            valores.put(PedidoDataBaseHelper.CAMPO_CONTACTO, item.getContacto());
+
+            //CANTIDAD
+            valores.put(PedidoDataBaseHelper.CAMPO_CANTIDAD_KILOS, item.getCantidadKilos());
+            valores.put(PedidoDataBaseHelper.CAMPO_CANTIDAD_POTES, item.getCantidadPotes());
+            valores.put(PedidoDataBaseHelper.CAMPO_CUCHARITAS, item.getCucharitas());
+            valores.put(PedidoDataBaseHelper.CAMPO_CUCURUCHOS, item.getCucuruchos());
+            valores.put(PedidoDataBaseHelper.CAMPO_ENVIO_DOMICILIO, item.isEnvioDomicilio());
+            valores.put(PedidoDataBaseHelper.CAMPO_MONTO_CUCURUCHOS, item.getMontoCucuruchos());
+
+            valores.put(PedidoDataBaseHelper.CAMPO_MONTO_DESCUENTO, item.getMontoDescuento());
+            valores.put(PedidoDataBaseHelper.CAMPO_CANTIDAD_DESCUENTO, item.getCantidadDescuento());
+            valores.put(PedidoDataBaseHelper.CAMPO_HORA_ENTREGA, item.getHoraEntrega());
+
+            valores.put(PedidoDataBaseHelper.CAMPO_ID_TMP, item.getIdTmp());
+
+            String[] argumentos = new String[]{String.valueOf(item.getIdTmp())};
+            db.update(PedidoDataBaseHelper.TABLE_NAME, valores, PedidoDataBaseHelper.CAMPO_ID_TMP + " = ?", argumentos);
+            return true;
+        } catch (Exception e) {
+            Toast.makeText(context, "Error " + e.getMessage(), Toast.LENGTH_LONG).show();
+            return false;
+        }
+    }
+
+    @Override
+    public boolean delete(Object object) {
+        return false;
+    }
+
+
+    @Override
+    public Cursor findAll(){
+        try{
+            String[] campos = {PedidoDataBaseHelper.CAMPO_ID,
+                    PedidoDataBaseHelper.CAMPO_CREATED,
+                    PedidoDataBaseHelper.CAMPO_SUBTOTAL,
+                    PedidoDataBaseHelper.CAMPO_IVA,
+                    PedidoDataBaseHelper.CAMPO_MONTO,
+                    PedidoDataBaseHelper.CAMPO_CLIENTE_ID,
+                    PedidoDataBaseHelper.CAMPO_BONIFICACION,
+                    PedidoDataBaseHelper.CAMPO_ESTADO_ID,
+                    PedidoDataBaseHelper.CAMPO_ID_TMP,
+                    //DATOS HELADERIA
+                    PedidoDataBaseHelper.CAMPO_LOCALIDAD,
+                    PedidoDataBaseHelper.CAMPO_CALLE,
+                    PedidoDataBaseHelper.CAMPO_NRO,
+                    PedidoDataBaseHelper.CAMPO_PISO,
+                    PedidoDataBaseHelper.CAMPO_TELEFONO,
+                    PedidoDataBaseHelper.CAMPO_CONTACTO,
+
+                    PedidoDataBaseHelper.CAMPO_CANTIDAD_POTES,
+                    PedidoDataBaseHelper.CAMPO_CANTIDAD_KILOS,
+                    PedidoDataBaseHelper.CAMPO_CUCHARITAS,
+                    PedidoDataBaseHelper.CAMPO_CUCURUCHOS,
+                    PedidoDataBaseHelper.CAMPO_ENVIO_DOMICILIO,
+                    PedidoDataBaseHelper.CAMPO_MONTO_CUCURUCHOS,
+                    PedidoDataBaseHelper.CAMPO_CANTIDAD_DESCUENTO,
+                    PedidoDataBaseHelper.CAMPO_MONTO_DESCUENTO,
+                    PedidoDataBaseHelper.CAMPO_HORA_ENTREGA
+
+
+            };
+
+            Cursor resultado = db.query(PedidoDataBaseHelper.TABLE_NAME, campos,
+                    null, null, null, null, PedidoDataBaseHelper.CAMPO_CREATED + " desc");
+            if (resultado != null)
+            {
+                resultado.moveToFirst();
+            }
+            return resultado;
+        }catch(Exception e){
+            Toast.makeText(context,"Error:" + e.getMessage(),Toast.LENGTH_LONG).show();
+            return null;
+        }
+    }
+
+    @Override
+    public Cursor findAllByIdAndroid(long idAndroid) {
+        try{
+            String[] campos = {
+                    PedidoDataBaseHelper.CAMPO_ID,
+                    PedidoDataBaseHelper.CAMPO_CREATED,
+                    PedidoDataBaseHelper.CAMPO_SUBTOTAL,
+                    PedidoDataBaseHelper.CAMPO_IVA,
+                    PedidoDataBaseHelper.CAMPO_MONTO,
+                    PedidoDataBaseHelper.CAMPO_CLIENTE_ID,
+                    PedidoDataBaseHelper.CAMPO_BONIFICACION,
+                    PedidoDataBaseHelper.CAMPO_ESTADO_ID,
+                    PedidoDataBaseHelper.CAMPO_ID_TMP,
+                    //DATOS HELADERIA
+                    PedidoDataBaseHelper.CAMPO_LOCALIDAD,
+                    PedidoDataBaseHelper.CAMPO_CALLE,
+                    PedidoDataBaseHelper.CAMPO_NRO,
+                    PedidoDataBaseHelper.CAMPO_PISO,
+                    PedidoDataBaseHelper.CAMPO_TELEFONO,
+                    PedidoDataBaseHelper.CAMPO_CONTACTO,
+
+                    PedidoDataBaseHelper.CAMPO_CANTIDAD_POTES,
+                    PedidoDataBaseHelper.CAMPO_CANTIDAD_KILOS,
+                    PedidoDataBaseHelper.CAMPO_CUCHARITAS,
+                    PedidoDataBaseHelper.CAMPO_CUCURUCHOS,
+                    PedidoDataBaseHelper.CAMPO_ENVIO_DOMICILIO,
+                    PedidoDataBaseHelper.CAMPO_MONTO_CUCURUCHOS,
+                    PedidoDataBaseHelper.CAMPO_CANTIDAD_DESCUENTO,
+                    PedidoDataBaseHelper.CAMPO_MONTO_DESCUENTO,
+                    PedidoDataBaseHelper.CAMPO_HORA_ENTREGA
+
+
+            };
+            String[] argumentos = {String.valueOf(idAndroid)};
+            String orderBy      = PedidoDataBaseHelper.CAMPO_CREATED + " DESC ";
+            Cursor resultado = db.query(PedidoDataBaseHelper.TABLE_NAME, campos, PedidoDataBaseHelper.CAMPO_ID_TMP + " = ?", argumentos, null, null, orderBy);
+            if (resultado != null)
+            {
+                resultado.moveToFirst();
+            }
+            return resultado;
+        }catch(Exception e){
+            Toast.makeText(context,"Error:" + e.getMessage(),Toast.LENGTH_LONG).show();
+            return null;
+        }
+    }
+
+
+
+    @Override
+    public Cursor findAllById(long id) {
+        try{
+            String[] campos = {
+                    PedidoDataBaseHelper.CAMPO_ID,
+                    PedidoDataBaseHelper.CAMPO_CREATED,
+                    PedidoDataBaseHelper.CAMPO_SUBTOTAL,
+                    PedidoDataBaseHelper.CAMPO_IVA,
+                    PedidoDataBaseHelper.CAMPO_MONTO,
+                    PedidoDataBaseHelper.CAMPO_CLIENTE_ID,
+                    PedidoDataBaseHelper.CAMPO_BONIFICACION,
+                    PedidoDataBaseHelper.CAMPO_ESTADO_ID,
+                    PedidoDataBaseHelper.CAMPO_ID_TMP,
+                    //DATOS HELADERIA
+                    PedidoDataBaseHelper.CAMPO_LOCALIDAD,
+                    PedidoDataBaseHelper.CAMPO_CALLE,
+                    PedidoDataBaseHelper.CAMPO_NRO,
+                    PedidoDataBaseHelper.CAMPO_PISO,
+                    PedidoDataBaseHelper.CAMPO_TELEFONO,
+                    PedidoDataBaseHelper.CAMPO_CONTACTO,
+
+                    PedidoDataBaseHelper.CAMPO_CANTIDAD_POTES,
+                    PedidoDataBaseHelper.CAMPO_CANTIDAD_KILOS,
+                    PedidoDataBaseHelper.CAMPO_CUCHARITAS,
+                    PedidoDataBaseHelper.CAMPO_CUCURUCHOS,
+                    PedidoDataBaseHelper.CAMPO_ENVIO_DOMICILIO,
+                    PedidoDataBaseHelper.CAMPO_MONTO_CUCURUCHOS,
+                    PedidoDataBaseHelper.CAMPO_CANTIDAD_DESCUENTO,
+                    PedidoDataBaseHelper.CAMPO_MONTO_DESCUENTO,
+                    PedidoDataBaseHelper.CAMPO_HORA_ENTREGA
+
+
+            };
+            String[] argumentos = {String.valueOf(id)};
+            String orderBy      = PedidoDataBaseHelper.CAMPO_CREATED + " DESC ";
+            Cursor resultado = db.query(PedidoDataBaseHelper.TABLE_NAME, campos, PedidoDataBaseHelper.CAMPO_ID + " = ?", argumentos, null, null, orderBy);
+            if (resultado != null)
+            {
+                resultado.moveToFirst();
+            }
+            return resultado;
+        }catch(Exception e){
+            Toast.makeText(context,"Error:" + e.getMessage(),Toast.LENGTH_LONG).show();
+            return null;
+        }
+    }
+
+
+    @Override
+    public ArrayList<Object> parseCursorToArrayList(Cursor c) {
+        ArrayList<Object> lista = new ArrayList<Object>();
+        Pedido p = new Pedido ();
+
+
+        for (int i = 0;i <= lista.size(); i++){
+            Pedido ped = (Pedido) lista.get(i);
+        }
+
+        return lista;
+        //return null;
+    }
+
+
+
+
+
+
 
     public Pedido buscar(long id, boolean isIdTmp)
     {

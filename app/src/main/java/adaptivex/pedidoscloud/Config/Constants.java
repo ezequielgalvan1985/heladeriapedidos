@@ -57,4 +57,9 @@ public class Constants {
     public static final String FRAGMENT_CARGAR_HOME = "cargar_home";
 
 
+
+    //FECHA FORMATOS
+    public static final String DATE_FORMAT_SQLITE = "yyyy-MM-dd";
+    public static final String DATE_FORMAT_DISPLAY_APP = "dd-MM-yyyy";
+
 }

@@ -2,7 +2,6 @@ package adaptivex.pedidoscloud.Model;
 
 import android.database.Cursor;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -12,6 +11,7 @@ import java.util.Locale;
 
 import adaptivex.pedidoscloud.Config.Constants;
 import adaptivex.pedidoscloud.Config.GlobalValues;
+import adaptivex.pedidoscloud.Core.WorkNumber;
 
 /**
  * Created by ezequiel on 25/06/2016.
@@ -28,7 +28,13 @@ public class Pedido {
     private Double  bonificacion;
     private Integer estadoId;
     private Integer nroPedidoReal;
+    private Double  montoDescuento;
+    private Integer cantidadDescuento;
+    private String horaEntrega;
 
+
+
+    //Datos que no se guardan en la DB
     //Para la heladeria
     private ArrayList<Pote> potes;
 
@@ -51,8 +57,8 @@ public class Pedido {
     private String telefono;
     private String contacto;
 
-    private double montoCucuruchos;
-    private double montoHelados;
+    private Double montoCucuruchos;
+    private Double montoHelados;
 
 
     public String getProporcionDesc(Integer proporcion){
@@ -106,7 +112,7 @@ public class Pedido {
             this.cantidadKilos += cantidad;
             this.setCantidadPotes(this.getCantidadPotes() + 1);
             this.setMontoHelados(this.getMontoHelados() + getPrecioMedidaPote(cantidad));
-            this.setMonto(this.getMontoHelados() + this.getMontoCucuruchos());
+            refreshMontoTotal();
         }catch (Exception e){
             Log.d("PedidoError", e.getMessage());
         }
@@ -182,10 +188,10 @@ public class Pedido {
     }
 
     public String getStringDireccion(){
-        String direccion = "Localidad: "+  getLocalidad() + "\n"+
-                "Calle:" + getCalle() + " " + getNro() + " (Piso:" + getPiso() + ")\n"+
-                "Telefono: " + getTelefono() +"\n"+
-                "Contacto: " + getContacto() +" )";
+        String direccion = "Localidad: " + getLocalidad() + "\n"+
+                           "Calle:         " + getCalle() + " " + getNro() + " (Piso: " + getPiso() + ")\n"+
+                           "Telefono:  " + getTelefono() +"\n"+
+                           "Contacto: " + getContacto() ;
         return direccion;
     }
 
@@ -199,7 +205,11 @@ public class Pedido {
         //Cada vez que se setea los cucuruchos se calcula su monto
         Double monto = cucuruchos * Constants.PRECIO_CUCURUCHO;
         setMontoCucuruchos(monto);
-        this.setMonto(this.getMontoHelados() + this.getMontoCucuruchos());
+        refreshMontoTotal();
+    }
+
+    public void refreshMontoTotal(){
+        monto = WorkNumber.getValue(montoHelados) + WorkNumber.getValue(montoCucuruchos) - WorkNumber.getValue(montoDescuento);
     }
 
     public Integer getCucharitas() {
@@ -251,6 +261,14 @@ public class Pedido {
         return monto;
     }
 
+    public String getMontoFormatMoney(){
+        return WorkNumber.moneyFormat(getMonto());
+    }
+
+    public String getMontoHeladoFormatMoney(){
+        return WorkNumber.moneyFormat(getMontoHelados());
+    }
+
     public void setMonto(Double monto) {
         this.monto = monto;
     }
@@ -275,6 +293,10 @@ public class Pedido {
         return estadoId;
     }
 
+    public String getEstadoDescripcion(){
+        String estadodesc ="";
+        return estadodesc;
+    }
     public void setEstadoId(Integer estadoId) {
         this.estadoId = estadoId;
     }
@@ -361,6 +383,10 @@ public class Pedido {
         this.precioxkilo = precioxkilo;
     }
 
+    public String getCantidadKilosFormatString(){
+        return WorkNumber.kilosFormat(this.getCantidadKilos());
+    }
+
     public Integer getCantidadKilos() {
         return cantidadKilos;
     }
@@ -388,6 +414,9 @@ public class Pedido {
     public double getMontoCucuruchos() {
         return montoCucuruchos;
     }
+    public String getMontoCucuruchosFormatMoney() {
+        return WorkNumber.moneyFormat(this.montoCucuruchos);
+    }
 
 
 
@@ -403,5 +432,32 @@ public class Pedido {
         String cartel = "NO";
         if (this.envioDomicilio) cartel = "SI";
         return cartel;
+    }
+
+    public Double getMontoDescuento() {
+        return montoDescuento;
+    }
+    public String getMontoDescuentoFormatMoney(){
+        return WorkNumber.moneyFormat(this.montoDescuento);
+    }
+    public void setMontoDescuento(Double montoDescuento) {
+        this.montoDescuento = montoDescuento;
+        refreshMontoTotal();
+    }
+
+    public Integer getCantidadDescuento() {
+        return WorkNumber.getValue(cantidadDescuento);
+    }
+
+    public void setCantidadDescuento(Integer cantidadDescuento) {
+        this.cantidadDescuento = cantidadDescuento;
+    }
+
+    public String getHoraEntrega() {
+        return horaEntrega;
+    }
+
+    public void setHoraEntrega(String horaEntrega) {
+        this.horaEntrega = horaEntrega;
     }
 }

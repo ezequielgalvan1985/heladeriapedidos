@@ -2,10 +2,15 @@ package adaptivex.pedidoscloud.Model;
 
 import java.util.Date;
 
+import adaptivex.pedidoscloud.Config.Constants;
+import adaptivex.pedidoscloud.Core.WorkDate;
+
 /**
  * Created by ezequiel on 23/05/2016.
  */
 public class Promo {
+
+    //Se guardan en la BD
     private Integer id;
     private Integer idAndroid;
     private String nombre;
@@ -15,6 +20,11 @@ public class Promo {
     private Integer cantKilos;
     private Double importeDescuento;
     private Double precioPromo;
+    private boolean enabled;
+
+    //atributos, que no se guardan en la base de datos
+    private Double mountDiscount;
+    private Integer countDiscount;
 
 
     public Integer getId() {
@@ -89,5 +99,37 @@ public class Promo {
 
     public void setIdAndroid(Integer idAndroid) {
         this.idAndroid = idAndroid;
+    }
+
+    public String getFechaDesdeFormatDMY(){
+        return WorkDate.changeFormatDateString(this.fechaDesde, Constants.DATE_FORMAT_SQLITE, Constants.DATE_FORMAT_DISPLAY_APP);
+    }
+    public String getFechaHastaFormatDMY(){
+        return WorkDate.changeFormatDateString(this.fechaHasta, Constants.DATE_FORMAT_SQLITE, Constants.DATE_FORMAT_DISPLAY_APP);
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public Double getMountDiscount() {
+        return mountDiscount;
+    }
+
+    public void setMountDiscount(Double mountDiscount) {
+        this.mountDiscount = mountDiscount;
+    }
+
+
+    public Integer getCountDiscount() {
+        return countDiscount;
+    }
+
+    public void setCountDiscount(Integer countDiscount) {
+        this.countDiscount = countDiscount;
     }
 }

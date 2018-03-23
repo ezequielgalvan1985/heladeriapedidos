@@ -195,11 +195,7 @@ public class ListadoHeladosFragment extends stepperFragment {
 
 
 
-        tvMessage = (TextView) vista.findViewById(R.id.helados_message);
-        tvMessage.setText(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getCantidadKilos());
 
-        listView = (ListView)vista.findViewById(R.id.listview);
-        btnLookup = (Button)vista.findViewById(R.id.lookup);
 
         initItems();
         myItemsListAdapter = new ItemsListAdapter(getContext(), items);

@@ -10,10 +10,12 @@ import java.util.Date;
 import java.util.List;
 
 import adaptivex.pedidoscloud.Controller.PedidoController;
+import adaptivex.pedidoscloud.Controller.PromoController;
 import adaptivex.pedidoscloud.Core.IniciarApp;
 import adaptivex.pedidoscloud.Model.ItemHelado;
 import adaptivex.pedidoscloud.Model.Pedido;
 import adaptivex.pedidoscloud.Model.Pote;
+import adaptivex.pedidoscloud.Model.Promo;
 import adaptivex.pedidoscloud.Model.User;
 import adaptivex.pedidoscloud.View.RVAdapters.RVAdapterHelado;
 
@@ -301,5 +303,6 @@ public class GlobalValues {
             return 0;
         }
     }
+
 
 }

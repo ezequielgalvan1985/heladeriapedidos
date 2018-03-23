@@ -5,6 +5,7 @@
     tools:context="adaptivex.pedidoscloud.View.Promos.ListadoPromosFragment">
 
     <LinearLayout
+        android:layout_marginLeft="@dimen/textsize_resumen_titulo_h1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -13,8 +14,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Listado de Promociones"
-            android:padding="10dp"
-            android:textStyle="italic"
+            android:padding="@dimen/padding_titulo"
+            android:textStyle="bold"
             />
 
         <android.support.v7.widget.RecyclerView

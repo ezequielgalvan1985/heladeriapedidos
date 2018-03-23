@@ -76,8 +76,8 @@ public class RVAdapterPote extends RecyclerView.Adapter<RVAdapterPote.PoteViewHo
         final Pote pote = getPotes().get(i);
 
         holder.txtNro.setText(String.valueOf(getPotes().get(i).getNroPote()));
-        holder.txtKilos.setText(getPotes().get(i).getKilos().toString());
-        holder.txtMonto.setText(getPotes().get(i).getMontoString());
+        holder.txtKilos.setText(getPotes().get(i).getCantidadKilosFormatString());
+        holder.txtMonto.setText(getPotes().get(i).getMontoHeladoFormatMoney());
         holder.txtOption.setOnClickListener(new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View v) {
@@ -178,7 +178,7 @@ public class RVAdapterPote extends RecyclerView.Adapter<RVAdapterPote.PoteViewHo
             txtNro      = (TextView) itemView.findViewById(R.id.item_pote_nro);
             txtMonto    = (TextView) itemView.findViewById(R.id.item_pote_monto);
             txtKilos    = (TextView) itemView.findViewById(R.id.item_pote_kilos);
-            txtOption      = (TextView) itemView.findViewById(R.id.item_pote_option);
+            txtOption   = (TextView) itemView.findViewById(R.id.item_pote_option);
         }
 
 

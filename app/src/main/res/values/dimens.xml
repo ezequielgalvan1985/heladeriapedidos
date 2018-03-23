@@ -14,5 +14,8 @@
     <dimen name="textsize_resumen_titulo_h2">16dp</dimen>
     <dimen name="resumen_rowpadding">2dp</dimen>
 
+    <!-- GENERALES -->
+    <dimen name="margin_left_titulo">15dp</dimen>
+    <dimen name="padding_titulo">10dp</dimen>
 
 </resources>

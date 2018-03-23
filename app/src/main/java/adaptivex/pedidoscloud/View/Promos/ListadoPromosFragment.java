@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import adaptivex.pedidoscloud.Controller.PromoController;
 import adaptivex.pedidoscloud.Model.Promo;
 import adaptivex.pedidoscloud.R;
+import adaptivex.pedidoscloud.View.RVAdapters.RVAdapterPromo;
 
 public class ListadoPromosFragment extends Fragment {
 
@@ -56,14 +57,14 @@ public class ListadoPromosFragment extends Fragment {
 
         //2 - ArrayList Promos
         PromoController pc = new PromoController(getContext());
-        Cursor c = pc.abrir().findAll();
-        listaPromos = pc.abrir().parseCursorToArrayList(c);
+        //Cursor c = pc.abrir().findAll();
+        listaPromos = pc.abrir().findByEnabledToArrayList();
 
         //3 - SET ADAPTER
         RVAdapterPromo adapterPromo = new RVAdapterPromo();
-        RVAdapterPromo.setCtx(getContext());
-        RVAdapterPromo.setProductos(listaPromos);
-        rvPromos.setAdapter(rvAdapterProducto);
+        adapterPromo.setCtx(getContext());
+        adapterPromo.setPromos(listaPromos);
+        rvPromos.setAdapter(adapterPromo);
 
         return v;
     }
