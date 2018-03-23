@@ -62,11 +62,11 @@ public class RVAdapterPromo extends RecyclerView.Adapter<RVAdapterPromo.PromoVie
     public void onBindViewHolder(PromoViewHolder productoViewHolder, int i) {
         productoViewHolder.txtNombre.setText(String.valueOf(getPromos().get(i).getNombre()));
         productoViewHolder.txtDescripcion.setText(getPromos().get(i).getDescripcion());
-        productoViewHolder.txtCantKilos.setText(String.valueOf(getPromos().get(i).getCantKilos()));
-        productoViewHolder.txtImporteDescuento.setText(String.valueOf( getPromos().get(i).getImporteDescuento()));
-        productoViewHolder.txtFechaDesde.setText(getPromos().get(i).getFechaDesdeFormatDMY());
-        productoViewHolder.txtFechaHasta.setText(String.valueOf( getPromos().get(i).getFechaHastaFormatDMY()));
-        productoViewHolder.txtPrecioPromo.setText(String.valueOf( getPromos().get(i).getPrecioPromo()));
+        productoViewHolder.txtCantKilos.setText(String.valueOf(getPromos().get(i).getCantKilosFormatString()));
+        productoViewHolder.txtPorcentajeDescuento.setText(String.valueOf( getPromos().get(i).getPorcentajeDescuentoDescripcion()));
+        productoViewHolder.txtVigencia.setText(getPromos().get(i).getVigenciaDescripcion());
+        productoViewHolder.txtPrecioPromo.setText(String.valueOf( getPromos().get(i).getPrecioPromoFormatMoney()));
+        productoViewHolder.txtPrecioAnterior.setText(String.valueOf( getPromos().get(i).getPrecioAnteriorFormatMoney()));
     }
 
     @Override
@@ -82,7 +82,8 @@ public class RVAdapterPromo extends RecyclerView.Adapter<RVAdapterPromo.PromoVie
     public static class PromoViewHolder extends RecyclerView.ViewHolder{
         ArrayList<Promo> promos = new ArrayList<Promo>();
         Context ctx;
-        TextView txtNombre, txtDescripcion, txtCantKilos, txtImporteDescuento, txtFechaDesde, txtFechaHasta, txtPrecioPromo ;
+        TextView txtNombre, txtDescripcion, txtCantKilos, txtVigencia, txtPorcentajeDescuento,
+                txtPrecioAnterior, txtFechaHasta, txtPrecioPromo;
 
 
         public PromoViewHolder(View itemView, Context ctx, ArrayList<Promo> promos) {
@@ -92,10 +93,10 @@ public class RVAdapterPromo extends RecyclerView.Adapter<RVAdapterPromo.PromoVie
             txtNombre              = (TextView)itemView.findViewById(R.id.item_promo_txt_nombre);
             txtDescripcion         = (TextView)itemView.findViewById(R.id.item_promo_txt_descripcion);
             txtCantKilos           = (TextView)itemView.findViewById(R.id.item_promo_txt_cantidad_kilos);
-            txtImporteDescuento    = (TextView)itemView.findViewById(R.id.item_promo_txt_importe_descuento);
-            txtFechaDesde          = (TextView)itemView.findViewById(R.id.item_promo_txt_fechadesde);
-            txtFechaHasta          = (TextView)itemView.findViewById(R.id.item_promo_txt_fechahasta);
+            txtPorcentajeDescuento = (TextView)itemView.findViewById(R.id.item_promo_txt_porcentaje_descuento);
+            txtVigencia            = (TextView)itemView.findViewById(R.id.item_promo_lbl_vigencia);
             txtPrecioPromo         = (TextView)itemView.findViewById(R.id.item_promo_txt_precio_monto);
+            txtPrecioAnterior      = (TextView)itemView.findViewById(R.id.item_promo_txt_precio_anterior);
         }
 
     }

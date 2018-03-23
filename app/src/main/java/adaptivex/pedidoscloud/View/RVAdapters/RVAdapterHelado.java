@@ -28,7 +28,7 @@ import adaptivex.pedidoscloud.R;
  */
 
 public class RVAdapterHelado extends RecyclerView.Adapter<RVAdapterHelado.HeladoViewHolder> {
-    private ArrayList<Producto> productos;
+    private ArrayList<Object> productos;
     private ContextWrapper cw;
     private Context ctx;
     private ArrayList<Pedidodetalle> listaHeladosSelected = new ArrayList<Pedidodetalle>();
@@ -39,7 +39,9 @@ public class RVAdapterHelado extends RecyclerView.Adapter<RVAdapterHelado.Helado
         GlobalValues.getINSTANCIA().listaHeladosSeleccionados = new ArrayList<ItemHelado>();
 
         //Lista todos los helados
-        for(Producto producto: productos){
+        for(int i = 0; i <= productos.size(); i++){
+            Producto producto = (Producto) productos.get(i);
+//          for(Producto producto: productos){
             ItemHelado item = new ItemHelado(producto, false, 75);
             GlobalValues.getINSTANCIA().listaHeladosSeleccionados.add(item);
         }
@@ -57,16 +59,15 @@ public class RVAdapterHelado extends RecyclerView.Adapter<RVAdapterHelado.Helado
         this.ctx = ctx;
     }
 
-    public ArrayList<Producto> getProductos() {
+    public ArrayList<Object> getProductos() {
         return productos;
     }
 
-    public void RVAdapterHelado(ArrayList<Producto> productos){
+    public void RVAdapterHelado(ArrayList<Object> productos){
         this.setProductos(productos);
     }
 
-    public void setProductos(ArrayList<Producto> productos) {
-
+    public void setProductos(ArrayList<Object> productos) {
         this.productos = productos;
         initItems();
     }
@@ -88,7 +89,7 @@ public class RVAdapterHelado extends RecyclerView.Adapter<RVAdapterHelado.Helado
     @Override
     public void onBindViewHolder(HeladoViewHolder holder, int i) {
         //Completa el Item Helado dentro del recycle view
-        Producto p = getProductos().get(i);
+        Producto p = (Producto) getProductos().get(i);
 
         holder.tvId.setText(String.valueOf(p.getId()));
         holder.tvNombre.setText(p.getNombre());
@@ -154,7 +155,7 @@ public class RVAdapterHelado extends RecyclerView.Adapter<RVAdapterHelado.Helado
     public static class HeladoViewHolder extends RecyclerView.ViewHolder
             implements  View.OnClickListener{
 
-        private ArrayList<Producto> productos = new ArrayList<Producto>();
+        private ArrayList<Object> productos = new ArrayList<Object>();
         private Context ctx;
 
         private CardView cv;
@@ -162,13 +163,12 @@ public class RVAdapterHelado extends RecyclerView.Adapter<RVAdapterHelado.Helado
         private CheckBox chkHelado;
         private SeekBar  seekProporcionHelado;
 
-        OnHeadlineSelectedListener mCallback;
 
 
 
 
 
-        public HeladoViewHolder(View itemView, Context ctx, ArrayList<Producto> productos) {
+        public HeladoViewHolder(View itemView, Context ctx, ArrayList<Object> productos) {
             super(itemView);
 
             this.productos = productos;
@@ -223,7 +223,7 @@ public class RVAdapterHelado extends RecyclerView.Adapter<RVAdapterHelado.Helado
         @Override
         public void onClick(View v) {
             int position  = getAdapterPosition();
-            Producto producto = this.productos.get(position);
+            Producto producto = (Producto)this.productos.get(position);
             switch (v.getId()){
                 case R.id.item_helado_chk:
                     //Preguntar si esta marcado o no
@@ -246,9 +246,6 @@ public class RVAdapterHelado extends RecyclerView.Adapter<RVAdapterHelado.Helado
 
 
     }
-    // La actividad contenedora debe implementar esta interfaz
-    public interface OnHeadlineSelectedListener {
-        public void onProductoSelected(int position, Producto producto);
-    }
+
 
 }

@@ -1,9 +1,9 @@
 package adaptivex.pedidoscloud;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -18,11 +18,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-
 import adaptivex.pedidoscloud.Config.Constants;
 import adaptivex.pedidoscloud.Config.GlobalValues;
 import adaptivex.pedidoscloud.Config.InsertRowsTest;
@@ -33,11 +28,9 @@ import adaptivex.pedidoscloud.Core.SearchHelper;
 import adaptivex.pedidoscloud.Model.Cliente;
 import adaptivex.pedidoscloud.Model.Hojaruta;
 import adaptivex.pedidoscloud.Model.Pedido;
-import adaptivex.pedidoscloud.Model.Producto;
 import adaptivex.pedidoscloud.Servicios.HelperPedidos;
 import adaptivex.pedidoscloud.Servicios.IntentServiceStockPrecios;
 import adaptivex.pedidoscloud.View.Categorias.ListadoCategoriasFragment;
-import adaptivex.pedidoscloud.View.Clientes.ListadoClientesFragment;
 import adaptivex.pedidoscloud.View.Consulting.ConfigFragment;
 import adaptivex.pedidoscloud.View.Consulting.ResumenFragment;
 import adaptivex.pedidoscloud.View.Hojarutas.ListadoHojarutasFragment;
@@ -48,41 +41,24 @@ import adaptivex.pedidoscloud.View.Pedidos.CargarHeladosFragment;
 import adaptivex.pedidoscloud.View.Pedidos.DetallePedidoFragment;
 import adaptivex.pedidoscloud.View.Pedidos.ListadoPedidosFragment;
 import adaptivex.pedidoscloud.View.Pedidos.ResumenPedidoFragment;
-import adaptivex.pedidoscloud.View.Productos.ListadoHeladosFragment;
-import adaptivex.pedidoscloud.View.Productos.ListadoProductosFragment;
 import adaptivex.pedidoscloud.View.Productos.ProductoDetalleFragment;
 import adaptivex.pedidoscloud.View.Promos.ListadoPromosFragment;
 import adaptivex.pedidoscloud.View.Pruebas.DescargaImagenActivity;
-import adaptivex.pedidoscloud.View.RVAdapters.RVAdapterCliente;
-import adaptivex.pedidoscloud.View.RVAdapters.RVAdapterHojaruta;
-import adaptivex.pedidoscloud.View.RVAdapters.RVAdapterPedido;
-import adaptivex.pedidoscloud.View.RVAdapters.RVAdapterProducto;
+
 import adaptivex.pedidoscloud.View.Resumenes.HomeFragment;
-import adaptivex.pedidoscloud.View.Users.DatosUserFragment;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,
-        ListadoPedidosFragment.OnFragmentInteractionListener,
-        ListadoPedidodetallesFragment.OnFragmentInteractionListener,
-        ListadoClientesFragment.OnFragmentInteractionListener,
-        ListadoProductosFragment.OnFragmentInteractionListener,
+        implements
+        NavigationView.OnNavigationItemSelectedListener,
         ListadoCategoriasFragment.OnFragmentInteractionListener,
         ListadoMarcasFragment.OnFragmentInteractionListener,
-        ListadoHojarutasFragment.OnFragmentInteractionListener,
         ProductoDetalleFragment.OnFragmentInteractionListener,
         DetallePedidoFragment.OnFragmentInteractionListener,
-        RVAdapterProducto.OnHeadlineSelectedListener,
-        RVAdapterCliente.OnHeadlineSelectedListener,
-        RVAdapterPedido.OnHeadlineSelectedListener,
-        RVAdapterHojaruta.OnHeadlineSelectedListener,
         HomeFragment.OnFragmentInteractionListener,
         ResumenFragment.OnFragmentInteractionListener,
         ConfigFragment.OnFragmentInteractionListener,
-        DatosUserFragment.OnFragmentInteractionListener,
         CargarHeladosFragment.OnFragmentInteractionListener,
         ListadoPromosFragment.OnFragmentInteractionListener
-
-
 {
     private FloatingActionButton BTN_PRINCIPAL;
     protected Intent intentServiceStockPrecios;
@@ -201,12 +177,13 @@ public class MainActivity extends AppCompatActivity
         }else if (id == R.id.mnu_ver_pedido_actual) {
 
             //BUSCAR ULTIMO PEDIDO GENERADO EN EL DISPOSITIVO
-            GlobalValues.getINSTANCIA().setActualFragment(GlobalValues.getINSTANCIA().DETALLEPEDIDO);
+            //GlobalValues.getINSTANCIA().setActualFragment(GlobalValues.getINSTANCIA().DETALLEPEDIDO);
 
             PedidoController pdba = new PedidoController(this);
             long nroPedido = pdba.getMaxIdTmpPedido();
             if (nroPedido > 0) {
-                Pedido p = pdba.abrir().findByIdTmp(nroPedido);
+                Cursor c = pdba.abrir().findByIdAndroid(nroPedido);
+                Pedido p = pdba.abrir().parseCursorToPedido(c);
                 GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL = p;
                 fragment = new ResumenPedidoFragment();
                 fragmentTransaction = true;
@@ -225,7 +202,7 @@ public class MainActivity extends AppCompatActivity
                 GlobalValues.getINSTANCIA().PEDIDO_ID_ACTUAL = p.getIdTmp();
                 GlobalValues.getINSTANCIA().CLIENTE_ID_PEDIDO_ACTUAL = p.getCliente_id();
                 GlobalValues.getINSTANCIA().setActualFragment(GlobalValues.getINSTANCIA().LISTADOPRODUCTOS);
-                fragment = new ListadoProductosFragment();
+
                 fragmentTransaction = true;
             } else {
                 Toast.makeText(this, "MainActivity: No Hay Pedidos Generados", Toast.LENGTH_LONG);
@@ -235,7 +212,7 @@ public class MainActivity extends AppCompatActivity
 
             GlobalValues.getINSTANCIA().setActualFragment(GlobalValues.getINSTANCIA().LISTADOCLIENTES);
             GlobalValues.getINSTANCIA().setVgFlagMenuNuevoPedido(true);
-            fragment = new ListadoClientesFragment();
+
             fragmentTransaction = true;
             fragment.setArguments(args);
 
@@ -349,7 +326,10 @@ public class MainActivity extends AppCompatActivity
 
             } else if (id == R.id.nav_datos_user) {
 
-                fragment = new DatosUserFragment();
+                fragment = new CargarDireccionFragment();
+                Bundle args = new Bundle();
+                args.putBoolean(Constants.PARAM_MODE_EDIT_USER, Constants.PARAM_MODE_EDIT_USER_ON);
+                fragment.setArguments(args);
                 fragmentTransaction = true;
                 GlobalValues.getINSTANCIA().setActualFragment(GlobalValues.getINSTANCIA().DATOS_USER);
 
@@ -417,74 +397,11 @@ public class MainActivity extends AppCompatActivity
         }
 
 
-        //ESTO MANEJA EL ALTA DE PEDIDO, LA SELECCION DEL PRODUCTO EN LA LISTA
-        @Override
-        public void onProductoSelected(int position, Producto producto) {
-            // Toast.makeText(this, "Hizo Click en Item desde OnArticleSelecter " + String.valueOf(position), Toast.LENGTH_SHORT).show();
-            Fragment fragment = new ProductoDetalleFragment();
-            Bundle args = new Bundle();
-
-            args.putInt(ProductoDetalleFragment.paramProductoId, producto.getId());
-            args.putString(ProductoDetalleFragment.paramNombre, producto.getNombre());
-            args.putString(ProductoDetalleFragment.paramDescripcion, producto.getDescripcion());
-            args.putString(ProductoDetalleFragment.paramImagen, producto.getImagen());
-            args.putDouble(ProductoDetalleFragment.paramPrecio, producto.getPrecio());
-
-            fragment.setArguments(args);
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.content_main, fragment).addToBackStack(null)
-                    .commit();
 
 
 
 
-        }
 
-
-
-        @Override
-        public void onClienteSelected(int position, Cliente cliente) {
-            //Preguntar si esta generando un nuevo pedido
-            Fragment fragment = new ListadoProductosFragment();
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.content_main, fragment).addToBackStack(null)
-                    .commit();
-
-
-        }
-
-
-        @Override
-        public void onPedidoSelected(int position, Pedido pedido) {
-
-            if (GlobalValues.getINSTANCIA().getPEDIDO_ACTION_VALUE() ==GlobalValues.getINSTANCIA().PEDIDO_ACTION_DELETE ){
-
-            }else if (GlobalValues.getINSTANCIA().getPEDIDO_ACTION_VALUE() ==GlobalValues.getINSTANCIA().PEDIDO_ACTION_VIEW){
-                //Preguntar si esta generando un nuevo pedido
-                Fragment fragment = new DetallePedidoFragment();
-                GlobalValues.getINSTANCIA().setActualFragment(GlobalValues.getINSTANCIA().DETALLEPEDIDO);
-                GlobalValues.getINSTANCIA().setVgPedidoSeleccionado(pedido.getIdTmp());
-                Bundle args = new Bundle();
-                Log.d("Debug Click Ped ", String.valueOf(pedido.getIdTmp()));
-                args.putLong(DetallePedidoFragment.paramPedidoIdTmp, pedido.getIdTmp());
-                fragment.setArguments(args);
-
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.content_main, fragment).addToBackStack(null)
-                        .commit();
-
-
-
-            }
-            Toast.makeText(MainActivity.this,"Pedido Eliminado Correctamente ", Toast.LENGTH_LONG);
-
-        }
-
-
-    @Override
-    public void onHojarutaSelected(int position, Hojaruta hojaruta) {
-        Toast.makeText(MainActivity.this,"ID Hoja de ruta seleccionada: "+ hojaruta.getId(), Toast.LENGTH_LONG);
-    }
 
 
 

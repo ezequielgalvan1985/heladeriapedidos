@@ -11,118 +11,107 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:padding="@dimen/padding_layout_item_main">
+
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/item_promo_txt_nombre"
             android:text="2 x 1"
-            android:textSize="@dimen/textsize_resumen_titulo_h1"/>
+            android:textSize="@dimen/textsize_super_title"
+            android:gravity="center"
+            />
 
         <TextView
             android:layout_below="@+id/item_promo_txt_nombre"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/item_promo_txt_descripcion"
-            android:textStyle="italic"
+            android:textSize="@dimen/textsize_h1"
+            android:gravity="center"
             android:text="LLevate 2 Kilos al Precio de 1"
             />
 
 
 
+
+
+        <!-- PRECIO -->
         <TextView
             android:layout_below="@+id/item_promo_txt_descripcion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/item_promo_lbl_cantidad_kilos"
-            android:text="Kilos: "
+            android:id="@+id/item_promo_txt_precio_monto"
+            android:textSize="@dimen/textsize_subsuper_title"
+            android:textStyle="bold"
+            android:text="$200.00"
+
+
             />
 
         <TextView
-            android:layout_toRightOf="@+id/item_promo_lbl_cantidad_kilos"
+            android:layout_below="@+id/item_promo_txt_descripcion"
+            android:layout_toRightOf="@+id/item_promo_txt_precio_monto"
+            android:padding="@dimen/padding_verysmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/item_promo_txt_precio_anterior"
+            android:textSize="@dimen/textsize_parrafo"
+            android:text="$350.00 "
+            android:textColor="@color/red"
+
+            />
+
+        <!-- Kilos -->
+        <TextView
+            android:layout_toLeftOf="@+id/item_promo_txt_cantidad_kilos"
+            android:layout_below="@+id/item_promo_txt_descripcion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/item_promo_lbl_cantidad_kilos"
+            android:text="Kilos:"
+            android:padding="@dimen/padding_verysmall"
+
+            />
+
+        <TextView
             android:layout_below="@+id/item_promo_txt_descripcion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/item_promo_txt_cantidad_kilos"
             android:text="2KG"
+            android:padding="@dimen/padding_verysmall"
+            android:layout_alignParentRight="true"
+            android:gravity="right"
             />
 
 
-
-
-
-        <TextView
-            android:layout_below="@+id/item_promo_lbl_cantidad_kilos"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/item_promo_lbl_precio_promo"
-            android:text="Precio: "
-            />
-
-        <TextView
-            android:layout_below="@+id/item_promo_lbl_cantidad_kilos"
-            android:layout_toRightOf="@+id/item_promo_lbl_precio_promo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/item_promo_txt_precio_monto"
-            android:text="$ 350.00"
-            />
-
-
-
+        <!-- DESCUENTO -->
         <TextView
             android:layout_below="@+id/item_promo_txt_precio_monto"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/item_promo_lbl_descuento"
-            android:text="Descuento de "
-            android:textSize="@dimen/textsize_resumen_titulo_h1"/>
+            android:id="@+id/item_promo_txt_porcentaje_descuento"
+            android:text="25% de Descuento con esta Promo"
+            android:textSize="@dimen/textsize_h2"
+            android:textColor="@color/green_light"
+            android:gravity="center"/>
 
+
+
+        <!-- Fecha desde -->
         <TextView
-            android:layout_below="@+id/item_promo_txt_precio_monto"
-            android:layout_toRightOf="@+id/item_promo_lbl_descuento"
-            android:layout_width="wrap_content"
+            android:layout_below="@+id/item_promo_txt_porcentaje_descuento"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/item_promo_txt_importe_descuento"
-            android:text=" $ 200 "
-            android:textSize="@dimen/textsize_resumen_titulo_h1"/>
-
-
-        <TextView
-            android:layout_below="@+id/item_promo_txt_importe_descuento"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/item_promo_lbl_fechadesde"
-            android:text="Promo valida desde: "
-            />
-
-        <TextView
-            android:layout_below="@+id/item_promo_txt_importe_descuento"
-            android:layout_toRightOf="@+id/item_promo_lbl_fechadesde"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/item_promo_txt_fechadesde"
-            android:text=" 20/05/2018 "
+            android:id="@+id/item_promo_lbl_vigencia"
+            android:text="Promo valida desde: 20/05/2018 al 20/06/2018 "
+            android:textSize="@dimen/textsize_parrafo"
+            android:gravity="center"
             />
 
 
-        <TextView
-            android:layout_below="@+id/item_promo_txt_importe_descuento"
-            android:layout_toRightOf="@+id/item_promo_txt_fechadesde"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/item_promo_lbl_fechahasta"
-            android:text=" hasta el "
-            />
-
-        <TextView
-            android:layout_below="@+id/item_promo_txt_importe_descuento"
-            android:layout_toRightOf="@+id/item_promo_lbl_fechahasta"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/item_promo_txt_fechahasta"
-            android:text=" 20/06/2018 "
-            />
 
     </RelativeLayout>
 </android.support.v7.widget.CardView>

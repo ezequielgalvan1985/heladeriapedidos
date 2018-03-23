@@ -98,13 +98,13 @@ public class IntentServiceStockPrecios extends IntentService {
                     p = productoCtr.abrir().findByCodigoExterno(itemProducto.getCodigoexterno());
                     if (p== null){
                         //si no existe agrego el nuevo producto
-                        productoCtr.abrir().agregar(itemProducto);
+                        productoCtr.abrir().add(itemProducto);
                         productoCtr.cerrar();
                     }else{
                         // SI existe modifico precio y stock
                         p.setStock(itemProducto.getStock());
                         p.setPrecio(itemProducto.getPrecio());
-                        productoCtr.abrir().modificar(p);
+                        productoCtr.abrir().edit(p);
                         productoCtr.cerrar();
                     }
 

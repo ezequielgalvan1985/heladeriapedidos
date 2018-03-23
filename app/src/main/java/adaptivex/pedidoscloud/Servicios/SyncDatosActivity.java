@@ -418,7 +418,7 @@ public class SyncDatosActivity extends AppCompatActivity implements View.OnClick
                     String imagenurl = Configurador.urlImgClientes + registro.getInt("id") + "/"+ registro.getString(ProductoDataBaseHelper.CAMPO_IMAGEN);
                     producto.setImagenurl(imagenurl);
 
-                    dbHelper.abrir().agregar(producto);
+                    dbHelper.abrir().add(producto);
                 }
                 resultado = true;
                 setvMensaje("Sincro OK");

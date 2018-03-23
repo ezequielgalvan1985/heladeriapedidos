@@ -21,7 +21,7 @@ import java.util.ArrayList;
  */
 public class RVAdapterProducto extends RecyclerView.Adapter<RVAdapterProducto.ProductoViewHolder>
 {
-    private ArrayList<Producto> productos;
+    private ArrayList<Object> productos;
     private ContextWrapper cw;
     private Context ctx;
 
@@ -33,11 +33,11 @@ public class RVAdapterProducto extends RecyclerView.Adapter<RVAdapterProducto.Pr
         this.ctx = ctx;
     }
 
-    public ArrayList<Producto> getProductos() {
+    public ArrayList<Object> getProductos() {
         return productos;
     }
 
-    public void RVAdapterProducto(ArrayList<Producto> productos){
+    public void RVAdapterProducto(ArrayList<Object> productos){
 
         this.setProductos(productos);
 
@@ -60,32 +60,12 @@ public class RVAdapterProducto extends RecyclerView.Adapter<RVAdapterProducto.Pr
 
     @Override
     public void onBindViewHolder(ProductoViewHolder productoViewHolder, int i) {
-        productoViewHolder.ptvId.setText(String.valueOf(getProductos().get(i).getId()));
-        productoViewHolder.pNombre.setText(getProductos().get(i).getNombre());
-        productoViewHolder.pStock.setText(String.valueOf(getProductos().get(i).getStock()));
-        productoViewHolder.pPrecio.setText("$"+ String.valueOf( getProductos().get(i).getPrecio()));
-       // productoViewHolder.pImagen.setText(productos.get(i).getImagen());
-       // productoViewHolder.pImagenurl.setText(productos.get(i).getImagenurl());
 
-        //productoViewHolder.pPrecio.setImageResource(productos.get(i).getPrecio());
+        Producto item = (Producto) getProductos().get(i);
 
-       // productoViewHolder.pIV.setText(productos.get(i).getImagenurl());
-
-        /* codigo para mostrar imagen
-        Bitmap imgprueba;
-
-        File dirImages = cw.getDir("Imagenes", Context.MODE_PRIVATE);
-        File myPath = new File(dirImages, getProductos().get(i).getImagen().toString());
-        FileInputStream fis = null;
-        try {
-            fis = new FileInputStream(myPath);
-            imgprueba = BitmapFactory.decodeStream(fis);
-            productoViewHolder.pivImagen.setImageBitmap(imgprueba);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        */
-
+        productoViewHolder.ptvId.setText(item.getId().toString());
+        productoViewHolder.pNombre.setText(item.getNombre());
+        productoViewHolder.pDescripcion.setText(item.getDescripcion());
     }
 
     @Override
@@ -93,52 +73,28 @@ public class RVAdapterProducto extends RecyclerView.Adapter<RVAdapterProducto.Pr
         super.onAttachedToRecyclerView(recyclerView);
     }
 
-    public void setProductos(ArrayList<Producto> productos) {
+    public void setProductos(ArrayList<Object> productos) {
         this.productos = productos;
     }
 
 
-    public static class ProductoViewHolder extends RecyclerView.ViewHolder implements  View.OnClickListener{
-        ArrayList<Producto> productos = new ArrayList<Producto>();
+    public static class ProductoViewHolder extends RecyclerView.ViewHolder{
+        ArrayList<Object> productos = new ArrayList<Object>();
         Context ctx;
+        TextView pNombre,ptvId, pDescripcion;
 
-        CardView cv;
-        TextView pNombre,ptvId;
-        TextView pDescripcion;
-       // TextView pImagen;
-        //TextView pImagenurl;
-        TextView pPrecio;
-        TextView pStock;
-        ImageView pivImagen;
-        OnHeadlineSelectedListener mCallback;
 
-        public ProductoViewHolder(View itemView, Context ctx, ArrayList<Producto> productos) {
+        public ProductoViewHolder(View itemView, Context ctx, ArrayList<Object> productos) {
             super(itemView);
-
-            mCallback = (OnHeadlineSelectedListener) ctx;
             this.productos = productos;
             this.ctx = ctx;
-            itemView.setOnClickListener(this);
-            cv = (CardView)itemView.findViewById(R.id.cvProducto);
-            ptvId = (TextView)itemView.findViewById(R.id.ptvId);
-            pNombre = (TextView)itemView.findViewById(R.id.ptvNombre);
-            //pStock = (TextView)itemView.findViewById(R.id.ptvStock);
-            //pPrecio = (TextView)itemView.findViewById(R.id.ptvPrecio);
-        }
-
-
-        @Override
-        public void onClick(View v) {
-            int position  = getAdapterPosition();
-            Producto producto = this.productos.get(position);
-            Log.d("Debug: OnClick ", producto.getNombre());
-
-            mCallback.onProductoSelected(position, producto);
+            ptvId        = (TextView)itemView.findViewById(R.id.item_producto_id);
+            pNombre      = (TextView)itemView.findViewById(R.id.item_producto_nombre);
+            pDescripcion = (TextView)itemView.findViewById(R.id.item_producto_descripcion);
 
         }
+
+
     }
-    // La actividad contenedora debe implementar esta interfaz
-    public interface OnHeadlineSelectedListener {
-        public void onProductoSelected(int position, Producto producto);
-    }
+
 }

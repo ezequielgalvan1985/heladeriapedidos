@@ -1,10 +1,8 @@
 package adaptivex.pedidoscloud.View.Resumenes;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -12,18 +10,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
 import adaptivex.pedidoscloud.Config.Constants;
 import adaptivex.pedidoscloud.Config.GlobalValues;
-import adaptivex.pedidoscloud.Controller.ClienteController;
-import adaptivex.pedidoscloud.Controller.HojarutaController;
-import adaptivex.pedidoscloud.Controller.HojarutadetalleController;
-import adaptivex.pedidoscloud.NuevoPedidoActivity;
 import adaptivex.pedidoscloud.R;
 import adaptivex.pedidoscloud.View.Pedidos.CargarDireccionFragment;
 import adaptivex.pedidoscloud.View.Productos.ListadoHeladosFragment;
-import adaptivex.pedidoscloud.View.Users.DatosUserFragment;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -116,7 +108,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 break;
 
             case R.id.home_btn_mi_cuenta:
-                Fragment fragment2  = new DatosUserFragment();
+                Fragment fragment2 = new CargarDireccionFragment();
+                Bundle args = new Bundle();
+                args.putBoolean(Constants.PARAM_MODE_EDIT_USER, Constants.PARAM_MODE_EDIT_USER_ON);
+                fragment2.setArguments(args);
                 openFragment(fragment2);
                 break;
 

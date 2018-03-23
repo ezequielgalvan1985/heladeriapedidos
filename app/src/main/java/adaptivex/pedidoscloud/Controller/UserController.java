@@ -71,9 +71,72 @@ public class UserController extends AppController{
             Toast.makeText(getContext(), "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
             return null;
         }
-
     }
 
+
+    //Obtener datos del usuario guardado en la base de datos
+    public boolean setUserDB(User user){
+        try{
+            ParameterController pc = new ParameterController(this.getContext());
+            Parameter p = new Parameter();
+
+            p = pc.abrir().findById(GlobalValues.getINSTANCIA().PARAM_USERID);
+            p.setValor_integer(user.getId());
+            pc.abrir().modificar(p);
+
+            p = pc.abrir().findById(GlobalValues.getINSTANCIA().PARAM_USERNAME);
+            p.setValor_texto(user.getUsername());
+            pc.abrir().modificar(p);
+
+            p = pc.abrir().findById(GlobalValues.getINSTANCIA().PARAM_ENTIDADID);
+            p.setValor_integer(user.getEntidad_id());
+            pc.abrir().modificar(p);
+
+            p = pc.abrir().findById(GlobalValues.getINSTANCIA().PARAM_EMAIL);
+            p.setValor_texto(user.getEmail());
+            pc.abrir().modificar(p);
+
+
+            p = pc.abrir().findById(GlobalValues.getINSTANCIA().PARAM_LOCALIDAD);
+            p.setValor_texto(user.getLocalidad());
+            pc.abrir().modificar(p);
+
+            p = pc.abrir().findById(GlobalValues.getINSTANCIA().PARAM_CALLE);
+            p.setValor_texto(user.getCalle());
+            pc.abrir().modificar(p);
+
+            p = pc.abrir().findById(GlobalValues.getINSTANCIA().PARAM_NRO);
+            p.setValor_texto(user.getNro());
+            pc.abrir().modificar(p);
+
+            p = pc.abrir().findById(GlobalValues.getINSTANCIA().PARAM_PISO);
+            p.setValor_texto(user.getPiso());
+            pc.abrir().modificar(p);
+
+
+            p = pc.abrir().findById(GlobalValues.getINSTANCIA().PARAM_TELEFONO);
+            p.setValor_texto(user.getTelefono());
+            pc.abrir().modificar(p);
+
+
+
+            p = pc.abrir().findById(GlobalValues.getINSTANCIA().PARAM_CONTACTO);
+            p.setValor_texto(user.getContacto());
+            pc.abrir().modificar(p);
+
+
+
+            p = pc.abrir().findById(GlobalValues.getINSTANCIA().PARAM_GROUPID);
+            p.setValor_integer(user.getGroup_id());
+            pc.abrir().modificar(p);
+
+
+            return true;
+        }catch(Exception e){
+            Toast.makeText(getContext(), "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            return false;
+        }
+    }
 
 
 

@@ -4,6 +4,7 @@ import java.util.Date;
 
 import adaptivex.pedidoscloud.Config.Constants;
 import adaptivex.pedidoscloud.Core.WorkDate;
+import adaptivex.pedidoscloud.Core.WorkNumber;
 
 /**
  * Created by ezequiel on 23/05/2016.
@@ -20,6 +21,7 @@ public class Promo {
     private Integer cantKilos;
     private Double importeDescuento;
     private Double precioPromo;
+    private Double precioAnterior;
     private boolean enabled;
 
     //atributos, que no se guardan en la base de datos
@@ -57,6 +59,10 @@ public class Promo {
         return cantKilos;
     }
 
+    public String getCantKilosFormatString(){
+        return WorkNumber.kilosFormat(cantKilos);
+    }
+
     public void setCantKilos(Integer cantKilos) {
         this.cantKilos = cantKilos;
     }
@@ -65,12 +71,30 @@ public class Promo {
         return importeDescuento;
     }
 
+    public String getPorcentajeDescuentoDescripcion(){
+        String texto ="";
+        texto =  calculatePorcentajeDescuento().toString() + "% de Descuento con esta Promo";
+        return texto;
+    }
+    public Integer calculatePorcentajeDescuento(){
+        Double porcentaje = Math.floor(((precioAnterior - precioPromo) /precioAnterior)*100);
+
+        return porcentaje.intValue();
+    }
+
     public void setImporteDescuento(Double importeDescuento) {
         this.importeDescuento = importeDescuento;
     }
 
     public Double getPrecioPromo() {
         return precioPromo;
+    }
+    public String getPrecioPromoFormatMoney(){
+        return WorkNumber.moneyFormat(precioPromo);
+    }
+
+    public String getPrecioAnteriorFormatMoney(){
+        return WorkNumber.moneyFormat(precioAnterior);
     }
 
     public void setPrecioPromo(Double precioPromo) {
@@ -104,6 +128,11 @@ public class Promo {
     public String getFechaDesdeFormatDMY(){
         return WorkDate.changeFormatDateString(this.fechaDesde, Constants.DATE_FORMAT_SQLITE, Constants.DATE_FORMAT_DISPLAY_APP);
     }
+
+    public String getVigenciaDescripcion(){
+        String texto="Promo valida desde " + getFechaDesdeFormatDMY() + " al " + getFechaHastaFormatDMY();
+        return texto;
+    }
     public String getFechaHastaFormatDMY(){
         return WorkDate.changeFormatDateString(this.fechaHasta, Constants.DATE_FORMAT_SQLITE, Constants.DATE_FORMAT_DISPLAY_APP);
     }
@@ -131,5 +160,13 @@ public class Promo {
 
     public void setCountDiscount(Integer countDiscount) {
         this.countDiscount = countDiscount;
+    }
+
+    public Double getPrecioAnterior() {
+        return precioAnterior;
+    }
+
+    public void setPrecioAnterior(Double precioAnterior) {
+        this.precioAnterior = precioAnterior;
     }
 }

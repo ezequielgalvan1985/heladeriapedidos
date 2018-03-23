@@ -31,13 +31,11 @@
         >
 
         <TextView
+            android:id="@+id/cargar_direccion_lbl_titulo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="1 - Cargar Direccion"
-            android:textSize="20dp"
-            android:textStyle="bold"
             android:layout_marginBottom="10dp"
-            />
+            android:text="1 - Cargar Direccion" />
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"

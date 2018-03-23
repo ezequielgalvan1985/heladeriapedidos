@@ -11,17 +11,16 @@ import adaptivex.pedidoscloud.Model.Pedido;
  */
 
 public interface ControllerInterface {
+
     public long add(Object object);
-
-
-
     public boolean edit(Object object);
     public boolean delete(Object object);
     public Cursor findAll();
-    public Cursor findAllByIdAndroid(long idAndroid);
-    public Cursor findAllById(long id);
+    public Cursor findByIdAndroid(long idAndroid);
+    public ArrayList<Object> findAllToArrayList();
+    public Cursor findById(long id);
     public ArrayList<Object> parseCursorToArrayList(Cursor c);
-
+    public Object parseCursorToObject(Cursor c);
     public void limpiar();
     public void beginTransaction();
     public void flush();

@@ -45,7 +45,7 @@ public class HelperStockPrecios extends AsyncTask<Void, Void, Void> {
             for (int i = 0; i < cp.getListadoProductos().size(); i++) {
                 //Validar, si existe producto, por codigo externo
 
-                productoCtr.abrir().agregar(cp.getListadoProductos().get(i));
+                productoCtr.abrir().add(cp.getListadoProductos().get(i));
             }
             setRespuesta(GlobalValues.getINSTANCIA().RETURN_OK);
 

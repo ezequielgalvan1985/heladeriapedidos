@@ -93,7 +93,7 @@ public class DescargaImagenActivity extends AppCompatActivity {
                 Log.i("Debug 1:", "Comienza Descarga de Imagenes, por favor esperar...");
 
                 ProductoController dbHelper = new ProductoController(getApplicationContext());
-                Cursor resultSet = dbHelper.abrir().obtenerTodos();
+                Cursor resultSet = dbHelper.abrir().findAll();
                 Producto producto;
 
                 for(resultSet.moveToFirst(); !resultSet.isAfterLast(); resultSet.moveToNext()) {

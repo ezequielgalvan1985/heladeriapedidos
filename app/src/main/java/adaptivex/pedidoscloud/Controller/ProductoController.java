@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import adaptivex.pedidoscloud.Core.Interfaces.ControllerInterface;
 import adaptivex.pedidoscloud.Core.ParameterHelper;
 import adaptivex.pedidoscloud.Model.Cliente;
 import adaptivex.pedidoscloud.Model.Producto;
@@ -18,11 +19,13 @@ import adaptivex.pedidoscloud.Model.ProductoDataBaseHelper;
 /**
  * Created by ezequiel on 30/05/2016.
  */
-public class ProductoController
+public class ProductoController implements ControllerInterface
 {
     private Context context;
     private ProductoDataBaseHelper dbHelper;
     private SQLiteDatabase db;
+
+
     public ProductoController(Context context)
     {
         this.context = context;
@@ -45,7 +48,7 @@ public class ProductoController
 
     public Integer count(){
         try{
-            return abrir().obtenerTodos().getCount();
+            return abrir().findAll().getCount();
         }catch(Exception e ){
             Log.d("Productos:", e.getMessage());
             return null;
@@ -53,21 +56,125 @@ public class ProductoController
 
     }
 
-    public ArrayList<Producto> findAll(){
+    @Override
+    public long add(Object object) {
         try{
-            ArrayList<Producto> lista = new ArrayList<Producto>();
-            Cursor c = this.abrir().obtenerTodos();
-            lista = parseCursorToArray(c);
-            return lista;
-        }catch (Exception e){
-            Log.d("ProductosController", e.getMessage());
+            Producto item = (Producto) object;
+            ContentValues valores = new ContentValues();
+            valores.put(ProductoDataBaseHelper.CAMPO_ID, item.getId());
+            valores.put(ProductoDataBaseHelper.CAMPO_NOMBRE, item.getNombre());
+            valores.put(ProductoDataBaseHelper.CAMPO_DESCRIPCION, item.getDescripcion());
+            valores.put(ProductoDataBaseHelper.CAMPO_IMAGEN, item.getImagen());
+            valores.put(ProductoDataBaseHelper.CAMPO_IMAGENURL, item.getImagenurl());
+            valores.put(ProductoDataBaseHelper.CAMPO_PRECIO, item.getPrecio());
+            valores.put(ProductoDataBaseHelper.CAMPO_STOCK, item.getStock());
+            valores.put(ProductoDataBaseHelper.CAMPO_CODIGOEXTERNO, item.getCodigoexterno());
+            return db.insert(ProductoDataBaseHelper.TABLE_NAME, null, valores);
+        }catch(Exception e ){
+            Log.d("Productos:", e.getMessage());
+            return -1;
+        }
+    }
+
+    @Override
+    public boolean edit(Object object) {
+        try{
+            Producto item = (Producto) object;
+            String[] argumentos = new String[]
+                    {String.valueOf(item.getId())};
+            ContentValues valores = new ContentValues();
+
+            valores.put(ProductoDataBaseHelper.CAMPO_NOMBRE, item.getNombre());
+            valores.put(ProductoDataBaseHelper.CAMPO_PRECIO, item.getPrecio());
+            valores.put(ProductoDataBaseHelper.CAMPO_DESCRIPCION, item.getDescripcion());
+            valores.put(ProductoDataBaseHelper.CAMPO_IMAGEN, item.getImagen());
+            valores.put(ProductoDataBaseHelper.CAMPO_IMAGENURL, item.getImagenurl());
+            valores.put(ProductoDataBaseHelper.CAMPO_CODIGOEXTERNO, item.getCodigoexterno());
+            valores.put(ProductoDataBaseHelper.CAMPO_STOCK, item.getStock());
+
+            db.update(ProductoDataBaseHelper.TABLE_NAME, valores,
+                    ProductoDataBaseHelper.CAMPO_ID + " = ?", argumentos);
+            return true;
+        }catch(Exception e ){
+            Log.d("Productos:", e.getMessage());
+            return false;
+        }
+
+    }
+
+    @Override
+    public boolean delete(Object object) {
+        try{
+
+            Producto p = (Producto) object;
+            String[] argumentos = new String[]{String.valueOf(p.getId())};
+            db.delete(ProductoDataBaseHelper.TABLE_NAME, ProductoDataBaseHelper.CAMPO_ID + " = ?", argumentos);
+            return true;
+        }catch(Exception e ){
+            Toast.makeText(context, "Error " +e.getMessage().toString(), Toast.LENGTH_SHORT).show();
+            return false;
+        }
+    }
+
+    @Override
+    public Cursor findAll(){
+        try{
+            String[] campos = {
+                    ProductoDataBaseHelper.CAMPO_ID,
+                    ProductoDataBaseHelper.CAMPO_NOMBRE,
+                    ProductoDataBaseHelper.CAMPO_DESCRIPCION,
+                    ProductoDataBaseHelper.CAMPO_IMAGEN,
+                    ProductoDataBaseHelper.CAMPO_IMAGENURL,
+                    ProductoDataBaseHelper.CAMPO_PRECIO,
+                    ProductoDataBaseHelper.CAMPO_STOCK,
+                    ProductoDataBaseHelper.CAMPO_CODIGOEXTERNO
+            };
+
+            Cursor resultado = db.query(ProductoDataBaseHelper.TABLE_NAME, campos,
+                    null, null, null, null, null);
+            if (resultado != null)
+            {
+                resultado.moveToFirst();
+            }
+            return resultado;
+        }catch(Exception e ){
+            Toast.makeText(context, "Error " +e.getMessage().toString(), Toast.LENGTH_SHORT).show();
             return null;
         }
     }
 
-    public ArrayList<Producto> parseCursorToArray(Cursor c) {
+
+
+
+    @Override
+    public Cursor findByIdAndroid(long idAndroid) {
+        return null;
+    }
+
+    @Override
+    public ArrayList<Object> findAllToArrayList() {
         try{
-            ArrayList<Producto> al = new ArrayList<Producto>();
+            ArrayList<Object> lista = new  ArrayList<Object>();
+            Producto p = new Producto();
+            Cursor c = findAll();
+            lista = parseCursorToArrayList(c);
+            return lista;
+
+        }catch(Exception e ){
+            Toast.makeText(context, "Error " +e.getMessage().toString(), Toast.LENGTH_SHORT).show();
+            return null;
+        }
+    }
+
+    @Override
+    public Cursor findById(long id) {
+        return null;
+    }
+
+    @Override
+    public ArrayList<Object> parseCursorToArrayList(Cursor c) {
+        try{
+            ArrayList<Object> al = new ArrayList<Object>();
             c.moveToFirst();
             do {
                 Producto registro = new Producto();
@@ -87,49 +194,25 @@ public class ProductoController
         }
     }
 
-
-    public long agregar(Producto item)
-    {
-        //checkServiceWorking();
-        ContentValues valores = new ContentValues();
-        valores.put(ProductoDataBaseHelper.CAMPO_ID, item.getId());
-        valores.put(ProductoDataBaseHelper.CAMPO_NOMBRE, item.getNombre());
-        valores.put(ProductoDataBaseHelper.CAMPO_DESCRIPCION, item.getDescripcion());
-        valores.put(ProductoDataBaseHelper.CAMPO_IMAGEN, item.getImagen());
-        valores.put(ProductoDataBaseHelper.CAMPO_IMAGENURL, item.getImagenurl());
-        valores.put(ProductoDataBaseHelper.CAMPO_PRECIO, item.getPrecio());
-        valores.put(ProductoDataBaseHelper.CAMPO_STOCK, item.getStock());
-        valores.put(ProductoDataBaseHelper.CAMPO_CODIGOEXTERNO, item.getCodigoexterno());
-        return db.insert(ProductoDataBaseHelper.TABLE_NAME, null, valores);
+    @Override
+    public Object parseCursorToObject(Cursor c) {
+        try{
+            c.moveToFirst();
+            Producto registro = new Producto();
+            registro.setId(c.getInt(c.getColumnIndex(ProductoDataBaseHelper.CAMPO_ID)));
+            registro.setCodigoexterno(c.getString(c.getColumnIndex(ProductoDataBaseHelper.CAMPO_CODIGOEXTERNO)));
+            registro.setDescripcion(c.getString(c.getColumnIndex(ProductoDataBaseHelper.CAMPO_DESCRIPCION)));
+            registro.setNombre(c.getString(c.getColumnIndex(ProductoDataBaseHelper.CAMPO_NOMBRE)));
+            registro.setPrecio(c.getFloat(c.getColumnIndex(ProductoDataBaseHelper.CAMPO_PRECIO)));
+            registro.setStock(c.getInt(c.getColumnIndex(ProductoDataBaseHelper.CAMPO_STOCK)));
+            return registro;
+        }catch(Exception e ){
+            Log.d("ProductosController", e.getMessage());
+            return null;
+        }
     }
 
 
-    public void modificar(Producto item)
-    {
-        //checkServiceWorking();
-        String[] argumentos = new String[]
-                {String.valueOf(item.getId())};
-        ContentValues valores = new ContentValues();
-
-        valores.put(ProductoDataBaseHelper.CAMPO_NOMBRE, item.getNombre());
-        valores.put(ProductoDataBaseHelper.CAMPO_PRECIO, item.getPrecio());
-        valores.put(ProductoDataBaseHelper.CAMPO_DESCRIPCION, item.getDescripcion());
-        valores.put(ProductoDataBaseHelper.CAMPO_IMAGEN, item.getImagen());
-        valores.put(ProductoDataBaseHelper.CAMPO_IMAGENURL, item.getImagenurl());
-        valores.put(ProductoDataBaseHelper.CAMPO_CODIGOEXTERNO, item.getCodigoexterno());
-        valores.put(ProductoDataBaseHelper.CAMPO_STOCK, item.getStock());
-
-        db.update(ProductoDataBaseHelper.TABLE_NAME, valores,
-                ProductoDataBaseHelper.CAMPO_ID + " = ?", argumentos);
-    }
-    public void eliminar(Producto persona)
-    {
-        //checkServiceWorking();
-        String[] argumentos = new String[]
-                {String.valueOf(persona.getId())};
-        db.delete(ProductoDataBaseHelper.TABLE_NAME,
-                ProductoDataBaseHelper.CAMPO_ID + " = ?", argumentos);
-    }
 
     public void checkServiceWorking(){
         try {
@@ -145,33 +228,7 @@ public class ProductoController
 
 
 
-    public Cursor obtenerTodos()
-    {
-        try{
-            //checkServiceWorking();
-            String[] campos = {ProductoDataBaseHelper.CAMPO_ID,
-                    ProductoDataBaseHelper.CAMPO_NOMBRE,
-                    ProductoDataBaseHelper.CAMPO_DESCRIPCION,
-                    ProductoDataBaseHelper.CAMPO_IMAGEN,
-                    ProductoDataBaseHelper.CAMPO_IMAGENURL,
-                    ProductoDataBaseHelper.CAMPO_PRECIO,
-                    ProductoDataBaseHelper.CAMPO_STOCK,
-                    ProductoDataBaseHelper.CAMPO_CODIGOEXTERNO
 
-            };
-
-            Cursor resultado = db.query(ProductoDataBaseHelper.TABLE_NAME, campos,
-                    null, null, null, null, null);
-            if (resultado != null)
-            {
-                resultado.moveToFirst();
-            }
-            return resultado;
-        }catch(Exception e ){
-            Toast.makeText(context, "Error " +e.getMessage().toString(), Toast.LENGTH_SHORT).show();
-            return null;
-        }
-    }
 
 
 

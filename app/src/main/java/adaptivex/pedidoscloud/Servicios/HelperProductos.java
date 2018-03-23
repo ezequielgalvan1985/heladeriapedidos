@@ -63,7 +63,7 @@ public class HelperProductos extends AsyncTask<Void, Void, Void> {
         productoCtr.abrir().limpiar();
         //Recorrer Lista
         for (int i = 0; i < cp.getListadoProductos().size(); i++) {
-            productoCtr.abrir().agregar(cp.getListadoProductos().get(i));
+            productoCtr.abrir().add(cp.getListadoProductos().get(i));
             productoCtr.cerrar();
         }
         setRespuesta(GlobalValues.getINSTANCIA().RETURN_OK);

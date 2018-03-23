@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import adaptivex.pedidoscloud.Config.Constants;
@@ -31,9 +32,18 @@ public class CargarDireccionFragment extends Fragment {
     private AutoCompleteTextView txtContacto;
     private Button               btnSiguiente;
     private Button               btnAnterior;
+    private TextView             lblTitulo;
+    private boolean              MODE_EDIT_USER = false;
 
 
-
+    private void flushPedidoTemporal(){
+        GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.setTelefono(txtTelefono.getText().toString());
+        GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.setLocalidad(txtLocalidad.getText().toString());
+        GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.setCalle(txtCalle.getText().toString());
+        GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.setNro(txtNro.getText().toString());
+        GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.setPiso(txtPiso.getText().toString());
+        GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.setContacto(txtContacto.getText().toString());
+    }
 
     private boolean validateForm(){
         boolean validate = true;
@@ -45,13 +55,6 @@ public class CargarDireccionFragment extends Fragment {
         txtNro       = (AutoCompleteTextView) getView().findViewById(R.id.cargar_direccion_nro);
         txtPiso      = (AutoCompleteTextView) getView().findViewById(R.id.cargar_direccion_piso);
         txtContacto  = (AutoCompleteTextView) getView().findViewById(R.id.cargar_direccion_contacto);
-
-        GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.setTelefono(txtTelefono.getText().toString());
-        GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.setLocalidad(txtLocalidad.getText().toString());
-        GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.setCalle(txtCalle.getText().toString());
-        GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.setNro(txtNro.getText().toString());
-        GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.setPiso(txtPiso.getText().toString());
-        GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.setContacto(txtContacto.getText().toString());
 
         if (txtTelefono.getText().equals(""))
         {
@@ -105,6 +108,7 @@ public class CargarDireccionFragment extends Fragment {
         txtNro        = (AutoCompleteTextView) v.findViewById(R.id.cargar_direccion_nro);
         txtPiso       = (AutoCompleteTextView) v.findViewById(R.id.cargar_direccion_piso);
         txtContacto   = (AutoCompleteTextView) v.findViewById(R.id.cargar_direccion_contacto);
+        lblTitulo = (TextView) v.findViewById(R.id.cargar_direccion_lbl_titulo);
 
         txtTelefono.setText(u.getTelefono());
         txtLocalidad.setText(u.getLocalidad());
@@ -112,7 +116,7 @@ public class CargarDireccionFragment extends Fragment {
         txtNro.setText(u.getNro());
         txtPiso.setText(u.getPiso());
         txtContacto.setText(u.getContacto());
-
+        setTitle();
         btnSiguiente = (Button) v.findViewById(R.id.cargar_direccion_btn_siguiente);
 
         btnSiguiente.setOnClickListener(new View.OnClickListener() {
@@ -121,9 +125,16 @@ public class CargarDireccionFragment extends Fragment {
                 //Realizar validaciones
                 if(validateForm()){
                     //LLAMAR AL SIGUIENTE FRAMENT
-                    if (saveDireccion()){
-                        openFragmentCargarCantidad();
+                    if (MODE_EDIT_USER) {
+                        if (saveDireccionUser()){
+                            Toast.makeText(getContext(),"Datos Guardado Correctamente",Toast.LENGTH_LONG).show();
+                        }
+                    }else{
+                        if (saveDireccion()){
+                            openFragmentCargarCantidad();
+                        }
                     }
+
 
                 }
             }
@@ -132,10 +143,14 @@ public class CargarDireccionFragment extends Fragment {
 
         return v;
     }
-
+    public void setTitle(){
+        if (MODE_EDIT_USER){
+            lblTitulo.setText("Mi Cuenta - Editar Dirección");
+        }
+    }
     public void openFragmentCargarCantidad(){
         //getFragmentManager().beginTransaction().remove(this).commit();
-        CargarCantidadFragment fragment      = new CargarCantidadFragment();
+        CargarCantidadFragment fragment         = new CargarCantidadFragment();
         FragmentManager fragmentManager         = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.content_main, fragment);
@@ -143,10 +158,31 @@ public class CargarDireccionFragment extends Fragment {
         fragmentTransaction.commit();
     }
 
+
+    public boolean saveDireccionUser() {
+        try{
+            UserController uc = new UserController(getContext());
+            User u = uc.getUserDB();
+            u.setTelefono(txtTelefono.getText().toString());
+            u.setLocalidad(txtLocalidad.getText().toString());
+            u.setCalle(txtCalle.getText().toString());
+            u.setNro(txtNro.getText().toString());
+            u.setPiso(txtPiso.getText().toString());
+            u.setContacto(txtContacto.getText().toString());
+            uc.setUserDB(u);
+
+            return true;
+        }catch(Exception e) {
+            Toast.makeText(getContext(), "Error: No se pudo obtener los datos de usuario", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+    }
+
     public boolean saveDireccion(){
         boolean validate = false;
+        flushPedidoTemporal();
         PedidoController pc = new PedidoController(getContext());
-        // pc.abrir().modificar(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL,true);
+        pc.abrir().edit(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL);
         validate = true;
         return validate;
     }
@@ -155,7 +191,12 @@ public class CargarDireccionFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            MODE_EDIT_USER = getArguments().getBoolean(Constants.PARAM_MODE_EDIT_USER);
+        }
     }
+
+
 
 
 }

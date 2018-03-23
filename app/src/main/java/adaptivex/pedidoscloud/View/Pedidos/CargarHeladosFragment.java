@@ -38,7 +38,7 @@ public class CargarHeladosFragment extends Fragment implements View.OnClickListe
     //Variables
     private RecyclerView rvHelados;
 
-    private ArrayList<Producto> listaHelados = new ArrayList<Producto>();
+    private ArrayList<Object> listaHelados = new ArrayList<Object>();
     private RVAdapterHelado rvAdapterHelado;
 
     //Lista que se carga cuando se recibe por parametro el pedidoid y nropote
@@ -100,7 +100,7 @@ public class CargarHeladosFragment extends Fragment implements View.OnClickListe
 
             rvAdapterHelado = new RVAdapterHelado();
             rvAdapterHelado.setCtx(getContext());
-            listaHelados = dbHelper.findAll();
+            listaHelados = dbHelper.findAllToArrayList();
             rvAdapterHelado.setListaHeladosSelected(listaHeladosSelected);
             rvAdapterHelado.setProductos(listaHelados);
             rvHelados.setAdapter(rvAdapterHelado);

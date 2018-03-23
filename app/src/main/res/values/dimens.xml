@@ -15,7 +15,20 @@
     <dimen name="resumen_rowpadding">2dp</dimen>
 
     <!-- GENERALES -->
-    <dimen name="margin_left_titulo">15dp</dimen>
     <dimen name="padding_titulo">10dp</dimen>
+    <dimen name="padding_verysmall">3dp</dimen>
+    <dimen name="padding_small">5dp</dimen>
+    <dimen name="padding_medium">10dp</dimen>
+    <dimen name="padding_big">15dp</dimen>
+    <dimen name="padding_layout_item_main">10dp</dimen>
 
+    <dimen name="margin_left_titulo">15dp</dimen>
+
+
+    <dimen name="textsize_parrafo">10dp</dimen>
+    <dimen name="textsize_h1">20dp</dimen>
+    <dimen name="textsize_h2">15dp</dimen>
+    <dimen name="textsize_mini">8dp</dimen>
+    <dimen name="textsize_super_title">35dp</dimen>
+    <dimen name="textsize_subsuper_title">25dp</dimen>
 </resources>

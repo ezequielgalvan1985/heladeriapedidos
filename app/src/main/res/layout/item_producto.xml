@@ -10,53 +10,45 @@
     card_view:cardCornerRadius="3dp"
     >
 
-        <!--
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:id="@+id/pivImagen"
-            android:scaleType="centerCrop"
-        />
-        -->
+
 <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
 
             <TextView
-                android:id="@+id/lblCodigoItemProducto"
-                android:layout_column="0"
-                android:textStyle="bold"
+                android:id="@+id/item_producto_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Codigo:">
-            </TextView>
-
-            <TextView
-                android:id="@+id/ptvId"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="ID Value"
-                android:textSize="18dp"
+                android:text="ID"
+                android:textSize="@dimen/textsize_parrafo"
+                android:layout_alignParentRight="true"
+                android:padding="@dimen/padding_small"
                 >
             </TextView>
 
             <TextView
+                android:padding="@dimen/padding_small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/ptvNombre"
-                android:layout_column="1"
-                android:text="Nombreaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                android:id="@+id/item_producto_nombre"
+                android:text="nombre"
+                android:textSize="@dimen/textsize_h1"
+                >
+            </TextView>
+            <TextView
+                android:padding="@dimen/padding_small"
+                android:layout_below="@+id/item_producto_nombre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/item_producto_descripcion"
+                android:textSize="@dimen/textsize_h2"
+                android:text="Descripcion"
+
                 >
             </TextView>
 
-    <CheckBox
-        android:id="@+id/item_producto_check"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:text="CheckBox" />
+
 
 
 </RelativeLayout>

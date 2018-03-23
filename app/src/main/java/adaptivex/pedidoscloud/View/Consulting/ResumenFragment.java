@@ -111,7 +111,7 @@ public class ResumenFragment extends Fragment {
                 TextView tvCantidadClientes = (TextView) vista.findViewById(R.id.tvCantidadClientes);
                 tvCantidadClientes.setText(String.valueOf(cantidadclientes));
 
-                Integer cantidadproductos = productoCtr.abrir().obtenerTodos().getCount();
+                Integer cantidadproductos = productoCtr.abrir().findAll().getCount();
                 TextView tvCantidadProductos = (TextView) vista.findViewById(R.id.tvCantidadProductos);
                 tvCantidadProductos.setText(String.valueOf(cantidadproductos));
 

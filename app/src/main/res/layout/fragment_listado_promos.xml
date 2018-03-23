@@ -5,7 +5,7 @@
     tools:context="adaptivex.pedidoscloud.View.Promos.ListadoPromosFragment">
 
     <LinearLayout
-        android:layout_marginLeft="@dimen/textsize_resumen_titulo_h1"
+
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">

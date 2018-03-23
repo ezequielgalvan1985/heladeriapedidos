@@ -98,7 +98,7 @@ public class CargarOtrosDatosFragment extends Fragment implements View.OnClickLi
         try{
             getDataForm();
             PedidoController pc = new PedidoController(getContext());
-            pc.abrir().modificar(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL,true);
+            pc.abrir().edit(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL);
             return true;
         }catch (Exception e){
             Toast.makeText(getContext(),"Error: " + e.getMessage(),Toast.LENGTH_LONG).show();

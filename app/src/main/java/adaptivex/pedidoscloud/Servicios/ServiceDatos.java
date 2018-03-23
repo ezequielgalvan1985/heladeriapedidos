@@ -84,7 +84,7 @@ public class ServiceDatos extends Service {
                 for (int i = 0; i < cp.getListadoProductos().size(); i++) {
                     //Validar, si existe producto, por codigo externo
 
-                    productoCtr.abrir().agregar(cp.getListadoProductos().get(i));
+                    productoCtr.abrir().add(cp.getListadoProductos().get(i));
                 }
                 setRespuesta(GlobalValues.getINSTANCIA().RETURN_OK);
                 Thread.sleep(5000);

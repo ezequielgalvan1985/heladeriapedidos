@@ -61,6 +61,8 @@ public class PromoController
             valores.put(PromoDataBaseHelper.CAMPO_CANTIDAD_KILOS, item.getCantKilos());
             valores.put(PromoDataBaseHelper.CAMPO_IMPORTE_DESCUENTO, item.getImporteDescuento());
             valores.put(PromoDataBaseHelper.CAMPO_PRECIO_PROMO, item.getPrecioPromo());
+            valores.put(PromoDataBaseHelper.CAMPO_PRECIO_ANTERIOR, item.getPrecioAnterior());
+
             valores.put(PromoDataBaseHelper.CAMPO_ENABLED, item.isEnabled());
             return db.insert(PromoDataBaseHelper.TABLE_NAME, null, valores);
         }catch (Exception e){
@@ -88,6 +90,8 @@ public class PromoController
             valores.put(PromoDataBaseHelper.CAMPO_CANTIDAD_KILOS, item.getCantKilos());
             valores.put(PromoDataBaseHelper.CAMPO_IMPORTE_DESCUENTO, item.getImporteDescuento());
             valores.put(PromoDataBaseHelper.CAMPO_PRECIO_PROMO, item.getPrecioPromo());
+            valores.put(PromoDataBaseHelper.CAMPO_PRECIO_ANTERIOR, item.getPrecioAnterior());
+
             valores.put(PromoDataBaseHelper.CAMPO_ENABLED, item.isEnabled());
 
             db.update(PromoDataBaseHelper.TABLE_NAME, valores,
@@ -132,6 +136,7 @@ public class PromoController
                     PromoDataBaseHelper.CAMPO_CANTIDAD_KILOS,
                     PromoDataBaseHelper.CAMPO_IMPORTE_DESCUENTO,
                     PromoDataBaseHelper.CAMPO_PRECIO_PROMO,
+                    PromoDataBaseHelper.CAMPO_PRECIO_ANTERIOR,
                     PromoDataBaseHelper.CAMPO_ID_ANDROID,
                     PromoDataBaseHelper.CAMPO_ENABLED
 
@@ -161,6 +166,7 @@ public class PromoController
                     PromoDataBaseHelper.CAMPO_CANTIDAD_KILOS,
                     PromoDataBaseHelper.CAMPO_IMPORTE_DESCUENTO,
                     PromoDataBaseHelper.CAMPO_PRECIO_PROMO,
+                    PromoDataBaseHelper.CAMPO_PRECIO_ANTERIOR,
                     PromoDataBaseHelper.CAMPO_ID_ANDROID,
                     PromoDataBaseHelper.CAMPO_ENABLED
             };
@@ -238,6 +244,7 @@ public class PromoController
                     PromoDataBaseHelper.CAMPO_CANTIDAD_KILOS,
                     PromoDataBaseHelper.CAMPO_IMPORTE_DESCUENTO,
                     PromoDataBaseHelper.CAMPO_PRECIO_PROMO,
+                    PromoDataBaseHelper.CAMPO_PRECIO_ANTERIOR,
                     PromoDataBaseHelper.CAMPO_ID_ANDROID,
                     PromoDataBaseHelper.CAMPO_ENABLED
             };
@@ -291,6 +298,7 @@ public class PromoController
                 PromoDataBaseHelper.CAMPO_FECHA_HASTA,
                 PromoDataBaseHelper.CAMPO_CANTIDAD_KILOS,
                 PromoDataBaseHelper.CAMPO_IMPORTE_DESCUENTO,
+                PromoDataBaseHelper.CAMPO_PRECIO_ANTERIOR,
                 PromoDataBaseHelper.CAMPO_PRECIO_PROMO,
                 PromoDataBaseHelper.CAMPO_ID_ANDROID,
                 PromoDataBaseHelper.CAMPO_ENABLED
@@ -326,6 +334,7 @@ public class PromoController
                 registro.setFechaHasta(c.getString(c.getColumnIndex(PromoDataBaseHelper.CAMPO_FECHA_HASTA)));
                 registro.setImporteDescuento(c.getDouble(c.getColumnIndex(PromoDataBaseHelper.CAMPO_IMPORTE_DESCUENTO)));
                 registro.setPrecioPromo(c.getDouble(c.getColumnIndex(PromoDataBaseHelper.CAMPO_PRECIO_PROMO)));
+                registro.setPrecioAnterior(c.getDouble(c.getColumnIndex(PromoDataBaseHelper.CAMPO_PRECIO_ANTERIOR)));
                 registro.setEnabled(c.getInt(c.getColumnIndex(PromoDataBaseHelper.CAMPO_ENABLED))>0);
 
                 //registro = parseObjectFromRecord(c);
@@ -351,6 +360,7 @@ public class PromoController
             object.setCantKilos(c.getInt(c.getColumnIndex(PromoDataBaseHelper.CAMPO_CANTIDAD_KILOS)));
             object.setImporteDescuento(c.getDouble(c.getColumnIndex(PromoDataBaseHelper.CAMPO_IMPORTE_DESCUENTO)));
             object.setPrecioPromo(c.getDouble(c.getColumnIndex(PromoDataBaseHelper.CAMPO_PRECIO_PROMO)));
+            object.setPrecioAnterior(c.getDouble(c.getColumnIndex(PromoDataBaseHelper.CAMPO_PRECIO_ANTERIOR)));
             object.setEnabled(c.getInt(c.getColumnIndex(PromoDataBaseHelper.CAMPO_ENABLED))>0);
 
             return object;
