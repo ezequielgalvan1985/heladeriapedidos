@@ -13,9 +13,11 @@ import android.widget.Button;
 
 import adaptivex.pedidoscloud.Config.Constants;
 import adaptivex.pedidoscloud.Config.GlobalValues;
+import adaptivex.pedidoscloud.Config.InsertRowsTest;
 import adaptivex.pedidoscloud.R;
 import adaptivex.pedidoscloud.View.Pedidos.CargarDireccionFragment;
 import adaptivex.pedidoscloud.View.Productos.ListadoHeladosFragment;
+import adaptivex.pedidoscloud.View.Promos.ListadoPromosFragment;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -96,20 +98,25 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+        Bundle args = new Bundle();
         switch (v.getId()){
             case R.id.home_btn_helados:
                 Fragment fragment = new ListadoHeladosFragment();
+                args.putInt(Constants.PARAM_TIPO_LISTADO,Constants.VALUE_TIPO_LISTADO_HELADOS);
+                fragment.setArguments(args);
                 openFragment(fragment);
 
                 break;
             case R.id.home_btn_postres:
                 Fragment fragment1 = new ListadoHeladosFragment();
+                args.putInt(Constants.PARAM_TIPO_LISTADO,Constants.VALUE_TIPO_LISTADO_POSTRES);
+                fragment1.setArguments(args);
                 openFragment(fragment1);
                 break;
 
             case R.id.home_btn_mi_cuenta:
                 Fragment fragment2 = new CargarDireccionFragment();
-                Bundle args = new Bundle();
+                args = new Bundle();
                 args.putBoolean(Constants.PARAM_MODE_EDIT_USER, Constants.PARAM_MODE_EDIT_USER_ON);
                 fragment2.setArguments(args);
                 openFragment(fragment2);
@@ -119,6 +126,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 GlobalValues.getINSTANCIA().crearNuevoPedido(getContext());
                 Fragment fragment3 =  new CargarDireccionFragment();
                 openFragment(fragment3);
+                break;
+
+            case R.id.home_btn_promos:
+                InsertRowsTest.insertPromos(v.getContext());
+                Fragment fragment4 = new ListadoPromosFragment();
+                openFragment(fragment4);
                 break;
 
         }

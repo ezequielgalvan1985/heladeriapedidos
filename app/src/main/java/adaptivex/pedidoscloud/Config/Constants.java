@@ -42,6 +42,10 @@ public class Constants {
     public static final String PARAM_MODE_EDIT_USER = "datos_user";
     public static final boolean PARAM_MODE_EDIT_USER_ON = true;
     public static final boolean PARAM_MODE_EDIT_USER_OFF = false;
+    public static final String PARAM_TIPO_LISTADO = "tipo_listado";
+    public static final Integer VALUE_TIPO_LISTADO_HELADOS = 1;
+    public static final Integer VALUE_TIPO_LISTADO_POSTRES = 2;
+
 
 
     //PRECIO DEL HELADO, simula el parametro hasta que se desarrolle la funcionalidad
@@ -59,6 +63,19 @@ public class Constants {
     public static final String FRAGMENT_CARGAR_HOME = "cargar_home";
 
 
+
+    //SQL
+    public static final String MAYOR = ">";
+    public static final String IGUAL = "=";
+    public static final String MENOR = "<";
+    public static final String MAYOR_IGUAL = ">=";
+    public static final String MENOR_IGUAL = "<=";
+    public static final String LIKE = "%";
+    public static final String AND = " AND ";
+    public static final String OR = " OR ";
+    //CATEGORIAS
+    public static final Integer CATEGORIA_HELADOS = 1;
+    public static final Integer CATEGORIA_POSTRES = 2;
 
     //FECHA FORMATOS
     public static final String DATE_FORMAT_SQLITE = "yyyy-MM-dd";

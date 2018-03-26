@@ -12,6 +12,8 @@ public class Producto {
     private String imagenurl;
     private Integer stock;
     private String codigoexterno;
+    private Integer categoriaId;
+    private Integer marcaId;
 
 
     public Integer getId() {
@@ -77,5 +79,21 @@ public class Producto {
 
     public void setCodigoexterno(String codigoexterno) {
         this.codigoexterno = codigoexterno;
+    }
+
+    public Integer getCategoriaId() {
+        return categoriaId;
+    }
+
+    public void setCategoriaId(Integer categoriaId) {
+        this.categoriaId = categoriaId;
+    }
+
+    public Integer getMarcaId() {
+        return marcaId;
+    }
+
+    public void setMarcaId(Integer marcaId) {
+        this.marcaId = marcaId;
     }
 }

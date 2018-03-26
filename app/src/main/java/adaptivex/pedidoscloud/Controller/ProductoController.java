@@ -8,10 +8,14 @@ import android.database.sqlite.SQLiteException;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import adaptivex.pedidoscloud.Core.Interfaces.ControllerInterface;
 import adaptivex.pedidoscloud.Core.ParameterHelper;
+import adaptivex.pedidoscloud.Core.Sql.SqlManager;
+import adaptivex.pedidoscloud.Core.Sql.SqlWhere;
 import adaptivex.pedidoscloud.Model.Cliente;
 import adaptivex.pedidoscloud.Model.Producto;
 import adaptivex.pedidoscloud.Model.ProductoDataBaseHelper;
@@ -69,6 +73,10 @@ public class ProductoController implements ControllerInterface
             valores.put(ProductoDataBaseHelper.CAMPO_PRECIO, item.getPrecio());
             valores.put(ProductoDataBaseHelper.CAMPO_STOCK, item.getStock());
             valores.put(ProductoDataBaseHelper.CAMPO_CODIGOEXTERNO, item.getCodigoexterno());
+
+            valores.put(ProductoDataBaseHelper.CAMPO_CATEGORIA_ID, item.getCategoriaId());
+            valores.put(ProductoDataBaseHelper.CAMPO_MARCA_ID, item.getMarcaId());
+
             return db.insert(ProductoDataBaseHelper.TABLE_NAME, null, valores);
         }catch(Exception e ){
             Log.d("Productos:", e.getMessage());
@@ -91,6 +99,8 @@ public class ProductoController implements ControllerInterface
             valores.put(ProductoDataBaseHelper.CAMPO_IMAGENURL, item.getImagenurl());
             valores.put(ProductoDataBaseHelper.CAMPO_CODIGOEXTERNO, item.getCodigoexterno());
             valores.put(ProductoDataBaseHelper.CAMPO_STOCK, item.getStock());
+            valores.put(ProductoDataBaseHelper.CAMPO_CATEGORIA_ID, item.getCategoriaId());
+            valores.put(ProductoDataBaseHelper.CAMPO_MARCA_ID, item.getMarcaId());
 
             db.update(ProductoDataBaseHelper.TABLE_NAME, valores,
                     ProductoDataBaseHelper.CAMPO_ID + " = ?", argumentos);
@@ -127,11 +137,44 @@ public class ProductoController implements ControllerInterface
                     ProductoDataBaseHelper.CAMPO_IMAGENURL,
                     ProductoDataBaseHelper.CAMPO_PRECIO,
                     ProductoDataBaseHelper.CAMPO_STOCK,
-                    ProductoDataBaseHelper.CAMPO_CODIGOEXTERNO
+                    ProductoDataBaseHelper.CAMPO_CODIGOEXTERNO,
+                    ProductoDataBaseHelper.CAMPO_CATEGORIA_ID,
+                    ProductoDataBaseHelper.CAMPO_MARCA_ID
             };
+            String orderBy=  ProductoDataBaseHelper.CAMPO_NOMBRE + " ASC ";
+            Cursor resultado = db.query(ProductoDataBaseHelper.TABLE_NAME, campos, null, null, null, null, orderBy);
+            if (resultado != null)
+            {
+                resultado.moveToFirst();
+            }
+            return resultado;
+        }catch(Exception e ){
+            Toast.makeText(context, "Error " +e.getMessage().toString(), Toast.LENGTH_SHORT).show();
+            return null;
+        }
+    }
 
-            Cursor resultado = db.query(ProductoDataBaseHelper.TABLE_NAME, campos,
-                    null, null, null, null, null);
+
+    public Cursor findWhere(SqlManager sm){
+        try{
+
+            String[] campos = {
+                    ProductoDataBaseHelper.CAMPO_ID,
+                    ProductoDataBaseHelper.CAMPO_NOMBRE,
+                    ProductoDataBaseHelper.CAMPO_DESCRIPCION,
+                    ProductoDataBaseHelper.CAMPO_IMAGEN,
+                    ProductoDataBaseHelper.CAMPO_IMAGENURL,
+                    ProductoDataBaseHelper.CAMPO_PRECIO,
+                    ProductoDataBaseHelper.CAMPO_STOCK,
+                    ProductoDataBaseHelper.CAMPO_CODIGOEXTERNO,
+                    ProductoDataBaseHelper.CAMPO_CATEGORIA_ID,
+                    ProductoDataBaseHelper.CAMPO_MARCA_ID
+            };
+            String orderBy=  ProductoDataBaseHelper.CAMPO_NOMBRE + " ASC ";
+            String[] argumentos = sm.getArguments();
+            String conditions = sm.getConditions();
+
+            Cursor resultado = db.query(ProductoDataBaseHelper.TABLE_NAME, campos, conditions, argumentos, null, null, orderBy);
             if (resultado != null)
             {
                 resultado.moveToFirst();
@@ -155,7 +198,6 @@ public class ProductoController implements ControllerInterface
     public ArrayList<Object> findAllToArrayList() {
         try{
             ArrayList<Object> lista = new  ArrayList<Object>();
-            Producto p = new Producto();
             Cursor c = findAll();
             lista = parseCursorToArrayList(c);
             return lista;
@@ -166,6 +208,20 @@ public class ProductoController implements ControllerInterface
         }
     }
 
+    public ArrayList<Object> findWhereToArrayList(SqlManager sm){
+        try{
+            ArrayList<Object> lista = new  ArrayList<Object>();
+            Cursor c = findWhere(sm);
+            return lista;
+        }catch(Exception e ){
+            Toast.makeText(context, "Error " +e.getMessage().toString(), Toast.LENGTH_SHORT).show();
+            return null;
+        }
+    }
+
+
+
+
     @Override
     public Cursor findById(long id) {
         return null;
@@ -175,7 +231,6 @@ public class ProductoController implements ControllerInterface
     public ArrayList<Object> parseCursorToArrayList(Cursor c) {
         try{
             ArrayList<Object> al = new ArrayList<Object>();
-            c.moveToFirst();
             do {
                 Producto registro = new Producto();
                 registro.setId(c.getInt(c.getColumnIndex(ProductoDataBaseHelper.CAMPO_ID)));
@@ -184,6 +239,8 @@ public class ProductoController implements ControllerInterface
                 registro.setNombre(c.getString(c.getColumnIndex(ProductoDataBaseHelper.CAMPO_NOMBRE)));
                 registro.setPrecio(c.getFloat(c.getColumnIndex(ProductoDataBaseHelper.CAMPO_PRECIO)));
                 registro.setStock(c.getInt(c.getColumnIndex(ProductoDataBaseHelper.CAMPO_STOCK)));
+                registro.setCategoriaId(c.getInt(c.getColumnIndex(ProductoDataBaseHelper.CAMPO_CATEGORIA_ID)));
+                registro.setMarcaId(c.getInt(c.getColumnIndex(ProductoDataBaseHelper.CAMPO_MARCA_ID)));
                 al.add(registro);
                 registro = null;
             }while (c.moveToNext());
@@ -205,6 +262,8 @@ public class ProductoController implements ControllerInterface
             registro.setNombre(c.getString(c.getColumnIndex(ProductoDataBaseHelper.CAMPO_NOMBRE)));
             registro.setPrecio(c.getFloat(c.getColumnIndex(ProductoDataBaseHelper.CAMPO_PRECIO)));
             registro.setStock(c.getInt(c.getColumnIndex(ProductoDataBaseHelper.CAMPO_STOCK)));
+            registro.setCategoriaId(c.getInt(c.getColumnIndex(ProductoDataBaseHelper.CAMPO_CATEGORIA_ID)));
+            registro.setMarcaId(c.getInt(c.getColumnIndex(ProductoDataBaseHelper.CAMPO_MARCA_ID)));
             return registro;
         }catch(Exception e ){
             Log.d("ProductosController", e.getMessage());
@@ -243,7 +302,9 @@ public class ProductoController implements ControllerInterface
                 ProductoDataBaseHelper.CAMPO_IMAGENURL,
                 ProductoDataBaseHelper.CAMPO_PRECIO,
                 ProductoDataBaseHelper.CAMPO_STOCK,
-                ProductoDataBaseHelper.CAMPO_CODIGOEXTERNO
+                ProductoDataBaseHelper.CAMPO_CODIGOEXTERNO,
+                ProductoDataBaseHelper.CAMPO_CATEGORIA_ID,
+                ProductoDataBaseHelper.CAMPO_MARCA_ID
         };
 
         String[] argumentos = {"%"+ String.valueOf(pNombre)+"%"};
@@ -269,7 +330,9 @@ public class ProductoController implements ControllerInterface
                     ProductoDataBaseHelper.CAMPO_IMAGENURL,
                     ProductoDataBaseHelper.CAMPO_PRECIO,
                     ProductoDataBaseHelper.CAMPO_STOCK,
-                    ProductoDataBaseHelper.CAMPO_CODIGOEXTERNO
+                    ProductoDataBaseHelper.CAMPO_CODIGOEXTERNO,
+                    ProductoDataBaseHelper.CAMPO_CATEGORIA_ID,
+                    ProductoDataBaseHelper.CAMPO_MARCA_ID
             };
             String[] argumentos = {String.valueOf(id)};
             Cursor resultado = db.query(ProductoDataBaseHelper.TABLE_NAME, campos,
@@ -287,6 +350,9 @@ public class ProductoController implements ControllerInterface
                 registro.setPrecio(resultado.getFloat(resultado.getColumnIndex(ProductoDataBaseHelper.CAMPO_PRECIO)));
                 registro.setStock(resultado.getInt(resultado.getColumnIndex(ProductoDataBaseHelper.CAMPO_STOCK)));
                 registro.setCodigoexterno(resultado.getString(resultado.getColumnIndex(ProductoDataBaseHelper.CAMPO_CODIGOEXTERNO)));
+                registro.setCategoriaId(resultado.getInt(resultado.getColumnIndex(ProductoDataBaseHelper.CAMPO_CATEGORIA_ID)));
+                registro.setMarcaId(resultado.getInt(resultado.getColumnIndex(ProductoDataBaseHelper.CAMPO_MARCA_ID)));
+
             }
             return registro;
         }catch(Exception e) {
@@ -307,7 +373,10 @@ public class ProductoController implements ControllerInterface
                     ProductoDataBaseHelper.CAMPO_IMAGENURL,
                     ProductoDataBaseHelper.CAMPO_PRECIO,
                     ProductoDataBaseHelper.CAMPO_STOCK,
-                    ProductoDataBaseHelper.CAMPO_CODIGOEXTERNO
+                    ProductoDataBaseHelper.CAMPO_CODIGOEXTERNO,
+                    ProductoDataBaseHelper.CAMPO_CATEGORIA_ID,
+                    ProductoDataBaseHelper.CAMPO_MARCA_ID
+
             };
             String[] argumentos = {codigoExterno};
             String where =ProductoDataBaseHelper.CAMPO_CODIGOEXTERNO + "=?";
@@ -326,6 +395,9 @@ public class ProductoController implements ControllerInterface
                     registro.setPrecio(resultado.getFloat(resultado.getColumnIndex(ProductoDataBaseHelper.CAMPO_PRECIO)));
                     registro.setStock(resultado.getInt(resultado.getColumnIndex(ProductoDataBaseHelper.CAMPO_STOCK)));
                     registro.setCodigoexterno(resultado.getString(resultado.getColumnIndex(ProductoDataBaseHelper.CAMPO_CODIGOEXTERNO)));
+                    registro.setCategoriaId(resultado.getInt(resultado.getColumnIndex(ProductoDataBaseHelper.CAMPO_CATEGORIA_ID)));
+                    registro.setMarcaId(resultado.getInt(resultado.getColumnIndex(ProductoDataBaseHelper.CAMPO_MARCA_ID)));
+
                 }
             }
             return registro;

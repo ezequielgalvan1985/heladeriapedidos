@@ -39,9 +39,8 @@ public class RVAdapterHelado extends RecyclerView.Adapter<RVAdapterHelado.Helado
         GlobalValues.getINSTANCIA().listaHeladosSeleccionados = new ArrayList<ItemHelado>();
 
         //Lista todos los helados
-        for(int i = 0; i <= productos.size(); i++){
-            Producto producto = (Producto) productos.get(i);
-//          for(Producto producto: productos){
+        for(Object object: productos){
+            Producto producto = (Producto) object;
             ItemHelado item = new ItemHelado(producto, false, 75);
             GlobalValues.getINSTANCIA().listaHeladosSeleccionados.add(item);
         }
@@ -158,7 +157,6 @@ public class RVAdapterHelado extends RecyclerView.Adapter<RVAdapterHelado.Helado
         private ArrayList<Object> productos = new ArrayList<Object>();
         private Context ctx;
 
-        private CardView cv;
         private TextView tvNombre, tvId, tvOptions, tvProporcionDescripcion;
         private CheckBox chkHelado;
         private SeekBar  seekProporcionHelado;
@@ -176,7 +174,7 @@ public class RVAdapterHelado extends RecyclerView.Adapter<RVAdapterHelado.Helado
 
             itemView.setOnClickListener(this);
 
-            cv = (CardView)itemView.findViewById(R.id.cvHelado);
+
             tvNombre  = (TextView)itemView.findViewById(R.id.item_helado_nombre);
             tvId      = (TextView)itemView.findViewById(R.id.item_helado_id);
             chkHelado = (CheckBox) itemView.findViewById(R.id.item_helado_chk);

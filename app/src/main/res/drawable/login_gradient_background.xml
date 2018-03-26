@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <gradient
+        android:startColor="@color/background_login_color_end"
+        android:centerColor="@color/background_login_color_center"
+        android:endColor="@color/background_login_color_start"
+        android:angle="90">
+        <padding
+            android:left="7dp"
+            android:right="7dp"
+            android:bottom="7dp"
+            >
+        <corners android:radius="8dp"></corners>
+        </padding>
+
+    </gradient>
+</shape>

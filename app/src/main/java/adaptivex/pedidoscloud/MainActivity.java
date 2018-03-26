@@ -41,6 +41,7 @@ import adaptivex.pedidoscloud.View.Pedidos.CargarHeladosFragment;
 import adaptivex.pedidoscloud.View.Pedidos.DetallePedidoFragment;
 import adaptivex.pedidoscloud.View.Pedidos.ListadoPedidosFragment;
 import adaptivex.pedidoscloud.View.Pedidos.ResumenPedidoFragment;
+import adaptivex.pedidoscloud.View.Productos.ListadoHeladosFragment;
 import adaptivex.pedidoscloud.View.Productos.ProductoDetalleFragment;
 import adaptivex.pedidoscloud.View.Promos.ListadoPromosFragment;
 import adaptivex.pedidoscloud.View.Pruebas.DescargaImagenActivity;
@@ -238,139 +239,134 @@ public class MainActivity extends AppCompatActivity
         //Click en menu Navegation
         boolean fragmentTransaction = false;
         Fragment fragment = null;
+        Bundle args = new Bundle();
         try{
-
-            //noinspection SimplifiableIfStatement
-            if (id == R.id.nav_pedidodetalles) {
-                fragment = new ListadoPedidodetallesFragment();
-                fragmentTransaction = true;
-                GlobalValues.getINSTANCIA().setActualFragment(GlobalValues.getINSTANCIA().LISTADOPEDIDODETALLES);
-
-            }else if (id == R.id.nav_promos) {
-                try{
-
-                    InsertRowsTest.insertPromos(this);
-                    fragment = new ListadoPromosFragment();
+            switch (id){
+                case R.id.nav_pedidodetalles:
+                    fragment = new ListadoPedidodetallesFragment();
                     fragmentTransaction = true;
+                    GlobalValues.getINSTANCIA().setActualFragment(GlobalValues.getINSTANCIA().LISTADOPEDIDODETALLES);
+                    break;
+                case R.id.nav_promos:
+                    try{
+                        InsertRowsTest.insertPromos(this);
+                        fragment = new ListadoPromosFragment();
+                        fragmentTransaction = true;
+                    }catch(Exception e){
+                        Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                    break;
+                case  R.id.nav_pedidos_pendientes:
+                    try{
+                        fragment = new ListadoPedidosFragment();
+                        fragmentTransaction = true;
 
-                }catch(Exception e){
-                    Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
-                }
-            }else if (id == R.id.nav_pedidos_pendientes) {
-                try{
-                    fragment = new ListadoPedidosFragment();
+                        GlobalValues.getINSTANCIA().setActualFragment(GlobalValues.getINSTANCIA().LISTADOPEDIDOS);
+                        GlobalValues.getINSTANCIA().setESTADO_ID_SELECCIONADO(GlobalValues.getINSTANCIA().consPedidoEstadoNuevo);
+                    }catch(Exception e){
+                        Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                case R.id.nav_pedidos_enviados:
+                    try {
+                        fragment = new ListadoPedidosFragment();
+                        fragmentTransaction = true;
+
+                        GlobalValues.getINSTANCIA().setActualFragment(GlobalValues.getINSTANCIA().LISTADOPEDIDOS);
+                        GlobalValues.getINSTANCIA().setESTADO_ID_SELECCIONADO(GlobalValues.getINSTANCIA().consPedidoEstadoEnviado);
+                    }catch(Exception e){
+                        Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                    break;
+                case R.id.nav_enviarpedidospendientes:
+                    try {
+                        HelperPedidos hp = new HelperPedidos(getBaseContext(), GlobalValues.getINSTANCIA().OPTION_HELPER_ENVIO_PEDIDOS_PENDIENTES);
+                        hp.execute();
+                    }catch(Exception e){
+                        Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                    break;
+                case  R.id.nav_categorias:
+                    fragment = new ListadoCategoriasFragment();
                     fragmentTransaction = true;
+                    GlobalValues.getINSTANCIA().setActualFragment(GlobalValues.getINSTANCIA().LISTADOCATEGORIAS);
+                    break;
 
-                    GlobalValues.getINSTANCIA().setActualFragment(GlobalValues.getINSTANCIA().LISTADOPEDIDOS);
-                    GlobalValues.getINSTANCIA().setESTADO_ID_SELECCIONADO(GlobalValues.getINSTANCIA().consPedidoEstadoNuevo);
-                }catch(Exception e){
-                    Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
-                }
-            }else if (id == R.id.nav_pedidos_enviados) {
-                try {
-                    fragment = new ListadoPedidosFragment();
+                case R.id.nav_productos:
+                    fragment = new ListadoHeladosFragment();
+                    args.putInt(Constants.PARAM_TIPO_LISTADO,Constants.VALUE_TIPO_LISTADO_HELADOS);
+                    fragment.setArguments(args);
                     fragmentTransaction = true;
+                    break;
 
-                    GlobalValues.getINSTANCIA().setActualFragment(GlobalValues.getINSTANCIA().LISTADOPEDIDOS);
-                    GlobalValues.getINSTANCIA().setESTADO_ID_SELECCIONADO(GlobalValues.getINSTANCIA().consPedidoEstadoEnviado);
-                }catch(Exception e){
-                    Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
-                }
-
-            }else if (id == R.id.nav_enviarpedidospendientes) {
-                try {
-                    HelperPedidos hp = new HelperPedidos(getBaseContext(), GlobalValues.getINSTANCIA().OPTION_HELPER_ENVIO_PEDIDOS_PENDIENTES);
-                    hp.execute();
-                }catch(Exception e){
-                    Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
-                }
-
-            }else if (id == R.id.nav_categorias) {
-                fragment = new ListadoCategoriasFragment();
-                fragmentTransaction = true;
-
-                GlobalValues.getINSTANCIA().setActualFragment(GlobalValues.getINSTANCIA().LISTADOCATEGORIAS);
-
-
-            } else if (id == R.id.nav_productos) {
-                //fragment = new ListadoProductosFragment();
-                //fragment = new ListadoHeladosFragment();
-                fragment = new CargarHeladosFragment();
-
-                fragmentTransaction = true;
-
-                GlobalValues.getINSTANCIA().setActualFragment(GlobalValues.getINSTANCIA().LISTADOPRODUCTOS);
-
-            } else if (id == R.id.nav_marcas) {
-                fragment = new ListadoMarcasFragment();
-                fragmentTransaction = true;
-                GlobalValues.getINSTANCIA().setActualFragment(GlobalValues.getINSTANCIA().LISTADOMARCAS);
-
-            } else if (id == R.id.nav_hojarutas) {
-                fragment = new ListadoHojarutasFragment();
-                fragmentTransaction = true;
-                GlobalValues.getINSTANCIA().setActualFragment(GlobalValues.getINSTANCIA().LISTADOHOJARUTA);
-
-            } else if (id == R.id.nav_pedidosentrega) {
-                Toast.makeText(this, "Descarga de Pedidos para entregar " , Toast.LENGTH_LONG).show();
-
-
-            } else if (id == R.id.nav_descargaImagen) {
-                Intent i = new Intent(this, DescargaImagenActivity.class);
-                startActivity(i);
-
-
-            } else if (id == R.id.nav_login) {
-                Intent i = new Intent(this, RegisterActivity.class);
-                startActivity(i);
-
-            } else if (id == R.id.nav_datos_user) {
-
-                fragment = new CargarDireccionFragment();
-                Bundle args = new Bundle();
-                args.putBoolean(Constants.PARAM_MODE_EDIT_USER, Constants.PARAM_MODE_EDIT_USER_ON);
-                fragment.setArguments(args);
-                fragmentTransaction = true;
-                GlobalValues.getINSTANCIA().setActualFragment(GlobalValues.getINSTANCIA().DATOS_USER);
-
-        } else if (id == R.id.nav_configuracion) {
-                try{
-
-                    fragment = new ConfigFragment();
+                case R.id.nav_postres:
+                    fragment = new ListadoHeladosFragment();
+                    args.putInt(Constants.PARAM_TIPO_LISTADO,Constants.VALUE_TIPO_LISTADO_POSTRES);
+                    fragment.setArguments(args);
                     fragmentTransaction = true;
-                    GlobalValues.getINSTANCIA().setActualFragment(GlobalValues.getINSTANCIA().CONFIGURACION);
-                }catch(Exception e){
-                    Toast.makeText(this, "Error" + e.getMessage(), Toast.LENGTH_LONG).show();
-                }
+                    break;
 
-
-
-
-            } else if (id == R.id.nav_logout) {
-                GlobalValues.getINSTANCIA().setUserlogued(null);
-                // Borrar parametro de Base de datos
-                IniciarApp ia = new IniciarApp(getBaseContext());
-                ia.logout();
-                Intent i = new Intent(this, RegisterActivity.class);
-                startActivity(i);
-
-
-
-            } else if (id == R.id.nav_home) {
-                try{
-                    fragment = new HomeFragment();
+                case R.id.nav_marcas:
+                    fragment = new ListadoMarcasFragment();
                     fragmentTransaction = true;
-                    GlobalValues.getINSTANCIA().setActualFragment(GlobalValues.getINSTANCIA().HOME);
-                }catch(Exception e){
-                    Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
-                }
+                    GlobalValues.getINSTANCIA().setActualFragment(GlobalValues.getINSTANCIA().LISTADOMARCAS);
+                    break;
 
+                case R.id.nav_hojarutas:
+                    fragment = new ListadoHojarutasFragment();
+                    fragmentTransaction = true;
+                    GlobalValues.getINSTANCIA().setActualFragment(GlobalValues.getINSTANCIA().LISTADOHOJARUTA);
+                    break;
 
+                case R.id.nav_pedidosentrega:
+                    Toast.makeText(this, "Descarga de Pedidos para entregar " , Toast.LENGTH_LONG).show();
+                    break;
 
+                case R.id.nav_descargaImagen:
+                    Intent i = new Intent(this, DescargaImagenActivity.class);
+                    startActivity(i);
+                    break;
 
+                case R.id.nav_login:
+                    Intent re = new Intent(this, RegisterActivity.class);
+                    startActivity(re);
+                    break;
 
+                case R.id.nav_datos_user:
+                    fragment = new CargarDireccionFragment();
+                    args = new Bundle();
+                    args.putBoolean(Constants.PARAM_MODE_EDIT_USER, Constants.PARAM_MODE_EDIT_USER_ON);
+                    fragment.setArguments(args);
+                    fragmentTransaction = true;
+                    GlobalValues.getINSTANCIA().setActualFragment(GlobalValues.getINSTANCIA().DATOS_USER);
+                    break;
+                case R.id.nav_configuracion:
+                    try{
+                        fragment = new ConfigFragment();
+                        fragmentTransaction = true;
+                        GlobalValues.getINSTANCIA().setActualFragment(GlobalValues.getINSTANCIA().CONFIGURACION);
+                    }catch(Exception e){
+                        Toast.makeText(this, "Error" + e.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                    break;
+                case R.id.nav_logout:
+                    GlobalValues.getINSTANCIA().setUserlogued(null);
+                    // Borrar parametro de Base de datos
+                    IniciarApp ia = new IniciarApp(getBaseContext());
+                    ia.logout();
+                    Intent ir = new Intent(this, RegisterActivity.class);
+                    startActivity(ir);
+                    break;
+                case  R.id.nav_home:
+                    try{
+                        fragment = new HomeFragment();
+                        fragmentTransaction = true;
+                        GlobalValues.getINSTANCIA().setActualFragment(GlobalValues.getINSTANCIA().HOME);
+                    }catch(Exception e){
+                        Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                    break;
             }
-            //item.setChecked(true);
+
             DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
             drawer.closeDrawer(GravityCompat.START);
             if (fragmentTransaction) {

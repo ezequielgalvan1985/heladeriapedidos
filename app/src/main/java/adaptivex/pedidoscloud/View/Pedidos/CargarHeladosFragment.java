@@ -100,7 +100,7 @@ public class CargarHeladosFragment extends Fragment implements View.OnClickListe
 
             rvAdapterHelado = new RVAdapterHelado();
             rvAdapterHelado.setCtx(getContext());
-            listaHelados = dbHelper.findAllToArrayList();
+            listaHelados = dbHelper.abrir().findAllToArrayList();
             rvAdapterHelado.setListaHeladosSelected(listaHeladosSelected);
             rvAdapterHelado.setProductos(listaHelados);
             rvHelados.setAdapter(rvAdapterHelado);

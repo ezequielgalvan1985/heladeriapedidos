@@ -9,7 +9,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="adaptivex.pedidoscloud.RegisterActivity">
+    tools:context="adaptivex.pedidoscloud.RegisterActivity"
+    android:background="@drawable/background6">
 
 
 
@@ -20,17 +21,11 @@
 
 
 
-        <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:card_view="http://schemas.android.com/apk/res-auto"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/cvRegister"
-            card_view:cardUseCompatPadding="true"
-            card_view:cardElevation="4dp"
-            card_view:cardCornerRadius="3dp"
-            android:padding="10dp"
-            >
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
         <!-- Inicio de Register Form-->
         <LinearLayout
@@ -47,7 +42,8 @@
                 android:gravity="center"
                 android:layout_gravity="center"
                 android:textStyle="bold"
-                android:padding="20dp"/>
+                android:padding="20dp"
+                android:textColor="@color/white"/>
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
@@ -60,7 +56,8 @@
                     android:hint="@string/prompt_email"
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:textColor="@color/white"/>
 
             </android.support.design.widget.TextInputLayout>
 
@@ -79,7 +76,8 @@
                     android:imeOptions="actionUnspecified"
                     android:inputType="textPassword"
                     android:maxLines="1"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:textColor="@color/white"/>
             </android.support.design.widget.TextInputLayout>
 
 
@@ -95,7 +93,8 @@
                     android:hint="@string/prompt_telefono"
                     android:inputType="text"
                     android:maxLines="1"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:textColor="@color/white"/>
 
             </android.support.design.widget.TextInputLayout>
 
@@ -110,7 +109,8 @@
                     android:hint="@string/prompt_localidad"
                     android:inputType="text"
                     android:maxLines="1"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:textColor="@color/white"/>
 
             </android.support.design.widget.TextInputLayout>
 
@@ -125,7 +125,8 @@
                     android:hint="@string/prompt_calle"
                     android:inputType="text"
                     android:maxLines="1"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:textColor="@color/white"/>
 
             </android.support.design.widget.TextInputLayout>
 
@@ -141,7 +142,8 @@
                     android:hint="@string/prompt_nro"
                     android:inputType="number"
                     android:maxLines="1"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:textColor="@color/white"/>
 
             </android.support.design.widget.TextInputLayout>
 
@@ -156,7 +158,8 @@
                     android:hint="@string/prompt_piso"
                     android:inputType="text"
                     android:maxLines="1"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:textColor="@color/white"/>
 
             </android.support.design.widget.TextInputLayout>
 
@@ -171,12 +174,14 @@
                     android:hint="@string/prompt_contacto"
                     android:inputType="text"
                     android:maxLines="1"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:textColor="@color/white"/>
 
             </android.support.design.widget.TextInputLayout>
 
 
             <Button
+                android:textColor="@color/white"
                 android:id="@+id/register_btn_register"
                 style="?android:textAppearanceSmall"
                 android:layout_width="match_parent"
@@ -190,6 +195,7 @@
 
 
             <LinearLayout
+
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -202,7 +208,8 @@
                     android:layout_height="wrap_content"
                     android:text="¿Ya Tienes Cuenta?. Haz Click en Iniciar Sesion"
                     android:fontFamily="@string/abc_capital_on"
-                    android:paddingBottom="10dp"/>
+                    android:paddingBottom="10dp"
+                    android:textColor="@color/white"/>
 
                 <Button
                     android:id="@+id/register_link_login"
@@ -212,6 +219,8 @@
                     android:layout_marginTop="5dp"
                     android:text="@string/action_login"
                     android:layout_gravity="left"
+                    android:textColor="@color/white"
+
                     />
             </LinearLayout>
         </LinearLayout>
@@ -306,10 +315,10 @@
             </LinearLayout>
         </LinearLayout>
             <!-- Fin de Login Form -->
+        </LinearLayout>
 
 
 
-        </android.support.v7.widget.CardView>
     </ScrollView>
 
 

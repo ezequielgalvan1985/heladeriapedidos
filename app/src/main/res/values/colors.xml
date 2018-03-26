@@ -18,5 +18,9 @@
         <color name="red">#f54643</color>
         <color name="verde_oscuro">#325b3e</color>
         <color name="green_light">#39c429</color>
+
+        <color name="background_login_color_start">#aa49da</color>
+        <color name="background_login_color_center">#ffa3df</color>
+        <color name="background_login_color_end">#f3f97fca</color>
     </resources>
 

@@ -219,11 +219,13 @@ public class PromoController
     public Promo calculateDiscount(Integer paramKilos){
         try{
             Promo p = findByOneAplicableToPromo(paramKilos);
-            //Calcular cantidad de descuentos que se van a aplicar
-            Double countDiscount = Math.floor(paramKilos /p.getCantKilos());
-            Double mountDiscount = p.getImporteDescuento() * countDiscount;
-            p.setCountDiscount(countDiscount.intValue());
-            p.setMountDiscount(mountDiscount);
+            if (p!=null){
+                //Calcular cantidad de descuentos que se van a aplicar
+                Double countDiscount = Math.floor(paramKilos /p.getCantKilos());
+                Double mountDiscount = p.getImporteDescuento() * countDiscount;
+                p.setCountDiscount(countDiscount.intValue());
+                p.setMountDiscount(mountDiscount);
+            }
             return p;
         }catch (Exception e){
             Toast.makeText(context, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -251,10 +253,13 @@ public class PromoController
             String[] argumentos = {String.valueOf(1), String.valueOf(paramKilos)};
             String where   = PromoDataBaseHelper.CAMPO_ENABLED + " = ? AND " + PromoDataBaseHelper.CAMPO_CANTIDAD_KILOS + " <= ? ";
             String orderBy =  PromoDataBaseHelper.CAMPO_CANTIDAD_KILOS + " ASC ";
-            Cursor c = db.query(PromoDataBaseHelper.TABLE_NAME, campos, where, argumentos, null, null, orderBy);
+            Cursor c = db.query(PromoDataBaseHelper.TABLE_NAME, campos, where, argumentos, null, null, null);
             if (c != null)
             {
-                c.moveToFirst();
+                if ( c.getCount()>0){
+                    c.moveToFirst();
+                }
+
             }
             return c;
         }catch (Exception e){
@@ -350,6 +355,7 @@ public class PromoController
 
     public Promo parseObjectFromRecord(Cursor c ){
         try{
+            c.moveToFirst();
             Promo object = new Promo();
             object.setIdAndroid(c.getInt(c.getColumnIndex(PromoDataBaseHelper.CAMPO_ID_ANDROID)));
             object.setId(c.getInt(c.getColumnIndex(PromoDataBaseHelper.CAMPO_ID)));

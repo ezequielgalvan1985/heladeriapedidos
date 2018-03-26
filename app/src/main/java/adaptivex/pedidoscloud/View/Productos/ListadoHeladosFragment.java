@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -14,8 +15,12 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
+import adaptivex.pedidoscloud.Config.Constants;
 import adaptivex.pedidoscloud.Controller.ProductoController;
+import adaptivex.pedidoscloud.Core.Sql.SqlManager;
+import adaptivex.pedidoscloud.Core.Sql.SqlWhere;
 import adaptivex.pedidoscloud.Model.Producto;
+import adaptivex.pedidoscloud.Model.ProductoDataBaseHelper;
 import adaptivex.pedidoscloud.R;
 import adaptivex.pedidoscloud.View.RVAdapters.RVAdapterHelado;
 import adaptivex.pedidoscloud.View.RVAdapters.RVAdapterProducto;
@@ -24,8 +29,8 @@ public class ListadoHeladosFragment extends Fragment {
 
     private RecyclerView rvHeladosPostres;
     private ArrayList<Object> listaHelados;
+    private Integer tipo_listado;
 
-    private OnFragmentInteractionListener mListener;
 
     public ListadoHeladosFragment() {
         // Required empty public constructor
@@ -42,23 +47,34 @@ public class ListadoHeladosFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         listaHelados = new ArrayList<Object>();
+        if (getArguments() != null) {
+            tipo_listado = getArguments().getInt(Constants.PARAM_TIPO_LISTADO);
+        }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_listado_promos, container, false);
+        View v = inflater.inflate(R.layout.fragment_listado_helados, container, false);
 
         //1 - RECYCLE VIEW
         rvHeladosPostres = (RecyclerView)v.findViewById(R.id.rvHeladosPostres);
-        rvHeladosPostres.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
-        LinearLayoutManager llm = new LinearLayoutManager(v.getContext());
-        rvHeladosPostres.setLayoutManager(llm);
+        GridLayoutManager manager = new GridLayoutManager(v.getContext(), 2, GridLayoutManager.VERTICAL, false);
+        rvHeladosPostres.setLayoutManager(manager);
+
 
         //2 - ArrayList Helados
         ProductoController pc = new ProductoController(getContext());
-        listaHelados = pc.abrir().findAllToArrayList();
+        SqlManager sm = new SqlManager();
+        if (tipo_listado== Constants.VALUE_TIPO_LISTADO_POSTRES){
+            sm.addWhere(ProductoDataBaseHelper.CAMPO_CATEGORIA_ID,Constants.IGUAL, Constants.CATEGORIA_POSTRES.toString());
+        }else{
+            sm.addWhere(ProductoDataBaseHelper.CAMPO_CATEGORIA_ID,Constants.IGUAL, Constants.CATEGORIA_HELADOS.toString());
+        }
+        listaHelados = pc.abrir().findWhereToArrayList(sm);
+
 
         //3 - SET ADAPTER
         RVAdapterProducto adapterProducto = new RVAdapterProducto();
@@ -69,33 +85,8 @@ public class ListadoHeladosFragment extends Fragment {
         return v;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
 
 
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
+
+
 }
