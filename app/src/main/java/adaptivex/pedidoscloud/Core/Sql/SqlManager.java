@@ -48,13 +48,13 @@ public class SqlManager {
         SqlManager.listaWhere = listaWhere;
     }
 
-    public void addWhere(String field, String operator, String value){
+    public static void addWhere(String field, String operator, String value){
         SqlWhere w = new SqlWhere();
         w.setField(field);
         w.setArismeticOperator(operator);
         w.setValue(value);
 
-        getListaWhere().add(w);
+        listaWhere.add(w);
     }
     public void addWhereAnd(String field, String operator, String value){
         SqlWhere w = new SqlWhere();
@@ -63,7 +63,7 @@ public class SqlManager {
         w.setValue(value);
         w.setConditionOperator(Constants.AND);
 
-        getListaWhere().add(w);
+        listaWhere.add(w);
     }
 
     public void addWhereOr(String field, String operator, String value){
@@ -72,6 +72,6 @@ public class SqlManager {
         w.setArismeticOperator(operator);
         w.setValue(value);
         w.setConditionOperator(Constants.OR);
-        getListaWhere().add(w);
+        listaWhere.add(w);
     }
 }

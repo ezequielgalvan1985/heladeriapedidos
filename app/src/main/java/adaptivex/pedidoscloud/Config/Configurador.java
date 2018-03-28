@@ -8,7 +8,7 @@ import adaptivex.pedidoscloud.Model.User;
  */
 public class Configurador {
 
-    public static final int DBVersion = 11;
+    public static final int DBVersion = 12;
     public static final String DBName = "heladeria_01";
     private static Configurador INSTANCIA;
     public static  User userlogin;
@@ -18,13 +18,13 @@ public class Configurador {
     //public static String strRoot = "http://192.168.43.44:8000";
 
     //Casa
-    public static String strRoot = "http://192.168.0.2:8000";
+    //public static String strRoot = "http://192.168.0.2:8000";
 
     //claxson
     //public static String strRoot = "http://10.4.4.93:8000";
 
     //amazon
-    //public static String strRoot = "http://54.207.7.46";
+    public static String strRoot = "http://18.228.6.207";
 
     public static String urlPedidos = strRoot+"/api/pedidos";
     public static String urlMemos = strRoot+"/api/memoclientes";

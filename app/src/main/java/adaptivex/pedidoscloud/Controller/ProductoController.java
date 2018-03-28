@@ -170,7 +170,7 @@ public class ProductoController implements ControllerInterface
                     ProductoDataBaseHelper.CAMPO_CATEGORIA_ID,
                     ProductoDataBaseHelper.CAMPO_MARCA_ID
             };
-            String orderBy=  ProductoDataBaseHelper.CAMPO_NOMBRE + " ASC ";
+            String orderBy = ProductoDataBaseHelper.CAMPO_NOMBRE + " ASC ";
             String[] argumentos = sm.getArguments();
             String conditions = sm.getConditions();
 
