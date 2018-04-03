@@ -171,10 +171,9 @@ public class MainActivity extends AppCompatActivity
 
 
         if (id == R.id.mnu_nuevo_pedido) {
-
             GlobalValues.getINSTANCIA().crearNuevoPedido(this);
             fragment = new CargarDireccionFragment();
-            GlobalValues.getINSTANCIA().CURRENT_FRAGMENT_NUEVO_PEDIDO = GlobalValues.getINSTANCIA().NP_CARGAR_DIRECCION;
+            fragmentTransaction = true;
         }else if (id == R.id.mnu_ver_pedido_actual) {
 
             //BUSCAR ULTIMO PEDIDO GENERADO EN EL DISPOSITIVO
@@ -198,20 +197,16 @@ public class MainActivity extends AppCompatActivity
             PedidoController pdba = new PedidoController(this);
             long nroPedido = pdba.getMaxIdTmpPedido();
             if (nroPedido > 0) {
-                Pedido p = new Pedido();
-                p = pdba.abrir().buscar(nroPedido,true);
+                Cursor c = pdba.abrir().findByIdAndroid(nroPedido);
+                Pedido p = pdba.abrir().parseCursorToPedido(c);
+                GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL = p;
                 GlobalValues.getINSTANCIA().PEDIDO_ID_ACTUAL = p.getIdTmp();
-                GlobalValues.getINSTANCIA().CLIENTE_ID_PEDIDO_ACTUAL = p.getCliente_id();
-                GlobalValues.getINSTANCIA().setActualFragment(GlobalValues.getINSTANCIA().LISTADOPRODUCTOS);
-
-                fragmentTransaction = true;
+                fragment = new CargarDireccionFragment();
             } else {
                 Toast.makeText(this, "MainActivity: No Hay Pedidos Generados", Toast.LENGTH_LONG);
                 Log.println(Log.ERROR, "MainActivity:", " No Hay Pedidos Generados ");
             }
 
-
-            GlobalValues.getINSTANCIA().setActualFragment(GlobalValues.getINSTANCIA().LISTADOCLIENTES);
             GlobalValues.getINSTANCIA().setVgFlagMenuNuevoPedido(true);
 
             fragmentTransaction = true;

@@ -29,7 +29,7 @@ import adaptivex.pedidoscloud.View.Promos.ListadoPromosFragment;
  */
 public class HomeFragment extends Fragment implements View.OnClickListener {
 
-    private Button btn_nuevo, btn_micuenta, btn_postres, btn_helados;
+    private Button btn_nuevo, btn_micuenta, btn_postres, btn_helados, btn_promos;
     private OnFragmentInteractionListener mListener;
 
     public HomeFragment() {
@@ -47,8 +47,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-
     }
 
     @Override
@@ -61,12 +59,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         btn_micuenta = (Button) vista.findViewById(R.id.home_btn_mi_cuenta);
         btn_nuevo    = (Button) vista.findViewById(R.id.home_btn_nuevo_pedido);
         btn_postres  = (Button) vista.findViewById(R.id.home_btn_postres);
+        btn_promos  = (Button) vista.findViewById(R.id.home_btn_promos);
 
         btn_nuevo.setOnClickListener(this);
         btn_postres.setOnClickListener(this);
         btn_micuenta.setOnClickListener(this);
         btn_helados.setOnClickListener(this);
-
+        btn_promos.setOnClickListener(this);
 
 
         return vista;

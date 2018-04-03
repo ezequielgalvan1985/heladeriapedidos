@@ -81,4 +81,10 @@ public class Constants {
     public static final String DATE_FORMAT_SQLITE = "yyyy-MM-dd";
     public static final String DATE_FORMAT_DISPLAY_APP = "dd-MM-yyyy";
 
+    //HelperUser Service
+    public static final String SERVICE_OPTION_LOGIN         = "login";
+    public static final String SERVICE_OPTION_REGISTER      = "register";
+    public static final String SERVICE_OPTION_UPDATE_USER   = "update";
+
+
 }

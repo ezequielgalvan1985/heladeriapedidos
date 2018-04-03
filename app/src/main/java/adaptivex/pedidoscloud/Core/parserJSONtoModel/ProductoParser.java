@@ -56,6 +56,16 @@ public class ProductoParser {
                     if (registro.has(ProductoDataBaseHelper.CAMPO_PRECIO)) producto.setPrecio(registro.getInt(ProductoDataBaseHelper.CAMPO_PRECIO)); else producto.setPrecio(0);
                     if (registro.has(ProductoDataBaseHelper.CAMPO_STOCK)) producto.setStock(registro.getInt(ProductoDataBaseHelper.CAMPO_STOCK)); else producto.setStock(0);
                     if (registro.has(ProductoDataBaseHelper.CAMPO_CODIGOEXTERNO)) producto.setCodigoexterno(registro.getString(ProductoDataBaseHelper.CAMPO_CODIGOEXTERNO)); else producto.setCodigoexterno("");
+
+                    if (registro.has(ProductoDataBaseHelper.JSON_CAMPO_CATEGORIA)){
+                        JSONObject categoria = registro.getJSONObject(ProductoDataBaseHelper.JSON_CAMPO_CATEGORIA);
+                        producto.setCategoriaId(categoria.getInt(ProductoDataBaseHelper.JSON_CAMPO_CATEGORIA_ID));
+                    }
+                    if (registro.has(ProductoDataBaseHelper.JSON_CAMPO_MARCA)){
+                        JSONObject marca = registro.getJSONObject(ProductoDataBaseHelper.JSON_CAMPO_MARCA);
+                        producto.setMarcaId(marca.getInt(ProductoDataBaseHelper.JSON_CAMPO_MARCA_ID));
+                    }
+
                     listadoProductos.add(producto);
                     producto = new Producto();
                 }//endfor

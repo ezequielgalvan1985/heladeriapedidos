@@ -9,10 +9,10 @@ import adaptivex.pedidoscloud.Config.Constants;
  */
 
 public class SqlManager {
-    private static ArrayList<SqlWhere> listaWhere =new ArrayList<SqlWhere>();
+    private static ArrayList<SqlWhere> listaWhere;
 
     public SqlManager (){
-
+        listaWhere = new ArrayList<SqlWhere>();
     }
 
     public static String getConditions (){

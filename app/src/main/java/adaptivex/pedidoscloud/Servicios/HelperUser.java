@@ -7,6 +7,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import adaptivex.pedidoscloud.Config.Configurador;
+import adaptivex.pedidoscloud.Config.Constants;
 import adaptivex.pedidoscloud.Config.GlobalValues;
 import adaptivex.pedidoscloud.Controller.UserController;
 import adaptivex.pedidoscloud.Core.parserJSONtoModel.UserParser;
@@ -28,7 +29,7 @@ public class HelperUser extends AsyncTask<Void, Void, Void> {
     private UserController userCtl;
     private UserParser parser;
     private int respuesta; //1=ok, 200=error
-    private int opcion; //1 enviar Post Pedido
+    private String opcion; //1 enviar Post Pedido
 
     public HelperUser(){
 
@@ -37,7 +38,7 @@ public class HelperUser extends AsyncTask<Void, Void, Void> {
         this.setCtx(pCtx);
     }
 
-    public void callService(){
+    public void loginService(){
         try{
             WebRequest webreq = new WebRequest();
 
@@ -53,7 +54,6 @@ public class HelperUser extends AsyncTask<Void, Void, Void> {
             getParser().setJsonobj(jsonObj);
             getParser().parsearRespuesta();
 
-
             Log.println(Log.ERROR, "Helper:", " Guardado Correctamente");
 
         }catch (Exception e){
@@ -66,9 +66,88 @@ public class HelperUser extends AsyncTask<Void, Void, Void> {
         }
 
     }
+
+    private void registerService(){
+        try{
+            WebRequest webreq = new WebRequest();
+
+            // Setear datos de usuario loguin para hacer el post
+            registro = new HashMap<String, String>();
+            registro.put("email", getUser().getEmail().toString());
+            registro.put("password", getUser().getPassword().toString());
+            registro.put("localidad", getUser().getLocalidad().toString());
+            registro.put("calle", getUser().getCalle().toString());
+            registro.put("nro", getUser().getNro().toString());
+            registro.put("piso", getUser().getPiso().toString());
+            registro.put("contacto", getUser().getContacto().toString());
+            registro.put("telefono", getUser().getTelefono().toString());
+
+            //Enviar Post
+            String jsonStr = webreq.makeWebServiceCall(Configurador.urlPostRegister, WebRequest.POST, this.registro);
+            JSONObject jsonObj = new JSONObject(jsonStr);
+            setParser(new UserParser());
+            getParser().setJsonobj(jsonObj);
+            getParser().parsearRespuesta();
+
+            Log.println(Log.ERROR, "Helper:", " Guardado Correctamente");
+
+        }catch (Exception e){
+            setRespuesta(GlobalValues.getINSTANCIA().RETURN_ERROR);
+            Toast.makeText(this.getCtx(),"Error: "+e.getMessage(),Toast.LENGTH_LONG);
+
+        }
+
+
+    }
+    private void updateUserService()
+    {
+        try{
+            WebRequest webreq = new WebRequest();
+
+            // Setear datos de usuario loguin para hacer el post
+            registro = new HashMap<String, String>();
+            registro.put("id", getUser().getId().toString());
+            registro.put("email", getUser().getEmail().toString());
+            registro.put("password", getUser().getPassword().toString());
+            registro.put("localidad", getUser().getLocalidad().toString());
+            registro.put("calle", getUser().getCalle().toString());
+            registro.put("nro", getUser().getNro().toString());
+            registro.put("piso", getUser().getPiso().toString());
+            registro.put("contacto", getUser().getContacto().toString());
+            registro.put("telefono", getUser().getTelefono().toString());
+
+            //Enviar Post
+            String jsonStr = webreq.makeWebServiceCall(Configurador.urlPostUpdateUser, WebRequest.POST, this.registro);
+            JSONObject jsonObj = new JSONObject(jsonStr);
+            setParser(new UserParser());
+            getParser().setJsonobj(jsonObj);
+            getParser().parsearRespuesta();
+
+            Log.println(Log.ERROR, "Helper:", " Guardado Correctamente");
+
+        }catch (Exception e){
+            setRespuesta(GlobalValues.getINSTANCIA().RETURN_ERROR);
+            Toast.makeText(this.getCtx(),"Error: "+e.getMessage(),Toast.LENGTH_LONG);
+
+        }
+    }
+
     @Override
     protected Void doInBackground(Void... voids) {
-        callService();
+
+
+        switch (this.getOpcion()){
+            case Constants.SERVICE_OPTION_LOGIN:
+                loginService();
+                break;
+            case Constants.SERVICE_OPTION_REGISTER:
+                registerService();
+                break;
+            case Constants.SERVICE_OPTION_UPDATE_USER:
+                updateUserService();
+                break;
+        }
+
         return null;
     }
 
@@ -77,7 +156,7 @@ public class HelperUser extends AsyncTask<Void, Void, Void> {
         super.onPreExecute();
         // Showing progress dialog
         pDialog = new ProgressDialog(this.getCtx());
-        pDialog.setMessage("Enviando Pedido...");
+        pDialog.setMessage("Enviando Datos al Servidor, aguarde un momento...");
         pDialog.setCancelable(false);
         pDialog.show();
     }
@@ -110,13 +189,6 @@ public class HelperUser extends AsyncTask<Void, Void, Void> {
         this.respuesta = respuesta;
     }
 
-    public int getOpcion() {
-        return opcion;
-    }
-
-    public void setOpcion(int opcion) {
-        this.opcion = opcion;
-    }
 
     public User getUser() {
         return user;
@@ -133,5 +205,13 @@ public class HelperUser extends AsyncTask<Void, Void, Void> {
 
     public void setParser(UserParser parser) {
         this.parser = parser;
+    }
+
+    public String getOpcion() {
+        return opcion;
+    }
+
+    public void setOpcion(String opcion) {
+        this.opcion = opcion;
     }
 }

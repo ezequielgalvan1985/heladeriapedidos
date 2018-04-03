@@ -212,6 +212,7 @@ public class ProductoController implements ControllerInterface
         try{
             ArrayList<Object> lista = new  ArrayList<Object>();
             Cursor c = findWhere(sm);
+            lista = parseCursorToArrayList(c);
             return lista;
         }catch(Exception e ){
             Toast.makeText(context, "Error " +e.getMessage().toString(), Toast.LENGTH_SHORT).show();

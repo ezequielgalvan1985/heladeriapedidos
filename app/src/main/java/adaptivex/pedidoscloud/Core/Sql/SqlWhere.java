@@ -52,6 +52,9 @@ public class SqlWhere {
     }
 
     public String getConditionOperator() {
+        if (conditionOperator==null){
+            conditionOperator = "";
+        }
         return conditionOperator;
     }
 

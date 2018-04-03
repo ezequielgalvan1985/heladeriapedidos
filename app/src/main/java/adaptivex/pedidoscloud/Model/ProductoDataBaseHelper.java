@@ -22,8 +22,16 @@ public class ProductoDataBaseHelper extends SQLiteOpenHelper
     public static final String CAMPO_IMAGEN      = "imagen";
     public static final String CAMPO_IMAGENURL   = "imagenurl";
     public static final String CAMPO_CODIGOEXTERNO = "codigoexterno";
+
     public static final String CAMPO_CATEGORIA_ID = "categoria_id";
     public static final String CAMPO_MARCA_ID = "marca_id";
+
+
+    public static final String JSON_CAMPO_CATEGORIA = "categoria";
+    public static final String JSON_CAMPO_CATEGORIA_ID = "id";
+    public static final String JSON_CAMPO_MARCA = "marca";
+    public static final String JSON_CAMPO_MARCA_ID = "id";
+
 
     public static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
 
@@ -33,9 +41,9 @@ public class ProductoDataBaseHelper extends SQLiteOpenHelper
             CAMPO_DESCRIPCION   + " text null, " +
             CAMPO_PRECIO        + " decimal (7,2) default 0, " +
             CAMPO_STOCK         + " integer null default 0, " +
-            CAMPO_IMAGEN        + " text null default ''," +
-            CAMPO_IMAGENURL     + " text null default ''," +
-            CAMPO_CODIGOEXTERNO + " text null default ''" +
+            CAMPO_IMAGEN        + " text null default '', " +
+            CAMPO_IMAGENURL     + " text null default '', " +
+            CAMPO_CODIGOEXTERNO + " text null default '', " +
             CAMPO_CATEGORIA_ID  + " integer not null ," +
             CAMPO_MARCA_ID      + " integer not null " +
             ")";

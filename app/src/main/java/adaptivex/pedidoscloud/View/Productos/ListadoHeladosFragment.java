@@ -12,6 +12,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -58,7 +59,7 @@ public class ListadoHeladosFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_listado_helados, container, false);
-
+        TextView titulo = (TextView) v.findViewById(R.id.listado_helados_titulo);
         //1 - RECYCLE VIEW
         rvHeladosPostres = (RecyclerView)v.findViewById(R.id.rvHeladosPostres);
         GridLayoutManager manager = new GridLayoutManager(v.getContext(), 2, GridLayoutManager.VERTICAL, false);
@@ -69,8 +70,10 @@ public class ListadoHeladosFragment extends Fragment {
         ProductoController pc = new ProductoController(getContext());
         SqlManager sm = new SqlManager();
         if (tipo_listado== Constants.VALUE_TIPO_LISTADO_POSTRES){
+            titulo.setText("Listado de Postres");
             sm.addWhere(ProductoDataBaseHelper.CAMPO_CATEGORIA_ID,Constants.IGUAL, Constants.CATEGORIA_POSTRES.toString());
         }else{
+            titulo.setText("Listado de Helados");
             sm.addWhere(ProductoDataBaseHelper.CAMPO_CATEGORIA_ID,Constants.IGUAL, Constants.CATEGORIA_HELADOS.toString());
         }
         listaHelados = pc.abrir().findWhereToArrayList(sm);
