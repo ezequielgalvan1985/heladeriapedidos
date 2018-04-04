@@ -87,4 +87,6 @@ public class Constants {
     public static final String SERVICE_OPTION_UPDATE_USER   = "update";
 
 
+    public static final String SERVICE_PEDIDO_OPTION_UPDATE_USER   = "update";
+
 }

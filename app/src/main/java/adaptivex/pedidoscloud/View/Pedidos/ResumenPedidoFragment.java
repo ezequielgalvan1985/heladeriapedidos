@@ -5,21 +5,24 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import adaptivex.pedidoscloud.Config.Constants;
 import adaptivex.pedidoscloud.Config.GlobalValues;
 import adaptivex.pedidoscloud.Core.WorkNumber;
 import adaptivex.pedidoscloud.R;
+import adaptivex.pedidoscloud.Servicios.HelperPedidos;
 
-public class ResumenPedidoFragment extends Fragment {
+public class ResumenPedidoFragment extends Fragment implements View.OnClickListener {
 
 
     private TextView lbl_cantidad_kilos, lbl_kilos_monto, lbl_cucuruchos_monto, lbl_monto_total;
     private TextView txt_cucuruchos, txt_direccion, txt_cucharitas, txt_monto_total, txtEnvio,
                      txt_pedido_id, txt_hora_entrega, txt_estado,
                      txt_monto_descuento, txt_cantidad_descuento;
-
+    private Button   btnEnviarPedido;
     public ResumenPedidoFragment() {
 
     }
@@ -57,8 +60,10 @@ public class ResumenPedidoFragment extends Fragment {
         txt_pedido_id        = (TextView) v.findViewById(R.id.resumen_pedido_txt_pedido_id);
 
         txt_cantidad_descuento = (TextView) v.findViewById(R.id.resumen_pedido_txt_descuento_cantidad);
-        txt_monto_descuento = (TextView) v.findViewById(R.id.resumen_pedido_txt_descuento_monto);
+        txt_monto_descuento    = (TextView) v.findViewById(R.id.resumen_pedido_txt_descuento_monto);
 
+        btnEnviarPedido        =  (Button) v.findViewById(R.id.resumen_pedido_btn_enviar);
+        btnEnviarPedido.setOnClickListener(this);
         refreshTextViews();
         return v;
     }
@@ -91,11 +96,19 @@ public class ResumenPedidoFragment extends Fragment {
     }
 
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.resumen_pedido_btn_enviar:
+                enviarPedido();
 
+        }
+    }
 
+    public void enviarPedido(){
+        HelperPedidos hp = new HelperPedidos(getContext(), GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getIdTmp(), GlobalValues.getINSTANCIA().OPTION_HELPER_ENVIO_PEDIDO );
+        hp.execute();
 
-
-
-
+    }
 
 }

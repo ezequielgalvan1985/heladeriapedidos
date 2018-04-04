@@ -20,7 +20,9 @@ public class Pedido {
     private Integer id;
     private long idTmp;
     private String  created;
-    private Double  precioxkilo;
+    private Date  fechaWebRecibido;
+    private Date  fechaWebEnviado;
+
     private Double  subtotal;
     private Double  iva;
     private Double  monto;
@@ -28,9 +30,7 @@ public class Pedido {
     private Double  bonificacion;
     private Integer estadoId;
     private Integer nroPedidoReal;
-    private Double  montoDescuento;
-    private Integer cantidadDescuento;
-    private String horaEntrega;
+
 
 
 
@@ -43,11 +43,8 @@ public class Pedido {
     private ArrayList<Pedidodetalle> detalles ;
 
 
-    private Integer cantidadKilos= 0;
-    private Integer cucuruchos= 0 ;
-    private Integer cucharitas= 0 ;
-    private boolean envioDomicilio;
-    private Integer cantidadPotes = 0 ;
+
+
 
     //Direccion
     private String localidad;
@@ -57,9 +54,18 @@ public class Pedido {
     private String telefono;
     private String contacto;
 
+    private Double  precioxkilo;
+    private Double  montoDescuento;
+    private Integer cantidadDescuento;
+    private String  tiempoDemora;
+
+    private Integer cantidadKilos= 0;
+    private Integer cucuruchos= 0 ;
+    private Integer cucharitas= 0 ;
     private Double montoCucuruchos;
     private Double montoHelados;
-
+    private boolean envioDomicilio;
+    private Integer cantidadPotes = 0 ;
 
     public String getProporcionDesc(Integer proporcion){
         String cadena = "";
@@ -453,11 +459,29 @@ public class Pedido {
         this.cantidadDescuento = cantidadDescuento;
     }
 
-    public String getHoraEntrega() {
-        return horaEntrega;
+
+
+    public String getTiempoDemora() {
+        return tiempoDemora;
     }
 
-    public void setHoraEntrega(String horaEntrega) {
-        this.horaEntrega = horaEntrega;
+    public void setTiempoDemora(String tiempoDemora) {
+        this.tiempoDemora = tiempoDemora;
+    }
+
+    public Date getFechaWebRecibido() {
+        return fechaWebRecibido;
+    }
+
+    public void setFechaWebRecibido(Date fechaWebRecibido) {
+        this.fechaWebRecibido = fechaWebRecibido;
+    }
+
+    public Date getFechaWebEnviado() {
+        return fechaWebEnviado;
+    }
+
+    public void setFechaWebEnviado(Date fechaWebEnviado) {
+        this.fechaWebEnviado = fechaWebEnviado;
     }
 }

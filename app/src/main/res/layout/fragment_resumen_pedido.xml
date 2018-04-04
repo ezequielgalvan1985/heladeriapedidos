@@ -364,7 +364,7 @@
 
 
         <Button
-            android:id="@+id/resumen_btn_enviar"
+            android:id="@+id/resumen_pedido_btn_enviar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableRight="@drawable/ic_send_black_24dp"

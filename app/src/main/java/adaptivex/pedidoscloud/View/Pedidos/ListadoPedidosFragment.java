@@ -114,7 +114,7 @@ public class ListadoPedidosFragment extends Fragment {
                         registro.setSubtotal(c.getDouble(c.getColumnIndex(PedidoDataBaseHelper.CAMPO_SUBTOTAL)));
                         registro.setIva(c.getDouble(c.getColumnIndex(PedidoDataBaseHelper.CAMPO_IVA)));
                         registro.setMonto(c.getDouble(c.getColumnIndex(PedidoDataBaseHelper.CAMPO_MONTO)));
-                        registro.setCliente_id(c.getInt(c.getColumnIndex(PedidoDataBaseHelper.CAMPO_CLIENTE_ID)));
+                        //registro.setCliente_id(c.getInt(c.getColumnIndex(PedidoDataBaseHelper.CAMPO_CLIENTE_ID)));
                         registro.setEstadoId(c.getInt(c.getColumnIndex(PedidoDataBaseHelper.CAMPO_ESTADO_ID)));
                         cliente = dbCliente.abrir().buscar(registro.getCliente_id());
                         registro.setCliente(cliente);
