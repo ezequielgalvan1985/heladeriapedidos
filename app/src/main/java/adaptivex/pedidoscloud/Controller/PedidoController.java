@@ -410,7 +410,7 @@ public class PedidoController implements ControllerInterface
             valores.put(PedidoDataBaseHelper.CAMPO_MONTO_DESCUENTO,  item.getMontoDescuento());
             valores.put(PedidoDataBaseHelper.CAMPO_MONTO_HELADOS, item.getMontoHelados());
             valores.put(PedidoDataBaseHelper.CAMPO_CANTIDAD_DESCUENTO, item.getCantidadDescuento());
-            valores.put(PedidoDataBaseHelper.CAMPO_HORA_ENTREGA, item.getHoraEntrega());
+            valores.put(PedidoDataBaseHelper.CAMPO_HORA_ENTREGA, item.getHoraentrega().toString());
 
             return db.insert(PedidoDataBaseHelper.TABLE_NAME, null, valores);
         }catch(Exception e ){
@@ -453,7 +453,7 @@ public class PedidoController implements ControllerInterface
             valores.put(PedidoDataBaseHelper.CAMPO_CANTIDAD_DESCUENTO, item.getCantidadDescuento());
             valores.put(PedidoDataBaseHelper.CAMPO_MONTO_DESCUENTO, item.getMontoDescuento());
             valores.put(PedidoDataBaseHelper.CAMPO_MONTO_HELADOS, item.getMontoHelados());
-            valores.put(PedidoDataBaseHelper.CAMPO_HORA_ENTREGA, item.getHoraEntrega());
+            valores.put(PedidoDataBaseHelper.CAMPO_HORA_ENTREGA, item.getHoraentrega().toString());
 
             valores.put(PedidoDataBaseHelper.CAMPO_ID_TMP, item.getIdTmp());
 

@@ -24,6 +24,7 @@ import java.util.Date;
 import java.util.HashMap;
 
 import adaptivex.pedidoscloud.Config.Configurador;
+import adaptivex.pedidoscloud.Config.Constants;
 import adaptivex.pedidoscloud.Config.GlobalValues;
 import adaptivex.pedidoscloud.Controller.PedidoController;
 import adaptivex.pedidoscloud.Controller.PedidodetalleController;
@@ -67,87 +68,74 @@ public class HelperPedidos extends AsyncTask<Void, Void, Void> {
         this.opcion = opcion;
     }
 
-    public boolean enviarPedido(Pedido paramPedido){
+    public HelperPedidos(Context pCtx, int opcion, Pedido pedido){
+        this.setCtx(pCtx);
+        this.pedidoCtr = new PedidoController(this.getCtx());
+        this.opcion = opcion;
+        this.pedido = pedido;
+    }
+
+
+
+    public JSONObject parseObjectToJson(Pedido paramPedido){
         try{
-            setPedido(paramPedido);
-            WebRequest webreq = new WebRequest();
+            JSONObject pedido = new JSONObject();
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             Date fechahoy = new Date();
             String fechahoystr = dateFormat.format(fechahoy);
-            System.out.println(dateFormat.format(fechahoy));
-            //if (paramPedido.getEstadoId() == GlobalValues.getINSTANCIA().consPedidoEstadoNuevo) {
-                this.registro = new HashMap<String, String>();
-
-                this.registro.put("fecha", String.valueOf(fechahoystr));
-                this.registro.put("user_id", String.valueOf(GlobalValues.getINSTANCIA().getUserlogued().getId()));
-                this.registro.put("empresa_id", String.valueOf(GlobalValues.getINSTANCIA().getUserlogued().getEntidad_id()));
-                this.registro.put("cliente_id", paramPedido.getCliente_id().toString());
-                this.registro.put("android_id", String.valueOf(paramPedido.getIdTmp()));
-                this.registro.put("estado_id", String.valueOf(GlobalValues.getINSTANCIA().consPedidoEstadoEnviado));
-                this.registro.put("precioxkilo", String.valueOf(paramPedido.getMonto())); //Precio x kilo al dia de la fecha
-                this.registro.put("monto", String.valueOf(paramPedido.getMonto())); //Precio total del helado
-                this.registro.put("iva", String.valueOf(paramPedido.getIva()));
-                this.registro.put("subtotal", String.valueOf(paramPedido.getSubtotal()));
+            JSONArray pedidodetalles = new JSONArray();
 
 
-                //Agregar campos de Heladeria, Direccion, cucharas, cucuruchos, cantidades.
+            pedido.put("fecha", String.valueOf(fechahoystr));
+            pedido.put("empresa_id", String.valueOf(GlobalValues.getINSTANCIA().getUserlogued().getEntidad_id()));
+            pedido.put("user_id", String.valueOf(GlobalValues.getINSTANCIA().getUserlogued().getId()));
+            pedido.put("android_id", String.valueOf(paramPedido.getIdTmp()));
+            pedido.put("subtotal", String.valueOf(paramPedido.getSubtotal()));
+            pedido.put("monto", String.valueOf(paramPedido.getMonto())); //Precio total del helado
+            pedido.put("iva", String.valueOf(paramPedido.getIva()));
+            pedido.put("estado_id", String.valueOf(Constants.ESTADO_ENVIADO ));
 
-                //Procesa post
-                String jsonStr = webreq.makeWebServiceCall(Configurador.urlPostPedido, WebRequest.POST,this.registro);
+            pedido.put("localidad", String.valueOf(paramPedido.getLocalidad()));
+            pedido.put("calle", String.valueOf(paramPedido.getCalle()));
+            pedido.put("nro", String.valueOf(paramPedido.getNro()));
+            pedido.put("piso", String.valueOf(paramPedido.getPiso()));
+            pedido.put("telefono", String.valueOf(paramPedido.getTelefono()));
+            pedido.put("contacto", String.valueOf(paramPedido.getContacto()));
 
-                PedidoParser pp = new PedidoParser(jsonStr);
-                Pedido pedidopostsave = pp.parseJsonToObject();
-                Pedido pedidoprevsave = pedidoCtr.abrir().buscar(paramPedido.getIdTmp(),true);
-                pedidoprevsave.setId(pedidopostsave.getId());
-                pedidoprevsave.setEstadoId(GlobalValues.getINSTANCIA().consPedidoEstadoEnviado);
-                pedidoCtr.abrir().modificar(pedidoprevsave, true);
-                pedidoCtr.cerrar();
-                //setRespuesta(GlobalValues.getINSTANCIA().RETURN_OK);
-                Log.println(Log.ERROR, "Helper:", " Guardado Correctamente ");
+            pedido.put("cucharitas", String.valueOf(paramPedido.getCucharitas()));
+            pedido.put("cucuruchos", String.valueOf(paramPedido.getCucuruchos()));
+            pedido.put("cucurucho_monto", String.valueOf(paramPedido.getMontoCucuruchos()));
+            pedido.put("envio_domicilio", String.valueOf(paramPedido.getEnvioDomicilio()));
+            pedido.put("monto_descuento", String.valueOf(paramPedido.getMontoDescuento()));
+            pedido.put("cantidad_descuento", String.valueOf(paramPedido.getCantidadDescuento()));
 
-                //Enviar Pedido Items
-                Pedidodetalle pd = new Pedidodetalle();
-                PedidodetalleController pdc = new PedidodetalleController(getCtx());
+            pedido.put("precioxkilo", String.valueOf(paramPedido.getPrecioxkilo()));
+            pedido.put("tiempodemora", String.valueOf(paramPedido.getTiempoDemora()));
+            pedido.put("cantidadkilos", String.valueOf(paramPedido.getCantidadKilos()));
+            pedido.put("monto_helados", String.valueOf(paramPedido.getMontoHelados()));
+            pedido.put("cantidadpotes", String.valueOf(paramPedido.getCantidadPotes()));
 
-                for(int x = 0; x< paramPedido.getDetalles().size(); x++) {
+            for(int x = 0; x< paramPedido.getDetalles().size(); x++) {
+                JSONObject item = new JSONObject();
+                Pedidodetalle pd = (Pedidodetalle) paramPedido.getDetalles().get(x);
+                item.put("producto_id", pd.getProductoId().toString());
+                item.put("cantidad",  String.valueOf(pd.getCantidad()));
+                item.put("android_id",  String.valueOf(pd.getIdTmp()));
+                item.put("nropote",  String.valueOf(paramPedido.getIdTmp()));
+                pedidodetalles.put(item);
+            }
+            pedido.put("pedidodetalles", pedidodetalles);
 
-                    pd = (Pedidodetalle) paramPedido.getDetalles().get(x);
-                    pd.setPedidoId(paramPedido.getId());
-                    pdc.abrir().modificar(pd);
-                    pdc.cerrar();
+            return pedido;
 
-                    HashMap<String,String> pedidodetalleitem = new HashMap<String, String>();
-                    pedidodetalleitem.put("idtmp", "1");
-                    pedidodetalleitem.put("producto_id", pd.getProductoId() .toString()); //No iria mas
-                    pedidodetalleitem.put("cantidad", pd.getCantidad().toString());      //cantidad total de helados
-                    pedidodetalleitem.put("precio", pd.getPreciounitario().toString());  //No va
-                    pedidodetalleitem.put("monto", pd.getMonto().toString());            //no va
-                    pedidodetalleitem.put("pedidocabecera_idtmp", String.valueOf(pd.getPedidoTmpId()));
-                    pedidodetalleitem.put("pedidocabecera_id", paramPedido.getId().toString());
-                    pedidodetalleitem.put("created", fechahoystr );
-                    pedidodetalleitem.put("subtotal", paramPedido.getSubtotal().toString() );
-                    pedidodetalleitem.put("empresa_id", String.valueOf(GlobalValues.getINSTANCIA().getUserlogued().getEntidad_id()));
-
-                    String jsonStrpedidodetalle = webreq.makeWebServiceCall(Configurador.urlPostPedidodetalle, WebRequest.POST, pedidodetalleitem);
-                    System.out.println(jsonStrpedidodetalle);
-
-
-
-                            
-
-                }
-
-            //}
-            return true;
         }catch (Exception e){
             if (pDialog.isShowing())
                 pDialog.dismiss();
             setRespuesta(GlobalValues.getINSTANCIA().RETURN_ERROR);
             Log.println(Log.ERROR,"ErrorHelper:",e.getMessage());
-            return false;
+            return null;
         }
     }
-
 
 
     public boolean enviarPedido2(Pedido paramPedido){
@@ -168,46 +156,10 @@ public class HelperPedidos extends AsyncTask<Void, Void, Void> {
             con.setRequestProperty("Accept", "application/json");
             con.setRequestMethod("POST");
 
-
             //Create JSONObject here
             JSONObject objectjson = new JSONObject();
-            JSONObject pedido = new JSONObject();
-            JSONArray pedidodetalles = new JSONArray();
-            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            Date fechahoy = new Date();
-            String fechahoystr = dateFormat.format(fechahoy);
-            System.out.println(dateFormat.format(fechahoy));
-
-            pedido.put("fecha", String.valueOf(fechahoystr));
-            pedido.put("user_id", String.valueOf(GlobalValues.getINSTANCIA().getUserlogued().getId()));
-            pedido.put("empresa_id", String.valueOf(GlobalValues.getINSTANCIA().getUserlogued().getEntidad_id()));
-            pedido.put("cliente_id", paramPedido.getCliente_id().toString());
-            pedido.put("android_id", String.valueOf(paramPedido.getIdTmp()));
-            pedido.put("estado_id", String.valueOf(GlobalValues.getINSTANCIA().consPedidoEstadoEnviado));
-            pedido.put("monto", String.valueOf(paramPedido.getMonto()));
-            pedido.put("iva", String.valueOf(paramPedido.getIva()));
-            pedido.put("subtotal",  String.valueOf(paramPedido.getSubtotal()));
-
-
-            JSONObject pedidodetallejson = new JSONObject();
-
-            //Armar Json detalle de pedidos
-            //Enviar Pedido Items
-            Pedidodetalle pd = new Pedidodetalle();
             PedidodetalleController pdc = new PedidodetalleController(getCtx());
-
-            for(int x = 0; x< paramPedido.getDetalles().size(); x++) {
-                JSONObject item = new JSONObject();
-                pd = (Pedidodetalle) paramPedido.getDetalles().get(x);
-                item.put("producto_id", pd.getProductoId().toString());
-                item.put("cantidad",  String.valueOf(pd.getCantidad()));
-                item.put("android_id",  String.valueOf(pd.getIdTmp()));
-                item.put("pedido_android_id",  String.valueOf(paramPedido.getIdTmp()));
-                pedidodetalles.put(item);
-            }
-
-            pedido.put("pedidodetalles", pedidodetalles);
-            objectjson.put("pedido", pedido);
+            objectjson.put("pedido", parseObjectToJson(paramPedido));
 
             //Enviar Json
             OutputStreamWriter wr = new OutputStreamWriter(con.getOutputStream());
@@ -219,9 +171,7 @@ public class HelperPedidos extends AsyncTask<Void, Void, Void> {
             int HttpResult = con.getResponseCode();
             if (HttpResult == HttpURLConnection.HTTP_OK) {
                 //actulizar estado de pedido a enviado
-                //paramPedido.setEstadoId(GlobalValues.getINSTANCIA().consPedidoEstadoEnviado);
-                //pedidoCtr.abrir().modificar(paramPedido,true);
-                //pedidoCtr.cerrar();
+
 
                 BufferedReader br = new BufferedReader(
                         new InputStreamReader(con.getInputStream(), "utf-8"));
@@ -242,15 +192,11 @@ public class HelperPedidos extends AsyncTask<Void, Void, Void> {
             Pedido pedidopostsave = pp.parseJsonToObject();
             Pedido pedidoprevsave = pedidoCtr.abrir().buscar(paramPedido.getIdTmp(),true);
             pedidoprevsave.setId(pedidopostsave.getId());
-            pedidoprevsave.setEstadoId(GlobalValues.getINSTANCIA().consPedidoEstadoEnviado);
+            pedidoprevsave.setEstadoId(Constants.ESTADO_ENPREPARACION);
             pedidoCtr.abrir().modificar(pedidoprevsave, true);
             pedidoCtr.cerrar();
-            //setRespuesta(GlobalValues.getINSTANCIA().RETURN_OK);
-            Log.println(Log.ERROR, "Helper:", " Guardado Correctamente ");
 
 
-
-            //}
             return true;
         }catch (Exception e){
             if (pDialog.isShowing())

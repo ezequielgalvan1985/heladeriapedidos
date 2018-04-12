@@ -66,6 +66,7 @@ public class Pedido {
     private Double montoHelados;
     private boolean envioDomicilio;
     private Integer cantidadPotes = 0 ;
+    private Date horaentrega;
 
     public String getProporcionDesc(Integer proporcion){
         String cadena = "";
@@ -483,5 +484,13 @@ public class Pedido {
 
     public void setFechaWebEnviado(Date fechaWebEnviado) {
         this.fechaWebEnviado = fechaWebEnviado;
+    }
+
+    public Date getHoraentrega() {
+        return horaentrega;
+    }
+
+    public void getHoraentrega(Date horaentrega) {
+        this.horaentrega = horaentrega;
     }
 }

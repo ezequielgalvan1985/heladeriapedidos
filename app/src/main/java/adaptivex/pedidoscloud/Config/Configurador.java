@@ -15,7 +15,7 @@ public class Configurador {
     public static final String urlImgClientes = "http://www.ellechero.com.ar/files/producto/imagen/";
 
     //RED CELU
-    public static String strRoot = "http://192.168.43.44:8000";
+    //public static String strRoot = "http://192.168.43.44:8000";
 
     //Casa
     //public static String strRoot = "http://192.168.0.4:8000";
@@ -24,7 +24,7 @@ public class Configurador {
     //public static String strRoot = "http://10.4.4.93:8000";
 
     //amazon
-//    public static String strRoot = "http://18.228.6.207";
+    public static String strRoot = "http://18.228.6.207";
 
     public static String urlPedidos = strRoot+"/api/pedidos";
     public static String urlMemos = strRoot+"/api/memoclientes";

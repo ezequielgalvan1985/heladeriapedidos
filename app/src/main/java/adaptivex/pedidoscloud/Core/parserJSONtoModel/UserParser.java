@@ -42,13 +42,12 @@ public class UserParser {
                 JSONObject empresa = new JSONObject(data.getString(UserDataBaseHelper.EMPRESA_JSON));
                 vuser.setEntidad_id(empresa.getInt(UserDataBaseHelper.EMPRESA_ID_JSON));
 
-                vuser.setTelefono(data.getString(UserDataBaseHelper.TELEFONO));
-                vuser.setLocalidad(data.getString(UserDataBaseHelper.LOCALIDAD));
-                vuser.setCalle(data.getString(UserDataBaseHelper.CALLE));
-                vuser.setNro(data.getString(UserDataBaseHelper.NRO));
-                vuser.setPiso(data.getString(UserDataBaseHelper.PISO));
-                vuser.setContacto(data.getString(UserDataBaseHelper.CONTACTO));
-
+                if (data.has(UserDataBaseHelper.TELEFONO)) vuser.setTelefono(data.getString(UserDataBaseHelper.TELEFONO)); else vuser.setTelefono("");
+                if (data.has(UserDataBaseHelper.LOCALIDAD)) vuser.setLocalidad(data.getString(UserDataBaseHelper.LOCALIDAD)); else vuser.setLocalidad("");
+                if (data.has(UserDataBaseHelper.CALLE)) vuser.setCalle(data.getString(UserDataBaseHelper.CALLE)); else vuser.setCalle("");
+                if (data.has(UserDataBaseHelper.NRO)) vuser.setNro(data.getString(UserDataBaseHelper.NRO)); else vuser.setNro("");
+                if (data.has(UserDataBaseHelper.PISO)) vuser.setPiso(data.getString(UserDataBaseHelper.PISO)); else vuser.setPiso("");
+                if (data.has(UserDataBaseHelper.CONTACTO)) vuser.setContacto(data.getString(UserDataBaseHelper.CONTACTO)); else vuser.setContacto("");
                 setUser(vuser);
             }else {
                 Log.d("UserParser: ", "Status: " + getStatus().toString());

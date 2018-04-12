@@ -106,7 +106,8 @@ public class ResumenPedidoFragment extends Fragment implements View.OnClickListe
     }
 
     public void enviarPedido(){
-        HelperPedidos hp = new HelperPedidos(getContext(), GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getIdTmp(), GlobalValues.getINSTANCIA().OPTION_HELPER_ENVIO_PEDIDO );
+        HelperPedidos hp = new HelperPedidos(getContext(),  GlobalValues.getINSTANCIA().OPTION_HELPER_ENVIO_PEDIDO, GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL );
+        Toast.makeText(getContext(),"Enviando pedido..." ,Toast.LENGTH_LONG).show();
         hp.execute();
 
     }
