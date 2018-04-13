@@ -39,8 +39,7 @@ public class UserParser {
                 vuser.setUsername(data.getString(UserDataBaseHelper.USERNAME));
                 vuser.setEmail(data.getString(UserDataBaseHelper.EMAIL));
 
-                JSONObject empresa = new JSONObject(data.getString(UserDataBaseHelper.EMPRESA_JSON));
-                vuser.setEntidad_id(empresa.getInt(UserDataBaseHelper.EMPRESA_ID_JSON));
+
 
                 if (data.has(UserDataBaseHelper.TELEFONO)) vuser.setTelefono(data.getString(UserDataBaseHelper.TELEFONO)); else vuser.setTelefono("");
                 if (data.has(UserDataBaseHelper.LOCALIDAD)) vuser.setLocalidad(data.getString(UserDataBaseHelper.LOCALIDAD)); else vuser.setLocalidad("");

@@ -572,11 +572,11 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
                     GlobalValues.getINSTANCIA().setUserlogued(parser.getUser());
                     //SE INSTALA LA APP, EN CASO DE NO ESTARLO
                     IniciarApp ia = new IniciarApp(this.getCtx());
-                    if (!ia.isInstalled()){
+                    if (ia.isInstalled()==false){
                         ia.iniciarBD();
                     }
                     //SE DESCARGAN LOS DATOS
-                    if (!ia.isDatabaseDownload()){
+                    if (ia.isDatabaseDownload()==false){
                         ia.downloadDatabase();
                     }
 
@@ -672,11 +672,11 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
                     GlobalValues.getINSTANCIA().setUserlogued(parser.getUser());
                     //SE INSTALA LA APP, EN CASO DE NO ESTARLO
                     IniciarApp ia = new IniciarApp(this.getCtx());
-                    if (!ia.isInstalled()){
+                    if (ia.isInstalled()==false){
                         ia.iniciarBD();
                     }
                     //SE DESCARGAN LOS DATOS
-                    if (!ia.isDatabaseDownload()){
+                    if (ia.isDatabaseDownload()==false){
                         ia.downloadDatabase();
                     }
 
