@@ -76,14 +76,18 @@ public class ListadoHeladosFragment extends Fragment {
             titulo.setText("Listado de Helados");
             sm.addWhere(ProductoDataBaseHelper.CAMPO_CATEGORIA_ID,Constants.IGUAL, Constants.CATEGORIA_HELADOS.toString());
         }
+        listaHelados = new ArrayList<Object>();
         listaHelados = pc.abrir().findWhereToArrayList(sm);
 
 
         //3 - SET ADAPTER
         RVAdapterProducto adapterProducto = new RVAdapterProducto();
         adapterProducto.setCtx(getContext());
-        adapterProducto.setProductos(listaHelados);
-        rvHeladosPostres.setAdapter(adapterProducto);
+        if (listaHelados!=null){
+            adapterProducto.setProductos(listaHelados);
+            rvHeladosPostres.setAdapter(adapterProducto);
+        }
+
 
         return v;
     }
