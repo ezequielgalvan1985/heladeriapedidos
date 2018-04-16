@@ -2,6 +2,7 @@ package adaptivex.pedidoscloud.Model;
 
 import android.database.Cursor;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -11,6 +12,7 @@ import java.util.Locale;
 
 import adaptivex.pedidoscloud.Config.Constants;
 import adaptivex.pedidoscloud.Config.GlobalValues;
+import adaptivex.pedidoscloud.Core.WorkDate;
 import adaptivex.pedidoscloud.Core.WorkNumber;
 
 /**
@@ -57,7 +59,7 @@ public class Pedido {
     private Double  precioxkilo;
     private Double  montoDescuento;
     private Integer cantidadDescuento;
-    private String  tiempoDemora;
+
 
     private Integer cantidadKilos= 0;
     private Integer cucuruchos= 0 ;
@@ -66,6 +68,9 @@ public class Pedido {
     private Double montoHelados;
     private boolean envioDomicilio;
     private Integer cantidadPotes = 0 ;
+
+    private Date horaRecepcion;
+    private Integer  tiempoDemora;
     private Date horaentrega;
 
     public String getProporcionDesc(Integer proporcion){
@@ -204,7 +209,7 @@ public class Pedido {
 
 
     public Integer getCucuruchos() {
-        return cucuruchos;
+        return WorkNumber.getValue(cucuruchos);
     }
 
     public void setCucuruchos(Integer cucuruchos) {
@@ -216,11 +221,12 @@ public class Pedido {
     }
 
     public void refreshMontoTotal(){
+        subtotal =  WorkNumber.getValue(montoHelados) + WorkNumber.getValue(montoCucuruchos);
         monto = WorkNumber.getValue(montoHelados) + WorkNumber.getValue(montoCucuruchos) - WorkNumber.getValue(montoDescuento);
     }
 
     public Integer getCucharitas() {
-        return cucharitas;
+        return WorkNumber.getValue(cucharitas);
     }
 
     public void setCucharitas(Integer cucharitas) {
@@ -249,7 +255,7 @@ public class Pedido {
     }
 
     public Double getSubtotal() {
-        return subtotal;
+        return WorkNumber.getValue(subtotal);
     }
 
     public void setSubtotal(Double subtotal) {
@@ -257,7 +263,7 @@ public class Pedido {
     }
 
     public Double getIva() {
-        return iva;
+        return WorkNumber.getValue(iva);
     }
 
     public void setIva(Double iva) {
@@ -265,7 +271,7 @@ public class Pedido {
     }
 
     public Double getMonto() {
-        return monto;
+        return WorkNumber.getValue(monto);
     }
 
     public String getMontoFormatMoney(){
@@ -289,7 +295,7 @@ public class Pedido {
     }
 
     public Double getBonificacion() {
-        return bonificacion;
+        return WorkNumber.getValue(bonificacion);
     }
 
     public void setBonificacion(Double bonificacion) {
@@ -383,7 +389,7 @@ public class Pedido {
     }
 
     public Double getPrecioxkilo() {
-        return precioxkilo;
+        return WorkNumber.getValue(precioxkilo);
     }
 
     public void setPrecioxkilo(Double precioxkilo) {
@@ -395,7 +401,7 @@ public class Pedido {
     }
 
     public Integer getCantidadKilos() {
-        return cantidadKilos;
+        return WorkNumber.getValue(cantidadKilos);
     }
 
     public void setCantidadKilos(Integer cantidadKilos) {
@@ -411,7 +417,7 @@ public class Pedido {
     }
 
     public Integer getCantidadPotes() {
-        return cantidadPotes;
+        return WorkNumber.getValue(cantidadPotes);
     }
 
     public void setCantidadPotes(Integer cantidadPotes) {
@@ -419,7 +425,7 @@ public class Pedido {
     }
 
     public double getMontoCucuruchos() {
-        return montoCucuruchos;
+        return WorkNumber.getValue(montoCucuruchos);
     }
     public String getMontoCucuruchosFormatMoney() {
         return WorkNumber.moneyFormat(this.montoCucuruchos);
@@ -428,7 +434,7 @@ public class Pedido {
 
 
     public double getMontoHelados() {
-        return montoHelados;
+        return WorkNumber.getValue(montoHelados);
     }
 
     public void setMontoHelados(double montoHelados) {
@@ -440,9 +446,12 @@ public class Pedido {
         if (this.envioDomicilio) cartel = "SI";
         return cartel;
     }
+    public boolean getEnvioDomicilioBoolean(){
+        return this.envioDomicilio;
+    }
 
     public Double getMontoDescuento() {
-        return montoDescuento;
+        return WorkNumber.getValue(montoDescuento);
     }
     public String getMontoDescuentoFormatMoney(){
         return WorkNumber.moneyFormat(this.montoDescuento);
@@ -462,13 +471,7 @@ public class Pedido {
 
 
 
-    public String getTiempoDemora() {
-        return tiempoDemora;
-    }
 
-    public void setTiempoDemora(String tiempoDemora) {
-        this.tiempoDemora = tiempoDemora;
-    }
 
     public Date getFechaWebRecibido() {
         return fechaWebRecibido;
@@ -491,6 +494,32 @@ public class Pedido {
     }
 
     public void getHoraentrega(Date horaentrega) {
+        this.setHoraentrega(horaentrega);
+    }
+
+    public void setHoraentrega(Date horaentrega) {
         this.horaentrega = horaentrega;
+    }
+
+    //Recibe Hora en String y lo pasa a
+    public void setHoraEntregaStringToDate(String paramHoraentrega){
+        this.horaentrega = WorkDate.parseStringToDate(paramHoraentrega);
+
+    }
+
+    public Date getHoraRecepcion() {
+        return horaRecepcion;
+    }
+
+    public void setHoraRecepcion(Date horaRecepcion) {
+        this.horaRecepcion = horaRecepcion;
+    }
+
+    public Integer getTiempoDemora() {
+        return tiempoDemora;
+    }
+
+    public void setTiempoDemora(Integer tiempoDemora) {
+        this.tiempoDemora = tiempoDemora;
     }
 }

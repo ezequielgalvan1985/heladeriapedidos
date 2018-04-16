@@ -33,7 +33,7 @@
             android:layout_marginTop="10dp"
             android:text="Nuestros Helados"
             android:textAlignment="center"
-            android:drawableRight="@mipmap/ic_launcher"
+            android:drawableRight="@mipmap/ic_helados_1"
             style="@style/Widget.AppCompat.Button.Colored"  />
 
         <Button

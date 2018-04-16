@@ -211,10 +211,11 @@ public class CargarHeladosFragment extends Fragment implements View.OnClickListe
                     pd.setProporcionHelado(item.getProporcion()); //POCO - EQUILIBRADO - MUCHO
                     pd.setNroPote(GlobalValues.getINSTANCIA().PEDIDO_ACTUAL_NRO_POTE);
                     pd.setProducto(item.getHelado());
-
+                    long idAndroid = pdc.abrir().agregar(pd);
+                    Integer idandroidinteger = (int) (long) idAndroid;
+                    pd.setIdTmp(idandroidinteger);
                     GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.addPedidodetalle(pd);
 
-                    long idAndroid = pdc.abrir().agregar(pd);
 
 
                 }

@@ -91,8 +91,7 @@ public class GlobalValues {
     public static final int ESTADO_ENTREGADO = 3;
     public static final int ESTADO_TODOS = 99;
 
-    public static final int ENVIAR_PEDIDO = 1;
-    public static final int ENVIAR_PEDIDOSPENDIENTES = 2;
+
 
     //CONSTANTERS HELPER PEDIDOS
     public static final int OPTION_HELPER_ENVIO_PEDIDO = 1;
@@ -141,7 +140,8 @@ public class GlobalValues {
     public static final String VALUE_SERVICE_STOCK_PRECIOS_WORKING = "Y";
     public static final String VALUE_SERVICE_STOCK_PRECIOS_WORKING_NOT = "N";
 
-    public static  String[] ESTADOS = {"Nuevo","Enviado","Preparado","Entregado"};
+    //public static  String[] ESTADOS = {"Nuevo","Enviado","Preparado","Entregado"};
+    public static  String[] ESTADOS = {"NUEVO","EN PREPARACION","EN CAMINO","ENTREGADO"};
 
     //Variables globales para Generar Pedido
     private long        vgPedidoIdActual;

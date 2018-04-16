@@ -43,13 +43,19 @@ public class PedidoDataBaseHelper extends SQLiteOpenHelper
     public static final String CAMPO_CANTIDAD_DESCUENTO = "cantidad_descuento";
     public static final String CAMPO_MONTO_DESCUENTO    = "monto_descuento";
     public static final String CAMPO_MONTO_HELADOS      = "monto_helados";
+
+    public static final String CAMPO_HORA_RECEPCION     = "hora_recepcion";
     public static final String CAMPO_HORA_ENTREGA       = "hora_entrega";
+    public static final String CAMPO_TIEMPO_DEMORA      = "tiempodemora";
 
     //CAMPOS QUE VIENEN EN EL API REST JSON. (NO ESTAN EN LA TABLA SQLITE)
     public static final String ANDROID_ID_JSON = "android_id";
     public static final String CLIENTE_JSON    = "cliente";
     public static final String CLIENTE_ID_JSON = "id";
     public static final String FECHA_JSON      = "fecha";
+
+    public static final String USER_JSON       = "user";
+    public static final String USER_ID_JSON    = "user_id";
 
 
     public static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
@@ -78,7 +84,9 @@ public class PedidoDataBaseHelper extends SQLiteOpenHelper
             CAMPO_CANTIDAD_DESCUENTO + " integer null ," +
             CAMPO_MONTO_DESCUENTO    + " real null ," +
             CAMPO_MONTO_HELADOS      + " real null ," +
-            CAMPO_HORA_ENTREGA       + " text null ," +
+            CAMPO_HORA_ENTREGA       + " date null ," +
+            CAMPO_HORA_RECEPCION     + " date null ," +
+            CAMPO_TIEMPO_DEMORA      + " integer null ," +
             CAMPO_ID_TMP             + " integer primary key autoincrement not null" +
             ")";
 

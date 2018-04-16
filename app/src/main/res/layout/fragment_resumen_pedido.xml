@@ -18,7 +18,7 @@
         card_view:cardUseCompatPadding="true"
         card_view:cardElevation="4dp"
         card_view:cardCornerRadius="3dp"
-        android:layout_above="@+id/resumen_btn_enviar"
+        android:layout_above="@+id/resumen_pedido_btn_enviar"
         >
 
 

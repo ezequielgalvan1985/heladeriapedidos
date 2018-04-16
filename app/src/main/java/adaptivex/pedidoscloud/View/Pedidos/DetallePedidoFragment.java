@@ -211,7 +211,7 @@ public class DetallePedidoFragment extends Fragment implements  View.OnClickList
 
         }else if (view.getId() == R.id.btnEnviarPedido2) {
             try{
-                HelperPedidos hp = new HelperPedidos(view.getContext(), Long.valueOf(this.tvDpfIdTmp.getText().toString()), GlobalValues.getINSTANCIA().ENVIAR_PEDIDO);
+                HelperPedidos hp = new HelperPedidos(view.getContext(), Long.valueOf(this.tvDpfIdTmp.getText().toString()), HelperPedidos.OPTION_ENVIAR_PEDIDO);
                 hp.execute();
                 sleep(1500);
                 PedidoController pc = new PedidoController(this.getContext());

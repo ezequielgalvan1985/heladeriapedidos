@@ -187,7 +187,6 @@ public class MainActivity extends AppCompatActivity
                 GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL = p;
                 fragment = new ResumenPedidoFragment();
                 fragmentTransaction = true;
-
             } else {
                 Toast.makeText(this, "MainActivity: No Hay Pedidos Generados", Toast.LENGTH_LONG);
                 Log.println(Log.ERROR, "MainActivity:", " No Hay Pedidos Generados ");

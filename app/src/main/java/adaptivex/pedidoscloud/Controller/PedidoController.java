@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteException;
 import android.util.Log;
 import android.widget.Toast;
 
+import adaptivex.pedidoscloud.Config.Constants;
 import adaptivex.pedidoscloud.Config.GlobalValues;
 import adaptivex.pedidoscloud.Core.Interfaces.ControllerInterface;
 import adaptivex.pedidoscloud.Model.Cliente;
@@ -173,7 +174,7 @@ public class PedidoController implements ControllerInterface
         try{
             String sSelect = "select max("+PedidoDataBaseHelper.CAMPO_ID_TMP +") ";
             String sFrom = " from "+ PedidoDataBaseHelper.TABLE_NAME  ;
-            String sWhere = " where " + PedidoDataBaseHelper.CAMPO_ESTADO_ID + " = " + GlobalValues.getINSTANCIA().consPedidoEstadoNuevo;
+            String sWhere = " where " + PedidoDataBaseHelper.CAMPO_ESTADO_ID + " = " + Constants.ESTADO_ENPREPARACION;
             String selectQuery = sSelect + sFrom + sWhere;
             Log.println(Log.ERROR,"MainActivity:"," No Hay Pedidos Generados "+selectQuery);
             dbHelper = new PedidoDataBaseHelper(context);
@@ -410,7 +411,10 @@ public class PedidoController implements ControllerInterface
             valores.put(PedidoDataBaseHelper.CAMPO_MONTO_DESCUENTO,  item.getMontoDescuento());
             valores.put(PedidoDataBaseHelper.CAMPO_MONTO_HELADOS, item.getMontoHelados());
             valores.put(PedidoDataBaseHelper.CAMPO_CANTIDAD_DESCUENTO, item.getCantidadDescuento());
+
             valores.put(PedidoDataBaseHelper.CAMPO_HORA_ENTREGA, String.valueOf(item.getHoraentrega()));
+            valores.put(PedidoDataBaseHelper.CAMPO_HORA_RECEPCION, String.valueOf(item.getHoraRecepcion()));
+            valores.put(PedidoDataBaseHelper.CAMPO_TIEMPO_DEMORA, item.getTiempoDemora());
 
             return db.insert(PedidoDataBaseHelper.TABLE_NAME, null, valores);
         }catch(Exception e ){
@@ -453,7 +457,10 @@ public class PedidoController implements ControllerInterface
             valores.put(PedidoDataBaseHelper.CAMPO_CANTIDAD_DESCUENTO, item.getCantidadDescuento());
             valores.put(PedidoDataBaseHelper.CAMPO_MONTO_DESCUENTO, item.getMontoDescuento());
             valores.put(PedidoDataBaseHelper.CAMPO_MONTO_HELADOS, item.getMontoHelados());
+
             valores.put(PedidoDataBaseHelper.CAMPO_HORA_ENTREGA, String.valueOf(item.getHoraentrega()));
+            valores.put(PedidoDataBaseHelper.CAMPO_HORA_RECEPCION, String.valueOf(item.getHoraRecepcion()));
+            valores.put(PedidoDataBaseHelper.CAMPO_TIEMPO_DEMORA, item.getTiempoDemora());
 
             valores.put(PedidoDataBaseHelper.CAMPO_ID_TMP, item.getIdTmp());
 

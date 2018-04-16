@@ -39,7 +39,7 @@ public class ButtonOnClickListener  implements  View.OnClickListener {
 
             try{
                 TextView tvDpfIdTmp =  (TextView)v.findViewById(R.id.tvDpfIdTmp);
-                HelperPedidos hp = new HelperPedidos(v.getContext(), Long.valueOf(tvDpfIdTmp.getText().toString()),GlobalValues.getINSTANCIA().ENVIAR_PEDIDO);
+                HelperPedidos hp = new HelperPedidos(v.getContext(), Long.valueOf(tvDpfIdTmp.getText().toString()),HelperPedidos.OPTION_ENVIAR_PEDIDO);
                 hp.execute();
             }catch (Exception e){
                 Toast.makeText(v.getContext(),"Error RVAdapterPedido: "+ e.getMessage(), Toast.LENGTH_LONG);

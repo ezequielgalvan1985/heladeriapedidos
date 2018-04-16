@@ -48,6 +48,16 @@ public class WorkDate {
             return null;
         }
     }
+    public static Date parseStringToDate(String paramFecha){
+        try{
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date result =  df.parse(paramFecha);
+            return result;
+        }catch(Exception e){
+            Log.d("Pedido: ", e.getMessage().toString());
+            return null;
+        }
+    }
 
     public static String convertDateToString(String format, Integer dia, Integer mes, Integer anio){
         try{

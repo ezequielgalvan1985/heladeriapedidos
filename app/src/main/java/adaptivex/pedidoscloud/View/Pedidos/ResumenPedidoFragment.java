@@ -1,6 +1,7 @@
 package adaptivex.pedidoscloud.View.Pedidos;
 
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 import adaptivex.pedidoscloud.Config.Constants;
 import adaptivex.pedidoscloud.Config.GlobalValues;
 import adaptivex.pedidoscloud.Core.WorkNumber;
+import adaptivex.pedidoscloud.Model.Pedido;
 import adaptivex.pedidoscloud.R;
 import adaptivex.pedidoscloud.Servicios.HelperPedidos;
 
@@ -64,9 +66,17 @@ public class ResumenPedidoFragment extends Fragment implements View.OnClickListe
 
         btnEnviarPedido        =  (Button) v.findViewById(R.id.resumen_pedido_btn_enviar);
         btnEnviarPedido.setOnClickListener(this);
-        refreshTextViews();
+        preloadform();
+
         return v;
     }
+
+
+    public void preloadform(){
+        checkStatusPedido();
+        refreshTextViews();
+    }
+
 
     public void refreshTextViews(){
         try{
@@ -79,17 +89,36 @@ public class ResumenPedidoFragment extends Fragment implements View.OnClickListe
             txtEnvio.setText(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getEnvioDomicilio());
 
             txt_pedido_id.setText(WorkNumber.getValue(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getId()).toString());
-            txt_estado.setText(WorkNumber.getValue(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getEstadoId()).toString());
-            txt_hora_entrega.setText("20:30");
+            String estado = GlobalValues.getINSTANCIA().ESTADOS[WorkNumber.getValue(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getEstadoId())];
+            txt_estado.setText(estado);
+
+            txt_hora_entrega.setText(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getHoraentrega().toString());
 
             txt_cantidad_descuento.setText(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getCantidadDescuento().toString());
             txt_monto_descuento.setText(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getMontoDescuentoFormatMoney());
             txt_monto_total.setText(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getMontoFormatMoney());
             lbl_kilos_monto.setText(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getMontoHeladoFormatMoney());
 
+            btnEnviarPedido.setEnabled(true);
+            if (GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getId()> 0 ){
+                btnEnviarPedido.setEnabled(false);
+            }
+        }catch(Exception e ){
+            Toast.makeText(getContext(),"Error: " + e.getMessage(),Toast.LENGTH_LONG).show();
+        }
+    }
 
-
-
+    public void checkStatusPedido(){
+        try{
+            Pedido p = GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL;
+            if (p.getId() > 0 ){
+                HelperPedidos hp = new HelperPedidos(getContext());
+                hp.setOpcion(HelperPedidos.OPTION_CHECK_STATUS);
+                hp.setPedido(p);
+                hp.execute();
+                Thread.sleep(1000);
+                GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL = hp.getPedido();
+            }
         }catch(Exception e ){
             Toast.makeText(getContext(),"Error: " + e.getMessage(),Toast.LENGTH_LONG).show();
         }
@@ -109,6 +138,7 @@ public class ResumenPedidoFragment extends Fragment implements View.OnClickListe
         HelperPedidos hp = new HelperPedidos(getContext(),  GlobalValues.getINSTANCIA().OPTION_HELPER_ENVIO_PEDIDO, GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL );
         Toast.makeText(getContext(),"Enviando pedido..." ,Toast.LENGTH_LONG).show();
         hp.execute();
+
 
     }
 
