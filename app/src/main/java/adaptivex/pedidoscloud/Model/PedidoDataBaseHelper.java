@@ -57,6 +57,9 @@ public class PedidoDataBaseHelper extends SQLiteOpenHelper
     public static final String USER_JSON       = "user";
     public static final String USER_ID_JSON    = "user_id";
 
+    public static final String CAMPO_HORA_RECEPCION_JSON    = "horarecepcion";
+    public static final String CAMPO_HORA_ENTREGA_JSON      = "horaentrega";
+
 
     public static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
 

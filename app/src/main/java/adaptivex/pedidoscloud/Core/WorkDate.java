@@ -50,7 +50,8 @@ public class WorkDate {
     }
     public static Date parseStringToDate(String paramFecha){
         try{
-            DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+            DateFormat df = new SimpleDateFormat("yyyy-MM-ddTHH:mm:ss");
             Date result =  df.parse(paramFecha);
             return result;
         }catch(Exception e){
