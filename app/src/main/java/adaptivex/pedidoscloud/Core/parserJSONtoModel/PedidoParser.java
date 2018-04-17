@@ -59,7 +59,6 @@ public class PedidoParser {
                 pedido.setEstadoId(pedidoJson.getInt(PedidoDataBaseHelper.CAMPO_ESTADO_ID));
 
                 //Parsear
-
                 if (pedidoJson.has(PedidoDataBaseHelper.CAMPO_TIEMPO_DEMORA)) pedido.setTiempoDemora(pedidoJson.getInt(PedidoDataBaseHelper.CAMPO_TIEMPO_DEMORA)); else pedido.setTiempoDemora(0);
                 if (pedidoJson.has(PedidoDataBaseHelper.CAMPO_HORA_ENTREGA)) pedido.setHoraentrega(WorkDate.parseStringToDate(pedidoJson.getString(PedidoDataBaseHelper.CAMPO_HORA_ENTREGA))); else pedido.setHoraentrega(null);
                 if (pedidoJson.has(PedidoDataBaseHelper.CAMPO_HORA_RECEPCION)) pedido.setHoraRecepcion(WorkDate.parseStringToDate(pedidoJson.getString(PedidoDataBaseHelper.CAMPO_HORA_RECEPCION))); else pedido.setHoraRecepcion(null);

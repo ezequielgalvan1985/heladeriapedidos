@@ -59,6 +59,17 @@ public class WorkDate {
         }
     }
 
+    public static String parseDateToString(Date paramFecha){
+        try{
+            DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String fechaStr = df1.format(paramFecha);
+            return fechaStr;
+        }catch(Exception e){
+            Log.d("Pedido: ", e.getMessage().toString());
+            return null;
+        }
+    }
+
     public static String convertDateToString(String format, Integer dia, Integer mes, Integer anio){
         try{
             //devuelve la fecha del dia en formato String

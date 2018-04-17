@@ -93,7 +93,7 @@ public class HelperPedidos extends AsyncTask<Void, Void, Void> {
             String fechahoystr = dateFormat.format(fechahoy);
             JSONArray pedidodetalles = new JSONArray();
 
-
+            pedido.put("id", String.valueOf(paramPedido.getId()));
             pedido.put("fecha", String.valueOf(fechahoystr));
             pedido.put("empresa_id", String.valueOf(GlobalValues.getINSTANCIA().getUserlogued().getEntidad_id()));
             pedido.put("user_id", String.valueOf(GlobalValues.getINSTANCIA().getUserlogued().getId()));
@@ -101,7 +101,7 @@ public class HelperPedidos extends AsyncTask<Void, Void, Void> {
             pedido.put("subtotal", String.valueOf(paramPedido.getSubtotal()));
             pedido.put("monto", String.valueOf(paramPedido.getMonto())); //Precio total del helado
             pedido.put("iva", String.valueOf(paramPedido.getIva()));
-            pedido.put("estado_id", String.valueOf(Constants.ESTADO_ENVIADO ));
+            pedido.put("estado_id", String.valueOf(Constants.ESTADO_ENPREPARACION ));
 
             pedido.put("localidad", String.valueOf(paramPedido.getLocalidad()));
             pedido.put("calle", String.valueOf(paramPedido.getCalle()));
@@ -146,29 +146,53 @@ public class HelperPedidos extends AsyncTask<Void, Void, Void> {
     }
 
 
-    public Pedido getPedidoByWebRequest(Pedido pedido){
-        try{
-            WebRequest webreq = new WebRequest();
-            registro = new HashMap<String, String>();
-            registro.put("empresa_id", String.valueOf(GlobalValues.getINSTANCIA().getUserlogued().getEntidad_id()));
-            registro.put("pedido_id_web", String.valueOf(pedido.getId()));
-            registro.put("pedido_id_android", String.valueOf(pedido.getIdTmp()));
-            registro.put("user_id", String.valueOf(pedido.getCliente_id()));
+    public Pedido requestPost(Pedido paramPedido, String pUrl){
+        try {
+            URL url;
+            URLConnection urlConn;
+            DataOutputStream printout;
+            DataInputStream input;
 
-            String jsonStr = webreq.makeWebServiceCall(Configurador.urlPedidoFindById, WebRequest.POST, registro);
-            PedidoParser pp = new PedidoParser(jsonStr);
+            //Seteo de conexion al servicio API
+            URL object = new URL(pUrl);
+            HttpURLConnection con = (HttpURLConnection) object.openConnection();
+            con.setDoOutput(true);
+            con.setDoInput(true);
+            con.setRequestProperty("Content-Type", "application/json");
+            con.setRequestProperty("Accept", "application/json");
+            con.setRequestMethod("POST");
+
+            //Create JSONObject here
+            JSONObject objectjson = new JSONObject();
+            objectjson.put("pedido", parseObjectToJson(paramPedido));
+
+            //Enviar Json
+            OutputStreamWriter wr = new OutputStreamWriter(con.getOutputStream());
+            wr.write(objectjson.toString());
+            wr.flush();
+
+            //Procesar Respuesta, capurar nuero de pedido en el sistema web, y asignar a pedido.setId()
+            StringBuilder sb = new StringBuilder();
+            int HttpResult = con.getResponseCode();
+            if (HttpResult == HttpURLConnection.HTTP_OK) {
+                //actulizar estado de pedido a enviado
+                BufferedReader br = new BufferedReader(
+                        new InputStreamReader(con.getInputStream(), "utf-8"));
+                String line = null;
+                while ((line = br.readLine()) != null) {
+                    sb.append(line + "\n");
+                }
+                br.close();
+                System.out.println("" + sb.toString());
+            } else {
+                System.out.println(con.getResponseMessage());
+            }
+
+            //Procesa respuesta y almacena en una variable pedido
+            PedidoParser pp = new PedidoParser(sb.toString());
             Pedido pedidoresponse = pp.parseJsonToObject();
-
-            PedidoController pc = new PedidoController(getCtx());
-            pedido.setEstadoId(pedidoresponse.getEstadoId());
-
-            pedido.setHoraentrega(pedidoresponse.getHoraentrega());
-            pedido.setHoraRecepcion(pedidoresponse.getHoraRecepcion());
-            pedido.setTiempoDemora(pedidoresponse.getTiempoDemora());
-
-            pc.abrir().edit(pedido);
-            return pedido;
-        }catch (Exception e){
+            return pedidoresponse;
+        }catch(Exception e){
             if (pDialog.isShowing())
                 pDialog.dismiss();
             setRespuesta(GlobalValues.getINSTANCIA().RETURN_ERROR);
@@ -177,35 +201,18 @@ public class HelperPedidos extends AsyncTask<Void, Void, Void> {
         }
     }
 
-    public Pedido checkStatusPedido(Pedido pedido){
-        try{
-            WebRequest webreq = new WebRequest();
-            registro = new HashMap<String, String>();
-            registro.put("empresa_id", String.valueOf(GlobalValues.getINSTANCIA().getUserlogued().getEntidad_id()));
-            registro.put("pedido_id_web", String.valueOf(pedido.getId()));
-            registro.put("pedido_id_android", String.valueOf(pedido.getIdTmp()));
-            registro.put("user_id", String.valueOf(pedido.getCliente_id()));
+    public void checkStatusPedido(Pedido pedido){
+        Pedido pedidoresponse = requestPost(pedido, Configurador.urlPedidoFindById);
 
-            String jsonStr = webreq.makeWebServiceCall(Configurador.urlPedidoFindById, WebRequest.POST, registro);
-            PedidoParser pp = new PedidoParser(jsonStr);
-            Pedido pedidoresponse = pp.parseJsonToObject();
+        //actualizar el estado y horas
+        pedido.setEstadoId(pedidoresponse.getEstadoId());
+        pedido.setHoraentrega(pedidoresponse.getHoraentrega());
+        pedido.setHoraRecepcion(pedidoresponse.getHoraRecepcion());
+        pedido.setTiempoDemora(pedidoresponse.getTiempoDemora());
+        PedidoController pc = new PedidoController(getCtx());
+        pc.abrir().edit(pedido);
+        setPedido(pedido);
 
-            PedidoController pc = new PedidoController(getCtx());
-            pedido.setEstadoId(pedidoresponse.getEstadoId());
-
-            pedido.setHoraentrega(pedidoresponse.getHoraentrega());
-            pedido.setHoraRecepcion(pedidoresponse.getHoraRecepcion());
-            pedido.setTiempoDemora(pedidoresponse.getTiempoDemora());
-
-            pc.abrir().edit(pedido);
-            return pedido;
-        }catch (Exception e){
-            if (pDialog.isShowing())
-                pDialog.dismiss();
-            setRespuesta(GlobalValues.getINSTANCIA().RETURN_ERROR);
-            Log.println(Log.ERROR,"ErrorHelper:",e.getMessage());
-            return null;
-        }
     }
 
 
@@ -259,13 +266,14 @@ public class HelperPedidos extends AsyncTask<Void, Void, Void> {
             }
 
             //Procesa post
-
+            //Procesa respuesta y almacena en una variable pedido
             PedidoParser pp = new PedidoParser(sb.toString());
             Pedido pedidopostsave = pp.parseJsonToObject();
-            Pedido pedidoprevsave = pedidoCtr.abrir().findByIdTmp(paramPedido.getIdTmp());
-            pedidoprevsave.setId(pedidopostsave.getId());
-            pedidoprevsave.setEstadoId(Constants.ESTADO_ENPREPARACION);
-            pedidoCtr.abrir().modificar(pedidoprevsave, true);
+
+
+            paramPedido.setId(pedidopostsave.getId());
+            paramPedido.setEstadoId(Constants.ESTADO_ENPREPARACION);
+            pedidoCtr.abrir().edit(paramPedido);
             pedidoCtr.cerrar();
 
 
@@ -316,7 +324,7 @@ public class HelperPedidos extends AsyncTask<Void, Void, Void> {
                     break;
 
                 case OPTION_CHECK_STATUS:
-                    this.setPedido(checkStatusPedido(getPedido()));
+                    checkStatusPedido(getPedido());
 
                     break;
 
@@ -352,6 +360,18 @@ public class HelperPedidos extends AsyncTask<Void, Void, Void> {
     protected void onPostExecute(Void result) {
         super.onPostExecute(result);
         // Showing progress dialog
+        switch(getOpcion()){
+            case OPTION_CHECK_STATUS:
+                GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.setEstadoId(getPedido().getEstadoId());
+                GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.setHoraentrega(getPedido().getHoraentrega());
+                GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.setHoraRecepcion(getPedido().getHoraRecepcion());
+                GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.setTiempoDemora(getPedido().getTiempoDemora());
+                break;
+        }
+
+
+
+
         if (pDialog.isShowing()){
             pDialog.dismiss();
             if (getRespuesta()== GlobalValues.getINSTANCIA().RETURN_OK){

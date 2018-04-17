@@ -174,8 +174,8 @@ public class PedidoController implements ControllerInterface
         try{
             String sSelect = "select max("+PedidoDataBaseHelper.CAMPO_ID_TMP +") ";
             String sFrom = " from "+ PedidoDataBaseHelper.TABLE_NAME  ;
-            String sWhere = " where " + PedidoDataBaseHelper.CAMPO_ESTADO_ID + " = " + Constants.ESTADO_ENPREPARACION;
-            String selectQuery = sSelect + sFrom + sWhere;
+            //String sWhere = " where " + PedidoDataBaseHelper.CAMPO_ESTADO_ID + " = " + Constants.ESTADO_ENPREPARACION;
+            String selectQuery = sSelect + sFrom ;
             Log.println(Log.ERROR,"MainActivity:"," No Hay Pedidos Generados "+selectQuery);
             dbHelper = new PedidoDataBaseHelper(context);
             db = dbHelper.getReadableDatabase();
@@ -780,17 +780,24 @@ public class PedidoController implements ControllerInterface
                 //Campos nuevos de heladeria
                 PedidoDataBaseHelper.CAMPO_ENVIO_DOMICILIO,
                 PedidoDataBaseHelper.CAMPO_CUCURUCHOS,
-                PedidoDataBaseHelper.CAMPO_MONTO_CUCURUCHOS,
+
+                PedidoDataBaseHelper.CAMPO_CANTIDAD_POTES,
                 PedidoDataBaseHelper.CAMPO_CUCHARITAS,
                 PedidoDataBaseHelper.CAMPO_CANTIDAD_KILOS,
-                PedidoDataBaseHelper.CAMPO_CANTIDAD_POTES,
+                PedidoDataBaseHelper.CAMPO_CANTIDAD_DESCUENTO,
+
+                PedidoDataBaseHelper.CAMPO_MONTO_HELADOS,
+                PedidoDataBaseHelper.CAMPO_MONTO_CUCURUCHOS,
+                PedidoDataBaseHelper.CAMPO_MONTO_DESCUENTO,
+
+
+                PedidoDataBaseHelper.CAMPO_LOCALIDAD,
                 PedidoDataBaseHelper.CAMPO_CALLE,
                 PedidoDataBaseHelper.CAMPO_NRO,
                 PedidoDataBaseHelper.CAMPO_PISO,
                 PedidoDataBaseHelper.CAMPO_CONTACTO,
-                PedidoDataBaseHelper.CAMPO_TELEFONO,
-                PedidoDataBaseHelper.CAMPO_MONTO_DESCUENTO,
-                PedidoDataBaseHelper.CAMPO_CANTIDAD_DESCUENTO
+                PedidoDataBaseHelper.CAMPO_TELEFONO
+
 
         };
 
@@ -813,29 +820,29 @@ public class PedidoController implements ControllerInterface
             registro.setMonto(resultado.getDouble(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_MONTO)));
             registro.setCliente_id(resultado.getInt(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_CLIENTE_ID)));
 
-            //Cliente cliente = dbCliente.abrir().buscar(registro.getCliente_id());
-            //registro.setCliente(cliente);
-            //dbCliente.cerrar();
+            registro.setMontoHelados(resultado.getDouble(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_MONTO_HELADOS)));
+            registro.setMontoCucuruchos(resultado.getDouble(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_MONTO_CUCURUCHOS)));
+            registro.setMontoDescuento(resultado.getDouble(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_MONTO_DESCUENTO)));
 
             registro.setBonificacion(resultado.getDouble(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_BONIFICACION)));
             registro.setEstadoId(resultado.getInt(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_ESTADO_ID)));
             registro.setIdTmp(resultado.getInt(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_ID_TMP)));
 
-            //Nuevos campos de PEdido para Heladeria
+            //Nuevos campos de Pedido para Heladeria
             registro.setEnvioDomicilio(Boolean.parseBoolean(resultado.getString(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_ENVIO_DOMICILIO))));
             registro.setCucuruchos(resultado.getInt(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_CUCURUCHOS)));
             registro.setCucharitas(resultado.getInt(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_CUCHARITAS)));
             registro.setCantidadKilos(resultado.getInt(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_CANTIDAD_KILOS)));
             registro.setCantidadPotes(resultado.getInt(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_CANTIDAD_POTES)));
+
+            registro.setLocalidad(resultado.getString(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_LOCALIDAD)));
             registro.setCalle(resultado.getString(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_CALLE)));
             registro.setNro(resultado.getString(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_NRO)));
             registro.setPiso(resultado.getString(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_PISO)));
             registro.setContacto(resultado.getString(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_CONTACTO)));
             registro.setTelefono(resultado.getString(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_TELEFONO)));
 
-
             //Carga Detalles
-            //Cursor detallecursor = dbDetalles.abrir().obtenerTodos();
             Cursor detallecursor = dbDetalles.abrir().findByPedidoIdTmp(registro.getIdTmp());
             ArrayList<Pedidodetalle> lista = dbDetalles.abrir().parseCursorToArrayList(detallecursor);
             registro.setDetalles(lista);

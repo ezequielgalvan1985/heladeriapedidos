@@ -14,12 +14,11 @@ public class Constants {
 
 
     //Estados de un pedido
-    public static final int ESTADO_NUEVO = 0;
-    public static final int ESTADO_ENVIADO = 1;
-    public static final int ESTADO_ENPREPARACION = 2;
-    public static final int ESTADO_ENCAMINO = 3;
-    public static final int ESTADO_ENTREGADO = 4;
-    public static final int ESTADO_TODOS = 99;
+    public static final int ESTADO_NUEVO            = 0;
+    public static final int ESTADO_ENPREPARACION    = 1;
+    public static final int ESTADO_ENCAMINO         = 2;
+    public static final int ESTADO_ENTREGADO        = 3;
+    public static final int ESTADO_TODOS            = 99;
 
 
     public static final String MEDIDA_HELADO_POCO        = "Poco";

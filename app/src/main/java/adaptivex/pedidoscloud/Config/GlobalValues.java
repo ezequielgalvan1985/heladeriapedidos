@@ -140,7 +140,7 @@ public class GlobalValues {
     public static final String VALUE_SERVICE_STOCK_PRECIOS_WORKING = "Y";
     public static final String VALUE_SERVICE_STOCK_PRECIOS_WORKING_NOT = "N";
 
-    //public static  String[] ESTADOS = {"Nuevo","Enviado","Preparado","Entregado"};
+
     public static  String[] ESTADOS = {"NUEVO","EN PREPARACION","EN CAMINO","ENTREGADO"};
 
     //Variables globales para Generar Pedido

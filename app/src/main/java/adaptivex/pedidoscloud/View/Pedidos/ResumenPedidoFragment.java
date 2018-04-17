@@ -1,6 +1,7 @@
 package adaptivex.pedidoscloud.View.Pedidos;
 
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 
 import adaptivex.pedidoscloud.Config.Constants;
 import adaptivex.pedidoscloud.Config.GlobalValues;
+import adaptivex.pedidoscloud.Core.WorkDate;
 import adaptivex.pedidoscloud.Core.WorkNumber;
 import adaptivex.pedidoscloud.Model.Pedido;
 import adaptivex.pedidoscloud.R;
@@ -92,7 +94,7 @@ public class ResumenPedidoFragment extends Fragment implements View.OnClickListe
             String estado = GlobalValues.getINSTANCIA().ESTADOS[WorkNumber.getValue(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getEstadoId())];
             txt_estado.setText(estado);
 
-            txt_hora_entrega.setText(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getHoraentrega().toString());
+            txt_hora_entrega.setText(WorkDate.parseDateToString(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getHoraentrega()));
 
             txt_cantidad_descuento.setText(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getCantidadDescuento().toString());
             txt_monto_descuento.setText(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getMontoDescuentoFormatMoney());
@@ -112,12 +114,12 @@ public class ResumenPedidoFragment extends Fragment implements View.OnClickListe
         try{
             Pedido p = GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL;
             if (p.getId() > 0 ){
+
                 HelperPedidos hp = new HelperPedidos(getContext());
                 hp.setOpcion(HelperPedidos.OPTION_CHECK_STATUS);
                 hp.setPedido(p);
                 hp.execute();
-                Thread.sleep(1000);
-                GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL = hp.getPedido();
+                SystemClock.sleep(1000);
             }
         }catch(Exception e ){
             Toast.makeText(getContext(),"Error: " + e.getMessage(),Toast.LENGTH_LONG).show();
