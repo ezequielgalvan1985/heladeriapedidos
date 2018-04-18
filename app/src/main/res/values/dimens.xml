@@ -28,6 +28,7 @@
     <dimen name="textsize_parrafo">10dp</dimen>
     <dimen name="textsize_h1">20dp</dimen>
     <dimen name="textsize_h2">15dp</dimen>
+    <dimen name="textsize_h3">10dp</dimen>
     <dimen name="textsize_mini">8dp</dimen>
     <dimen name="textsize_super_title">35dp</dimen>
     <dimen name="textsize_subsuper_title">25dp</dimen>

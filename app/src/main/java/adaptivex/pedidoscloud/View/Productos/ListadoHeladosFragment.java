@@ -62,7 +62,7 @@ public class ListadoHeladosFragment extends Fragment {
         TextView titulo = (TextView) v.findViewById(R.id.listado_helados_titulo);
         //1 - RECYCLE VIEW
         rvHeladosPostres = (RecyclerView)v.findViewById(R.id.rvHeladosPostres);
-        GridLayoutManager manager = new GridLayoutManager(v.getContext(), 2, GridLayoutManager.VERTICAL, false);
+        GridLayoutManager manager = new GridLayoutManager(v.getContext(), 1, GridLayoutManager.VERTICAL, false);
         rvHeladosPostres.setLayoutManager(manager);
 
 
