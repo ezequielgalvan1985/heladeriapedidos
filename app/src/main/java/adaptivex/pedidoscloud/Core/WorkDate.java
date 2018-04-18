@@ -82,6 +82,36 @@ public class WorkDate {
         }
     }
 
+    public static String calculateDiffereceDatesFormatMM(Date fecha1, Date fecha2){
+        try{
+            long milisegundos = fecha1.getTime() - fecha2.getTime();
+            long minutos = (milisegundos/(1000*60)) % 60;
+
+            if (minutos < 0 ){
+                minutos = 0;
+            }
+            String diff = String.valueOf(minutos) + " Min.";
+            return diff;
+        }catch(Exception e){
+            Log.d("Pedido: ", e.getMessage().toString());
+            return null;
+        }
+    }
+
+    public static Date getNowDate(){
+        try{
+            Date hoy     = new Date();
+            Calendar cal = Calendar.getInstance();
+            hoy          = cal.getTime();
+            return hoy;
+        }catch(Exception e){
+            Log.d("Pedido: ", e.getMessage().toString());
+            return null;
+        }
+    }
+
+
+
 
     public static String convertDateToString(String format, Integer dia, Integer mes, Integer anio){
         try{

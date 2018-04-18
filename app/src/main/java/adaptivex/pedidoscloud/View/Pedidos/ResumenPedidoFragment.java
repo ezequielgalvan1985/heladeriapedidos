@@ -11,6 +11,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import adaptivex.pedidoscloud.Config.Constants;
 import adaptivex.pedidoscloud.Config.GlobalValues;
 import adaptivex.pedidoscloud.Core.WorkDate;
@@ -25,7 +28,7 @@ public class ResumenPedidoFragment extends Fragment implements View.OnClickListe
     private TextView lbl_cantidad_kilos, lbl_kilos_monto, lbl_cucuruchos_monto, lbl_monto_total;
     private TextView txt_cucuruchos, txt_direccion, txt_cucharitas, txt_monto_total, txtEnvio,
                      txt_pedido_id, txt_hora_entrega, txt_estado,
-                     txt_monto_descuento, txt_cantidad_descuento;
+                     txt_monto_descuento, txt_cantidad_descuento, txt_tiempo_demora;
     private Button   btnEnviarPedido;
     public ResumenPedidoFragment() {
 
@@ -61,6 +64,7 @@ public class ResumenPedidoFragment extends Fragment implements View.OnClickListe
 
         txt_estado           = (TextView) v.findViewById(R.id.resumen_pedido_txt_estado);
         txt_hora_entrega     = (TextView) v.findViewById(R.id.resumen_pedido_txt_hora_entrega);
+        txt_tiempo_demora    = (TextView) v.findViewById(R.id.resumen_pedido_txt_tiempo_demora);
         txt_pedido_id        = (TextView) v.findViewById(R.id.resumen_pedido_txt_pedido_id);
 
         txt_cantidad_descuento = (TextView) v.findViewById(R.id.resumen_pedido_txt_descuento_cantidad);
@@ -92,6 +96,8 @@ public class ResumenPedidoFragment extends Fragment implements View.OnClickListe
             txt_estado.setText(estado);
 
             txt_hora_entrega.setText(WorkDate.parseDateToStringFormatHHmmss(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getHoraentrega()));
+
+            txt_tiempo_demora.setText(WorkDate.calculateDiffereceDatesFormatMM(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getHoraentrega(),WorkDate.getNowDate() ));
 
             txt_cantidad_descuento.setText(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getCantidadDescuento().toString());
             txt_monto_descuento.setText(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getMontoDescuentoFormatMoney());
