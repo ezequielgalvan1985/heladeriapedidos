@@ -68,16 +68,13 @@ public class ResumenPedidoFragment extends Fragment implements View.OnClickListe
 
         btnEnviarPedido        =  (Button) v.findViewById(R.id.resumen_pedido_btn_enviar);
         btnEnviarPedido.setOnClickListener(this);
-        preloadform();
-
+        checkStatusPedido();
+        refreshTextViews();
         return v;
     }
 
 
-    public void preloadform(){
-        checkStatusPedido();
-        refreshTextViews();
-    }
+
 
 
     public void refreshTextViews(){
@@ -94,7 +91,7 @@ public class ResumenPedidoFragment extends Fragment implements View.OnClickListe
             String estado = GlobalValues.getINSTANCIA().ESTADOS[WorkNumber.getValue(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getEstadoId())];
             txt_estado.setText(estado);
 
-            txt_hora_entrega.setText(WorkDate.parseDateToString(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getHoraentrega()));
+            txt_hora_entrega.setText(WorkDate.parseDateToStringFormatHHmmss(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getHoraentrega()));
 
             txt_cantidad_descuento.setText(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getCantidadDescuento().toString());
             txt_monto_descuento.setText(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getMontoDescuentoFormatMoney());

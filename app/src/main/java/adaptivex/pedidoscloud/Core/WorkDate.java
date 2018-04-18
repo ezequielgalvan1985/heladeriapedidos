@@ -4,6 +4,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -49,13 +50,13 @@ public class WorkDate {
         }
     }
     public static Date parseStringToDate(String paramFecha){
-        try{
-
-            DateFormat df = new SimpleDateFormat("yyyy-MM-ddTHH:mm:ss");
-            Date result =  df.parse(paramFecha);
-            return result;
-        }catch(Exception e){
-            Log.d("Pedido: ", e.getMessage().toString());
+        try {
+            SimpleDateFormat  format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+            Date date = format.parse(paramFecha);
+            System.out.println(date);
+            return date;
+        } catch (ParseException e) {
+            e.printStackTrace();
             return null;
         }
     }
@@ -70,6 +71,17 @@ public class WorkDate {
             return null;
         }
     }
+    public static String parseDateToStringFormatHHmmss(Date paramFecha){
+        try{
+            DateFormat df1 = new SimpleDateFormat("HH:mm:ss");
+            String fechaStr = df1.format(paramFecha);
+            return fechaStr;
+        }catch(Exception e){
+            Log.d("Pedido: ", e.getMessage().toString());
+            return null;
+        }
+    }
+
 
     public static String convertDateToString(String format, Integer dia, Integer mes, Integer anio){
         try{
