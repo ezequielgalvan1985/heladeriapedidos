@@ -2,6 +2,7 @@ package adaptivex.pedidoscloud.Servicios;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
@@ -10,7 +11,9 @@ import adaptivex.pedidoscloud.Config.Configurador;
 import adaptivex.pedidoscloud.Config.Constants;
 import adaptivex.pedidoscloud.Config.GlobalValues;
 import adaptivex.pedidoscloud.Controller.UserController;
+import adaptivex.pedidoscloud.Core.IniciarApp;
 import adaptivex.pedidoscloud.Core.parserJSONtoModel.UserParser;
+import adaptivex.pedidoscloud.MainActivity;
 import adaptivex.pedidoscloud.Model.User;
 
 import org.json.JSONObject;
@@ -29,7 +32,11 @@ public class HelperUser extends AsyncTask<Void, Void, Void> {
     private UserController userCtl;
     private UserParser parser;
     private int respuesta; //1=ok, 200=error
-    private String opcion; //1 enviar Post Pedido
+    private int opcion; //1 enviar Post Pedido
+
+    public final static int OPTION_LOGIN    = 1;
+    public final static int OPTION_REGISTER = 2;
+    public final static int OPTION_UPDATE   = 3;
 
     public HelperUser(){
 
@@ -137,13 +144,13 @@ public class HelperUser extends AsyncTask<Void, Void, Void> {
 
 
         switch (this.getOpcion()){
-            case Constants.SERVICE_OPTION_LOGIN:
+            case OPTION_LOGIN:
                 loginService();
                 break;
-            case Constants.SERVICE_OPTION_REGISTER:
+            case OPTION_REGISTER:
                 registerService();
                 break;
-            case Constants.SERVICE_OPTION_UPDATE_USER:
+            case OPTION_UPDATE:
                 updateUserService();
                 break;
         }
@@ -166,6 +173,18 @@ public class HelperUser extends AsyncTask<Void, Void, Void> {
     protected void onPostExecute(Void result) {
         super.onPostExecute(result);
         // Showing progress dialog
+        switch (this.getOpcion()){
+            case OPTION_LOGIN:
+                onPostUserLogin();
+                break;
+            case OPTION_REGISTER:
+                onPostUserRegister();
+                break;
+            case OPTION_UPDATE:
+                onPostUserUpdate();
+                break;
+        }
+
         if (pDialog.isShowing()){
             pDialog.dismiss();
             if (getRespuesta()== GlobalValues.getINSTANCIA().RETURN_OK){
@@ -173,6 +192,38 @@ public class HelperUser extends AsyncTask<Void, Void, Void> {
             }
         }
     }
+
+
+
+    public void onPostUserLogin(){
+        try{
+
+            GlobalValues.getINSTANCIA().setUserlogued(parser.getUser());
+
+            IniciarApp ia = new IniciarApp(this.getCtx());
+            if (ia.isInstalled()==false){
+                ia.iniciarBD();
+            }
+
+            //SE DESCARGAN LOS DATOS
+            if (ia.isDatabaseDownload()==false){
+                ia.downloadDatabase();
+            }
+            ia.loginRememberr(parser.getUser());
+
+            Intent i = new Intent(this.getCtx(), MainActivity.class);
+            //startActivity(i);
+
+        }catch(Exception e){
+
+        }
+
+
+    }
+    public void onPostUserRegister(){}
+    public void onPostUserUpdate(){}
+
+
     public Context getCtx() {
         return ctx;
     }
@@ -207,11 +258,12 @@ public class HelperUser extends AsyncTask<Void, Void, Void> {
         this.parser = parser;
     }
 
-    public String getOpcion() {
+
+    public int getOpcion() {
         return opcion;
     }
 
-    public void setOpcion(String opcion) {
+    public void setOpcion(int opcion) {
         this.opcion = opcion;
     }
 }

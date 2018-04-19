@@ -8,6 +8,7 @@
     <string name="title_activity_login">Roma Heladeria</string>
 
     <!-- Strings related to login -->
+    <string name="prompt_email_username">Usuario/Email</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_telefono">Telefono</string>
     <string name="prompt_localidad">Localidad</string>

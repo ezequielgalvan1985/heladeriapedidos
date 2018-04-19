@@ -63,7 +63,6 @@
             android:name=".NuevoPedidoActivity"
             android:label="@string/title_activity_nuevo_pedido"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".LoginActivity"></activity>
     </application>
 
 </manifest>
