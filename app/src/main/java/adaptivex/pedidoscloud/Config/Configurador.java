@@ -42,7 +42,7 @@ public class Configurador {
     public static String urlPostRegister = strRoot+"/api/user/register";
     public static String urlPostUpdateUser = strRoot+"/api/user/update";
     public static String urlPromos = strRoot+"/api/promos";
-
+    public static String urlParameters = strRoot+"/api/parametros";
 
     public  static Configurador getConfigurador() {
 
