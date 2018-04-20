@@ -534,7 +534,7 @@ public  class IniciarApp  {
 
             HelperProductos p = new HelperProductos(getContext());
             p.execute();
-            
+
             ParameterController pc  = new ParameterController(getContext());
             Parameter param1 = pc.abrir().findById(GlobalValues.getINSTANCIA().PARAM_DOWNLOAD_DATABASE);
             param1.setValor_texto("Y");

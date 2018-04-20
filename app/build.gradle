@@ -4,16 +4,16 @@ android {
     compileSdkVersion 25
     buildToolsVersion "27.0.1"
     defaultConfig {
-        applicationId "adaptivex.pedidoscloud"
+        applicationId "adaptivetech.heladeriaroma"
         minSdkVersion 21
         targetSdkVersion 25
-        versionCode 5
-        versionName "1.0.5"
+        versionCode 1
+        versionName "1.0.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         debug {
-            debuggable true
+            debuggable false
         }
         release {
             minifyEnabled false
