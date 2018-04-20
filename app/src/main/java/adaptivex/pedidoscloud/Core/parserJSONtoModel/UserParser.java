@@ -30,11 +30,12 @@ public class UserParser {
             JSONObject object = new JSONObject(getStrJson());
             setStatus(object.getString("code"));
             setMessage( object.getString("message"));
-            JSONObject data = new JSONObject(object.getString("data"));
-            setData(data);
 
             if (Integer.parseInt(getStatus())== 200){
                 User vuser = new User();
+                JSONObject data = new JSONObject(object.getString("data"));
+                setData(data);
+
                 vuser.setId(data.getInt(UserDataBaseHelper.ID));
                 vuser.setUsername(data.getString(UserDataBaseHelper.USERNAME));
                 vuser.setEmail(data.getString(UserDataBaseHelper.EMAIL));

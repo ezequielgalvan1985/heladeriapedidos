@@ -37,6 +37,9 @@ public class HelperUser extends AsyncTask<Void, Void, Void> {
     public final static int OPTION_LOGIN    = 1;
     public final static int OPTION_REGISTER = 2;
     public final static int OPTION_UPDATE   = 3;
+    public final static int RETURN_ERROR    = 500;
+    public final static int RETURN_OK       = 200;
+
 
     public HelperUser(){
 
@@ -51,23 +54,21 @@ public class HelperUser extends AsyncTask<Void, Void, Void> {
 
             // Setear datos de usuario loguin para hacer el post
             registro = new HashMap<String, String>();
-            registro.put("email", getUser().getEmail().toString());
+            registro.put("username", getUser().getUsername().toString());
             registro.put("password", getUser().getPassword().toString());
 
             //Enviar Post
             String jsonStr = webreq.makeWebServiceCall(Configurador.urlPostLogin, WebRequest.POST, this.registro);
-            JSONObject jsonObj = new JSONObject(jsonStr);
-            setParser(new UserParser());
-            getParser().setJsonobj(jsonObj);
-            getParser().parsearRespuesta();
+            UserParser up = new UserParser();
+            up.setStrJson(jsonStr);
+            up.parsearRespuesta();
+            setParser(up);
 
-            Log.println(Log.ERROR, "Helper:", " Guardado Correctamente");
-
+            if (Integer.parseInt(getParser().getStatus()) != RETURN_OK ){
+                mostrarMensaje(getParser().getMessage());
+            }
         }catch (Exception e){
-
             setRespuesta(GlobalValues.getINSTANCIA().RETURN_ERROR);
-            //Toast.makeText(this.getCtx(),"Error: "+e.getMessage(),Toast.LENGTH_LONG);
-
             Log.println(Log.ERROR,"ErrorHelper:",e.getMessage());
 
         }
@@ -133,7 +134,7 @@ public class HelperUser extends AsyncTask<Void, Void, Void> {
             Log.println(Log.ERROR, "Helper:", " Guardado Correctamente");
 
         }catch (Exception e){
-            setRespuesta(GlobalValues.getINSTANCIA().RETURN_ERROR);
+            setRespuesta(RETURN_ERROR);
             Toast.makeText(this.getCtx(),"Error: "+e.getMessage(),Toast.LENGTH_LONG);
 
         }
@@ -168,11 +169,18 @@ public class HelperUser extends AsyncTask<Void, Void, Void> {
         pDialog.show();
     }
 
-
+    private void mostrarMensaje(String mensaje){
+        if (pDialog.isShowing()) {
+            pDialog.dismiss();
+            Toast.makeText(this.getCtx(), mensaje, Toast.LENGTH_SHORT).show();
+        }
+    }
     @Override
     protected void onPostExecute(Void result) {
         super.onPostExecute(result);
-        // Showing progress dialog
+
+        setRespuesta(Integer.parseInt(getParser().getStatus()));
+
         switch (this.getOpcion()){
             case OPTION_LOGIN:
                 onPostUserLogin();
@@ -197,23 +205,22 @@ public class HelperUser extends AsyncTask<Void, Void, Void> {
 
     public void onPostUserLogin(){
         try{
+            if (getRespuesta()== RETURN_OK){
+                GlobalValues.getINSTANCIA().setUserlogued(parser.getUser());
 
-            GlobalValues.getINSTANCIA().setUserlogued(parser.getUser());
+                IniciarApp ia = new IniciarApp(this.getCtx());
+                if (ia.isInstalled()==false){
+                    ia.iniciarBD();
+                }
+                //SE DESCARGAN LOS DATOS
+                if (ia.isDatabaseDownload()==false){
+                    ia.downloadDatabase();
+                }
+                ia.loginRememberr(parser.getUser());
 
-            IniciarApp ia = new IniciarApp(this.getCtx());
-            if (ia.isInstalled()==false){
-                ia.iniciarBD();
+                Intent i = new Intent(this.getCtx(), MainActivity.class);
+                getCtx().startActivity(i);
             }
-
-            //SE DESCARGAN LOS DATOS
-            if (ia.isDatabaseDownload()==false){
-                ia.downloadDatabase();
-            }
-            ia.loginRememberr(parser.getUser());
-
-            Intent i = new Intent(this.getCtx(), MainActivity.class);
-            //startActivity(i);
-
         }catch(Exception e){
 
         }

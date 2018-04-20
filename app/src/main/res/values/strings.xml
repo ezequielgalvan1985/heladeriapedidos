@@ -18,7 +18,7 @@
     <string name="prompt_contacto">Contacto (Nombre y Apellido)</string>
 
 
-    <string name="prompt_password">Password (optional)</string>
+    <string name="prompt_password">Contraseña</string>
     <string name="action_register">Crear Cuenta</string>
     <string name="action_login">Iniciar Sesion</string>
     <string name="label_register">Registrarme</string>

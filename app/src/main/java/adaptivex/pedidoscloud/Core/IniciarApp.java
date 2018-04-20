@@ -534,19 +534,12 @@ public  class IniciarApp  {
 
             HelperProductos p = new HelperProductos(getContext());
             p.execute();
-
-
-
-
+            
             ParameterController pc  = new ParameterController(getContext());
             Parameter param1 = pc.abrir().findById(GlobalValues.getINSTANCIA().PARAM_DOWNLOAD_DATABASE);
             param1.setValor_texto("Y");
             pc.abrir().modificar(param1);
             pc.cerrar();
-
-
-
-
 
             return true;
         }catch (Exception e ){
@@ -558,9 +551,8 @@ public  class IniciarApp  {
     public boolean isDatabaseDownload(){
         try {
             boolean respuesta = false;
-            ClienteController cc = new ClienteController(getContext());
             ProductoController proc = new ProductoController(getContext());
-            if (cc.count() < 1 || proc.count() < 1) {
+            if (proc.count() < 1) {
                 respuesta = false;
             } else {
                 respuesta = true;
@@ -582,7 +574,6 @@ public  class IniciarApp  {
             if (p != null) {
                 if (p.getValor_texto().equals("Y")) {
                     respuesta = true;
-
                 }
             }
             return respuesta;

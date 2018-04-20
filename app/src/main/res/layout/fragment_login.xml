@@ -1,93 +1,53 @@
-
-<RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context="adaptivex.pedidoscloud.View.Users.LoginFragment">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="adaptivex.pedidoscloud.View.Users.LoginFragment">
 
     <LinearLayout
-        android:id="@+id/form_login"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="20dp"
-        android:visibility="invisible">
+        android:layout_marginTop="50dp"
+        >
 
-        <TextView
-            android:layout_width="wrap_content"
+        <EditText
+            android:id="@+id/login_email"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/action_login"
-            android:textSize="20dp"
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:textStyle="bold"
-            android:padding="20dp"/>
+            android:hint="@string/prompt_email_username"
+            android:inputType="textEmailAddress"
+            android:maxLines="1"
+            />
 
-
-        <android.support.design.widget.TextInputLayout
+        <EditText
+            android:id="@+id/login_password"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <AutoCompleteTextView
-                android:id="@+id/login_email"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/prompt_email"
-                android:inputType="textEmailAddress"
-                android:maxLines="1"
-                android:singleLine="true" />
-        </android.support.design.widget.TextInputLayout>
-
-
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <EditText
-                android:id="@+id/login_password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/prompt_password"
-                android:imeActionId="@+id/login"
-                android:imeActionLabel="@string/action_sign_in_short"
-                android:imeOptions="actionUnspecified"
-                android:inputType="textPassword"
-                android:maxLines="1"
-                android:singleLine="true" />
-        </android.support.design.widget.TextInputLayout>
-
+            android:layout_height="wrap_content"
+            android:hint="@string/prompt_password"
+            android:inputType="textPassword"
+            android:maxLines="1"
+            android:layout_marginBottom="50dp"
+            />
 
         <Button
-            android:id="@+id/login_btn_login"
-            style="?android:textAppearanceSmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/action_login"
-            android:layout_gravity="right"
-            android:textStyle="bold" />
+            android:id="@+id/login_btn_login"
+            android:text="Iniciar Sesion"
+            />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
+        <Button
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="10dp"
-            >
+            android:id="@+id/login_btn_register"
+            android:text="Crear Cuenta"
+            />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/label_eres_nuevo"
-                />
-
-            <Button
-                android:id="@+id/login_btn_register"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/label_register"/>
-        </LinearLayout>
     </LinearLayout>
 
-</RelativeLayout>
 
+
+
+</FrameLayout>

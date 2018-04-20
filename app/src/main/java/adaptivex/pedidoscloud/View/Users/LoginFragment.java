@@ -14,7 +14,9 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import adaptivex.pedidoscloud.Model.User;
 import adaptivex.pedidoscloud.R;
 import adaptivex.pedidoscloud.RegisterActivity;
 import adaptivex.pedidoscloud.Servicios.HelperUser;
@@ -24,10 +26,10 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     private OnFragmentInteractionListener mListener;
 
     private EditText login_password, login_email;
-    private AutoCompleteTextView mEmailView;
-    private EditText mPasswordView;
-    private Button btn_login, btn_register;
 
+
+    private Button btn_login, btn_register;
+    private User usertmp;
 
 
     public LoginFragment() {
@@ -53,29 +55,16 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_login, container, false);
+
         //Iniciar los campos
-        mEmailView    = (AutoCompleteTextView) v.findViewById(R.id.email);
-        mPasswordView = (EditText) v.findViewById(R.id.password);
+        login_email    = (EditText) v.findViewById(R.id.login_email);
+        login_password = (EditText) v.findViewById(R.id.login_password);
         btn_login     = (Button)   v.findViewById(R.id.login_btn_login);
         btn_register  = (Button)   v.findViewById(R.id.login_btn_register);
 
-
-        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                    validateRegister();
-                    return true;
-                }
-                return false;
-            }
-        });
-
+        //Asignar Funcionalidad
         btn_login.setOnClickListener(this);
-
-
-
-
+        btn_register.setOnClickListener(this);
 
         return v;
     }
@@ -106,13 +95,40 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
 
 
-    public void clickLogin(){
-        HelperUser hu = new HelperUser(getContext());
-        hu.setOpcion(HelperUser.OPTION_LOGIN);
+    private void clickLogin(){
+        if (validateLogin()){
+            HelperUser hu = new HelperUser(getContext());
+            hu.setOpcion(HelperUser.OPTION_LOGIN);
+            hu.setUser(usertmp);
+            hu.execute();
+        }
+
+    }
+    private boolean validateLogin(){
+        try {
+            boolean validate = true;
+            if(login_email.getText().length() < 0) {
+                Toast.makeText(getContext(), "Usuario o Email es Obligatorio: ", Toast.LENGTH_LONG).show();
+            }
+            if(login_password.getText().length()<4){
+                Toast.makeText(getContext(), "Contraseña debe tener 4 caracteres minimo: ", Toast.LENGTH_LONG).show();
+            }
+            usertmp = new User();
+            usertmp.setUsername(login_email.getText().toString());
+            usertmp.setPassword(login_password.getText().toString());
+
+            return validate;
+        }catch (Exception e){
+            Toast.makeText(getContext(),"Error: " + e.getMessage() ,Toast.LENGTH_LONG).show();
+            return false;
+        }
     }
 
     public void clickRegister(){
-
+        RegisterFragment fragment      = new RegisterFragment();
+        getFragmentManager().beginTransaction()
+                .replace(R.id.content_main_register, fragment).addToBackStack(null)
+                .commit();
     }
 
     @Override
@@ -138,37 +154,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
 
 
-    private boolean validateRegister() {
 
-        // Reset errors.
-        mEmailView.setError(null);
-        mPasswordView.setError(null);
-
-        // Store values at the time of the login attempt.
-        String email      = mEmailView.getText().toString();
-        String password   = mPasswordView.getText().toString();
-
-        boolean cancel = false;
-        View focusView = null;
-
-        // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password)) {
-            mPasswordView.setError(getString(R.string.error_invalid_password));
-            focusView = mPasswordView;
-            cancel = true;
-        }
-
-        // Check for a valid email address.
-        if (TextUtils.isEmpty(email)) {
-            mEmailView.setError(getString(R.string.error_field_required));
-            focusView = mEmailView;
-            cancel = true;
-        }
-
-        if (cancel) {
-            focusView.requestFocus();
-        }
-        return cancel;
-    }
 
 }

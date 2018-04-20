@@ -123,10 +123,6 @@ public class CargarCantidadFragment extends Fragment implements View.OnClickList
         rvPotes.setAdapter(rvAdapterPote);
 
 
-
-
-
-
         return v;
     }
 
