@@ -25,9 +25,10 @@ public class UserParser {
         this.user = new User();
     }
 
-    public User parsearRespuesta(){
+    public User parsearRespuesta(String json){
+
         try{
-            JSONObject object = new JSONObject(getStrJson());
+            JSONObject object = new JSONObject(json);
             setStatus(object.getString("code"));
             setMessage( object.getString("message"));
 
@@ -41,7 +42,6 @@ public class UserParser {
                 vuser.setEmail(data.getString(UserDataBaseHelper.EMAIL));
 
 
-
                 if (data.has(UserDataBaseHelper.TELEFONO)) vuser.setTelefono(data.getString(UserDataBaseHelper.TELEFONO)); else vuser.setTelefono("");
                 if (data.has(UserDataBaseHelper.LOCALIDAD)) vuser.setLocalidad(data.getString(UserDataBaseHelper.LOCALIDAD)); else vuser.setLocalidad("");
                 if (data.has(UserDataBaseHelper.CALLE)) vuser.setCalle(data.getString(UserDataBaseHelper.CALLE)); else vuser.setCalle("");
@@ -49,10 +49,15 @@ public class UserParser {
                 if (data.has(UserDataBaseHelper.PISO)) vuser.setPiso(data.getString(UserDataBaseHelper.PISO)); else vuser.setPiso("");
                 if (data.has(UserDataBaseHelper.CONTACTO)) vuser.setContacto(data.getString(UserDataBaseHelper.CONTACTO)); else vuser.setContacto("");
                 setUser(vuser);
+
             }else {
-                Log.d("UserParser: ", "Status: " + getStatus().toString());
+                Log.e("UserParser: ", "Status: " + getStatus().toString());
+                Log.e("UserParser: ", "Status: " + getMessage().toString());
+
             }
         }catch(Exception e ){
+            setStatus("500");
+            setMessage(e.getMessage());
             Log.d("UserParserError: ", e.getMessage().toString());
         }
 

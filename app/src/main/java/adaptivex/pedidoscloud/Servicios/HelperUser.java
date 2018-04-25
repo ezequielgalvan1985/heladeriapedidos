@@ -4,13 +4,12 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.widget.Toast;
 
 import adaptivex.pedidoscloud.Config.Configurador;
-import adaptivex.pedidoscloud.Config.Constants;
 import adaptivex.pedidoscloud.Config.GlobalValues;
-import adaptivex.pedidoscloud.Controller.UserController;
 import adaptivex.pedidoscloud.Core.IniciarApp;
 import adaptivex.pedidoscloud.Core.parserJSONtoModel.UserParser;
 import adaptivex.pedidoscloud.MainActivity;
@@ -25,20 +24,30 @@ import java.util.HashMap;
  */
 
 public class HelperUser extends AsyncTask<Void, Void, Void> {
-    private Context ctx;
-    private ProgressDialog pDialog;
-    private HashMap<String,String> registro;
-    private User user;
-    private UserController userCtl;
-    private UserParser parser;
-    private int respuesta; //1=ok, 200=error
-    private int opcion; //1 enviar Post Pedido
+    private Context                  ctx;
+    private ProgressDialog           pDialog;
+    private HashMap<String,String>   registro;
+    private User                     user;
+    private UserParser               parser;
+    private int                      respuesta; //1=ok, 200=error
+    private int                      opcion; //1 enviar Post Pedido
+
+    private String jsonStr       ="";
+    private Fragment nextFragment;
 
     public final static int OPTION_LOGIN    = 1;
     public final static int OPTION_REGISTER = 2;
     public final static int OPTION_UPDATE   = 3;
     public final static int RETURN_ERROR    = 500;
     public final static int RETURN_OK       = 200;
+
+    private int             BEHAVIOR_POST_REGISTER             = 0;
+    public final static int BEHAVIOR_POST_REGISTER_INICIAR_APP = 1;
+
+    private int RESPONSE_CODE       = 0;
+    private String RESPONSE_MESSAGE = "";
+
+
 
 
     public HelperUser(){
@@ -51,28 +60,17 @@ public class HelperUser extends AsyncTask<Void, Void, Void> {
     public void loginService(){
         try{
             WebRequest webreq = new WebRequest();
-
             // Setear datos de usuario loguin para hacer el post
             registro = new HashMap<String, String>();
             registro.put("username", getUser().getUsername().toString());
             registro.put("password", getUser().getPassword().toString());
-
             //Enviar Post
-            String jsonStr = webreq.makeWebServiceCall(Configurador.urlPostLogin, WebRequest.POST, this.registro);
-            UserParser up = new UserParser();
-            up.setStrJson(jsonStr);
-            up.parsearRespuesta();
-            setParser(up);
+            jsonStr = webreq.makeWebServiceCall(Configurador.urlPostLogin, WebRequest.POST, this.registro);
 
-            if (Integer.parseInt(getParser().getStatus()) != RETURN_OK ){
-                mostrarMensaje(getParser().getMessage());
-            }
         }catch (Exception e){
-            setRespuesta(GlobalValues.getINSTANCIA().RETURN_ERROR);
+            setRespuesta(RETURN_ERROR);
             Log.println(Log.ERROR,"ErrorHelper:",e.getMessage());
-
         }
-
     }
 
     private void registerService(){
@@ -81,8 +79,11 @@ public class HelperUser extends AsyncTask<Void, Void, Void> {
 
             // Setear datos de usuario loguin para hacer el post
             registro = new HashMap<String, String>();
-            registro.put("email", getUser().getEmail().toString());
+
+            registro.put("username", getUser().getUsername().toString());
             registro.put("password", getUser().getPassword().toString());
+            registro.put("email", getUser().getEmail().toString());
+
             registro.put("localidad", getUser().getLocalidad().toString());
             registro.put("calle", getUser().getCalle().toString());
             registro.put("nro", getUser().getNro().toString());
@@ -91,22 +92,14 @@ public class HelperUser extends AsyncTask<Void, Void, Void> {
             registro.put("telefono", getUser().getTelefono().toString());
 
             //Enviar Post
-            String jsonStr = webreq.makeWebServiceCall(Configurador.urlPostRegister, WebRequest.POST, this.registro);
-            JSONObject jsonObj = new JSONObject(jsonStr);
-            setParser(new UserParser());
-            getParser().setJsonobj(jsonObj);
-            getParser().parsearRespuesta();
-
-            Log.println(Log.ERROR, "Helper:", " Guardado Correctamente");
+            jsonStr = webreq.makeWebServiceCall(Configurador.urlPostRegister, WebRequest.POST, this.registro);
 
         }catch (Exception e){
-            setRespuesta(GlobalValues.getINSTANCIA().RETURN_ERROR);
-            Toast.makeText(this.getCtx(),"Error: "+e.getMessage(),Toast.LENGTH_LONG);
-
+            setRespuesta(RETURN_ERROR);
         }
-
-
     }
+
+
     private void updateUserService()
     {
         try{
@@ -114,7 +107,9 @@ public class HelperUser extends AsyncTask<Void, Void, Void> {
 
             // Setear datos de usuario loguin para hacer el post
             registro = new HashMap<String, String>();
+
             registro.put("id", getUser().getId().toString());
+            registro.put("username", getUser().getUsername().toString());
             registro.put("email", getUser().getEmail().toString());
             registro.put("password", getUser().getPassword().toString());
             registro.put("localidad", getUser().getLocalidad().toString());
@@ -125,13 +120,8 @@ public class HelperUser extends AsyncTask<Void, Void, Void> {
             registro.put("telefono", getUser().getTelefono().toString());
 
             //Enviar Post
-            String jsonStr = webreq.makeWebServiceCall(Configurador.urlPostUpdateUser, WebRequest.POST, this.registro);
-            JSONObject jsonObj = new JSONObject(jsonStr);
-            setParser(new UserParser());
-            getParser().setJsonobj(jsonObj);
-            getParser().parsearRespuesta();
+            jsonStr = webreq.makeWebServiceCall(Configurador.urlPostUpdateUser, WebRequest.POST, this.registro);
 
-            Log.println(Log.ERROR, "Helper:", " Guardado Correctamente");
 
         }catch (Exception e){
             setRespuesta(RETURN_ERROR);
@@ -178,36 +168,64 @@ public class HelperUser extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPostExecute(Void result) {
         super.onPostExecute(result);
+        try{
 
-        setRespuesta(Integer.parseInt(getParser().getStatus()));
+            JSONObject jsonObj = new JSONObject(jsonStr);
 
-        switch (this.getOpcion()){
-            case OPTION_LOGIN:
-                onPostUserLogin();
-                break;
-            case OPTION_REGISTER:
-                onPostUserRegister();
-                break;
-            case OPTION_UPDATE:
-                onPostUserUpdate();
-                break;
-        }
+            parser = new UserParser();
+            parser.parsearRespuesta(jsonStr);
+            RESPONSE_CODE = Integer.parseInt(parser.getStatus());
+            RESPONSE_MESSAGE = parser.getMessage();
 
-        if (pDialog.isShowing()){
-            pDialog.dismiss();
-            if (getRespuesta()== GlobalValues.getINSTANCIA().RETURN_OK){
-                Toast.makeText(this.getCtx(), "Enviado Correctamente ", Toast.LENGTH_SHORT).show();
+            if (RESPONSE_CODE == RETURN_OK){
+                GlobalValues.getINSTANCIA().setUserlogued(parser.getUser());
+
+
+                switch (this.getOpcion()){
+                    case OPTION_LOGIN:
+                        onPostUserLogin();
+                        break;
+                    case OPTION_REGISTER:
+                        onPostUserRegister();
+                        break;
+                    case OPTION_UPDATE:
+                        onPostUserUpdate();
+                        break;
+                }
+            }
+            if (RESPONSE_CODE !=RETURN_OK ){
+                if (pDialog.isShowing()){
+                    pDialog.dismiss();
+                    Toast.makeText(this.getCtx(), "Error: " + RESPONSE_MESSAGE, Toast.LENGTH_SHORT).show();
+
+                }
+
+
+
+            }
+            if (pDialog.isShowing()){
+                pDialog.dismiss();
+            }
+
+
+        }catch(Exception e){
+            if (pDialog.isShowing()){
+                pDialog.dismiss();
+                if (getRespuesta()== GlobalValues.getINSTANCIA().RETURN_OK){
+                    Toast.makeText(this.getCtx(), "Enviado Correctamente ", Toast.LENGTH_SHORT).show();
+                }
             }
         }
+
+
+
     }
 
 
 
     public void onPostUserLogin(){
         try{
-            if (getRespuesta()== RETURN_OK){
-                GlobalValues.getINSTANCIA().setUserlogued(parser.getUser());
-
+            if (RESPONSE_CODE ==RETURN_OK){
                 IniciarApp ia = new IniciarApp(this.getCtx());
                 if (ia.isInstalled()==false){
                     ia.iniciarBD();
@@ -222,13 +240,36 @@ public class HelperUser extends AsyncTask<Void, Void, Void> {
                 getCtx().startActivity(i);
             }
         }catch(Exception e){
+            Toast.makeText(this.getCtx(), " ", Toast.LENGTH_SHORT).show();
+        }
+    }
 
+    public void onPostUserRegister(){
+        try{
+            if (RESPONSE_CODE ==RETURN_OK) {
+                //Luego de regisrar
+                if (getBEHAVIOR_POST_REGISTER() == BEHAVIOR_POST_REGISTER_INICIAR_APP) {
+                    Intent i = new Intent(getCtx(), MainActivity.class);
+                    getCtx().startActivity(i);
+
+                }
+            }
+        }catch(Exception e){
+            Toast.makeText(this.getCtx(), " ", Toast.LENGTH_SHORT).show();
+        }
+    }
+    public void onPostUserUpdate(){
+        try{
+            if (RESPONSE_CODE ==RETURN_OK) {
+                //Luego de regisrar
+                Toast.makeText(this.getCtx(), "OK", Toast.LENGTH_SHORT).show();
+            }
+        }catch(Exception e){
+            Toast.makeText(this.getCtx(), "ERROR ", Toast.LENGTH_SHORT).show();
         }
 
 
     }
-    public void onPostUserRegister(){}
-    public void onPostUserUpdate(){}
 
 
     public Context getCtx() {
@@ -272,5 +313,29 @@ public class HelperUser extends AsyncTask<Void, Void, Void> {
 
     public void setOpcion(int opcion) {
         this.opcion = opcion;
+    }
+
+    public Fragment getNextFragment() {
+        return nextFragment;
+    }
+
+    public void setNextFragment(Fragment nextFragment) {
+        this.nextFragment = nextFragment;
+    }
+
+    public int getBEHAVIOR_POST_REGISTER() {
+        return BEHAVIOR_POST_REGISTER;
+    }
+
+    public void setBEHAVIOR_POST_REGISTER(int BEHAVIOR_POST_REGISTER) {
+        this.BEHAVIOR_POST_REGISTER = BEHAVIOR_POST_REGISTER;
+    }
+
+    public String getJsonStr() {
+        return jsonStr;
+    }
+
+    public void setJsonStr(String jsonStr) {
+        this.jsonStr = jsonStr;
     }
 }

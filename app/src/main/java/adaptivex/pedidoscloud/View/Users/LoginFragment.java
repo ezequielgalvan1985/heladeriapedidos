@@ -59,8 +59,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         //Iniciar los campos
         login_email    = (EditText) v.findViewById(R.id.login_email);
         login_password = (EditText) v.findViewById(R.id.login_password);
-        btn_login     = (Button)   v.findViewById(R.id.login_btn_login);
-        btn_register  = (Button)   v.findViewById(R.id.login_btn_register);
+        btn_login      = (Button)   v.findViewById(R.id.login_btn_login);
+        btn_register   = (Button)   v.findViewById(R.id.login_btn_register);
 
         //Asignar Funcionalidad
         btn_login.setOnClickListener(this);
@@ -100,6 +100,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
             HelperUser hu = new HelperUser(getContext());
             hu.setOpcion(HelperUser.OPTION_LOGIN);
             hu.setUser(usertmp);
+            hu.setBEHAVIOR_POST_REGISTER(HelperUser.BEHAVIOR_POST_REGISTER_INICIAR_APP);
             hu.execute();
         }
 

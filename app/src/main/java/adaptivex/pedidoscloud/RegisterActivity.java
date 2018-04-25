@@ -28,13 +28,9 @@ public class RegisterActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-
         try{
             preLoadActivity();
-            Fragment fragment = new HomeLoginFragment();
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.content_main_register, fragment).addToBackStack(Constants.FRAGMENT_HOME_LOGIN)
-                    .commit();
+
         }catch(Exception e){
             Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
         }
@@ -42,17 +38,49 @@ public class RegisterActivity
     }
 
 
-    public void preLoadActivity(){
+    private void preLoadActivity(){
+        //Si no esta instalada, se instala, y luego se pide registrarse
         IniciarApp ia = new IniciarApp(this.getBaseContext());
         if (!ia.isInstalled()){
             ia.iniciarBD();
+            openRegisterFragment();
+        }else {
+            //Esta Instalada, pregunta Esta recordado el usuario, entonces se inicia la app directamente,
+            if (ia.isLoginRemember()) {
+                Intent i = new Intent(this.getBaseContext(), MainActivity.class);
+                startActivity(i);
+                finish();
+            } else {
+                //si no se abre formulario de seleccionar opcion HOMELogin login o register
+                openLoginFragment();
+            }
+        }
+    }
+
+
+    private void openLoginFragment(){
+        try{
+            Fragment fragment = new HomeLoginFragment();
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.content_main_register, fragment).addToBackStack(Constants.FRAGMENT_HOME_LOGIN)
+                    .commit();
+
+        }catch(Exception e){
+            Toast.makeText(getBaseContext(),"Error: ",Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void openRegisterFragment(){
+        try{
+            Fragment fragment = new RegisterFragment();
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.content_main_register, fragment).addToBackStack(Constants.FRAGMENT_HOME_LOGIN)
+                    .commit();
+
+        }catch(Exception e){
+            Toast.makeText(getBaseContext(),"Error: ",Toast.LENGTH_LONG).show();
         }
 
-        if(ia.isLoginRemember()) {
-            Intent i = new Intent(this.getBaseContext(), MainActivity.class);
-            startActivity(i);
-            finish();
-        }
     }
 
 

@@ -20,6 +20,7 @@ import adaptivex.pedidoscloud.Controller.PedidoController;
 import adaptivex.pedidoscloud.Controller.UserController;
 import adaptivex.pedidoscloud.Model.User;
 import adaptivex.pedidoscloud.R;
+import adaptivex.pedidoscloud.Servicios.HelperUser;
 
 public class CargarDireccionFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
@@ -170,6 +171,13 @@ public class CargarDireccionFragment extends Fragment {
             u.setPiso(txtPiso.getText().toString());
             u.setContacto(txtContacto.getText().toString());
             uc.setUserDB(u);
+
+            //Envia datos al servidor
+            HelperUser hu = new HelperUser(getContext());
+            hu.setOpcion(HelperUser.OPTION_UPDATE);
+            hu.setUser(u);
+            hu.execute();
+
 
             return true;
         }catch(Exception e) {

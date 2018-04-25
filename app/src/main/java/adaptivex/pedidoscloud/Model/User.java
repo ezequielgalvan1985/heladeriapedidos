@@ -1,5 +1,7 @@
 package adaptivex.pedidoscloud.Model;
 
+import adaptivex.pedidoscloud.Core.WorkString;
+
 /**
  * Created by ezequiel on 23/05/2016.
  */
@@ -93,16 +95,10 @@ public class User {
         this.group_id = group_id;
     }
 
-    public int getEmpleado_id() {
-        return empleado_id;
-    }
 
-    public void setEmpleado_id(int empleado_id) {
-        this.empleado_id = empleado_id;
-    }
 
     public String getLocalidad() {
-        return localidad;
+        return WorkString.getTexto(localidad);
     }
 
     public void setLocalidad(String localidad) {
@@ -110,7 +106,7 @@ public class User {
     }
 
     public String getCalle() {
-        return calle;
+        return WorkString.getTexto(calle);
     }
 
     public void setCalle(String calle) {
@@ -147,10 +143,8 @@ public class User {
     }
 
     public String getTelefono() {
-        if (telefono==null){
-            telefono = "";
-        }
-        return telefono;
+
+        return WorkString.getTexto(telefono);
     }
 
     public void setTelefono(String telefono) {
