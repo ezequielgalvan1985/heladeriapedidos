@@ -10,6 +10,8 @@ public class ItemHelado {
     private Integer proporcion;
     private Pedidodetalle pedidodetalle;
 
+    public ItemHelado(){}
+
     public ItemHelado(Producto h, boolean c, Integer p){
         setHelado(h);
         setChecked(c);

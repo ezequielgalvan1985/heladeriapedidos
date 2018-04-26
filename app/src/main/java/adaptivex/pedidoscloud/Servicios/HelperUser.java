@@ -68,8 +68,9 @@ public class HelperUser extends AsyncTask<Void, Void, Void> {
             jsonStr = webreq.makeWebServiceCall(Configurador.urlPostLogin, WebRequest.POST, this.registro);
 
         }catch (Exception e){
+            Log.e("Error:",e.getMessage());
             setRespuesta(RETURN_ERROR);
-            Log.println(Log.ERROR,"ErrorHelper:",e.getMessage());
+
         }
     }
 
@@ -96,6 +97,7 @@ public class HelperUser extends AsyncTask<Void, Void, Void> {
 
         }catch (Exception e){
             setRespuesta(RETURN_ERROR);
+            Log.e("Error:",e.getMessage());
         }
     }
 
@@ -111,7 +113,7 @@ public class HelperUser extends AsyncTask<Void, Void, Void> {
             registro.put("id", getUser().getId().toString());
             registro.put("username", getUser().getUsername().toString());
             registro.put("email", getUser().getEmail().toString());
-            registro.put("password", getUser().getPassword().toString());
+            //registro.put("password", getUser().getPassword().toString());
             registro.put("localidad", getUser().getLocalidad().toString());
             registro.put("calle", getUser().getCalle().toString());
             registro.put("nro", getUser().getNro().toString());
@@ -125,7 +127,8 @@ public class HelperUser extends AsyncTask<Void, Void, Void> {
 
         }catch (Exception e){
             setRespuesta(RETURN_ERROR);
-            Toast.makeText(this.getCtx(),"Error: "+e.getMessage(),Toast.LENGTH_LONG);
+            Log.e("Error:",e.getMessage());
+
 
         }
     }
@@ -170,8 +173,6 @@ public class HelperUser extends AsyncTask<Void, Void, Void> {
         super.onPostExecute(result);
         try{
 
-            JSONObject jsonObj = new JSONObject(jsonStr);
-
             parser = new UserParser();
             parser.parsearRespuesta(jsonStr);
             RESPONSE_CODE = Integer.parseInt(parser.getStatus());
@@ -179,7 +180,6 @@ public class HelperUser extends AsyncTask<Void, Void, Void> {
 
             if (RESPONSE_CODE == RETURN_OK){
                 GlobalValues.getINSTANCIA().setUserlogued(parser.getUser());
-
 
                 switch (this.getOpcion()){
                     case OPTION_LOGIN:
@@ -193,22 +193,16 @@ public class HelperUser extends AsyncTask<Void, Void, Void> {
                         break;
                 }
             }
+            if (pDialog.isShowing()) pDialog.dismiss();
+
             if (RESPONSE_CODE !=RETURN_OK ){
-                if (pDialog.isShowing()){
-                    pDialog.dismiss();
-                    Toast.makeText(this.getCtx(), "Error: " + RESPONSE_MESSAGE, Toast.LENGTH_SHORT).show();
-
-                }
-
-
-
+                Toast.makeText(this.getCtx(), "Error: " + RESPONSE_MESSAGE, Toast.LENGTH_SHORT).show();
             }
-            if (pDialog.isShowing()){
-                pDialog.dismiss();
-            }
+
 
 
         }catch(Exception e){
+            Log.e("Error:",e.getMessage());
             if (pDialog.isShowing()){
                 pDialog.dismiss();
                 if (getRespuesta()== GlobalValues.getINSTANCIA().RETURN_OK){
@@ -240,6 +234,7 @@ public class HelperUser extends AsyncTask<Void, Void, Void> {
                 getCtx().startActivity(i);
             }
         }catch(Exception e){
+            Log.e("Error:",e.getMessage());
             Toast.makeText(this.getCtx(), " ", Toast.LENGTH_SHORT).show();
         }
     }
@@ -255,17 +250,20 @@ public class HelperUser extends AsyncTask<Void, Void, Void> {
                 }
             }
         }catch(Exception e){
+            Log.e("Error:",e.getMessage());
             Toast.makeText(this.getCtx(), " ", Toast.LENGTH_SHORT).show();
         }
     }
+
     public void onPostUserUpdate(){
         try{
             if (RESPONSE_CODE ==RETURN_OK) {
                 //Luego de regisrar
-                Toast.makeText(this.getCtx(), "OK", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this.getCtx(), "Usuario Actualizado en Servidor", Toast.LENGTH_SHORT).show();
             }
         }catch(Exception e){
-            Toast.makeText(this.getCtx(), "ERROR ", Toast.LENGTH_SHORT).show();
+            Log.e("Error:",e.getMessage());
+            Toast.makeText(this.getCtx(), "ERROR " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
 
 

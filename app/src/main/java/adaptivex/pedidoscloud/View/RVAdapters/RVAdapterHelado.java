@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import adaptivex.pedidoscloud.Config.GlobalValues;
+import adaptivex.pedidoscloud.Controller.ProductoController;
 import adaptivex.pedidoscloud.Model.ItemHelado;
 import adaptivex.pedidoscloud.Model.Pedidodetalle;
 import adaptivex.pedidoscloud.Model.Producto;
@@ -32,19 +33,9 @@ public class RVAdapterHelado extends RecyclerView.Adapter<RVAdapterHelado.Helado
     private ContextWrapper cw;
     private Context ctx;
     private ArrayList<Pedidodetalle> listaHeladosSelected = new ArrayList<Pedidodetalle>();
+    private ArrayList<ItemHelado> listaItemsHelados = new ArrayList<ItemHelado>();
 
 
-    //Inicializa el vector o Lista donde se almacenara el estado de cada registro(helado)
-    private void initItems(){
-        GlobalValues.getINSTANCIA().listaHeladosSeleccionados = new ArrayList<ItemHelado>();
-
-        //Lista todos los helados
-        for(Object object: productos){
-            Producto producto = (Producto) object;
-            ItemHelado item = new ItemHelado(producto, false, 75);
-            GlobalValues.getINSTANCIA().listaHeladosSeleccionados.add(item);
-        }
-    }
 
 
 
@@ -68,7 +59,7 @@ public class RVAdapterHelado extends RecyclerView.Adapter<RVAdapterHelado.Helado
 
     public void setProductos(ArrayList<Object> productos) {
         this.productos = productos;
-        initItems();
+
     }
 
     @Override
@@ -81,60 +72,36 @@ public class RVAdapterHelado extends RecyclerView.Adapter<RVAdapterHelado.Helado
     public HeladoViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_helado, viewGroup, false);
         cw = new ContextWrapper(v.getContext());
+
         HeladoViewHolder pvh = new HeladoViewHolder(v, ctx, getProductos());
+
         return pvh;
     }
 
     @Override
     public void onBindViewHolder(HeladoViewHolder holder, int i) {
         //Completa el Item Helado dentro del recycle view
-        Producto p = (Producto) getProductos().get(i);
 
+
+        ItemHelado item = getListaItemsHelados().get(i);
+        Producto p = item.getHelado();
         holder.tvId.setText(String.valueOf(p.getId()));
         holder.tvNombre.setText(p.getNombre());
 
-        // Chequear si producto esta seleccionado
-        Pedidodetalle pd = checkHelado(p);
-
-
-
-        if (pd!=null){
             //Cargar en memoria el Item Seleccionado
-            ItemHelado item = new ItemHelado(p, true, pd.getProporcionHelado(),pd);
+        if (item.isChecked()){
             GlobalValues.getINSTANCIA().listaHeladosSeleccionados.set(i,item);
-
-            holder.chkHelado.setChecked(true);
-            holder.seekProporcionHelado.setVisibility(View.VISIBLE);
-            holder.seekProporcionHelado.setProgress(pd.getProporcionHelado());
+            holder.seekProporcionHelado.setProgress(item.getProporcion());
+            holder.tvProporcionDescripcion.setText(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getProporcionDesc(item.getPedidodetalle().getProporcionHelado()));
             holder.seekProporcionHelado.refreshDrawableState();
+            holder.seekProporcionHelado.setVisibility(View.VISIBLE);
             holder.tvProporcionDescripcion.setVisibility(View.VISIBLE);
-            holder.tvProporcionDescripcion.setText(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getProporcionDesc(pd.getProporcionHelado()));
         }
 
 
     }
 
-    public Pedidodetalle checkHelado(Producto p){
-        //recorrer lista de itemSelecetd
-        try{
-            Pedidodetalle pdSelected = null;
-            if (listaHeladosSelected != null){
-                if (listaHeladosSelected.size()> 0 ){
-                    for(Pedidodetalle pd: listaHeladosSelected){
-                        if (pd.getProducto().getId()==p.getId()) {
-                            // El Item fue seleccionado
-                            pdSelected =  pd;
-                        }
-                    }
-                }
-            }
-            return pdSelected;
 
-        }catch (Exception e ){
-            Toast.makeText(ctx,"Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
-            return null;
-        }
-    }
 
 
     @Override
@@ -148,6 +115,14 @@ public class RVAdapterHelado extends RecyclerView.Adapter<RVAdapterHelado.Helado
 
     public void setListaHeladosSelected(ArrayList<Pedidodetalle> listaHeladosSelected) {
         this.listaHeladosSelected = listaHeladosSelected;
+    }
+
+    public ArrayList<ItemHelado> getListaItemsHelados() {
+        return listaItemsHelados;
+    }
+
+    public void setListaItemsHelados(ArrayList<ItemHelado> listaItemsHelados) {
+        this.listaItemsHelados = listaItemsHelados;
     }
 
 

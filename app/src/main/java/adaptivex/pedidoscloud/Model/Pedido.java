@@ -150,6 +150,16 @@ public class Pedido {
         this.detalles.add(pd);
     }
 
+    public void editPedidodetalle(Pedidodetalle pd_param){
+        for (Pedidodetalle pd : detalles){
+            if (pd_param.getIdTmp() == pd.getIdTmp()){
+                this.detalles.remove(pd);
+                this.detalles.add(pd_param);
+
+            }
+        }
+    }
+
 
     public String getLocalidad() {
         return localidad;
@@ -368,6 +378,9 @@ public class Pedido {
             registro = null;
         }
     }
+
+
+
 
     public String getCreatedDMY(){
         String fecha=getCreated();

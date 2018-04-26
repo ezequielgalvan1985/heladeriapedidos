@@ -335,6 +335,7 @@ public class MainActivity extends AppCompatActivity
                     fragmentTransaction = true;
                     GlobalValues.getINSTANCIA().setActualFragment(GlobalValues.getINSTANCIA().DATOS_USER);
                     break;
+
                 case R.id.nav_configuracion:
                     try{
                         fragment = new ConfigFragment();
