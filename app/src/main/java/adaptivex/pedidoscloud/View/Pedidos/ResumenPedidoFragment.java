@@ -105,9 +105,12 @@ public class ResumenPedidoFragment extends Fragment implements View.OnClickListe
             lbl_kilos_monto.setText(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getMontoHeladoFormatMoney());
 
             btnEnviarPedido.setEnabled(true);
-            if (GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getId()> 0 ){
-                btnEnviarPedido.setEnabled(false);
+            if (GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getId()!=null){
+                if (GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getId()> 0 ){
+                    btnEnviarPedido.setEnabled(false);
+                }
             }
+
         }catch(Exception e ){
             Toast.makeText(getContext(),"Error: " + e.getMessage(),Toast.LENGTH_LONG).show();
         }
@@ -116,13 +119,15 @@ public class ResumenPedidoFragment extends Fragment implements View.OnClickListe
     public void checkStatusPedido(){
         try{
             Pedido p = GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL;
-            if (p.getId() > 0 ){
+            if(p.getId()!=null){
+                if (p.getId() > 0 ){
 
-                HelperPedidos hp = new HelperPedidos(getContext());
-                hp.setOpcion(HelperPedidos.OPTION_CHECK_STATUS);
-                hp.setPedido(p);
-                hp.execute();
-                SystemClock.sleep(1000);
+                    HelperPedidos hp = new HelperPedidos(getContext());
+                    hp.setOpcion(HelperPedidos.OPTION_CHECK_STATUS);
+                    hp.setPedido(p);
+                    hp.execute();
+                    SystemClock.sleep(1000);
+                }
             }
         }catch(Exception e ){
             Toast.makeText(getContext(),"Error: " + e.getMessage(),Toast.LENGTH_LONG).show();

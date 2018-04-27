@@ -360,8 +360,10 @@ public class PedidoController implements ControllerInterface
              Promo promo = promoCtr.abrir().calculateDiscount(pedido.getCantidadKilos());
              promoCtr.cerrar();
              if (promo!=null){
-                 pedido.setMontoDescuento(promo.getMountDiscount());
-                 pedido.setCantidadDescuento(Integer.parseInt(promo.getCountDiscount().toString()));
+                 if (promo.getMountDiscount()!=null ){
+                     pedido.setMontoDescuento(promo.getMountDiscount());
+                     pedido.setCantidadDescuento(Integer.parseInt(promo.getCountDiscount().toString()));
+                 }
              }
              this.edit(pedido);
              return true;

@@ -218,13 +218,16 @@ public class PromoController
     * */
     public Promo calculateDiscount(Integer paramKilos){
         try{
-            Promo p = findByOneAplicableToPromo(paramKilos);
+            Promo p;
+            p = findByOneAplicableToPromo(paramKilos);
             if (p!=null){
-                //Calcular cantidad de descuentos que se van a aplicar
-                Double countDiscount = Math.floor(paramKilos /p.getCantKilos());
-                Double mountDiscount = p.getImporteDescuento() * countDiscount;
-                p.setCountDiscount(countDiscount.intValue());
-                p.setMountDiscount(mountDiscount);
+                if (p.getCantKilos()!= null){
+                    //Calcular cantidad de descuentos que se van a aplicar
+                    Double countDiscount = Math.floor(paramKilos /p.getCantKilos());
+                    Double mountDiscount = p.getImporteDescuento() * countDiscount;
+                    p.setCountDiscount(countDiscount.intValue());
+                    p.setMountDiscount(mountDiscount);
+                }
             }
             return p;
         }catch (Exception e){
@@ -256,10 +259,7 @@ public class PromoController
             Cursor c = db.query(PromoDataBaseHelper.TABLE_NAME, campos, where, argumentos, null, null, null);
             if (c != null)
             {
-                if ( c.getCount()>0){
-                    c.moveToFirst();
-                }
-
+                c.moveToFirst();
             }
             return c;
         }catch (Exception e){
@@ -283,7 +283,8 @@ public class PromoController
     public Promo findByOneAplicableToPromo(Integer paramKilos){
         try{
             Cursor c = findByAplicable(paramKilos);
-            Promo p = parseObjectFromRecord(c);
+            Promo p;
+            p = parseObjectFromRecord(c);
             return p;
         }catch (Exception e){
             Toast.makeText(context, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -355,20 +356,23 @@ public class PromoController
 
     public Promo parseObjectFromRecord(Cursor c ){
         try{
-            c.moveToFirst();
             Promo object = new Promo();
-            object.setIdAndroid(c.getInt(c.getColumnIndex(PromoDataBaseHelper.CAMPO_ID_ANDROID)));
-            object.setId(c.getInt(c.getColumnIndex(PromoDataBaseHelper.CAMPO_ID)));
-            object.setNombre(c.getString(c.getColumnIndex(PromoDataBaseHelper.CAMPO_NOMBRE)));
-            object.setDescripcion(c.getString(c.getColumnIndex(PromoDataBaseHelper.CAMPO_DESCRIPCION)));
-            object.setFechaDesde(c.getString(c.getColumnIndex(PromoDataBaseHelper.CAMPO_FECHA_DESDE)));
-            object.setFechaHasta(c.getString(c.getColumnIndex(PromoDataBaseHelper.CAMPO_FECHA_HASTA)));
-            object.setCantKilos(c.getInt(c.getColumnIndex(PromoDataBaseHelper.CAMPO_CANTIDAD_KILOS)));
-            object.setImporteDescuento(c.getDouble(c.getColumnIndex(PromoDataBaseHelper.CAMPO_IMPORTE_DESCUENTO)));
-            object.setPrecioPromo(c.getDouble(c.getColumnIndex(PromoDataBaseHelper.CAMPO_PRECIO_PROMO)));
-            object.setPrecioAnterior(c.getDouble(c.getColumnIndex(PromoDataBaseHelper.CAMPO_PRECIO_ANTERIOR)));
-            object.setEnabled(c.getInt(c.getColumnIndex(PromoDataBaseHelper.CAMPO_ENABLED))>0);
-
+            if (c!=null){
+                if (c.getCount()>0 ){
+                    c.moveToFirst();
+                    object.setIdAndroid(c.getInt(c.getColumnIndex(PromoDataBaseHelper.CAMPO_ID_ANDROID)));
+                    object.setId(c.getInt(c.getColumnIndex(PromoDataBaseHelper.CAMPO_ID)));
+                    object.setNombre(c.getString(c.getColumnIndex(PromoDataBaseHelper.CAMPO_NOMBRE)));
+                    object.setDescripcion(c.getString(c.getColumnIndex(PromoDataBaseHelper.CAMPO_DESCRIPCION)));
+                    object.setFechaDesde(c.getString(c.getColumnIndex(PromoDataBaseHelper.CAMPO_FECHA_DESDE)));
+                    object.setFechaHasta(c.getString(c.getColumnIndex(PromoDataBaseHelper.CAMPO_FECHA_HASTA)));
+                    object.setCantKilos(c.getInt(c.getColumnIndex(PromoDataBaseHelper.CAMPO_CANTIDAD_KILOS)));
+                    object.setImporteDescuento(c.getDouble(c.getColumnIndex(PromoDataBaseHelper.CAMPO_IMPORTE_DESCUENTO)));
+                    object.setPrecioPromo(c.getDouble(c.getColumnIndex(PromoDataBaseHelper.CAMPO_PRECIO_PROMO)));
+                    object.setPrecioAnterior(c.getDouble(c.getColumnIndex(PromoDataBaseHelper.CAMPO_PRECIO_ANTERIOR)));
+                    object.setEnabled(c.getInt(c.getColumnIndex(PromoDataBaseHelper.CAMPO_ENABLED))>0);
+                }
+            }
             return object;
         }catch(Exception e){
             Toast.makeText(context,"Error: " + e.getMessage(), Toast.LENGTH_LONG).show();

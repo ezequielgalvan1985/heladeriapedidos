@@ -28,9 +28,11 @@ public class CargarOtrosDatosFragment extends Fragment implements View.OnClickLi
 
 
     private void getDataForm(){
-        GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.setCucuruchos(WorkNumber.parseInteger(txtCucuruchos.getText().toString()));
-        GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.setCucharitas(WorkNumber.parseInteger(txtCucharitas.getText().toString()));
+        if (txtCucuruchos.getText()!= null) GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.setCucuruchos(WorkNumber.parseInteger(txtCucuruchos.getText().toString()));
+        if (txtCucharitas.getText()!= null) GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.setCucharitas(WorkNumber.parseInteger(txtCucharitas.getText().toString()));
         GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.setEnvioDomicilio(chkEnvio.isChecked());
+
+
 
     }
 
