@@ -151,13 +151,21 @@ public class Pedido {
     }
 
     public void editPedidodetalle(Pedidodetalle pd_param){
-        for (Pedidodetalle pd : detalles){
-            if (pd_param.getIdTmp() == pd.getIdTmp()){
-                this.detalles.remove(pd);
-                this.detalles.add(pd_param);
+        try{
+            Integer index = 0;
+            for (Pedidodetalle pd : detalles){
 
+                if (pd_param.getIdTmp() == pd.getIdTmp()){
+
+                    this.detalles.set(index, pd_param);
+
+                }
+                index++;
             }
+        }catch (Exception e ){
+            Log.e( "Error ", e.getMessage());
         }
+
     }
 
 

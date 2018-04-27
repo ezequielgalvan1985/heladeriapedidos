@@ -34,7 +34,7 @@ import adaptivex.pedidoscloud.View.RVAdapters.RVAdapterHelado;
 public class CargarHeladosFragment extends Fragment implements View.OnClickListener, View.OnKeyListener {
 
     private OnFragmentInteractionListener mListener;
-    private Cursor cursorHelados;
+
     //Variables
     private RecyclerView rvHelados;
 
@@ -42,7 +42,7 @@ public class CargarHeladosFragment extends Fragment implements View.OnClickListe
     private RVAdapterHelado rvAdapterHelado;
 
     //Lista que se carga cuando se recibe por parametro el pedidoid y nropote
-    private ArrayList<Pedidodetalle> listaHeladosSelected = new ArrayList<Pedidodetalle>();
+
     private long    pedido_android_id = 0 ;
     private Integer pedido_nro_pote = 0 ;
 
@@ -83,10 +83,7 @@ public class CargarHeladosFragment extends Fragment implements View.OnClickListe
         try{
             // Inflate the layout for this fragment
             View v = inflater.inflate(R.layout.fragment_cargar_helados, container, false);
-            cargarListaHeladosTodos(v);
-
-
-
+            ArrayList<Pedidodetalle> listaHeladosSelected = new ArrayList<Pedidodetalle>();
 
             rvHelados = (RecyclerView)v.findViewById(R.id.rvHelados);
             rvHelados.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
@@ -94,23 +91,13 @@ public class CargarHeladosFragment extends Fragment implements View.OnClickListe
             rvHelados.setLayoutManager(llm);
 
             rvAdapterHelado = new RVAdapterHelado();
-            rvAdapterHelado.setCtx(getContext());
-            if(pedido_android_id > 0 && pedido_nro_pote > 0){
-                cargarListaHeladosSeleccionados(v);
+            rvAdapterHelado.init(v.getContext(), pedido_android_id, pedido_nro_pote );
 
-            }
-            rvAdapterHelado.setListaItemsHelados(cargarListaItemsHelados(v));
-
-            rvAdapterHelado.setListaHeladosSelected(listaHeladosSelected);
-            rvAdapterHelado.setProductos(listaHelados);
             rvHelados.setAdapter(rvAdapterHelado);
 
 
             Button btnListo = (Button) v.findViewById(R.id.cargar_helados_btn_listo);
             btnListo.setOnClickListener(this);
-
-
-
 
             return v;
         }catch(Exception e){
@@ -119,12 +106,12 @@ public class CargarHeladosFragment extends Fragment implements View.OnClickListe
         }
     }
 
-    private void cargarListaHeladosSeleccionados(View v){
+    private ArrayList<Pedidodetalle> cargarListaHeladosSeleccionados(View v){
         //Leer Pedidod detalles por pedidoId y nroPote
         PedidodetalleController pdc = new PedidodetalleController(v.getContext());
         Cursor c = pdc.abrir().findByPedidoAndroidIdAndNroPote(pedido_android_id, pedido_nro_pote);
         pdc.cerrar();
-        listaHeladosSelected = pdc.abrir().parseCursorToArrayList(c);
+        return  pdc.abrir().parseCursorToArrayList(c);
 
     }
     private void cargarListaHeladosTodos( View v){
@@ -135,12 +122,14 @@ public class CargarHeladosFragment extends Fragment implements View.OnClickListe
 
 
     private ArrayList<ItemHelado> cargarListaItemsHelados ( View v){
+        /*Genera lista de items */
         ArrayList<ItemHelado> arrayListItemHelado = new ArrayList<ItemHelado>();
 
 
         PedidodetalleController pdc = new PedidodetalleController(v.getContext());
         Cursor c = pdc.abrir().findByPedidoAndroidIdAndNroPote(pedido_android_id, pedido_nro_pote);
         pdc.cerrar();
+        ArrayList<Pedidodetalle> listaHeladosSelected = new ArrayList<Pedidodetalle>();
         listaHeladosSelected = pdc.abrir().parseCursorToArrayList(c);
 
         ProductoController dbHelper = new ProductoController(v.getContext());
@@ -151,7 +140,7 @@ public class CargarHeladosFragment extends Fragment implements View.OnClickListe
 
         for(Object o: listaHelados){
             Producto p       = (Producto) o;
-            Pedidodetalle pd = checkHelado(p);
+            Pedidodetalle pd = checkHelado(p,listaHeladosSelected);
             ItemHelado ih = new ItemHelado(p, false,75);
 
             if (pd!=null){
@@ -162,14 +151,15 @@ public class CargarHeladosFragment extends Fragment implements View.OnClickListe
             arrayListItemHelado.add(ih);
         }
         return arrayListItemHelado;
-
-
     }
 
 
-    public Pedidodetalle checkHelado(Producto p){
-        //recorrer lista de itemSelecetd y devuelve el pedido detalle para el producto
+    public Pedidodetalle checkHelado(Producto p, ArrayList<Pedidodetalle> listaHeladosSelected ){
+        //devuelve el pedidodetalle que coincide con el Producto,
+        // y devuelve el pedido detalle para el producto
         //Pregunta si el producto esta dentro de los seleccionados y devuelve el pedidodetalle asociado
+
+
         try{
             Pedidodetalle pdSelected = null;
             if (listaHeladosSelected != null){
@@ -281,6 +271,7 @@ public class CargarHeladosFragment extends Fragment implements View.OnClickListe
                     if (item.getPedidodetalle() ==null){
                         //agregar item
                         pd.setId(0);
+                        pd.setNroPote(GlobalValues.getINSTANCIA().PEDIDO_ACTUAL_NRO_POTE);
 
                     }else{
                         //Editar Item
@@ -292,7 +283,7 @@ public class CargarHeladosFragment extends Fragment implements View.OnClickListe
                     pd.setMonto(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getPrecioMedidaPote(GlobalValues.getINSTANCIA().PEDIDO_ACTUAL_MEDIDA_POTE));
                     pd.setCantidad(Double.parseDouble(item.getProporcion().toString())); //POCO - EQUILIBRADO - MUCHO
                     pd.setProporcionHelado(item.getProporcion()); //POCO - EQUILIBRADO - MUCHO
-                    pd.setNroPote(GlobalValues.getINSTANCIA().PEDIDO_ACTUAL_NRO_POTE);
+
                     pd.setProducto(item.getHelado());
 
 
@@ -307,16 +298,17 @@ public class CargarHeladosFragment extends Fragment implements View.OnClickListe
 
                     }else{
                         //Editar Item
-                        pd = item.getPedidodetalle();
+
                         pdc.abrir().modificar(pd);
-                        GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.addPedidodetalle(pd);
+                        GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.editPedidodetalle(pd);
 
                     }
-                    pc.abrir().edit(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL);
+
 
 
                 }
             }
+            pc.abrir().edit(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL);
             return true;
         }catch (Exception e ){
             Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
