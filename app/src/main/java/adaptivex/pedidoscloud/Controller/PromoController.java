@@ -63,7 +63,7 @@ public class PromoController
             valores.put(PromoDataBaseHelper.CAMPO_PRECIO_PROMO, item.getPrecioPromo());
             valores.put(PromoDataBaseHelper.CAMPO_PRECIO_ANTERIOR, item.getPrecioAnterior());
 
-            valores.put(PromoDataBaseHelper.CAMPO_ENABLED, item.isEnabled());
+            valores.put(PromoDataBaseHelper.CAMPO_ENABLED, true);
             return db.insert(PromoDataBaseHelper.TABLE_NAME, null, valores);
         }catch (Exception e){
             Toast.makeText(context, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();

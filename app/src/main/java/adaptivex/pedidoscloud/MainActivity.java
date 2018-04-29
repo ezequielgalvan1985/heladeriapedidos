@@ -245,7 +245,6 @@ public class MainActivity extends AppCompatActivity
                     break;
                 case R.id.nav_promos:
                     try{
-                        InsertRowsTest.insertPromos(this);
                         fragment = new ListadoPromosFragment();
                         fragmentTransaction = true;
                     }catch(Exception e){

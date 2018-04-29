@@ -18,12 +18,12 @@ public class PromoDataBaseHelper extends SQLiteOpenHelper
     public static final String CAMPO_ID_ANDROID         = "id_android";
     public static final String CAMPO_NOMBRE             = "nombre";
     public static final String CAMPO_DESCRIPCION        = "descripcion";
-    public static final String CAMPO_FECHA_DESDE        = "fecha_desde";
-    public static final String CAMPO_FECHA_HASTA        = "fecha_hasta";
-    public static final String CAMPO_CANTIDAD_KILOS     = "cantidad_kilos";
-    public static final String CAMPO_IMPORTE_DESCUENTO  = "importe_descuento";
-    public static final String CAMPO_PRECIO_PROMO       = "precio_promo";
-    public static final String CAMPO_PRECIO_ANTERIOR    = "precio_anterior";
+    public static final String CAMPO_FECHA_DESDE        = "fechadesde";
+    public static final String CAMPO_FECHA_HASTA        = "fechahasta";
+    public static final String CAMPO_CANTIDAD_KILOS     = "cantidadkilos";
+    public static final String CAMPO_IMPORTE_DESCUENTO  = "importedescuento";
+    public static final String CAMPO_PRECIO_PROMO       = "preciopromo";
+    public static final String CAMPO_PRECIO_ANTERIOR    = "precioanterior";
     public static final String CAMPO_ENABLED            = "enabled";
 
     public static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;

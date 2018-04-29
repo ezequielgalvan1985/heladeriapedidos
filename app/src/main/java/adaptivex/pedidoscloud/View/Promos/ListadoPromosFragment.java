@@ -57,7 +57,6 @@ public class ListadoPromosFragment extends Fragment {
 
         //2 - ArrayList Promos
         PromoController pc = new PromoController(getContext());
-        //Cursor c = pc.abrir().findAll();
         listaPromos = pc.abrir().findByEnabledToArrayList();
 
         //3 - SET ADAPTER

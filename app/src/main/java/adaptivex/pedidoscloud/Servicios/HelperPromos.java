@@ -27,7 +27,7 @@ public class HelperPromos extends AsyncTask<Void, Void, Void> {
     private int opcion; //1 enviar Post Promo
     private PromoParser cp;
     private ProgressDialog pDialog;
-
+    private String jsonStr;
     
     public HelperPromos(Context pCtx){
         this.setCtx(pCtx);
@@ -40,10 +40,8 @@ public class HelperPromos extends AsyncTask<Void, Void, Void> {
         try{
             WebRequest webreq = new WebRequest();
             registro = new HashMap<String, String>();
-            registro.put("empresa_id", String.valueOf(GlobalValues.getINSTANCIA().getUserlogued().getEntidad_id()));
-            String jsonStr = webreq.makeWebServiceCall(Configurador.urlPromos, WebRequest.POST,registro);
-            cp = new PromoParser(jsonStr);
-            cp.parseJsonToObject();
+            jsonStr = webreq.makeWebServiceCall(Configurador.urlPromos, WebRequest.POST,registro);
+
         }catch (Exception e){
                 setRespuesta(GlobalValues.getINSTANCIA().RETURN_ERROR);
                 Log.println(Log.ERROR,"ErrorHelper:",e.getMessage());
@@ -69,18 +67,24 @@ public class HelperPromos extends AsyncTask<Void, Void, Void> {
     protected void onPostExecute(Void result) {
         super.onPostExecute(result);
         try{
+
+            cp = new PromoParser(jsonStr);
+            cp.parseJsonToObject();
+
+            promoCtr.abrir().limpiar();
+            // Recorrer Lista
+            for (int i = 0; i < cp.getListadoPromos().size(); i++) {
+                Promo p = new Promo();
+                p = cp.getListadoPromos().get(i);
+                promoCtr.abrir().add(p);
+            }
+            setRespuesta(GlobalValues.getINSTANCIA().RETURN_OK);
             if (pDialog.isShowing()){
                 pDialog.dismiss();
                 if (getRespuesta()== GlobalValues.getINSTANCIA().RETURN_ERROR){
                     Toast.makeText(this.getCtx(), "Hubo un Error... ", Toast.LENGTH_SHORT).show();
                 }
             }
-            promoCtr.abrir().limpiar();
-            // Recorrer Lista
-            for (int i = 0; i < cp.getListadoPromos().size(); i++) {
-                promoCtr.abrir().add(cp.getListadoPromos().get(i));
-            }
-            setRespuesta(GlobalValues.getINSTANCIA().RETURN_OK);
         }catch(Exception e){
             Toast.makeText(this.getCtx(), "Error "+ e.getMessage(), Toast.LENGTH_SHORT).show();
         }

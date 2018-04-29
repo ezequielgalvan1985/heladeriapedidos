@@ -14,6 +14,7 @@ public class InsertRowsTest
 {
 
     public static void insertPromos (Context ctx){
+        /*
         PromoController pc = new PromoController(ctx);
         pc.abrir().deleteAll();
         Promo p = new Promo();
@@ -27,7 +28,7 @@ public class InsertRowsTest
         p.setFechaHasta(WorkDate.convertDateToStringYMD(26,3,2018));
         p.setCantKilos(3000);
         pc.abrir().add(p);
-
+*/
         }
 }
 
