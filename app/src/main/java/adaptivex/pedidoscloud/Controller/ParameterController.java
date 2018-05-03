@@ -41,7 +41,6 @@ public class ParameterController
     public long agregar(Parameter item)
     {
         ContentValues valores = new ContentValues();
-        valores.put(ParameterDataBaseHelper.ID, item.getId());
         valores.put(ParameterDataBaseHelper.NOMBRE, item.getNombre());
         valores.put(ParameterDataBaseHelper.DESCRIPCION, item.getDescripcion());
         valores.put(ParameterDataBaseHelper.VALOR_TEXTO, item.getValor_texto());
@@ -56,7 +55,7 @@ public class ParameterController
         String[] argumentos = new String[]
                 {String.valueOf(item.getId())};
         ContentValues valores = new ContentValues();
-        valores.put(ParameterDataBaseHelper.ID, item.getId());
+
         valores.put(ParameterDataBaseHelper.NOMBRE, item.getNombre());
         valores.put(ParameterDataBaseHelper.DESCRIPCION, item.getDescripcion());
         valores.put(ParameterDataBaseHelper.VALOR_TEXTO, item.getValor_texto());
@@ -128,6 +127,8 @@ public class ParameterController
             return null;
         }
     }
+
+
 
     public Parameter findByNombre(String nombre)
     {

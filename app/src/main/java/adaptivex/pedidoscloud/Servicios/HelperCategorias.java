@@ -58,7 +58,7 @@ public class HelperCategorias extends AsyncTask<Void, Void, Void> {
     protected void onPreExecute() {
         super.onPreExecute();
         // Showing progress dialog
-        Toast.makeText(getCtx(), "Iniciando Descarga de Categorias...", Toast.LENGTH_SHORT).show();
+
 
     }
 
@@ -67,7 +67,7 @@ public class HelperCategorias extends AsyncTask<Void, Void, Void> {
     protected void onPostExecute(Void result) {
         super.onPostExecute(result);
         if (getRespuesta()== GlobalValues.getINSTANCIA().RETURN_OK){
-            Toast.makeText(getCtx(), "Descarga de Categorias Completada ", Toast.LENGTH_SHORT).show();
+
         }
     }
     public Context getCtx() {

@@ -35,9 +35,8 @@ public class HelperHojarutadetalles extends AsyncTask<Void, Void, Void> {
     protected Void doInBackground(Void... voids) {
         try{
             WebRequest webreq = new WebRequest();
-            registro = new HashMap<String, String>();
-            registro.put("empresa_id", String.valueOf(GlobalValues.getINSTANCIA().getUserlogued().getEntidad_id()));
-            String jsonStr = webreq.makeWebServiceCall(Configurador.urlHojarutadetalles, WebRequest.POST,registro);
+
+            String jsonStr = webreq.makeWebServiceCall(Configurador.urlHojarutadetalles, WebRequest.POST,null);
             HojarutadetalleParser cp = new HojarutadetalleParser(jsonStr);
             cp.parseJsonToObject();
             hojarutadetalleCtr.abrir().limpiar();
@@ -66,7 +65,7 @@ public class HelperHojarutadetalles extends AsyncTask<Void, Void, Void> {
     protected void onPostExecute(Void result) {
         super.onPostExecute(result);
         if (getRespuesta()== GlobalValues.getINSTANCIA().RETURN_OK){
-            Toast.makeText(getCtx(), "Guardado Correctamente ", Toast.LENGTH_SHORT).show();
+
         }
     }
     public Context getCtx() {

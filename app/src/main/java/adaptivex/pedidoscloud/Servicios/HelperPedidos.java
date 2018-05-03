@@ -375,7 +375,7 @@ public class HelperPedidos extends AsyncTask<Void, Void, Void> {
         if (pDialog.isShowing()){
             pDialog.dismiss();
             if (getRespuesta()== GlobalValues.getINSTANCIA().RETURN_OK){
-                Toast.makeText(this.getCtx(), "Enviado Correctamente ", Toast.LENGTH_SHORT).show();
+
             }
         }
     }

@@ -206,7 +206,7 @@ public class HelperUser extends AsyncTask<Void, Void, Void> {
             if (pDialog.isShowing()){
                 pDialog.dismiss();
                 if (getRespuesta()== GlobalValues.getINSTANCIA().RETURN_OK){
-                    Toast.makeText(this.getCtx(), "Enviado Correctamente ", Toast.LENGTH_SHORT).show();
+
                 }
             }
         }
@@ -221,14 +221,7 @@ public class HelperUser extends AsyncTask<Void, Void, Void> {
         try{
             if (RESPONSE_CODE ==RETURN_OK){
                 IniciarApp ia = new IniciarApp(this.getCtx());
-                if (ia.isInstalled()==false){
-                    ia.iniciarBD();
-                }
-                //SE DESCARGAN LOS DATOS
-                if (ia.isDatabaseDownload()==false){
-                    ia.downloadDatabase();
-                }
-                ia.loginRememberr(parser.getUser());
+                ia.loginRemember(parser.getUser());
 
                 Intent i = new Intent(this.getCtx(), MainActivity.class);
                 getCtx().startActivity(i);

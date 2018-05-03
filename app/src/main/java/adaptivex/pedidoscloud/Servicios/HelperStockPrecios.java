@@ -35,9 +35,8 @@ public class HelperStockPrecios extends AsyncTask<Void, Void, Void> {
     protected Void doInBackground(Void... voids) {
         try{
             WebRequest webreq = new WebRequest();
-            registro = new HashMap<String, String>();
-            registro.put("empresa_id", String.valueOf(GlobalValues.getINSTANCIA().getUserlogued().getEntidad_id()));
-            String jsonStr = webreq.makeWebServiceCall(Configurador.urlProductos, WebRequest.POST,registro);
+
+            String jsonStr = webreq.makeWebServiceCall(Configurador.urlProductos, WebRequest.POST,null);
             ProductoParser cp = new ProductoParser(jsonStr);
             cp.parseJsonToObject();
             productoCtr.abrir().limpiar();
@@ -61,7 +60,7 @@ public class HelperStockPrecios extends AsyncTask<Void, Void, Void> {
     protected void onPreExecute() {
         super.onPreExecute();
         // Showing progress dialog
-        Toast.makeText(getCtx(), "Comienzo Actualizacion de Productos ", Toast.LENGTH_SHORT).show();
+
     }
 
 
@@ -69,7 +68,7 @@ public class HelperStockPrecios extends AsyncTask<Void, Void, Void> {
     protected void onPostExecute(Void result) {
         super.onPostExecute(result);
         if (getRespuesta()== GlobalValues.getINSTANCIA().RETURN_OK){
-            Toast.makeText(getCtx(), "Actualizacion de Productos Finalizada ", Toast.LENGTH_SHORT).show();
+
         }
     }
     public Context getCtx() {

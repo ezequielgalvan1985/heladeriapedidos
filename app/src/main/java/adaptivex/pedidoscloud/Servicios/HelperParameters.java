@@ -26,7 +26,7 @@ public class HelperParameters extends AsyncTask<Void, Void, Void> {
 
 
     private String TEXT_RESPONSE;
-    public static final int CURRENT_OPTION =0; //1 enviar Post Parameter
+    private int CURRENT_OPTION = 0; //1 enviar Post Parameter
 
     public static final int OPTION_ALL = 1;
 
@@ -38,8 +38,7 @@ public class HelperParameters extends AsyncTask<Void, Void, Void> {
     private void findAll(){
         try{
             WebRequest webreq = new WebRequest();
-            registro = new HashMap<String, String>();
-            TEXT_RESPONSE = webreq.makeWebServiceCall(Configurador.urlParameters, WebRequest.POST, registro);
+            TEXT_RESPONSE = webreq.makeWebServiceCall(Configurador.urlParameters, WebRequest.POST, null);
         }catch (Exception e){
             setRespuesta(GlobalValues.getINSTANCIA().RETURN_ERROR);
             Log.println(Log.ERROR,"ErrorHelper:",e.getMessage());
@@ -70,7 +69,7 @@ public class HelperParameters extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... voids) {
-        switch (this.CURRENT_OPTION){
+        switch (this.getCURRENT_OPTION()){
             case OPTION_ALL:
                 findAll();
                 break;
@@ -84,7 +83,7 @@ public class HelperParameters extends AsyncTask<Void, Void, Void> {
     protected void onPreExecute() {
         super.onPreExecute();
         // Showing progress dialog
-        Toast.makeText(getCtx(), "Iniciando Descarga de Parameters...", Toast.LENGTH_SHORT).show();
+
 
     }
 
@@ -92,7 +91,7 @@ public class HelperParameters extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPostExecute(Void result) {
         super.onPostExecute(result);
-        switch (CURRENT_OPTION){
+        switch (getCURRENT_OPTION()){
             case OPTION_ALL:
                 onPostFindAll();
                 break;
@@ -116,4 +115,11 @@ public class HelperParameters extends AsyncTask<Void, Void, Void> {
     }
 
 
+    public int getCURRENT_OPTION() {
+        return CURRENT_OPTION;
+    }
+
+    public void setCURRENT_OPTION(int CURRENT_OPTION) {
+        this.CURRENT_OPTION = CURRENT_OPTION;
+    }
 }

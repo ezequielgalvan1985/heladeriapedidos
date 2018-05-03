@@ -9,6 +9,7 @@ import android.widget.Toast;
 import adaptivex.pedidoscloud.Config.Constants;
 import adaptivex.pedidoscloud.Core.IniciarApp;
 
+import adaptivex.pedidoscloud.Servicios.HelperParameters;
 import adaptivex.pedidoscloud.View.Users.HomeLoginFragment;
 import adaptivex.pedidoscloud.View.Users.LoginFragment;
 import adaptivex.pedidoscloud.View.Users.RegisterFragment;
@@ -41,8 +42,13 @@ public class RegisterActivity
     private void preLoadActivity(){
         //Si no esta instalada, se instala, y luego se pide registrarse
         IniciarApp ia = new IniciarApp(this.getBaseContext());
+        //HelperParameters hp = new HelperParameters(getBaseContext());
+        //hp.setCURRENT_OPTION(HelperParameters.OPTION_ALL);
+        //hp.execute();
         if (!ia.isInstalled()){
             ia.iniciarBD();
+            ia.downloadDatabase();
+            ia.setInstalledDatabase();
             openRegisterFragment();
         }else {
             //Esta Instalada, pregunta Esta recordado el usuario, entonces se inicia la app directamente,

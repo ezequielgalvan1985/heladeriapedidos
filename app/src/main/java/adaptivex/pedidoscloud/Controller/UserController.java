@@ -33,37 +33,37 @@ public class UserController extends AppController{
             Parameter p = new Parameter();
             User u = new User();
 
-            p = pc.abrir().findById(GlobalValues.getINSTANCIA().PARAM_USERID);
+            p = pc.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_USERID);
             u.setId(p.getValor_integer());
 
-            p = pc.abrir().findById(GlobalValues.getINSTANCIA().PARAM_USERNAME);
+            p = pc.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_USERNAME);
             u.setUsername(p.getValor_texto());
 
-            p = pc.abrir().findById(GlobalValues.getINSTANCIA().PARAM_ENTIDADID);
+            p = pc.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_ENTIDADID);
             u.setEntidad_id(p.getValor_integer());
 
-            p = pc.abrir().findById(GlobalValues.getINSTANCIA().PARAM_EMAIL);
+            p = pc.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_EMAIL);
             u.setEmail(p.getValor_texto());
 
-            p = pc.abrir().findById(GlobalValues.getINSTANCIA().PARAM_LOCALIDAD);
+            p = pc.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_LOCALIDAD);
             u.setLocalidad(p.getValor_texto());
 
-            p = pc.abrir().findById(GlobalValues.getINSTANCIA().PARAM_CALLE);
+            p = pc.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_CALLE);
             u.setCalle(p.getValor_texto());
 
-            p = pc.abrir().findById(GlobalValues.getINSTANCIA().PARAM_NRO);
+            p = pc.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_NRO);
             u.setNro(p.getValor_texto());
 
-            p = pc.abrir().findById(GlobalValues.getINSTANCIA().PARAM_PISO);
+            p = pc.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_PISO);
             u.setPiso(p.getValor_texto());
 
-            p = pc.abrir().findById(GlobalValues.getINSTANCIA().PARAM_TELEFONO);
+            p = pc.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_TELEFONO);
             u.setTelefono(p.getValor_texto());
 
-            p = pc.abrir().findById(GlobalValues.getINSTANCIA().PARAM_CONTACTO);
+            p = pc.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_CONTACTO);
             u.setContacto(p.getValor_texto());
 
-            p = pc.abrir().findById(GlobalValues.getINSTANCIA().PARAM_GROUPID);
+            p = pc.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_GROUPID);
             u.setGroup_id(p.getValor_integer());
 
             return u;
@@ -80,53 +80,53 @@ public class UserController extends AppController{
             ParameterController pc = new ParameterController(this.getContext());
             Parameter p = new Parameter();
 
-            p = pc.abrir().findById(GlobalValues.getINSTANCIA().PARAM_USERID);
+            p = pc.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_USERID);
             p.setValor_integer(user.getId());
             pc.abrir().modificar(p);
 
-            p = pc.abrir().findById(GlobalValues.getINSTANCIA().PARAM_USERNAME);
+            p = pc.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_USERNAME);
             p.setValor_texto(user.getUsername());
             pc.abrir().modificar(p);
 
-            p = pc.abrir().findById(GlobalValues.getINSTANCIA().PARAM_ENTIDADID);
+            p = pc.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_ENTIDADID);
             p.setValor_integer(user.getEntidad_id());
             pc.abrir().modificar(p);
 
-            p = pc.abrir().findById(GlobalValues.getINSTANCIA().PARAM_EMAIL);
+            p = pc.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_EMAIL);
             p.setValor_texto(user.getEmail());
             pc.abrir().modificar(p);
 
 
-            p = pc.abrir().findById(GlobalValues.getINSTANCIA().PARAM_LOCALIDAD);
+            p = pc.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_LOCALIDAD);
             p.setValor_texto(user.getLocalidad());
             pc.abrir().modificar(p);
 
-            p = pc.abrir().findById(GlobalValues.getINSTANCIA().PARAM_CALLE);
+            p = pc.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_CALLE);
             p.setValor_texto(user.getCalle());
             pc.abrir().modificar(p);
 
-            p = pc.abrir().findById(GlobalValues.getINSTANCIA().PARAM_NRO);
+            p = pc.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_NRO);
             p.setValor_texto(user.getNro());
             pc.abrir().modificar(p);
 
-            p = pc.abrir().findById(GlobalValues.getINSTANCIA().PARAM_PISO);
+            p = pc.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_PISO);
             p.setValor_texto(user.getPiso());
             pc.abrir().modificar(p);
 
 
-            p = pc.abrir().findById(GlobalValues.getINSTANCIA().PARAM_TELEFONO);
+            p = pc.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_TELEFONO);
             p.setValor_texto(user.getTelefono());
             pc.abrir().modificar(p);
 
 
 
-            p = pc.abrir().findById(GlobalValues.getINSTANCIA().PARAM_CONTACTO);
+            p = pc.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_CONTACTO);
             p.setValor_texto(user.getContacto());
             pc.abrir().modificar(p);
 
 
 
-            p = pc.abrir().findById(GlobalValues.getINSTANCIA().PARAM_GROUPID);
+            p = pc.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_GROUPID);
             p.setValor_integer(user.getGroup_id());
             pc.abrir().modificar(p);
 

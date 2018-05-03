@@ -28,7 +28,7 @@ public class ParameterDataBaseHelper extends SQLiteOpenHelper
 
     public static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME
             + " (" +
-            ID + " integer not null," +
+            ID + " integer primary key autoincrement not null," +
             NOMBRE + " text null, " +
             DESCRIPCION + " text null, " +
             VALOR_TEXTO + " text null, " +

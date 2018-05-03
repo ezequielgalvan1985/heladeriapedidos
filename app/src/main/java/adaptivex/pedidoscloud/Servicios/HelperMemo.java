@@ -37,9 +37,8 @@ public class HelperMemo extends AsyncTask<Void, Void, Void> {
     protected Void doInBackground(Void... voids) {
         try{
             WebRequest webreq = new WebRequest();
-            registro = new HashMap<String, String>();
-            registro.put("empresa_id", String.valueOf(GlobalValues.getINSTANCIA().getUserlogued().getEntidad_id()));
-            String jsonStr = webreq.makeWebServiceCall(Configurador.urlMemos, WebRequest.POST,registro);
+
+            String jsonStr = webreq.makeWebServiceCall(Configurador.urlMemos, WebRequest.POST,null);
             cp = new MemoParser(jsonStr);
             cp.parseJsonToObject();
 
@@ -55,7 +54,7 @@ public class HelperMemo extends AsyncTask<Void, Void, Void> {
     protected void onPreExecute() {
         super.onPreExecute();
         // Showing progress dialog
-        Toast.makeText(getCtx(), "Iniciando Descarga de Memo...", Toast.LENGTH_SHORT).show();
+
     }
 
 
@@ -70,7 +69,7 @@ public class HelperMemo extends AsyncTask<Void, Void, Void> {
             }
             memosCtr.cerrar();
             setRespuesta(GlobalValues.getINSTANCIA().RETURN_OK);
-            Toast.makeText(getCtx(), "Descarga de Memos Completada ", Toast.LENGTH_SHORT).show();
+
 
         }catch(Exception e){
             Toast.makeText(getCtx(), "Error: "+e.getMessage().toString(), Toast.LENGTH_SHORT).show();

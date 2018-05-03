@@ -35,9 +35,8 @@ public class HelperClientes extends AsyncTask<Void, Void, Void> {
     protected Void doInBackground(Void... voids) {
         try{
             WebRequest webreq = new WebRequest();
-            registro = new HashMap<String, String>();
-            registro.put("empresa_id", String.valueOf(GlobalValues.getINSTANCIA().getUserlogued().getEntidad_id()));
-            String jsonStr = webreq.makeWebServiceCall(Configurador.urlClientes, WebRequest.POST,registro);
+
+            String jsonStr = webreq.makeWebServiceCall(Configurador.urlClientes, WebRequest.POST,null);
             cp = new ClienteParser(jsonStr);
             cp.parseJsonToObject();
 
@@ -54,7 +53,7 @@ public class HelperClientes extends AsyncTask<Void, Void, Void> {
 
         super.onPreExecute();
         // Showing progress dialog
-        Toast.makeText(getCtx(), "Iniciando Descarga de Clientes...", Toast.LENGTH_SHORT).show();
+
 
     }
 
@@ -70,7 +69,7 @@ public class HelperClientes extends AsyncTask<Void, Void, Void> {
         setRespuesta(GlobalValues.getINSTANCIA().RETURN_OK);
 
         if (getRespuesta()== GlobalValues.getINSTANCIA().RETURN_OK){
-            Toast.makeText(getCtx(), "Descarga de Clientes Completada ", Toast.LENGTH_SHORT).show();
+
         }
     }
     public Context getCtx() {

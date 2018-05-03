@@ -38,9 +38,8 @@ public class HelperHojarutas extends AsyncTask<Void, Void, Void> {
     protected Void doInBackground(Void... voids) {
         try{
             WebRequest webreq = new WebRequest();
-            registro = new HashMap<String, String>();
-            registro.put("empresa_id", String.valueOf(GlobalValues.getINSTANCIA().getUserlogued().getEntidad_id()));
-            String jsonStr = webreq.makeWebServiceCall(Configurador.urlHojarutas, WebRequest.POST,registro);
+
+            String jsonStr = webreq.makeWebServiceCall(Configurador.urlHojarutas, WebRequest.POST,null);
             cp = new HojarutaParser(jsonStr);
 
             //Parsea las hoja de rutas y sus detalles
@@ -59,7 +58,7 @@ public class HelperHojarutas extends AsyncTask<Void, Void, Void> {
     protected void onPreExecute() {
         super.onPreExecute();
         // Showing progress dialog
-        Toast.makeText(getCtx(), "Iniciando Descarga de Categorias...", Toast.LENGTH_SHORT).show();
+
 
     }
 
@@ -91,7 +90,7 @@ public class HelperHojarutas extends AsyncTask<Void, Void, Void> {
 
         if (getRespuesta()== GlobalValues.getINSTANCIA().RETURN_OK){
 
-            Toast.makeText(getCtx(), "Guardado Correctamente ", Toast.LENGTH_SHORT).show();
+
         }
     }
     public Context getCtx() {

@@ -39,8 +39,8 @@ public class HelperPromos extends AsyncTask<Void, Void, Void> {
     protected Void doInBackground(Void... voids) {
         try{
             WebRequest webreq = new WebRequest();
-            registro = new HashMap<String, String>();
-            jsonStr = webreq.makeWebServiceCall(Configurador.urlPromos, WebRequest.POST,registro);
+
+            jsonStr = webreq.makeWebServiceCall(Configurador.urlPromos, WebRequest.POST,null);
 
         }catch (Exception e){
                 setRespuesta(GlobalValues.getINSTANCIA().RETURN_ERROR);
@@ -55,10 +55,7 @@ public class HelperPromos extends AsyncTask<Void, Void, Void> {
 
         super.onPreExecute();
         // Showing progress dialog
-        pDialog = new ProgressDialog(this.getCtx());
-        pDialog.setMessage("Consultando Promociones, aguarde un momento...");
-        pDialog.setCancelable(false);
-        pDialog.show();
+
 
     }
 
@@ -79,12 +76,11 @@ public class HelperPromos extends AsyncTask<Void, Void, Void> {
                 promoCtr.abrir().add(p);
             }
             setRespuesta(GlobalValues.getINSTANCIA().RETURN_OK);
-            if (pDialog.isShowing()){
-                pDialog.dismiss();
-                if (getRespuesta()== GlobalValues.getINSTANCIA().RETURN_ERROR){
-                    Toast.makeText(this.getCtx(), "Hubo un Error... ", Toast.LENGTH_SHORT).show();
-                }
+
+            if (getRespuesta()== GlobalValues.getINSTANCIA().RETURN_ERROR){
+
             }
+
         }catch(Exception e){
             Toast.makeText(this.getCtx(), "Error "+ e.getMessage(), Toast.LENGTH_SHORT).show();
         }

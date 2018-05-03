@@ -25,6 +25,7 @@ public class HelperProductos extends AsyncTask<Void, Void, Void> {
     private int respuesta; //1=ok, 200=error
     private int opcion; //1 enviar Post Producto
     private ProductoParser cp;
+    private String jsonStr;
     public HelperProductos(Context pCtx){
         this.setCtx(pCtx);
         this.productoCtr = new ProductoController(this.getCtx());
@@ -35,11 +36,7 @@ public class HelperProductos extends AsyncTask<Void, Void, Void> {
     protected Void doInBackground(Void... voids) {
         try{
             WebRequest webreq = new WebRequest();
-            registro = new HashMap<String, String>();
-            registro.put("empresa_id", String.valueOf(GlobalValues.getINSTANCIA().getUserlogued().getEntidad_id()));
-            String jsonStr = webreq.makeWebServiceCall(Configurador.urlProductos, WebRequest.POST,registro);
-            cp = new ProductoParser(jsonStr);
-            cp.parseJsonToObject();
+            jsonStr = webreq.makeWebServiceCall(Configurador.urlProductos, WebRequest.POST,null);
 
         }catch (Exception e){
                 setRespuesta(GlobalValues.getINSTANCIA().RETURN_ERROR);
@@ -53,7 +50,7 @@ public class HelperProductos extends AsyncTask<Void, Void, Void> {
     protected void onPreExecute() {
         super.onPreExecute();
         // Showing progress dialog
-        Toast.makeText(getCtx(), "Iniciaando Descarga de Productos...", Toast.LENGTH_SHORT).show();
+
     }
 
 
@@ -61,6 +58,9 @@ public class HelperProductos extends AsyncTask<Void, Void, Void> {
     protected void onPostExecute(Void result) {
         super.onPostExecute(result);
         productoCtr.abrir().limpiar();
+        cp = new ProductoParser(jsonStr);
+        cp.parseJsonToObject();
+
         //Recorrer Lista
         for (int i = 0; i < cp.getListadoProductos().size(); i++) {
             productoCtr.abrir().add(cp.getListadoProductos().get(i));
@@ -69,7 +69,7 @@ public class HelperProductos extends AsyncTask<Void, Void, Void> {
         setRespuesta(GlobalValues.getINSTANCIA().RETURN_OK);
 
         if (getRespuesta()== GlobalValues.getINSTANCIA().RETURN_OK){
-            Toast.makeText(getCtx(), "Descarga de Productos Completada ", Toast.LENGTH_SHORT).show();
+
         }
     }
     public Context getCtx() {

@@ -100,7 +100,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
             HelperUser hu = new HelperUser(getContext());
             hu.setOpcion(HelperUser.OPTION_LOGIN);
             hu.setUser(usertmp);
-            hu.setBEHAVIOR_POST_REGISTER(HelperUser.BEHAVIOR_POST_REGISTER_INICIAR_APP);
             hu.execute();
         }
 

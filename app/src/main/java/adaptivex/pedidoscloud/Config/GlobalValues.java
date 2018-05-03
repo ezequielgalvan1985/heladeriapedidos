@@ -114,26 +114,31 @@ public class GlobalValues {
 
 
     //DATOS DE USUARIO
-    public static final Integer PARAM_USERID = 1;
-    public static final Integer PARAM_EMAIL = 2;
-    public static final Integer PARAM_GROUPID = 3;
-    public static final Integer PARAM_ENTIDADID = 4;
-    public static final Integer PARAM_INSTALLED = 5;
-    public static final Integer PARAM_CONFIGFILE =6;
-    public static final Integer PARAM_REINICIARAPP = 7;
-    public static final Integer PARAM_SERVICE_STOCK_PRECIOS_ACTIVATE = 8;
-    public static final Integer PARAM_SERVICE_STOCK_PRECIOS_WORKING = 9;
-    public static final Integer PARAM_EMPRESA_ID = 10;
-    public static final Integer PARAM_DOWNLOAD_DATABASE = 11;
-    public static final Integer PARAM_SERVICE_ENVIO_PEDIDOS_ACTIVATE = 12;
-    public static final Integer PARAM_USERNAME = 13;
-    public static final Integer PARAM_LOCALIDAD = 14;
-    public static final Integer PARAM_CALLE = 15;
-    public static final Integer PARAM_NRO = 16;
-    public static final Integer PARAM_PISO = 17;
-    public static final Integer PARAM_CONTACTO = 18;
-    public static final Integer PARAM_TELEFONO = 19;
+    public static final String PARAM_USERID         = "PARAM_USERID";
+    public static final String PARAM_EMAIL          = "PARAM_EMAIL";
+    public static final String PARAM_GROUPID        = "PARAM_GROUPID";
+    public static final String PARAM_ENTIDADID      = "PARAM_ENTIDADID";
+    public static final String PARAM_INSTALLED      = "PARAM_INSTALLED";
+    public static final String PARAM_CONFIGFILE     = "PARAM_CONFIGFILE";
+    public static final String PARAM_REINICIARAPP   = "PARAM_REINICIARAPP";
+    public static final String PARAM_SERVICE_STOCK_PRECIOS_ACTIVATE = "PARAM_SERVICE_STOCK_PRECIOS_ACTIVATE";
+    public static final String PARAM_SERVICE_STOCK_PRECIOS_WORKING  = "PARAM_SERVICE_STOCK_PRECIOS_WORKING";
+    public static final String PARAM_EMPRESA_ID                     = "PARAM_EMPRESA_ID";
+    public static final String PARAM_DOWNLOAD_DATABASE              = "PARAM_DOWNLOAD_DATABASE";
+    public static final String PARAM_SERVICE_ENVIO_PEDIDOS_ACTIVATE = "PARAM_SERVICE_ENVIO_PEDIDOS_ACTIVATE";
+    public static final String PARAM_USERNAME                       = "PARAM_USERNAME";
+    public static final String PARAM_LOCALIDAD                      = "PARAM_LOCALIDAD";
+    public static final String PARAM_CALLE                          = "PARAM_CALLE";
+    public static final String PARAM_NRO                            = "PARAM_NRO";
+    public static final String PARAM_PISO                           = "PARAM_PISO";
+    public static final String PARAM_CONTACTO                       = "PARAM_CONTACTO";
+    public static final String PARAM_TELEFONO                       = "PARAM_TELEFONO";
 
+    public static final String PARAM_PRECIOXKILO                    = "precioxkilo";
+    public static final String PARAM_PRECIOTRESCUARTOS              = "precioxtrescuartos";
+    public static final String PARAM_PRECIOXMEDIO                   = "precioxmedio";
+    public static final String PARAM_PRECIOXCUARTO                  = "precioxcuarto";
+    public static final String PARAM_PRECIOCUCURUCHO                = "preciocucurucho";
 
 
 
