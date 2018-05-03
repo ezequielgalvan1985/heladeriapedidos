@@ -35,26 +35,27 @@ public class Constants {
     public static final int MEDIDA_HELADO_MUCHO_LIMIT_DESDE = 101;
     public static final int MEDIDA_HELADO_MUCHO_LIMIT_HASTA = 150;
 
-    public static final String PARAM_ANDROID_ID = "android_id";
-    public static final String PARAM_PEDIDO_ANDROID_ID = "pedido_android_id";
-    public static final String PARAM_PEDIDODETALLE_ANDROID_ID = "pedidodetalle_android_id";
-    public static final String PARAM_PEDIDO_NRO_POTE = "nro_pte";
-    public static final String PARAM_MODE_EDIT_USER = "datos_user";
-    public static final boolean PARAM_MODE_EDIT_USER_ON = true;
-    public static final boolean PARAM_MODE_EDIT_USER_OFF = false;
-    public static final String PARAM_TIPO_LISTADO = "tipo_listado";
-    public static final Integer VALUE_TIPO_LISTADO_HELADOS = 1;
-    public static final Integer VALUE_TIPO_LISTADO_POSTRES = 2;
+    public static final String PARAM_ANDROID_ID                 = "android_id";
+    public static final String PARAM_PEDIDO_ANDROID_ID          = "pedido_android_id";
+    public static final String PARAM_PEDIDODETALLE_ANDROID_ID   = "pedidodetalle_android_id";
+    public static final String PARAM_PEDIDO_NRO_POTE            = "nro_pte";
+    public static final String PARAM_MODE_EDIT_USER             = "datos_user";
+    public static final boolean PARAM_MODE_EDIT_USER_ON         = true;
+    public static final boolean PARAM_MODE_EDIT_USER_OFF        = false;
+    public static final String PARAM_TIPO_LISTADO               = "tipo_listado";
+    public static final Integer VALUE_TIPO_LISTADO_HELADOS      = 1;
+    public static final Integer VALUE_TIPO_LISTADO_POSTRES      = 2;
 
 
 
     //PRECIO DEL HELADO, simula el parametro hasta que se desarrolle la funcionalidad
-    public static double PRECIO_HELADO_KILO = 250.00;
-    public static double PRECIO_HELADO_MEDIO = 125.00;
-    public static final double PRECIO_HELADO_CUARTO = 60.00;
-    public static final double PRECIO_HELADO_TRESCUARTOS = 180.00;
+    public static double PRECIO_HELADO_KILO         = 0;
+    public static double PRECIO_HELADO_MEDIO        = 0;
+    public static double PRECIO_HELADO_CUARTO       = 0;
+    public static double PRECIO_HELADO_TRESCUARTOS  = 0;
+    public static double PRECIO_CUCURUCHO           = 0;
 
-    public static final double PRECIO_CUCURUCHO = 5;
+
     public static final String FRAGMENT_CARGAR_DIRECCION    = "cargar_direccion";
     public static final String FRAGMENT_CARGAR_CANTIDAD     = "cargar_cantidad";
     public static final String FRAGMENT_CARGAR_HELADOS      = "cargar_helados";

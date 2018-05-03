@@ -11,6 +11,7 @@ import android.util.Log;
 import android.util.Property;
 import android.widget.Toast;
 
+import adaptivex.pedidoscloud.Config.Constants;
 import adaptivex.pedidoscloud.Config.GlobalValues;
 import adaptivex.pedidoscloud.Controller.ClienteController;
 import adaptivex.pedidoscloud.Controller.ParameterController;
@@ -344,10 +345,6 @@ public  class IniciarApp  {
             HelperPromos ph = new HelperPromos(getContext());
             ph.execute();
 
-
-
-
-
             return true;
         }catch (Exception e ){
           Log.d("IniciarAPP", e.getMessage());
@@ -355,6 +352,46 @@ public  class IniciarApp  {
             return false;
         }
     }
+
+
+
+    public void refreshDataFromServer(){
+        try{
+            HelperParameters hp = new HelperParameters(getContext());
+            hp.setCURRENT_OPTION(HelperParameters.OPTION_ALL);
+            hp.execute();
+
+            HelperPromos ph = new HelperPromos(getContext());
+            ph.execute();
+        }catch (Exception e ){
+            Log.d("refreshDataFromServer", e.getMessage());
+        }
+    }
+
+    public void loadPriceVariableGlobal(){
+        try{
+        //Actulizar variables del sistema con los valores de precio
+            ParameterController parameterCtr = new ParameterController(getContext());
+            Parameter p;
+            p = parameterCtr.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_PRECIOXKILO);
+            Constants.PRECIO_HELADO_KILO = p.getValor_decimal();
+
+            p = parameterCtr.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_PRECIOXMEDIO);
+            Constants.PRECIO_HELADO_MEDIO = p.getValor_decimal();
+
+            p = parameterCtr.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_PRECIOXCUARTO);
+            Constants.PRECIO_HELADO_CUARTO = p.getValor_decimal();
+
+            p = parameterCtr.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_PRECIOTRESCUARTOS);
+            Constants.PRECIO_HELADO_TRESCUARTOS = p.getValor_decimal();
+
+            p = parameterCtr.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_PRECIOCUCURUCHO);
+            Constants.PRECIO_CUCURUCHO = p.getValor_decimal();
+        }catch (Exception e ){
+            Log.d("refreshDataFromServer", e.getMessage());
+        }
+    }
+
     public boolean isDatabaseDownload(){
         try {
             boolean respuesta = false;

@@ -1,6 +1,7 @@
 package adaptivex.pedidoscloud.Config;
 
 import android.content.Context;
+import android.os.SystemClock;
 import android.widget.Toast;
 
 import java.text.DateFormat;
@@ -281,19 +282,22 @@ public class GlobalValues {
 
     public long crearNuevoPedido(Context ctx){
         try{
-            IniciarApp ia = new IniciarApp(ctx);
-            ia.isLoginRemember();
+
+
+
             PedidoController gestdb = new PedidoController(ctx);
             Date fecha = new Date();
             Calendar cal = Calendar.getInstance();
             fecha = cal.getTime();
             DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd");
             String fechaDMY = df1.format(fecha);
+
             //Nuevo Pedido
             Pedido pedido = new Pedido();
             pedido.setEstadoId(Constants.ESTADO_NUEVO);
             pedido.setCliente_id(GlobalValues.getINSTANCIA().getUserlogued().getId());
             pedido.setCreated(fechaDMY);
+
             long id = gestdb.abrir().agregar(pedido);
             pedido.setIdTmp(id);
             gestdb.cerrar();
@@ -302,6 +306,12 @@ public class GlobalValues {
 
             gestdb.cerrar();
             Toast.makeText(ctx, "Generando Nuevo Pedido  "+ String.valueOf(id) , Toast.LENGTH_SHORT).show();
+            IniciarApp ia = new IniciarApp(ctx);
+            ia.refreshDataFromServer();
+            SystemClock.sleep(1000);
+            ia.loadPriceVariableGlobal();
+
+
             return id;
         }catch (Exception e ){
             Toast.makeText(ctx, "Error: " +e.getMessage(),Toast.LENGTH_LONG).show();

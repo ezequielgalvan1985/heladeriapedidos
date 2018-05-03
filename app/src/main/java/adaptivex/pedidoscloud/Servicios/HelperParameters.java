@@ -8,6 +8,7 @@ import android.widget.Toast;
 import java.util.HashMap;
 
 import adaptivex.pedidoscloud.Config.Configurador;
+import adaptivex.pedidoscloud.Config.Constants;
 import adaptivex.pedidoscloud.Config.GlobalValues;
 import adaptivex.pedidoscloud.Controller.ParameterController;
 import adaptivex.pedidoscloud.Core.parserJSONtoModel.ParameterParser;
@@ -63,6 +64,9 @@ public class HelperParameters extends AsyncTask<Void, Void, Void> {
             return false;
         }
     }
+
+
+
 
 
 
