@@ -29,7 +29,9 @@ public class HelperParameters extends AsyncTask<Void, Void, Void> {
     private String TEXT_RESPONSE;
     private int CURRENT_OPTION = 0; //1 enviar Post Parameter
 
+
     public static final int OPTION_ALL = 1;
+    public static final int OPTION_ONLY_PRICE = 2;
 
     public HelperParameters(Context pCtx){
         this.setCtx(pCtx);
@@ -37,6 +39,16 @@ public class HelperParameters extends AsyncTask<Void, Void, Void> {
     }
 
     private void findAll(){
+        try{
+            WebRequest webreq = new WebRequest();
+            TEXT_RESPONSE = webreq.makeWebServiceCall(Configurador.urlParameters, WebRequest.POST, null);
+        }catch (Exception e){
+            setRespuesta(GlobalValues.getINSTANCIA().RETURN_ERROR);
+            Log.println(Log.ERROR,"ErrorHelper:",e.getMessage());
+        }
+    }
+
+    private void findOnlyPrices(){
         try{
             WebRequest webreq = new WebRequest();
             TEXT_RESPONSE = webreq.makeWebServiceCall(Configurador.urlParameters, WebRequest.POST, null);

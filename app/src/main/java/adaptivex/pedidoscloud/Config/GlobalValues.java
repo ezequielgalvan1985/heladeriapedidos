@@ -306,10 +306,18 @@ public class GlobalValues {
 
             gestdb.cerrar();
             Toast.makeText(ctx, "Generando Nuevo Pedido  "+ String.valueOf(id) , Toast.LENGTH_SHORT).show();
+
+            User user = GlobalValues.getINSTANCIA().getUserlogued();
+
+            //Refrescar los paramteros
             IniciarApp ia = new IniciarApp(ctx);
-            ia.refreshDataFromServer();
-            SystemClock.sleep(1000);
-            ia.loadPriceVariableGlobal();
+            ia.isLoginRemember();
+            User u = GlobalValues.getINSTANCIA().getUserlogued();
+            //ia.refreshPromosFromServer();
+            //SystemClock.sleep(1000);
+            //ia.refreshPriceFromServer();
+
+            ia.loginRemember(u);
 
 
             return id;

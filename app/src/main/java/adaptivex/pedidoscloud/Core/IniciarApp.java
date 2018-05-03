@@ -294,6 +294,7 @@ public  class IniciarApp  {
 
     }
 
+
     public boolean isLoginRemember(){
         try{
             boolean respuesta = true;
@@ -355,11 +356,8 @@ public  class IniciarApp  {
 
 
 
-    public void refreshDataFromServer(){
+    public void refreshPromosFromServer(){
         try{
-            HelperParameters hp = new HelperParameters(getContext());
-            hp.setCURRENT_OPTION(HelperParameters.OPTION_ALL);
-            hp.execute();
 
             HelperPromos ph = new HelperPromos(getContext());
             ph.execute();
@@ -368,9 +366,14 @@ public  class IniciarApp  {
         }
     }
 
-    public void loadPriceVariableGlobal(){
+    public void refreshPriceFromServer(){
         try{
-        //Actulizar variables del sistema con los valores de precio
+
+            HelperParameters hp = new HelperParameters(getContext());
+            hp.setCURRENT_OPTION(HelperParameters.OPT);
+            hp.execute();
+
+            //Actulizar variables del sistema con los valores de precio
             ParameterController parameterCtr = new ParameterController(getContext());
             Parameter p;
             p = parameterCtr.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_PRECIOXKILO);
