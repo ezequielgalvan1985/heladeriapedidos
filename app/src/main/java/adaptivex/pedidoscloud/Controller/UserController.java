@@ -26,7 +26,17 @@ public class UserController extends AppController{
 
 
 
-
+    //Obtener datos del usuario guardado en la base de datos
+    public User getUserDB2(){
+        try{
+            UserController pc = new UserController(this.getContext());
+            User u = pc.abrir().findUser();
+            return u;
+        }catch(Exception e){
+            Toast.makeText(getContext(), "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            return null;
+        }
+    }
 
 
     //Obtener datos del usuario guardado en la base de datos
@@ -283,9 +293,8 @@ public class UserController extends AppController{
     public void deleteDB(User item)
     {
         try{
-            String[] argumentos = new String[]
-                    {String.valueOf(item.getId())};
-            db.delete(UserDataBaseHelper.TABLE_NAME, UserDataBaseHelper.ID + " = ?", argumentos);
+
+            db.delete(UserDataBaseHelper.TABLE_NAME, null, null);
         }catch (Exception e){
             Toast.makeText(context, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
@@ -319,6 +328,35 @@ public class UserController extends AppController{
         }
         return registro;
     }
+
+    public User findUser()
+    {
+        User registro = new User();
+        String[] campos = {
+                UserDataBaseHelper.ID,
+                UserDataBaseHelper.USERNAME,
+                UserDataBaseHelper.ENTIDAD_ID,
+                UserDataBaseHelper.GROUP_ID,
+                UserDataBaseHelper.EMAIL,
+                UserDataBaseHelper.LOCALIDAD,
+                UserDataBaseHelper.CALLE,
+                UserDataBaseHelper.NRO,
+                UserDataBaseHelper.PISO,
+                UserDataBaseHelper.TELEFONO,
+                UserDataBaseHelper.CONTACTO
+        };
+
+        Cursor resultado = db.query(UserDataBaseHelper.TABLE_NAME, campos,
+                null, null, null, null, null);
+        if (resultado != null)
+        {
+            resultado.moveToFirst();
+            registro = parseObjectFromRecord(resultado);
+        }
+        return registro;
+    }
+
+
 
     public User parseObjectFromRecord(Cursor c ){
         try{

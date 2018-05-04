@@ -97,7 +97,7 @@ public class CargarDireccionFragment extends Fragment {
         //Cargar datos del usuario logueado
 
         UserController uc = new UserController(v.getContext());
-        User u = uc.getUserDB();
+        User u = uc.getUserDB2();
         if (u!=null){
 //Asignar los valores a los campos
             txtTelefono   = (AutoCompleteTextView) v.findViewById(R.id.cargar_direccion_telefono);

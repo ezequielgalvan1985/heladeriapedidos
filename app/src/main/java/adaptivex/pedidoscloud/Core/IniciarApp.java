@@ -32,6 +32,7 @@ import adaptivex.pedidoscloud.Model.ProductoDataBaseHelper;
 import adaptivex.pedidoscloud.Model.Promo;
 import adaptivex.pedidoscloud.Model.PromoDataBaseHelper;
 import adaptivex.pedidoscloud.Model.User;
+import adaptivex.pedidoscloud.Model.UserDataBaseHelper;
 import adaptivex.pedidoscloud.Servicios.HelperCategorias;
 import adaptivex.pedidoscloud.Servicios.HelperClientes;
 import adaptivex.pedidoscloud.Servicios.HelperHojarutas;
@@ -51,17 +52,14 @@ public  class IniciarApp  {
         //leer valor de parametro
         setContext(c);
     }
-    public  void logout(){
+    public void logout(){
         try{
-        ParameterController pc = new ParameterController(getContext());
-        Parameter p = pc.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_USERID);
-        pc.abrir().eliminar(p);
-        p = pc.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_EMAIL);
-        pc.abrir().eliminar(p);
-        p = pc.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_GROUPID);
-        pc.abrir().eliminar(p);
-        p = pc.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_ENTIDADID);
-        pc.abrir().eliminar(p);
+            UserController uc = new UserController(this.getContext());
+            User u = uc.abrir().findUser();
+            if (u != null){
+                uc.abrir().deleteDB(u);
+
+            }
         }catch(Exception e){
             Log.d("IniciarAPP", e.getMessage());
         }
@@ -118,9 +116,15 @@ public  class IniciarApp  {
 
 
             PromoDataBaseHelper promo = new PromoDataBaseHelper(getContext());
-            db = ped.getWritableDatabase();
+            db = promo.getWritableDatabase();
             db.execSQL(promo.DROP_TABLE);
             db.execSQL(promo.CREATE_TABLE);
+            db.close();
+
+            UserDataBaseHelper userdb = new UserDataBaseHelper(getContext());
+            db = userdb.getWritableDatabase();
+            db.execSQL(userdb.DROP_TABLE);
+            db.execSQL(userdb.CREATE_TABLE);
             db.close();
 
             return true;
@@ -141,8 +145,11 @@ public  class IniciarApp  {
 
             User u = uc.abrir().findById(user.getId());
             if (u == null){
-
+                uc.abrir().addDB(user);
+            }else{
+                uc.abrir().editDB(user);
             }
+
             //SETEO DE USERID
 
 
@@ -154,22 +161,15 @@ public  class IniciarApp  {
     public boolean isLoginRemember(){
         try{
             boolean respuesta = true;
-            User u = new User();
-            ParameterController pc = new ParameterController(getContext());
-            Parameter p = new Parameter();
-            p = pc.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_USERID);
 
-            if (p != null) {
-                if (p.getValor_integer()< 1){
-                    respuesta =  false;
-                }
+            UserController uc = new UserController(this.getContext());
+
+            User u = uc.abrir().findUser();
+            if (u == null){
+                respuesta = false;
             }else{
-                respuesta =  false;
+                GlobalValues.getINSTANCIA().setUserlogued(u);
             }
-
-            UserController uc = new UserController(getContext());
-            u = uc.getUserDB();
-            GlobalValues.getINSTANCIA().setUserlogued(u);
 
             return respuesta;
         }catch(Exception e){
