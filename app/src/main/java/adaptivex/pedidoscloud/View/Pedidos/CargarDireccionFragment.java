@@ -98,48 +98,50 @@ public class CargarDireccionFragment extends Fragment {
 
         UserController uc = new UserController(v.getContext());
         User u = uc.getUserDB();
-        if (u==null){
+        if (u!=null){
+//Asignar los valores a los campos
+            txtTelefono   = (AutoCompleteTextView) v.findViewById(R.id.cargar_direccion_telefono);
+            txtLocalidad  = (AutoCompleteTextView) v.findViewById(R.id.cargar_direccion_localidad);
+            txtCalle      = (AutoCompleteTextView) v.findViewById(R.id.cargar_direccion_calle);
+            txtNro        = (AutoCompleteTextView) v.findViewById(R.id.cargar_direccion_nro);
+            txtPiso       = (AutoCompleteTextView) v.findViewById(R.id.cargar_direccion_piso);
+            txtContacto   = (AutoCompleteTextView) v.findViewById(R.id.cargar_direccion_contacto);
+            lblTitulo = (TextView) v.findViewById(R.id.cargar_direccion_lbl_titulo);
+
+            txtTelefono.setText(u.getTelefono());
+            txtLocalidad.setText(u.getLocalidad());
+            txtCalle.setText(u.getCalle());
+            txtNro.setText(u.getNro());
+            txtPiso.setText(u.getPiso());
+            txtContacto.setText(u.getContacto());
+            setTitle();
+            btnSiguiente = (Button) v.findViewById(R.id.cargar_direccion_btn_siguiente);
+
+            btnSiguiente.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //Realizar validaciones
+                    if(validateForm()){
+                        //LLAMAR AL SIGUIENTE FRAMENT
+                        if (MODE_EDIT_USER) {
+                            if (saveDireccionUser()){
+                                Toast.makeText(getContext(),"Datos Guardado Correctamente",Toast.LENGTH_LONG).show();
+                            }
+                        }else{
+                            if (saveDireccion()){
+                                openFragmentCargarCantidad();
+                            }
+                        }
+
+
+                    }
+                }
+            });
+        }else{
             Toast.makeText(v.getContext(), "Error: No se pudo obtener los datos de usuario", Toast.LENGTH_SHORT).show();
         }
 
-        //Asignar los valores a los campos
-        txtTelefono   = (AutoCompleteTextView) v.findViewById(R.id.cargar_direccion_telefono);
-        txtLocalidad  = (AutoCompleteTextView) v.findViewById(R.id.cargar_direccion_localidad);
-        txtCalle      = (AutoCompleteTextView) v.findViewById(R.id.cargar_direccion_calle);
-        txtNro        = (AutoCompleteTextView) v.findViewById(R.id.cargar_direccion_nro);
-        txtPiso       = (AutoCompleteTextView) v.findViewById(R.id.cargar_direccion_piso);
-        txtContacto   = (AutoCompleteTextView) v.findViewById(R.id.cargar_direccion_contacto);
-        lblTitulo = (TextView) v.findViewById(R.id.cargar_direccion_lbl_titulo);
 
-        txtTelefono.setText(u.getTelefono());
-        txtLocalidad.setText(u.getLocalidad());
-        txtCalle.setText(u.getCalle());
-        txtNro.setText(u.getNro());
-        txtPiso.setText(u.getPiso());
-        txtContacto.setText(u.getContacto());
-        setTitle();
-        btnSiguiente = (Button) v.findViewById(R.id.cargar_direccion_btn_siguiente);
-
-        btnSiguiente.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Realizar validaciones
-                if(validateForm()){
-                    //LLAMAR AL SIGUIENTE FRAMENT
-                    if (MODE_EDIT_USER) {
-                        if (saveDireccionUser()){
-                            Toast.makeText(getContext(),"Datos Guardado Correctamente",Toast.LENGTH_LONG).show();
-                        }
-                    }else{
-                        if (saveDireccion()){
-                            openFragmentCargarCantidad();
-                        }
-                    }
-
-
-                }
-            }
-        });
 
 
         return v;

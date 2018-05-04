@@ -58,16 +58,47 @@ public class HelperParameters extends AsyncTask<Void, Void, Void> {
         }
     }
 
+    private void setPricesGlobalValues(){
+        try{
+            //Actulizar variables del sistema con los valores de precio
+            ParameterController parameterCtr = new ParameterController(getCtx());
+            Parameter p;
+            p = parameterCtr.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_PRECIOXKILO);
+            Constants.PRECIO_HELADO_KILO = p.getValor_decimal();
 
+            p = parameterCtr.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_PRECIOXMEDIO);
+            Constants.PRECIO_HELADO_MEDIO = p.getValor_decimal();
+
+            p = parameterCtr.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_PRECIOXCUARTO);
+            Constants.PRECIO_HELADO_CUARTO = p.getValor_decimal();
+
+            p = parameterCtr.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_PRECIOTRESCUARTOS);
+            Constants.PRECIO_HELADO_TRESCUARTOS = p.getValor_decimal();
+
+            p = parameterCtr.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_PRECIOCUCURUCHO);
+            Constants.PRECIO_CUCURUCHO = p.getValor_decimal();
+        }catch (Exception e){
+            setRespuesta(GlobalValues.getINSTANCIA().RETURN_ERROR);
+            Log.println(Log.ERROR,"ErrorHelper:",e.getMessage());
+        }
+    }
 
     private boolean onPostFindAll(){
         try{
             ParameterParser cp = new ParameterParser(TEXT_RESPONSE);
             cp.parseJsonToObject();
-            parameterCtr.abrir().limpiar();
+            //parameterCtr.abrir().limpiar();
             for (int i = 0; i < cp.getListadoParameters().size(); i++) {
-                parameterCtr.abrir().agregar(cp.getListadoParameters().get(i));
+
+                Parameter parameter_server = cp.getListadoParameters().get(i);
+                Parameter parameter_local = parameterCtr.abrir().findByNombre(cp.getListadoParameters().get(i).getNombre());
+                if (parameter_local==null){
+                    parameterCtr.abrir().agregar(parameter_server);
+                }else{
+                    parameterCtr.abrir().modificar(parameter_server);
+                }
             }
+            setPricesGlobalValues();
             setRespuesta(GlobalValues.getINSTANCIA().RETURN_OK);
             return true;
         }catch (Exception e){

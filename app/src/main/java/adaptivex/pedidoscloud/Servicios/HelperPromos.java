@@ -68,12 +68,18 @@ public class HelperPromos extends AsyncTask<Void, Void, Void> {
             cp = new PromoParser(jsonStr);
             cp.parseJsonToObject();
 
-            promoCtr.abrir().limpiar();
+            //promoCtr.abrir().limpiar();
             // Recorrer Lista
             for (int i = 0; i < cp.getListadoPromos().size(); i++) {
-                Promo p = new Promo();
-                p = cp.getListadoPromos().get(i);
-                promoCtr.abrir().add(p);
+                Promo promo_server = cp.getListadoPromos().get(i);
+                Promo promo_local = promoCtr.abrir().findByIdAndroid(promo_server.getIdAndroid());
+                if (promo_local==null){
+                    promoCtr.abrir().add(promo_server);
+                }else{
+                    promoCtr.abrir().edit(promo_server);
+                }
+
+
             }
             setRespuesta(GlobalValues.getINSTANCIA().RETURN_OK);
 

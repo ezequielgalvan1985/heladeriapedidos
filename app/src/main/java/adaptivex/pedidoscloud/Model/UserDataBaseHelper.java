@@ -14,6 +14,7 @@ public class UserDataBaseHelper extends SQLiteOpenHelper
     public static final String DB_NAME = Configurador.DBName;
     public static final String TABLE_NAME = "users";
     public static final int DB_VERSION = Configurador.DBVersion ;
+
     public static final String ID = "id";
     public static final String USERNAME = "username";
     public static final String ENTIDAD_ID = "entidad_id";
@@ -22,11 +23,11 @@ public class UserDataBaseHelper extends SQLiteOpenHelper
     public static final String EMPLEADO_ID = "empleado_id";
 
     public static final String LOCALIDAD = "localidad";
-    public static final String CALLE = "calle";
-    public static final String NRO = "nro";
-    public static final String PISO = "piso";
-    public static final String TELEFONO = "telefono";
-    public static final String CONTACTO = "contacto";
+    public static final String CALLE     = "calle";
+    public static final String NRO       = "nro";
+    public static final String PISO      = "piso";
+    public static final String TELEFONO  = "telefono";
+    public static final String CONTACTO  = "contacto";
 
 
 
@@ -41,11 +42,17 @@ public class UserDataBaseHelper extends SQLiteOpenHelper
     public static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
 
     public static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" +
-            ID + " integer not null," +
-            USERNAME + " text null, " +
+            ID + "         integer  null," +
+            USERNAME + "   text null, " +
             ENTIDAD_ID + " text null, " +
-            GROUP_ID + " text null, " +
-            EMAIL + " text null" +
+            GROUP_ID + "   text null, " +
+            EMAIL + "      text null, " +
+            LOCALIDAD + "  text null, " +
+            CALLE     + "  text null, " +
+            NRO       + "  text null, " +
+            PISO      + "  text null, " +
+            TELEFONO  + "  text null, " +
+            CONTACTO  + "  text null " +
             " )";
 
     public UserDataBaseHelper(Context context)

@@ -2,6 +2,7 @@ package adaptivex.pedidoscloud.Config;
 
 import android.content.Context;
 import android.os.SystemClock;
+import android.provider.Settings;
 import android.widget.Toast;
 
 import java.text.DateFormat;
@@ -310,15 +311,12 @@ public class GlobalValues {
             User user = GlobalValues.getINSTANCIA().getUserlogued();
 
             //Refrescar los paramteros
-            IniciarApp ia = new IniciarApp(ctx);
-            ia.isLoginRemember();
             User u = GlobalValues.getINSTANCIA().getUserlogued();
-            //ia.refreshPromosFromServer();
-            //SystemClock.sleep(1000);
-            //ia.refreshPriceFromServer();
+            IniciarApp ia = new IniciarApp(ctx);
+            ia.refreshPromosFromServer();
 
-            ia.loginRemember(u);
-
+            ia.refreshPriceFromServer();
+            //ia.loginRemember(u);
 
             return id;
         }catch (Exception e ){

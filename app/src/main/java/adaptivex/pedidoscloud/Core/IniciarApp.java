@@ -137,158 +137,14 @@ public  class IniciarApp  {
             /* Lee parametros, y los setea con el valor del usuario. Si no existen, los crea */
             boolean respuesta = true;
             //ParameterController pc = new ParameterController(this.getContext());
-            ParameterController pc = new ParameterController(this.getContext());
+            UserController uc = new UserController(this.getContext());
+
+            User u = uc.abrir().findById(user.getId());
+            if (u == null){
+
+            }
             //SETEO DE USERID
-            Parameter p = new Parameter();
-            p = pc.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_USERID);
-            if (p==null) {
-                respuesta = false;
-            }else{
-                p.setNombre(GlobalValues.getINSTANCIA().PARAM_USERID);
-                p.setValor_integer(user.getId());
-                p.setDescripcion("Es el Id de usuario en el sistema web");
-                pc.abrir().modificar(p);
-                pc.cerrar();
-            }
 
-
-
-            //SETEO DE ENTIDADID
-            p = new Parameter();
-            p = pc.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_ENTIDADID);
-            if (p==null) {
-                respuesta = false;
-            }else{
-                p.setNombre(GlobalValues.getINSTANCIA().PARAM_ENTIDADID);
-                p.setValor_integer(user.getEntidad_id());
-                p.setDescripcion("Es el Id de Empresa de usuario en el sistema web");
-                pc.abrir().modificar(p);
-                pc.cerrar();
-            }
-
-
-
-            //SETEO DE EMAIL
-            p = new Parameter();
-            p = pc.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_EMAIL);
-            if (p==null) {
-                respuesta = false;
-            }else{
-                p.setNombre(GlobalValues.getINSTANCIA().PARAM_EMAIL);
-                p.setValor_texto(user.getEmail());
-                p.setDescripcion("Es el EMAIL de Empresa de usuario en el sistema web");
-                pc.abrir().modificar(p);
-                pc.cerrar();
-            }
-
-
-
-            //SETEO DE GROUPID
-            p = new Parameter();
-            p = pc.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_GROUPID);
-            if (p==null) {
-                respuesta = false;
-            }else{
-                p.setNombre(GlobalValues.getINSTANCIA().PARAM_GROUPID);
-                p.setValor_integer(user.getGroup_id());
-                p.setDescripcion("Es el Id de GRUPO de usuario  o sea el rol en el sistema web");
-                pc.abrir().modificar(p);
-                pc.cerrar();
-            }
-
-
-
-            p = pc.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_USERNAME);
-            if (p==null) {
-                respuesta = false;
-            }else{
-                p.setNombre(GlobalValues.getINSTANCIA().PARAM_USERNAME);
-                p.setValor_texto(user.getUsername());
-                p.setDescripcion("Es el username en el sistema web");
-                pc.abrir().modificar(p);
-                pc.cerrar();
-
-            }
-
-            //AGREGAR LOS OTROS CAMPOS, localidad, calle, nro, piso, contacto
-            //TELEFONO
-            p = pc.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_TELEFONO);
-            if (p==null) {
-                respuesta = false;
-            }else{
-                //SE MODIFICA
-                p.setNombre(GlobalValues.getINSTANCIA().PARAM_TELEFONO);
-                p.setValor_texto(user.getTelefono());
-                p.setDescripcion("Es el Telefono en el sistema web");
-                pc.abrir().modificar(p);
-                pc.cerrar();
-            }
-
-            //LOCALIDAD
-            p = pc.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_LOCALIDAD);
-            if (p==null) {
-                respuesta = false;
-            }else{
-                 //SE MODIFICA
-                p.setNombre(GlobalValues.getINSTANCIA().PARAM_LOCALIDAD);
-                p.setValor_texto(user.getLocalidad());
-                p.setDescripcion("Es el Localidad en el sistema web");
-                pc.abrir().modificar(p);
-                pc.cerrar();
-            }
-
-            //CALLE
-            p = pc.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_CALLE);
-            if (p==null) {
-                respuesta = false;
-            }else{
-                //SE MODIFICA
-                p.setNombre(GlobalValues.getINSTANCIA().PARAM_CALLE);
-                p.setValor_texto(user.getCalle());
-                p.setDescripcion("Es el Calle en el sistema web");
-                pc.abrir().modificar(p);
-                pc.cerrar();
-            }
-
-            //NRO
-            p = pc.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_NRO);
-            if (p==null) {
-                respuesta = false;
-            }else{
-                //SE MODIFICA
-                p.setNombre(GlobalValues.getINSTANCIA().PARAM_NRO);
-                p.setValor_texto(user.getNro());
-                p.setDescripcion("Es el Nro en el sistema web");
-                pc.abrir().modificar(p);
-                pc.cerrar();
-            }
-
-            //PISO
-            p = pc.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_PISO);
-            if (p==null) {
-                respuesta = false;
-            }else{
-                //SE MODIFICA
-                p.setNombre(GlobalValues.getINSTANCIA().PARAM_PISO);
-                p.setValor_texto(user.getPiso());
-                p.setDescripcion("Es el Piso en el sistema web");
-                pc.abrir().modificar(p);
-                pc.cerrar();
-            }
-
-            //CONTACTO
-            p = pc.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_CONTACTO);
-            if (p==null) {
-                //SE CREA
-                respuesta = false;
-            }else{
-                //SE MODIFICA
-                p.setNombre(GlobalValues.getINSTANCIA().PARAM_CONTACTO);
-                p.setValor_texto(user.getContacto());
-                p.setDescripcion("Es el Contacto en el sistema web");
-                pc.abrir().modificar(p);
-                pc.cerrar();
-            }
 
             return true;
 
@@ -358,7 +214,6 @@ public  class IniciarApp  {
 
     public void refreshPromosFromServer(){
         try{
-
             HelperPromos ph = new HelperPromos(getContext());
             ph.execute();
         }catch (Exception e ){
@@ -370,26 +225,11 @@ public  class IniciarApp  {
         try{
 
             HelperParameters hp = new HelperParameters(getContext());
-            hp.setCURRENT_OPTION(HelperParameters.OPT);
+            hp.setCURRENT_OPTION(HelperParameters.OPTION_ALL);
             hp.execute();
 
-            //Actulizar variables del sistema con los valores de precio
-            ParameterController parameterCtr = new ParameterController(getContext());
-            Parameter p;
-            p = parameterCtr.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_PRECIOXKILO);
-            Constants.PRECIO_HELADO_KILO = p.getValor_decimal();
 
-            p = parameterCtr.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_PRECIOXMEDIO);
-            Constants.PRECIO_HELADO_MEDIO = p.getValor_decimal();
 
-            p = parameterCtr.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_PRECIOXCUARTO);
-            Constants.PRECIO_HELADO_CUARTO = p.getValor_decimal();
-
-            p = parameterCtr.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_PRECIOTRESCUARTOS);
-            Constants.PRECIO_HELADO_TRESCUARTOS = p.getValor_decimal();
-
-            p = parameterCtr.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_PRECIOCUCURUCHO);
-            Constants.PRECIO_CUCURUCHO = p.getValor_decimal();
         }catch (Exception e ){
             Log.d("refreshDataFromServer", e.getMessage());
         }
