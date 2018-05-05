@@ -52,18 +52,7 @@ public  class IniciarApp  {
         //leer valor de parametro
         setContext(c);
     }
-    public void logout(){
-        try{
-            UserController uc = new UserController(this.getContext());
-            User u = uc.abrir().findUser();
-            if (u != null){
-                uc.abrir().deleteDB(u);
 
-            }
-        }catch(Exception e){
-            Log.d("IniciarAPP", e.getMessage());
-        }
-    }
 
     public  boolean  iniciarBD(){
         try{
@@ -138,43 +127,59 @@ public  class IniciarApp  {
 
 
     public boolean loginRemember(User user){
-            /* Lee parametros, y los setea con el valor del usuario. Si no existen, los crea */
+        try{
+        /* Lee parametros, y los setea con el valor del usuario. Si no existen, los crea */
             boolean respuesta = true;
             //ParameterController pc = new ParameterController(this.getContext());
             UserController uc = new UserController(this.getContext());
 
-            User u = uc.abrir().findById(user.getId());
+            User u = uc.abrir().findUser();
+
+            user.setLogued("Y");
             if (u == null){
                 uc.abrir().addDB(user);
             }else{
                 uc.abrir().editDB(user);
             }
 
-            //SETEO DE USERID
-
-
-            return true;
+            return respuesta;
+        }catch(Exception e){
+            Toast.makeText(getContext(), "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            return false;
+        }
 
     }
 
 
     public boolean isLoginRemember(){
         try{
-            boolean respuesta = true;
-
+            boolean respuesta = false;
             UserController uc = new UserController(this.getContext());
-
             User u = uc.abrir().findUser();
-            if (u == null){
-                respuesta = false;
-            }else{
-                GlobalValues.getINSTANCIA().setUserlogued(u);
-            }
 
+            if (u!=null){
+                if(u.getLogued().equals("Y")){
+                    respuesta = true;
+                    GlobalValues.getINSTANCIA().setUserlogued(u);
+                };
+            }
             return respuesta;
         }catch(Exception e){
             Toast.makeText(getContext(), "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
             return false;
+        }
+    }
+
+    public void logout(){
+        try{
+            UserController uc = new UserController(this.getContext());
+            User u = uc.abrir().findUser();
+            if (u != null){
+                u.setLogued("N");
+                uc.abrir().editDB(u);
+            }
+        }catch(Exception e){
+            Log.d("IniciarAPP", e.getMessage());
         }
     }
 

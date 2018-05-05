@@ -113,7 +113,7 @@ public class HelperUser extends AsyncTask<Void, Void, Void> {
             registro.put("id", getUser().getId().toString());
             registro.put("username", getUser().getUsername().toString());
             registro.put("email", getUser().getEmail().toString());
-            //registro.put("password", getUser().getPassword().toString());
+
             registro.put("localidad", getUser().getLocalidad().toString());
             registro.put("calle", getUser().getCalle().toString());
             registro.put("nro", getUser().getNro().toString());
@@ -162,12 +162,7 @@ public class HelperUser extends AsyncTask<Void, Void, Void> {
         pDialog.show();
     }
 
-    private void mostrarMensaje(String mensaje){
-        if (pDialog.isShowing()) {
-            pDialog.dismiss();
-            Toast.makeText(this.getCtx(), mensaje, Toast.LENGTH_SHORT).show();
-        }
-    }
+
     @Override
     protected void onPostExecute(Void result) {
         super.onPostExecute(result);

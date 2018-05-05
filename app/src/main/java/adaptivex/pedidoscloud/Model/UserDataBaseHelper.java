@@ -29,7 +29,8 @@ public class UserDataBaseHelper extends SQLiteOpenHelper
     public static final String TELEFONO  = "telefono";
     public static final String CONTACTO  = "contacto";
 
-
+    public static final String LOGUED    = "logued";
+    public static final String ID_ANDROID = "id_android";
 
 
     //Estructura JSON
@@ -52,7 +53,9 @@ public class UserDataBaseHelper extends SQLiteOpenHelper
             NRO       + "  text null, " +
             PISO      + "  text null, " +
             TELEFONO  + "  text null, " +
-            CONTACTO  + "  text null " +
+            CONTACTO  + "  text null, " +
+            LOGUED    + "  text null, " +
+            ID_ANDROID  + "  integer null " +
             " )";
 
     public UserDataBaseHelper(Context context)

@@ -21,6 +21,8 @@ public class User {
     private String piso;
     private String contacto;
 
+    private String logued;
+    private Integer id_android;
 
     private static String createTable;
 
@@ -149,5 +151,22 @@ public class User {
 
     public void setTelefono(String telefono) {
         this.telefono = telefono;
+    }
+
+
+    public String getLogued() {
+        return logued;
+    }
+
+    public void setLogued(String logued) {
+        this.logued = logued;
+    }
+
+    public Integer getId_android() {
+        return id_android;
+    }
+
+    public void setId_android(Integer id_android) {
+        this.id_android = id_android;
     }
 }

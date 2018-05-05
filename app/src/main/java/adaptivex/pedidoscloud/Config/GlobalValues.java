@@ -35,6 +35,8 @@ public class GlobalValues {
     public Integer CURRENT_FRAGMENT_NUEVO_PEDIDO;
     public Context ctxTemporal;
 
+    public static final Integer ID_ANDROID = 1;
+
 
 
 

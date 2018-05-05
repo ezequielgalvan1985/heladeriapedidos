@@ -8,7 +8,7 @@ import adaptivex.pedidoscloud.Model.User;
  */
 public class Configurador {
 
-    public static final int DBVersion = 1;
+    public static final int DBVersion = 3;
     public static final String DBName = "heladeria_02";
     private static Configurador INSTANCIA;
     public static  User userlogin;

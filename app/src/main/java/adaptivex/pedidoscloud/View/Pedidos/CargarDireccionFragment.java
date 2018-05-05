@@ -97,9 +97,9 @@ public class CargarDireccionFragment extends Fragment {
         //Cargar datos del usuario logueado
 
         UserController uc = new UserController(v.getContext());
-        User u = uc.getUserDB2();
+        User u = uc.abrir().findUser();
         if (u!=null){
-//Asignar los valores a los campos
+            //Asignar los valores a los campos
             txtTelefono   = (AutoCompleteTextView) v.findViewById(R.id.cargar_direccion_telefono);
             txtLocalidad  = (AutoCompleteTextView) v.findViewById(R.id.cargar_direccion_localidad);
             txtCalle      = (AutoCompleteTextView) v.findViewById(R.id.cargar_direccion_calle);
@@ -114,7 +114,7 @@ public class CargarDireccionFragment extends Fragment {
             txtNro.setText(u.getNro());
             txtPiso.setText(u.getPiso());
             txtContacto.setText(u.getContacto());
-            setTitle();
+
             btnSiguiente = (Button) v.findViewById(R.id.cargar_direccion_btn_siguiente);
 
             btnSiguiente.setOnClickListener(new View.OnClickListener() {
@@ -165,14 +165,14 @@ public class CargarDireccionFragment extends Fragment {
     public boolean saveDireccionUser() {
         try{
             UserController uc = new UserController(getContext());
-            User u = uc.getUserDB();
+            User u = uc.abrir().getUserDB();
             u.setTelefono(txtTelefono.getText().toString());
             u.setLocalidad(txtLocalidad.getText().toString());
             u.setCalle(txtCalle.getText().toString());
             u.setNro(txtNro.getText().toString());
             u.setPiso(txtPiso.getText().toString());
             u.setContacto(txtContacto.getText().toString());
-            uc.setUserDB(u);
+            uc.abrir().editDB(u);
 
             //Envia datos al servidor
             HelperUser hu = new HelperUser(getContext());

@@ -27,7 +27,7 @@ public class UserController extends AppController{
 
 
     //Obtener datos del usuario guardado en la base de datos
-    public User getUserDB2(){
+    public User getUserDB(){
         try{
             UserController pc = new UserController(this.getContext());
             User u = pc.abrir().findUser();
@@ -39,117 +39,8 @@ public class UserController extends AppController{
     }
 
 
-    //Obtener datos del usuario guardado en la base de datos
-    public User getUserDB(){
-        try{
-            ParameterController pc = new ParameterController(this.getContext());
-            Parameter p = new Parameter();
-            User u = new User();
-
-            p = pc.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_USERID);
-            u.setId(p.getValor_integer());
-
-            p = pc.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_USERNAME);
-            u.setUsername(p.getValor_texto());
-
-            p = pc.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_ENTIDADID);
-            u.setEntidad_id(p.getValor_integer());
-
-            p = pc.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_EMAIL);
-            u.setEmail(p.getValor_texto());
-
-            p = pc.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_LOCALIDAD);
-            u.setLocalidad(p.getValor_texto());
-
-            p = pc.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_CALLE);
-            u.setCalle(p.getValor_texto());
-
-            p = pc.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_NRO);
-            u.setNro(p.getValor_texto());
-
-            p = pc.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_PISO);
-            u.setPiso(p.getValor_texto());
-
-            p = pc.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_TELEFONO);
-            u.setTelefono(p.getValor_texto());
-
-            p = pc.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_CONTACTO);
-            u.setContacto(p.getValor_texto());
-
-            p = pc.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_GROUPID);
-            u.setGroup_id(p.getValor_integer());
-
-            return u;
-        }catch(Exception e){
-            Toast.makeText(getContext(), "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
-            return null;
-        }
-    }
 
 
-    //Obtener datos del usuario guardado en la base de datos
-    public boolean setUserDB(User user){
-        try{
-            ParameterController pc = new ParameterController(this.getContext());
-            Parameter p = new Parameter();
-
-            p = pc.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_USERID);
-            p.setValor_integer(user.getId());
-            pc.abrir().modificar(p);
-
-            p = pc.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_USERNAME);
-            p.setValor_texto(user.getUsername());
-            pc.abrir().modificar(p);
-
-            p = pc.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_ENTIDADID);
-            p.setValor_integer(user.getEntidad_id());
-            pc.abrir().modificar(p);
-
-            p = pc.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_EMAIL);
-            p.setValor_texto(user.getEmail());
-            pc.abrir().modificar(p);
-
-
-            p = pc.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_LOCALIDAD);
-            p.setValor_texto(user.getLocalidad());
-            pc.abrir().modificar(p);
-
-            p = pc.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_CALLE);
-            p.setValor_texto(user.getCalle());
-            pc.abrir().modificar(p);
-
-            p = pc.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_NRO);
-            p.setValor_texto(user.getNro());
-            pc.abrir().modificar(p);
-
-            p = pc.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_PISO);
-            p.setValor_texto(user.getPiso());
-            pc.abrir().modificar(p);
-
-
-            p = pc.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_TELEFONO);
-            p.setValor_texto(user.getTelefono());
-            pc.abrir().modificar(p);
-
-
-
-            p = pc.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_CONTACTO);
-            p.setValor_texto(user.getContacto());
-            pc.abrir().modificar(p);
-
-
-
-            p = pc.abrir().findByNombre(GlobalValues.getINSTANCIA().PARAM_GROUPID);
-            p.setValor_integer(user.getGroup_id());
-            pc.abrir().modificar(p);
-
-
-            return true;
-        }catch(Exception e){
-            Toast.makeText(getContext(), "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
-            return false;
-        }
-    }
 
 
 
@@ -246,7 +137,9 @@ public class UserController extends AppController{
             valores.put(UserDataBaseHelper.PISO, item.getPiso());
             valores.put(UserDataBaseHelper.TELEFONO, item.getTelefono());
             valores.put(UserDataBaseHelper.CONTACTO, item.getContacto());
-
+            valores.put(UserDataBaseHelper.CONTACTO, item.getContacto());
+            valores.put(UserDataBaseHelper.LOGUED, item.getLogued());
+            valores.put(UserDataBaseHelper.ID_ANDROID, GlobalValues.getINSTANCIA().ID_ANDROID);
 
             return db.insert(UserDataBaseHelper.TABLE_NAME, null, valores);
         }catch (Exception e){
@@ -261,7 +154,7 @@ public class UserController extends AppController{
     public void editDB(User item)
     {
         try {
-            String[] argumentos = new String[] {String.valueOf(item.getId())};
+            String[] argumentos = new String[] {String.valueOf(GlobalValues.getINSTANCIA().ID_ANDROID)};
 
             ContentValues valores = new ContentValues();
 
@@ -277,11 +170,12 @@ public class UserController extends AppController{
             valores.put(UserDataBaseHelper.PISO, item.getPiso());
             valores.put(UserDataBaseHelper.TELEFONO, item.getTelefono());
             valores.put(UserDataBaseHelper.CONTACTO, item.getContacto());
-
+            valores.put(UserDataBaseHelper.LOGUED, item.getLogued());
+            valores.put(UserDataBaseHelper.ID_ANDROID, GlobalValues.getINSTANCIA().ID_ANDROID);
 
             db.update(UserDataBaseHelper.TABLE_NAME,
                     valores,
-                    UserDataBaseHelper.ID + " = ?",
+                    UserDataBaseHelper.ID_ANDROID + " = ?",
                     argumentos);
         }catch (Exception e){
             Toast.makeText(context, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -343,14 +237,15 @@ public class UserController extends AppController{
                 UserDataBaseHelper.NRO,
                 UserDataBaseHelper.PISO,
                 UserDataBaseHelper.TELEFONO,
-                UserDataBaseHelper.CONTACTO
+                UserDataBaseHelper.CONTACTO,
+                UserDataBaseHelper.LOGUED,
         };
+        String[] argumentos = new String[] {String.valueOf(GlobalValues.getINSTANCIA().ID_ANDROID)};
 
         Cursor resultado = db.query(UserDataBaseHelper.TABLE_NAME, campos,
-                null, null, null, null, null);
+                UserDataBaseHelper.ID_ANDROID + " = ?", argumentos, null, null, null);
         if (resultado != null)
         {
-            resultado.moveToFirst();
             registro = parseObjectFromRecord(resultado);
         }
         return registro;
@@ -362,7 +257,6 @@ public class UserController extends AppController{
         try{
             User object = new User();
             if (c!=null){
-                if (c.getCount()>0 ){
                     c.moveToFirst();
                     object.setId(c.getInt(c.getColumnIndex(UserDataBaseHelper.ID)));
 
@@ -376,8 +270,9 @@ public class UserController extends AppController{
                     object.setPiso(c.getString(c.getColumnIndex(UserDataBaseHelper.PISO)));
                     object.setTelefono(c.getString(c.getColumnIndex(UserDataBaseHelper.TELEFONO)));
                     object.setContacto(c.getString(c.getColumnIndex(UserDataBaseHelper.CONTACTO)));
+                    object.setLogued(c.getString(c.getColumnIndex(UserDataBaseHelper.LOGUED)));
                 }
-            }
+
             return object;
         }catch(Exception e){
             Toast.makeText(context,"Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
