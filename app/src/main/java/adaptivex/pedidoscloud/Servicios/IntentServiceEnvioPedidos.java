@@ -153,7 +153,7 @@ public class IntentServiceEnvioPedidos extends IntentService {
 
                         PedidoParser pp = new PedidoParser(sb.toString());
                         Pedido pedidopostsave = pp.parseJsonToObject();
-                        Pedido pedidoprevsave = pedidoCtr.abrir().buscar(paramPedido.getIdTmp(), true);
+                        Pedido pedidoprevsave = pedidoCtr.abrir().findByIdTmp(paramPedido.getIdTmp());
                         pedidoprevsave.setId(pedidopostsave.getId());
                         pedidoprevsave.setEstadoId(GlobalValues.getINSTANCIA().consPedidoEstadoEnviado);
                         pedidoCtr.abrir().modificar(pedidoprevsave, true);

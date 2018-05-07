@@ -64,7 +64,7 @@ public class HelperPedidos extends AsyncTask<Void, Void, Void> {
     public HelperPedidos(Context pCtx, long pNroPedidoTmp, int opcion){
         this.setCtx(pCtx);
         this.pedidoCtr = new PedidoController(this.getCtx());
-        this.setPedido(pedidoCtr.abrir().buscar(pNroPedidoTmp, true));
+        //this.setPedido(pedidoCtr.abrir().buscar(pNroPedidoTmp, true));
         this.opcion = opcion;
     }
 
@@ -115,6 +115,8 @@ public class HelperPedidos extends AsyncTask<Void, Void, Void> {
             pedido.put("cucurucho_monto", String.valueOf(paramPedido.getMontoCucuruchos()));
             pedido.put("envio_domicilio", paramPedido.getEnvioDomicilioBoolean());
             pedido.put("monto_descuento", String.valueOf(paramPedido.getMontoDescuento()));
+            pedido.put("montoabona", String.valueOf(paramPedido.getMontoabona()));
+
             pedido.put("cantidad_descuento", String.valueOf(paramPedido.getCantidadDescuento()));
 
             pedido.put("precioxkilo", String.valueOf(paramPedido.getPrecioxkilo()));

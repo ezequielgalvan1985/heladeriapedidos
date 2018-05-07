@@ -43,6 +43,7 @@ public class PedidoDataBaseHelper extends SQLiteOpenHelper
     public static final String CAMPO_CANTIDAD_DESCUENTO = "cantidad_descuento";
     public static final String CAMPO_MONTO_DESCUENTO    = "monto_descuento";
     public static final String CAMPO_MONTO_HELADOS      = "monto_helados";
+    public static final String CAMPO_MONTO_ABONA        = "montoabona";
 
     public static final String CAMPO_HORA_RECEPCION     = "hora_recepcion";
     public static final String CAMPO_HORA_ENTREGA       = "hora_entrega";
@@ -87,6 +88,7 @@ public class PedidoDataBaseHelper extends SQLiteOpenHelper
             CAMPO_CANTIDAD_DESCUENTO + " integer null ," +
             CAMPO_MONTO_DESCUENTO    + " real null ," +
             CAMPO_MONTO_HELADOS      + " real null ," +
+            CAMPO_MONTO_ABONA        + " real null ," +
             CAMPO_HORA_ENTREGA       + " date null ," +
             CAMPO_HORA_RECEPCION     + " date null ," +
             CAMPO_TIEMPO_DEMORA      + " integer null ," +

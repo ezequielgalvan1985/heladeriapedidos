@@ -12,56 +12,63 @@
 
 
 <LinearLayout
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/item_producto_imagen"
+        android:layout_width="150px"
+        android:layout_height="150px"
+        android:background="@mipmap/ic_helados10"
+        android:layout_gravity="center"
+        android:gravity="center"
+        />
 
-            <ImageView
-                android:id="@+id/item_producto_imagen"
-                android:layout_width="100px"
-                android:layout_height="100px"
-                android:background="@mipmap/ic_helados10"
-                android:layout_gravity="center"
-                android:gravity="center"
-                />
-            <TextView
-                android:layout_below="@+id/item_producto_imagen"
-                android:id="@+id/item_producto_id"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="ID"
-                android:visibility="invisible"
-                android:textSize="@dimen/textsize_parrafo"
-                android:layout_gravity="center"
-                android:gravity="center"
-                >
-            </TextView>
 
-            <TextView
-                android:layout_below="@+id/item_producto_imagen"
-                android:padding="@dimen/padding_small"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/item_producto_nombre"
-                android:text="nombre"
-                android:textSize="@dimen/textsize_h1"
-                android:layout_gravity="center"
-                android:gravity="center"
-                >
-            </TextView>
-            <TextView
-                android:padding="@dimen/padding_small"
-                android:layout_below="@+id/item_producto_nombre"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/item_producto_descripcion"
-                android:textStyle="italic"
-                android:textSize="@dimen/textsize_h2"
-                android:text="Descripcion"
-                android:layout_gravity="center"
-                android:gravity="center"
-                >
-            </TextView>
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/item_producto_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ID"
+            android:visibility="invisible"
+            android:textSize="@dimen/textsize_parrafo"
+            android:layout_gravity="left"
+            android:gravity="left"
+            >
+        </TextView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/item_producto_nombre"
+            android:text="nombre"
+            android:textSize="@dimen/textsize_h1"
+            android:layout_gravity="left"
+            android:gravity="left"
+            >
+        </TextView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/item_producto_descripcion"
+            android:textSize="@dimen/textsize_h2"
+            android:text="Descripcion"
+            android:layout_gravity="left"
+            android:gravity="left"
+            >
+        </TextView>
+    </LinearLayout>
+
+
+
+
+
 
 
 

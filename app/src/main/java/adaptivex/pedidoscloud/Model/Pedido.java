@@ -32,7 +32,7 @@ public class Pedido {
     private Double  bonificacion;
     private Integer estadoId;
     private Integer nroPedidoReal;
-
+    private Double  montoabona;
 
 
 
@@ -300,6 +300,10 @@ public class Pedido {
         return WorkNumber.moneyFormat(getMontoHelados());
     }
 
+    public String getMontoAbonaFormatMoney(){
+        return WorkNumber.moneyFormat(getMontoabona());
+    }
+
     public void setMonto(Double monto) {
         this.monto = monto;
     }
@@ -542,5 +546,13 @@ public class Pedido {
 
     public void setTiempoDemora(Integer tiempoDemora) {
         this.tiempoDemora = tiempoDemora;
+    }
+
+    public Double getMontoabona() {
+        return montoabona;
+    }
+
+    public void setMontoabona(Double montoabona) {
+        this.montoabona = montoabona;
     }
 }

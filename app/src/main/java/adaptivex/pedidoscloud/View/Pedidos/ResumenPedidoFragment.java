@@ -28,7 +28,7 @@ public class ResumenPedidoFragment extends Fragment implements View.OnClickListe
     private TextView lbl_cantidad_kilos, lbl_kilos_monto, lbl_cucuruchos_monto, lbl_monto_total;
     private TextView txt_cucuruchos, txt_direccion, txt_cucharitas, txt_monto_total, txtEnvio,
                      txt_pedido_id, txt_hora_entrega, txt_estado,
-                     txt_monto_descuento, txt_cantidad_descuento, txt_tiempo_demora;
+                     txt_monto_descuento, txt_cantidad_descuento, txt_tiempo_demora, txt_monto_abona;
     private Button   btnEnviarPedido;
     public ResumenPedidoFragment() {
 
@@ -69,6 +69,8 @@ public class ResumenPedidoFragment extends Fragment implements View.OnClickListe
 
         txt_cantidad_descuento = (TextView) v.findViewById(R.id.resumen_pedido_txt_descuento_cantidad);
         txt_monto_descuento    = (TextView) v.findViewById(R.id.resumen_pedido_txt_descuento_monto);
+        txt_monto_abona        = (TextView) v.findViewById(R.id.resumen_pedido_txt_monto_abona);
+
 
         btnEnviarPedido        =  (Button) v.findViewById(R.id.resumen_pedido_btn_enviar);
         btnEnviarPedido.setOnClickListener(this);
@@ -103,6 +105,8 @@ public class ResumenPedidoFragment extends Fragment implements View.OnClickListe
             txt_monto_descuento.setText(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getMontoDescuentoFormatMoney());
             txt_monto_total.setText(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getMontoFormatMoney());
             lbl_kilos_monto.setText(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getMontoHeladoFormatMoney());
+
+            txt_monto_abona.setText(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getMontoAbonaFormatMoney());
 
             btnEnviarPedido.setEnabled(true);
             if (GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getId()!=null){

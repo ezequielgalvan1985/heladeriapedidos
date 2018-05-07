@@ -20,16 +20,11 @@ import android.widget.Toast;
 
 import adaptivex.pedidoscloud.Config.Constants;
 import adaptivex.pedidoscloud.Config.GlobalValues;
-import adaptivex.pedidoscloud.Config.InsertRowsTest;
 import adaptivex.pedidoscloud.Controller.PedidoController;
 import adaptivex.pedidoscloud.Core.IniciarApp;
-import adaptivex.pedidoscloud.Core.ParameterHelper;
 import adaptivex.pedidoscloud.Core.SearchHelper;
-import adaptivex.pedidoscloud.Model.Cliente;
-import adaptivex.pedidoscloud.Model.Hojaruta;
 import adaptivex.pedidoscloud.Model.Pedido;
 import adaptivex.pedidoscloud.Servicios.HelperPedidos;
-import adaptivex.pedidoscloud.Servicios.IntentServiceStockPrecios;
 import adaptivex.pedidoscloud.View.Categorias.ListadoCategoriasFragment;
 import adaptivex.pedidoscloud.View.Consulting.ConfigFragment;
 import adaptivex.pedidoscloud.View.Consulting.ResumenFragment;
@@ -38,11 +33,9 @@ import adaptivex.pedidoscloud.View.Marcas.ListadoMarcasFragment;
 import adaptivex.pedidoscloud.View.Pedidodetalles.ListadoPedidodetallesFragment;
 import adaptivex.pedidoscloud.View.Pedidos.CargarDireccionFragment;
 import adaptivex.pedidoscloud.View.Pedidos.CargarHeladosFragment;
-import adaptivex.pedidoscloud.View.Pedidos.DetallePedidoFragment;
 import adaptivex.pedidoscloud.View.Pedidos.ListadoPedidosFragment;
 import adaptivex.pedidoscloud.View.Pedidos.ResumenPedidoFragment;
 import adaptivex.pedidoscloud.View.Productos.ListadoHeladosFragment;
-import adaptivex.pedidoscloud.View.Productos.ProductoDetalleFragment;
 import adaptivex.pedidoscloud.View.Promos.ListadoPromosFragment;
 import adaptivex.pedidoscloud.View.Pruebas.DescargaImagenActivity;
 
@@ -53,8 +46,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView.OnNavigationItemSelectedListener,
         ListadoCategoriasFragment.OnFragmentInteractionListener,
         ListadoMarcasFragment.OnFragmentInteractionListener,
-        ProductoDetalleFragment.OnFragmentInteractionListener,
-        DetallePedidoFragment.OnFragmentInteractionListener,
+        
         HomeFragment.OnFragmentInteractionListener,
         ResumenFragment.OnFragmentInteractionListener,
         ConfigFragment.OnFragmentInteractionListener,

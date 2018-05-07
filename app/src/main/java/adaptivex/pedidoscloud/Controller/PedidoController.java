@@ -154,8 +154,12 @@ public class PedidoController implements ControllerInterface
             valores.put(PedidoDataBaseHelper.CAMPO_ENVIO_DOMICILIO,  item.isEnvioDomicilio());
             valores.put(PedidoDataBaseHelper.CAMPO_MONTO_CUCURUCHOS, item.getMontoCucuruchos());
 
+            //MONTO
             valores.put(PedidoDataBaseHelper.CAMPO_MONTO_DESCUENTO,  item.getMontoDescuento());
+            valores.put(PedidoDataBaseHelper.CAMPO_MONTO_ABONA,  item.getMontoabona());
+            valores.put(PedidoDataBaseHelper.CAMPO_MONTO,  item.getMonto());
             valores.put(PedidoDataBaseHelper.CAMPO_CANTIDAD_DESCUENTO, item.getCantidadDescuento());
+
 
         }catch(Exception e ){
             Toast.makeText(context,"Error:" + e.getMessage(),Toast.LENGTH_LONG).show();
@@ -223,8 +227,11 @@ public class PedidoController implements ControllerInterface
             valores.put(PedidoDataBaseHelper.CAMPO_ENVIO_DOMICILIO,  item.isEnvioDomicilio());
             valores.put(PedidoDataBaseHelper.CAMPO_MONTO_CUCURUCHOS, item.getMontoCucuruchos());
 
+            //MONTO
             valores.put(PedidoDataBaseHelper.CAMPO_MONTO_DESCUENTO,    item.getMontoDescuento());
             valores.put(PedidoDataBaseHelper.CAMPO_CANTIDAD_DESCUENTO, item.getCantidadDescuento());
+            valores.put(PedidoDataBaseHelper.CAMPO_MONTO_ABONA,  item.getMontoabona());
+            valores.put(PedidoDataBaseHelper.CAMPO_MONTO,  item.getMonto());
 
 
             valores.put(PedidoDataBaseHelper.CAMPO_ID_TMP, item.getIdTmp());
@@ -306,9 +313,13 @@ public class PedidoController implements ControllerInterface
                     PedidoDataBaseHelper.CAMPO_ID_TMP,
 
                     PedidoDataBaseHelper.CAMPO_CUCURUCHOS,
+                    PedidoDataBaseHelper.CAMPO_CANTIDAD_DESCUENTO,
+
                     PedidoDataBaseHelper.CAMPO_MONTO_CUCURUCHOS,
                     PedidoDataBaseHelper.CAMPO_MONTO_DESCUENTO,
-                    PedidoDataBaseHelper.CAMPO_CANTIDAD_DESCUENTO
+                    PedidoDataBaseHelper.CAMPO_MONTO_ABONA,
+                    PedidoDataBaseHelper.CAMPO_MONTO
+
 
             };
             String[] argumentos = {String.valueOf(pEstadoId)};
@@ -408,11 +419,14 @@ public class PedidoController implements ControllerInterface
             valores.put(PedidoDataBaseHelper.CAMPO_CUCHARITAS,       item.getCucharitas());
             valores.put(PedidoDataBaseHelper.CAMPO_CUCURUCHOS,       item.getCucuruchos());
             valores.put(PedidoDataBaseHelper.CAMPO_ENVIO_DOMICILIO,  item.isEnvioDomicilio());
-            valores.put(PedidoDataBaseHelper.CAMPO_MONTO_CUCURUCHOS, item.getMontoCucuruchos());
+            valores.put(PedidoDataBaseHelper.CAMPO_CANTIDAD_DESCUENTO, item.getCantidadDescuento());
 
+
+            valores.put(PedidoDataBaseHelper.CAMPO_MONTO_CUCURUCHOS, item.getMontoCucuruchos());
             valores.put(PedidoDataBaseHelper.CAMPO_MONTO_DESCUENTO,  item.getMontoDescuento());
             valores.put(PedidoDataBaseHelper.CAMPO_MONTO_HELADOS, item.getMontoHelados());
-            valores.put(PedidoDataBaseHelper.CAMPO_CANTIDAD_DESCUENTO, item.getCantidadDescuento());
+            valores.put(PedidoDataBaseHelper.CAMPO_MONTO_ABONA, item.getMontoabona());
+
 
             valores.put(PedidoDataBaseHelper.CAMPO_HORA_ENTREGA, String.valueOf(item.getHoraentrega()));
             valores.put(PedidoDataBaseHelper.CAMPO_HORA_RECEPCION, String.valueOf(item.getHoraRecepcion()));
@@ -459,6 +473,8 @@ public class PedidoController implements ControllerInterface
             valores.put(PedidoDataBaseHelper.CAMPO_CANTIDAD_DESCUENTO, item.getCantidadDescuento());
             valores.put(PedidoDataBaseHelper.CAMPO_MONTO_DESCUENTO, item.getMontoDescuento());
             valores.put(PedidoDataBaseHelper.CAMPO_MONTO_HELADOS, item.getMontoHelados());
+            valores.put(PedidoDataBaseHelper.CAMPO_MONTO_ABONA, item.getMontoabona());
+
 
             valores.put(PedidoDataBaseHelper.CAMPO_HORA_ENTREGA, String.valueOf(item.getHoraentrega()));
             valores.put(PedidoDataBaseHelper.CAMPO_HORA_RECEPCION, String.valueOf(item.getHoraRecepcion()));
@@ -510,7 +526,8 @@ public class PedidoController implements ControllerInterface
                     PedidoDataBaseHelper.CAMPO_CANTIDAD_DESCUENTO,
                     PedidoDataBaseHelper.CAMPO_MONTO_DESCUENTO,
                     PedidoDataBaseHelper.CAMPO_HORA_ENTREGA,
-                    PedidoDataBaseHelper.CAMPO_MONTO_DESCUENTO
+                    PedidoDataBaseHelper.CAMPO_MONTO_DESCUENTO,
+                    PedidoDataBaseHelper.CAMPO_MONTO_ABONA
 
 
             };
@@ -561,7 +578,9 @@ public class PedidoController implements ControllerInterface
                     PedidoDataBaseHelper.CAMPO_CANTIDAD_DESCUENTO,
                     PedidoDataBaseHelper.CAMPO_MONTO_DESCUENTO,
                     PedidoDataBaseHelper.CAMPO_MONTO_HELADOS,
-                    PedidoDataBaseHelper.CAMPO_HORA_ENTREGA
+                    PedidoDataBaseHelper.CAMPO_HORA_ENTREGA,
+                    PedidoDataBaseHelper.CAMPO_MONTO_ABONA
+
 
 
             };
@@ -619,6 +638,7 @@ public class PedidoController implements ControllerInterface
                 registro.setCantidadDescuento(resultado.getInt(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_CANTIDAD_DESCUENTO)));
                 registro.setMontoDescuento(resultado.getDouble(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_MONTO_DESCUENTO)));
                 registro.setMonto(resultado.getDouble(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_MONTO)));
+                registro.setMontoabona(resultado.getDouble(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_MONTO_ABONA)));
             }
             return registro;
         }catch(Exception e){
@@ -657,7 +677,9 @@ public class PedidoController implements ControllerInterface
                     PedidoDataBaseHelper.CAMPO_MONTO_CUCURUCHOS,
                     PedidoDataBaseHelper.CAMPO_CANTIDAD_DESCUENTO,
                     PedidoDataBaseHelper.CAMPO_MONTO_DESCUENTO,
-                    PedidoDataBaseHelper.CAMPO_HORA_ENTREGA
+                    PedidoDataBaseHelper.CAMPO_HORA_ENTREGA,
+                    PedidoDataBaseHelper.CAMPO_MONTO_ABONA,
+
 
 
             };
@@ -696,70 +718,7 @@ public class PedidoController implements ControllerInterface
     }
 
 
-    public Pedido buscar(long id, boolean isIdTmp)
-    {
-        Pedido registro = null;
-        String[] campos = {
-                PedidoDataBaseHelper.CAMPO_ID,
-                PedidoDataBaseHelper.CAMPO_ID_TMP,
-                PedidoDataBaseHelper.CAMPO_CREATED,
-                PedidoDataBaseHelper.CAMPO_SUBTOTAL,
-                PedidoDataBaseHelper.CAMPO_IVA,
-                PedidoDataBaseHelper.CAMPO_MONTO,
-                PedidoDataBaseHelper.CAMPO_CLIENTE_ID,
-                PedidoDataBaseHelper.CAMPO_BONIFICACION,
-                PedidoDataBaseHelper.CAMPO_ESTADO_ID
 
-
-        };
-
-
-
-        String CAMPOID = "";
-        if (isIdTmp) {
-            CAMPOID = PedidoDataBaseHelper.CAMPO_ID_TMP;
-        }else{
-            CAMPOID = PedidoDataBaseHelper.CAMPO_ID;
-        }
-        Log.d("Deb Buscar Pedido ", CAMPOID);
-        Log.d("Deb Buscar Id ", String.valueOf(id));
-
-        String[] argumentos = {String.valueOf(id)};
-        Cursor resultado = db.query(PedidoDataBaseHelper.TABLE_NAME, campos,
-                CAMPOID + " = ?", argumentos, null, null, null);
-
-        ClienteController dbCliente = new ClienteController(this.context);
-        PedidodetalleController dbDetalles = new PedidodetalleController(this.context);
-
-        if (resultado != null)
-        {
-            resultado.moveToFirst();
-            registro = new Pedido();
-            registro.setId(resultado.getInt(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_ID)));
-            registro.setCreated(resultado.getString(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_CREATED)));
-            registro.setSubtotal(resultado.getDouble(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_SUBTOTAL)));
-            registro.setIva(resultado.getDouble(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_IVA)));
-            registro.setMonto(resultado.getDouble(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_MONTO)));
-            registro.setCliente_id(resultado.getInt(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_CLIENTE_ID)));
-            Cliente cliente = dbCliente.abrir().buscar(registro.getCliente_id());
-            registro.setCliente(cliente);
-            dbCliente.cerrar();
-
-
-            registro.setBonificacion(resultado.getDouble(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_BONIFICACION)));
-            registro.setEstadoId(resultado.getInt(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_ESTADO_ID)));
-            registro.setIdTmp(resultado.getInt(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_ID_TMP)));
-
-            //Carga Detalles
-            //Cursor detallecursor = dbDetalles.abrir().obtenerTodos();
-            Cursor detallecursor = dbDetalles.abrir().findByPedidoIdTmp(registro.getIdTmp());
-            registro.setDetalles(detallecursor);
-            dbDetalles.cerrar();
-
-        }
-        return registro;
-
-    }
 
 
 
@@ -791,6 +750,7 @@ public class PedidoController implements ControllerInterface
                 PedidoDataBaseHelper.CAMPO_MONTO_HELADOS,
                 PedidoDataBaseHelper.CAMPO_MONTO_CUCURUCHOS,
                 PedidoDataBaseHelper.CAMPO_MONTO_DESCUENTO,
+                PedidoDataBaseHelper.CAMPO_MONTO_ABONA,
 
 
                 PedidoDataBaseHelper.CAMPO_LOCALIDAD,
@@ -825,6 +785,7 @@ public class PedidoController implements ControllerInterface
             registro.setMontoHelados(resultado.getDouble(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_MONTO_HELADOS)));
             registro.setMontoCucuruchos(resultado.getDouble(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_MONTO_CUCURUCHOS)));
             registro.setMontoDescuento(resultado.getDouble(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_MONTO_DESCUENTO)));
+            registro.setMontoabona(resultado.getDouble(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_MONTO_ABONA)));
 
             registro.setBonificacion(resultado.getDouble(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_BONIFICACION)));
             registro.setEstadoId(resultado.getInt(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_ESTADO_ID)));

@@ -23,6 +23,19 @@ public  class WorkNumber {
         }
        return number;
     }
+    public static Double parseDouble(String str_numero){
+        Double number =0.0;
+        try
+        {
+            if(str_numero != null)
+                number = Double.parseDouble(str_numero);
+        }
+        catch (NumberFormatException e)
+        {
+            number = 0.0;
+        }
+        return number;
+    }
 
     public static Integer getValue(Integer numero){
         try

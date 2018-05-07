@@ -20,8 +20,7 @@ import adaptivex.pedidoscloud.R;
 
 public class CargarOtrosDatosFragment extends Fragment implements View.OnClickListener {
 
-    private EditText txtCucuruchos;
-    private EditText txtCucharitas;
+    private EditText txtCucuruchos, txtMontoAbona,txtCucharitas;
     private CheckBox chkEnvio;
     private Button   btnListo;
 
@@ -30,6 +29,7 @@ public class CargarOtrosDatosFragment extends Fragment implements View.OnClickLi
     private void getDataForm(){
         if (txtCucuruchos.getText()!= null) GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.setCucuruchos(WorkNumber.parseInteger(txtCucuruchos.getText().toString()));
         if (txtCucharitas.getText()!= null) GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.setCucharitas(WorkNumber.parseInteger(txtCucharitas.getText().toString()));
+        if (txtMontoAbona.getText()!= null) GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.setMontoabona(WorkNumber.parseDouble(txtMontoAbona.getText().toString()));
         GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.setEnvioDomicilio(chkEnvio.isChecked());
 
 
@@ -60,6 +60,7 @@ public class CargarOtrosDatosFragment extends Fragment implements View.OnClickLi
         View v = inflater.inflate(R.layout.fragment_cargar_otros_datos, container, false);
         txtCucuruchos  = (EditText) v.findViewById(R.id.otros_datos_cantidad_cucuruchos);
         txtCucharitas  = (EditText) v.findViewById(R.id.otros_datos_cantidad_cucharitas);
+        txtMontoAbona  = (EditText) v.findViewById(R.id.otros_datos_txt_monto_abona);
         chkEnvio       = (CheckBox) v.findViewById(R.id.otros_datos_chk_envio);
         btnListo       = (Button)   v.findViewById(R.id.otros_datos_btn_listo);
 

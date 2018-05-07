@@ -78,7 +78,7 @@ public class PromoController
     {
         try {
             String[] argumentos = new String[]
-                    {String.valueOf(item.getIdAndroid())};
+                    {String.valueOf(item.getId())};
 
             ContentValues valores = new ContentValues();
 
@@ -95,7 +95,7 @@ public class PromoController
             valores.put(PromoDataBaseHelper.CAMPO_ENABLED, item.isEnabled());
 
             db.update(PromoDataBaseHelper.TABLE_NAME, valores,
-                    PromoDataBaseHelper.CAMPO_ID_ANDROID + " = ?", argumentos);
+                    PromoDataBaseHelper.CAMPO_ID + " = ?", argumentos);
         }catch (Exception e){
             Toast.makeText(context, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
