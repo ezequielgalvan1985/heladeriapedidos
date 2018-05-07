@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView.OnNavigationItemSelectedListener,
         ListadoCategoriasFragment.OnFragmentInteractionListener,
         ListadoMarcasFragment.OnFragmentInteractionListener,
-        
+
         HomeFragment.OnFragmentInteractionListener,
         ResumenFragment.OnFragmentInteractionListener,
         ConfigFragment.OnFragmentInteractionListener,
@@ -71,21 +71,7 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-/*
-        ParameterHelper ph = new ParameterHelper(getBaseContext());
 
-        if (ph.getServiceStockPrecios().equals("Y")){
-            intentServiceStockPrecios = new Intent(MainActivity.this, IntentServiceStockPrecios.class);
-            getBaseContext().startService(intentServiceStockPrecios);
-        }
-
-        if (!ph.isDownloadDatabase()){
-            IniciarApp ia = new IniciarApp(getBaseContext());
-            ia.downloadDatabase();
-        }
-
-
-*/
 
 
 

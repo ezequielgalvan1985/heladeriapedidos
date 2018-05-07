@@ -46,7 +46,8 @@ public class Promo {
     }
 
     public String getDescripcion() {
-        return descripcion;
+
+        return "'"+descripcion+"'";
     }
 
     public void setDescripcion(String descripcion) {
@@ -73,7 +74,7 @@ public class Promo {
 
     public String getPorcentajeDescuentoDescripcion(){
         String texto ="";
-        texto =  calculatePorcentajeDescuento().toString() + "% de Descuento con esta Promo";
+        texto =  "-"+calculatePorcentajeDescuento().toString()+"% OFF" ;
         return texto;
     }
     public Integer calculatePorcentajeDescuento(){
@@ -90,11 +91,17 @@ public class Promo {
         return precioPromo;
     }
     public String getPrecioPromoFormatMoney(){
+
         return WorkNumber.moneyFormat(precioPromo);
+    }
+    public String getPrecioPromoFormatMoney2(){
+
+        return  WorkNumber.moneyFormat(precioPromo);
     }
 
     public String getPrecioAnteriorFormatMoney(){
-        return WorkNumber.moneyFormat(precioAnterior);
+        String texto = "(antes "+WorkNumber.moneyFormat(precioAnterior) +")";
+        return texto;
     }
 
     public void setPrecioPromo(Double precioPromo) {

@@ -62,10 +62,10 @@ public class RVAdapterPromo extends RecyclerView.Adapter<RVAdapterPromo.PromoVie
     public void onBindViewHolder(PromoViewHolder productoViewHolder, int i) {
         productoViewHolder.txtNombre.setText(String.valueOf(getPromos().get(i).getNombre()));
         productoViewHolder.txtDescripcion.setText(getPromos().get(i).getDescripcion());
-        productoViewHolder.txtCantKilos.setText(String.valueOf(getPromos().get(i).getCantKilosFormatString()));
+
         productoViewHolder.txtPorcentajeDescuento.setText(String.valueOf( getPromos().get(i).getPorcentajeDescuentoDescripcion()));
-        productoViewHolder.txtVigencia.setText(getPromos().get(i).getVigenciaDescripcion());
-        productoViewHolder.txtPrecioPromo.setText(String.valueOf( getPromos().get(i).getPrecioPromoFormatMoney()));
+
+        productoViewHolder.txtPrecioPromo.setText(String.valueOf( getPromos().get(i).getPrecioPromoFormatMoney2()));
         productoViewHolder.txtPrecioAnterior.setText(String.valueOf( getPromos().get(i).getPrecioAnteriorFormatMoney()));
     }
 
@@ -92,9 +92,9 @@ public class RVAdapterPromo extends RecyclerView.Adapter<RVAdapterPromo.PromoVie
             this.ctx = ctx;
             txtNombre              = (TextView)itemView.findViewById(R.id.item_promo_txt_nombre);
             txtDescripcion         = (TextView)itemView.findViewById(R.id.item_promo_txt_descripcion);
-            txtCantKilos           = (TextView)itemView.findViewById(R.id.item_promo_txt_cantidad_kilos);
+
             txtPorcentajeDescuento = (TextView)itemView.findViewById(R.id.item_promo_txt_porcentaje_descuento);
-            txtVigencia            = (TextView)itemView.findViewById(R.id.item_promo_lbl_vigencia);
+
             txtPrecioPromo         = (TextView)itemView.findViewById(R.id.item_promo_txt_precio_monto);
             txtPrecioAnterior      = (TextView)itemView.findViewById(R.id.item_promo_txt_precio_anterior);
         }

@@ -264,8 +264,19 @@ public class CargarHeladosFragment extends Fragment implements View.OnClickListe
             * 4
          * * */
             for (int i=0; i<GlobalValues.getINSTANCIA().listaHeladosSeleccionados.size(); i++){
-                if (GlobalValues.getINSTANCIA().listaHeladosSeleccionados.get(i).isChecked()){
 
+
+                //si no esta seleccionado, busca si tiene pedidodetalle y lo eliminar de la BD y de la lista
+                if (!GlobalValues.getINSTANCIA().listaHeladosSeleccionados.get(i).isChecked()){
+                    ItemHelado item = (ItemHelado) (GlobalValues.getINSTANCIA().listaHeladosSeleccionados.get(i));
+                    if (item.getPedidodetalle() !=null){
+                         pdc.abrir().eliminar(item.getPedidodetalle());
+                         item.setPedidodetalle(null);
+                    }
+                }
+
+
+                if (GlobalValues.getINSTANCIA().listaHeladosSeleccionados.get(i).isChecked()){
                     ItemHelado item = (ItemHelado) (GlobalValues.getINSTANCIA().listaHeladosSeleccionados.get(i));
                     Pedidodetalle pd = new Pedidodetalle();
                     if (item.getPedidodetalle() ==null){

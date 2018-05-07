@@ -72,9 +72,11 @@ public class HelperPromos extends AsyncTask<Void, Void, Void> {
             // Recorrer Lista
             for (int i = 0; i < cp.getListadoPromos().size(); i++) {
                 Promo promo_server = cp.getListadoPromos().get(i);
-                Promo promo_local = promoCtr.abrir().findByIdAndroid(promo_server.getIdAndroid());
-                if (promo_local==null){
-                    promoCtr.abrir().add(promo_server);
+                Promo promo_local = promoCtr.abrir().findById(promo_server.getId());
+                if (promo_local==null || promo_local.getId()==null){
+
+                        promoCtr.abrir().add(promo_server);
+
                 }else{
                     promoCtr.abrir().edit(promo_server);
                 }

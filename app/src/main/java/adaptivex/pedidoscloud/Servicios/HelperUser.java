@@ -11,6 +11,7 @@ import android.widget.Toast;
 import adaptivex.pedidoscloud.Config.Configurador;
 import adaptivex.pedidoscloud.Config.GlobalValues;
 import adaptivex.pedidoscloud.Core.IniciarApp;
+import adaptivex.pedidoscloud.Core.ParameterHelper;
 import adaptivex.pedidoscloud.Core.parserJSONtoModel.UserParser;
 import adaptivex.pedidoscloud.MainActivity;
 import adaptivex.pedidoscloud.Model.User;
@@ -182,6 +183,7 @@ public class HelperUser extends AsyncTask<Void, Void, Void> {
                         break;
                     case OPTION_REGISTER:
                         onPostUserRegister();
+
                         break;
                     case OPTION_UPDATE:
                         onPostUserUpdate();
@@ -232,8 +234,12 @@ public class HelperUser extends AsyncTask<Void, Void, Void> {
             if (RESPONSE_CODE ==RETURN_OK) {
                 //Luego de regisrar
                 if (getBEHAVIOR_POST_REGISTER() == BEHAVIOR_POST_REGISTER_INICIAR_APP) {
-                    Intent i = new Intent(getCtx(), MainActivity.class);
-                    getCtx().startActivity(i);
+                        IniciarApp ia = new IniciarApp(getCtx());
+                        ia.iniciarBD();
+                        ia.downloadDatabase();
+                        ia.loginRemember(user);
+                        Intent i = new Intent(this.getCtx(), MainActivity.class);
+                        getCtx().startActivity(i);
 
                 }
             }

@@ -15,11 +15,12 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
+
     <ImageView
         android:id="@+id/item_producto_imagen"
         android:layout_width="150px"
         android:layout_height="150px"
-        android:background="@mipmap/ic_helados10"
+        android:background="@mipmap/ic_helado12"
         android:layout_gravity="center"
         android:gravity="center"
         />

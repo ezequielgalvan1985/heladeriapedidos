@@ -322,6 +322,35 @@ public class PromoController
     }
 
 
+    public Promo findById(Integer id)
+    {
+        Promo registro = new Promo();
+        String[] campos = {
+                PromoDataBaseHelper.CAMPO_ID,
+                PromoDataBaseHelper.CAMPO_NOMBRE,
+                PromoDataBaseHelper.CAMPO_DESCRIPCION,
+                PromoDataBaseHelper.CAMPO_FECHA_DESDE,
+                PromoDataBaseHelper.CAMPO_FECHA_HASTA,
+                PromoDataBaseHelper.CAMPO_CANTIDAD_KILOS,
+                PromoDataBaseHelper.CAMPO_IMPORTE_DESCUENTO,
+                PromoDataBaseHelper.CAMPO_PRECIO_ANTERIOR,
+                PromoDataBaseHelper.CAMPO_PRECIO_PROMO,
+                PromoDataBaseHelper.CAMPO_ID_ANDROID,
+                PromoDataBaseHelper.CAMPO_ENABLED
+        };
+        String[] argumentos = {String.valueOf(id)};
+
+        Cursor resultado = db.query(PromoDataBaseHelper.TABLE_NAME, campos,
+                PromoDataBaseHelper.CAMPO_ID + " = ?", argumentos, null, null, null);
+        if (resultado != null)
+        {
+            resultado.moveToFirst();
+            registro = parseObjectFromRecord(resultado);
+        }
+        return registro;
+    }
+
+
 
     public ArrayList<Promo> parseCursorToArrayList(Cursor c){
         try{

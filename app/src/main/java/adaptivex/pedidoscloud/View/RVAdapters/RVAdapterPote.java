@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.database.DataSetObserver;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.CardView;
@@ -24,12 +25,15 @@ import java.util.ArrayList;
 
 import adaptivex.pedidoscloud.Config.Constants;
 import adaptivex.pedidoscloud.Config.GlobalValues;
+import adaptivex.pedidoscloud.Controller.PedidodetalleController;
 import adaptivex.pedidoscloud.Core.Components.ListAdapterHelados;
 import adaptivex.pedidoscloud.Model.Pote;
 import adaptivex.pedidoscloud.Model.PoteItem;
 import adaptivex.pedidoscloud.Model.Producto;
 import adaptivex.pedidoscloud.R;
+import adaptivex.pedidoscloud.View.Pedidos.CargarCantidadFragment;
 import adaptivex.pedidoscloud.View.Pedidos.CargarHeladosFragment;
+import adaptivex.pedidoscloud.View.Productos.ListadoHeladosFragment;
 
 /**
  * Created by egalvan on 11/3/2018.
@@ -94,6 +98,7 @@ public class RVAdapterPote extends RecyclerView.Adapter<RVAdapterPote.PoteViewHo
                                                                     Toast.makeText(ctx, "Click en Elegir Helados", Toast.LENGTH_LONG).show();
                                                                     break;
                                                                 case R.id.menu_eliminar_pote:
+                                                                    openEliminarHelados(pote);
                                                                     Toast.makeText(ctx, "Click en Elegir Helados", Toast.LENGTH_LONG).show();
                                                                     break;
                                                                 default:
@@ -132,6 +137,26 @@ public class RVAdapterPote extends RecyclerView.Adapter<RVAdapterPote.PoteViewHo
         }
     }
 
+    public void openEliminarHelados(Pote p){
+        try{
+
+            PedidodetalleController pdc = new PedidodetalleController(getCtx());
+            pdc.abrir().deleteByPote(p);
+
+            Toast.makeText(getCtx(), "Pote Eliminado Correctamente" , Toast.LENGTH_LONG).show();
+
+            Fragment fragment = new CargarCantidadFragment();
+
+            getFragmentManager()
+                    .beginTransaction()
+                    .detach(fragment)
+                    .attach(fragment)
+                    .commit();
+
+        }catch (Exception e){
+            Toast.makeText(getCtx(), "Error: " +e.getMessage(), Toast.LENGTH_LONG).show();
+        }
+    }
 
 
     @Override

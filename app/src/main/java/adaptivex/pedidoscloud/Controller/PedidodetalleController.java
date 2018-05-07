@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import adaptivex.pedidoscloud.Model.PedidoDataBaseHelper;
 import adaptivex.pedidoscloud.Model.Pedidodetalle;
 import adaptivex.pedidoscloud.Model.PedidodetalleDataBaseHelper;
+import adaptivex.pedidoscloud.Model.Pote;
 import adaptivex.pedidoscloud.Model.Producto;
 
 /**
@@ -92,6 +93,19 @@ public class PedidodetalleController
         db.delete(PedidodetalleDataBaseHelper.TABLE_NAME,
                 PedidodetalleDataBaseHelper.CAMPO_ID_TMP + " = ?", argumentos);
     }
+
+
+    public void deleteByPote(Pote pote)
+    {
+        String[] argumentos = new String[]{String.valueOf(pote.getPedido().getIdTmp()), String.valueOf(pote.getNroPote())};
+
+        db.delete(PedidodetalleDataBaseHelper.TABLE_NAME,
+                PedidodetalleDataBaseHelper.CAMPO_PEDIDO_ID_TMP + " = ? AND " +
+                PedidodetalleDataBaseHelper.CAMPO_NRO_POTE+ " = ?"
+                , argumentos);
+    }
+
+
 
     public Cursor obtenerTodos()
     {

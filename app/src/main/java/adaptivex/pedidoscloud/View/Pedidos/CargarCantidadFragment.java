@@ -27,10 +27,11 @@ import adaptivex.pedidoscloud.Config.GlobalValues;
 import adaptivex.pedidoscloud.Controller.PedidoController;
 import adaptivex.pedidoscloud.Model.Pote;
 import adaptivex.pedidoscloud.R;
+import adaptivex.pedidoscloud.View.Promos.ListadoPromosFragment;
 import adaptivex.pedidoscloud.View.RVAdapters.RVAdapterPote;
 
 public class CargarCantidadFragment extends Fragment implements View.OnClickListener{
-    private Button btnAgregar,btnEditar, btnListo;
+    private Button btnAgregar,btnEditar, btnListo, btnPromos;
     private EditText txtCucuruchos, txtCucharas;
     private CheckBox chkEnvio;
     private Spinner spn_cantidad;
@@ -80,10 +81,10 @@ public class CargarCantidadFragment extends Fragment implements View.OnClickList
         GlobalValues.getINSTANCIA().CURRENT_FRAGMENT_NUEVO_PEDIDO = GlobalValues.getINSTANCIA().NP_CARGAR_CANTIDAD;
 
         btnAgregar      = (Button)   v.findViewById(R.id.cantidad_btn_agregar);
-        //btnEditar      = (Button)    v.findViewById(R.id.cantidad_btn_editar);
+        //btnEditar     = (Button)    v.findViewById(R.id.cantidad_btn_editar);
         btnListo        = (Button)   v.findViewById(R.id.cargar_cantidad_btn_listo);
         spn_cantidad    = (Spinner)  v.findViewById(R.id.cantidad_spn_cantidad);
-
+        btnPromos       =(Button)   v.findViewById(R.id.cantidad_btn_promos);
 
 
         List<String> categories = new ArrayList<String>();
@@ -104,7 +105,7 @@ public class CargarCantidadFragment extends Fragment implements View.OnClickList
         //btnEditar.setOnClickListener(this);
         btnAgregar.setOnClickListener(this);
         btnListo.setOnClickListener(this);
-
+        btnPromos.setOnClickListener(this);
 
 
         //Se agrega Recycle view de Potes Cargados
@@ -194,6 +195,11 @@ public class CargarCantidadFragment extends Fragment implements View.OnClickList
         callFragment(fragment);
     }
 
+    public void openPromos(){
+        ListadoPromosFragment fragment = new ListadoPromosFragment();
+        callFragment(fragment);
+    }
+
     public void callFragment(Fragment fragment){
         FragmentManager fragmentManager         = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -219,6 +225,11 @@ public class CargarCantidadFragment extends Fragment implements View.OnClickList
                     savePedido();
                     openCargarOtrosDatos();
                 }
+                break;
+
+            case R.id.cantidad_btn_promos:
+                //Agregar pote, se suma cantidad de potes y se agrega cantidad de kilos
+                openPromos();
                 break;
 
         }
