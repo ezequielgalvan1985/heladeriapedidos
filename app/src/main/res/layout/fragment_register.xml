@@ -7,11 +7,10 @@
     android:scaleType = "centerCrop"
     android:padding="25dp">
 
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true"
-        >
+        android:fillViewport="true">
 
         <!-- Inicio de Register Form-->
         <LinearLayout
@@ -33,12 +32,9 @@
                     android:hint="@string/prompt_username"
                     android:inputType="text"
                     android:maxLines="1"
-                    android:textColor="@color/white"/>
+                    android:textColor="@color/white" />
 
             </android.support.design.widget.TextInputLayout>
-
-
-
 
 
             <android.support.design.widget.TextInputLayout
@@ -55,7 +51,7 @@
                     android:imeOptions="actionUnspecified"
                     android:inputType="textPassword"
                     android:maxLines="1"
-                    android:textColor="@color/white"/>
+                    android:textColor="@color/white" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -69,7 +65,7 @@
                     android:hint="@string/prompt_email"
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
-                    android:textColor="@color/white"/>
+                    android:textColor="@color/white" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -86,7 +82,7 @@
                     android:inputType="text"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:textColor="@color/white"/>
+                    android:textColor="@color/white" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -102,7 +98,7 @@
                     android:inputType="text"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:textColor="@color/white"/>
+                    android:textColor="@color/white" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -118,7 +114,7 @@
                     android:inputType="text"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:textColor="@color/white"/>
+                    android:textColor="@color/white" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -135,7 +131,7 @@
                     android:inputType="number"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:textColor="@color/white"/>
+                    android:textColor="@color/white" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -151,7 +147,7 @@
                     android:inputType="text"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:textColor="@color/white"/>
+                    android:textColor="@color/white" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -167,30 +163,28 @@
                     android:inputType="text"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:textColor="@color/white"/>
+                    android:textColor="@color/white" />
 
             </android.support.design.widget.TextInputLayout>
 
             <Button
-                android:textColor="@color/primary_text"
                 android:id="@+id/register_btn_register"
                 style="?android:textAppearanceSmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/action_register"
                 android:layout_gravity="left"
-                android:textStyle="bold"
-                />
-
+                android:layout_marginTop="16dp"
+                android:drawableLeft="@mipmap/ic_create_user"
+                android:text="@string/action_register"
+                android:textColor="@color/primary_text"
+                android:textStyle="bold" />
 
 
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="15dp">
-
+                android:layout_marginTop="15dp"
+                android:orientation="vertical">
 
 
                 <Button
@@ -198,12 +192,15 @@
                     style="?android:textAppearanceSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:text="@string/action_login"
                     android:layout_gravity="left"
+                    android:layout_marginTop="5dp"
+                    android:drawableLeft="@mipmap/ic_login_1"
+                    android:text="@string/action_login"
                     android:textColor="@color/primary_text"
 
                     />
+
+
             </LinearLayout>
 
         </LinearLayout>
