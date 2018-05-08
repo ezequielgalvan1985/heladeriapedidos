@@ -49,11 +49,13 @@
             android:layout_margin="15dp">
 
             <TextView
+                android:id="@+id/cargar_otros_datos_txt_cucuruchos_precio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Cucuruchos (5 $ c/u):"
+                android:text="Cucuruchos: c/u"
                 android:textSize="20dp"
                 android:layout_marginRight="15dp"/>
+
 
             <EditText
                 android:id="@+id/otros_datos_cantidad_cucuruchos"

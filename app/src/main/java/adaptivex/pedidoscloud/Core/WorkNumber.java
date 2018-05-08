@@ -70,7 +70,7 @@ public  class WorkNumber {
         }
     }
 
-    public static String decimalFormat(Double numero){
+    public static String parseDoubleToString(Double numero){
         //Formatea  a Decimal
         String numeroFormateado= "0.0";
         try {

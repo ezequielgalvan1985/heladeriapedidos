@@ -1,19 +1,5 @@
 Desarrollar:
-descargar tabla parametros
-descargar promociones
-crear servicio para ver estado del pedido
-listado de helado, achicar imagen, cambiar imagen, achicar letra descripcion, poner en cursiva, centrar titulo, quitar numero
-nuevo pedido, precio x kilo, leer del parametro
-boton ver promos, muestra las promos
-promociones > promo valida desde, quitar
 
-activar servicio cuando pedido se envia
-pantalla resumen, validar, si estado de pedido esta en preparacion, no se envia
-apagar servicio cuando el pedido pasa a entregado
-
-cargar helados > crear boton para ver los helados seleccionados
-funcionalidad elimnar pote
-bug > boton modificar no funciona la carga de helados
 
 
 Login:
@@ -64,3 +50,9 @@ si esta logueado cargar variable global userlogin
 
 LISTO:
 AIzaSyC8m-3Cy_-ER0U_9JVlczUzf96CulFf4cw
+
+llave en
+C:\xampp\htdocs\HeladeriaPedidos\app
+
+key0
+gamuza99

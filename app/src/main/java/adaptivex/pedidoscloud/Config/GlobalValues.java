@@ -1,6 +1,7 @@
 package adaptivex.pedidoscloud.Config;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.os.SystemClock;
 import android.provider.Settings;
 import android.widget.Toast;
@@ -310,8 +311,6 @@ public class GlobalValues {
             gestdb.cerrar();
             Toast.makeText(ctx, "Generando Nuevo Pedido  "+ String.valueOf(id) , Toast.LENGTH_SHORT).show();
 
-            User user = GlobalValues.getINSTANCIA().getUserlogued();
-
             //Refrescar los paramteros
             User u = GlobalValues.getINSTANCIA().getUserlogued();
             IniciarApp ia = new IniciarApp(ctx);
@@ -326,6 +325,25 @@ public class GlobalValues {
             return 0;
         }
     }
+
+
+
+    public boolean FL_VerPedidoActual(Context ctx){
+        try {
+            //BUSCAR ULTIMO PEDIDO GENERADO EN EL DISPOSITIVO
+            PedidoController pdba = new PedidoController(ctx);
+            long nroPedido = pdba.findByLastAndroidIdAndEstadoId(Constants.ESTADO_ENPREPARACION);
+            if (nroPedido > 0) {
+                Cursor c = pdba.abrir().findByIdAndroid(nroPedido);
+                Pedido p = pdba.abrir().parseCursorToPedido(c);
+                GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL = p;
+            }
+            return true;
+        }catch(Exception e ){
+            return false;
+        }
+    }
+
 
 
 }

@@ -93,8 +93,11 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+
     @Override
     public void onBackPressed() {
+
+
         if (getFragmentManager().getBackStackEntryCount() > 0) {
             getFragmentManager().popBackStack();
         } else {
@@ -106,6 +109,7 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+/*
         MenuItem searchItem = menu.findItem(R.id.mnu_search);
         SearchView searchView = (SearchView) searchItem.getActionView();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener(){
@@ -126,13 +130,13 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public boolean onQueryTextChange(String s) {
-                Toast.makeText(MainActivity.this, s, Toast.LENGTH_LONG).show();
+
                 return true;
             }
 
 
         });
-
+*/
         return  super.onCreateOptionsMenu(menu);
     }
 
@@ -154,23 +158,17 @@ public class MainActivity extends AppCompatActivity
             GlobalValues.getINSTANCIA().crearNuevoPedido(this);
             fragment = new CargarDireccionFragment();
             fragmentTransaction = true;
+
+
         }else if (id == R.id.mnu_ver_pedido_actual) {
-
-            //BUSCAR ULTIMO PEDIDO GENERADO EN EL DISPOSITIVO
-            //GlobalValues.getINSTANCIA().setActualFragment(GlobalValues.getINSTANCIA().DETALLEPEDIDO);
-
-            PedidoController pdba = new PedidoController(this);
-            long nroPedido = pdba.getMaxIdTmpPedido();
-            if (nroPedido > 0) {
-                Cursor c = pdba.abrir().findByIdAndroid(nroPedido);
-                Pedido p = pdba.abrir().parseCursorToPedido(c);
-                GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL = p;
-                fragment = new ResumenPedidoFragment();
+            fragment = new ResumenPedidoFragment();
+            if (GlobalValues.getINSTANCIA().FL_VerPedidoActual(this)){
                 fragmentTransaction = true;
-            } else {
+            }else{
                 Toast.makeText(this, "MainActivity: No Hay Pedidos Generados", Toast.LENGTH_LONG);
                 Log.println(Log.ERROR, "MainActivity:", " No Hay Pedidos Generados ");
             }
+
         }else if (id==R.id.mnu_continuar_pedido_actual){
 
             PedidoController pdba = new PedidoController(this);
@@ -363,16 +361,8 @@ public class MainActivity extends AppCompatActivity
 
         @Override
         public void onFragmentInteraction(Uri uri) {
-
+            Toast.makeText(this,"Mensaje: " + uri.getFragment().toString(),Toast.LENGTH_LONG).show();
         }
-
-
-
-
-
-
-
-
 
 
 

@@ -10,17 +10,22 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import adaptivex.pedidoscloud.Config.Constants;
 import adaptivex.pedidoscloud.Config.GlobalValues;
+import adaptivex.pedidoscloud.Controller.ParameterController;
 import adaptivex.pedidoscloud.Controller.PedidoController;
 import adaptivex.pedidoscloud.Core.WorkNumber;
+import adaptivex.pedidoscloud.Core.WorkString;
+import adaptivex.pedidoscloud.Model.Parameter;
 import adaptivex.pedidoscloud.R;
 
 public class CargarOtrosDatosFragment extends Fragment implements View.OnClickListener {
 
     private EditText txtCucuruchos, txtMontoAbona,txtCucharitas;
+    private TextView txtCucuruchoPrecio;
     private CheckBox chkEnvio;
     private Button   btnListo;
 
@@ -57,15 +62,26 @@ public class CargarOtrosDatosFragment extends Fragment implements View.OnClickLi
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_cargar_otros_datos, container, false);
-        txtCucuruchos  = (EditText) v.findViewById(R.id.otros_datos_cantidad_cucuruchos);
-        txtCucharitas  = (EditText) v.findViewById(R.id.otros_datos_cantidad_cucharitas);
-        txtMontoAbona  = (EditText) v.findViewById(R.id.otros_datos_txt_monto_abona);
-        chkEnvio       = (CheckBox) v.findViewById(R.id.otros_datos_chk_envio);
-        btnListo       = (Button)   v.findViewById(R.id.otros_datos_btn_listo);
+        try{
+            View v = inflater.inflate(R.layout.fragment_cargar_otros_datos, container, false);
+            txtCucuruchoPrecio  = (TextView) v.findViewById(R.id.cargar_otros_datos_txt_cucuruchos_precio);
+            txtCucuruchos       = (EditText) v.findViewById(R.id.otros_datos_cantidad_cucuruchos);
+            txtCucharitas       = (EditText) v.findViewById(R.id.otros_datos_cantidad_cucharitas);
+            txtMontoAbona       = (EditText) v.findViewById(R.id.otros_datos_txt_monto_abona);
+            chkEnvio            = (CheckBox) v.findViewById(R.id.otros_datos_chk_envio);
+            btnListo            = (Button)   v.findViewById(R.id.otros_datos_btn_listo);
 
-        btnListo.setOnClickListener(this);
-        return v;
+
+            btnListo.setOnClickListener(this);
+            ParameterController pc = new ParameterController(getContext());
+            Parameter p = pc.abrir().findByNombre(Constants.PARAM_PRECIO_CUCURUCHO);
+            txtCucuruchoPrecio.setText(WorkNumber.parseDoubleToString(p.getValor_decimal()));
+
+            return v;
+        }catch (Exception e){
+            return null;
+        }
+
     }
 
 

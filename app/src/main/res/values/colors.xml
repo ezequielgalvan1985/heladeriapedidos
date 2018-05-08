@@ -4,9 +4,9 @@
 
     <resources>
 
-        <color name="colorPrimary">#32edcb</color>
-        <color name="colorPrimaryDark">#21d6b5</color>
-        <color name="primary_light">#bbfff2</color>
+        <color name="colorPrimary">#2dd9ba</color>
+        <color name="colorPrimaryDark">#1ebfa2</color>
+        <color name="primary_light">#99dace</color>
         <color name="colorAccent">#65c6ef</color>
         <color name="primary_text">#212121</color>
         <color name="secondary_text">#757575</color>

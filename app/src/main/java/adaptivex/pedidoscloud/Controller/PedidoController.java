@@ -198,6 +198,32 @@ public class PedidoController implements ControllerInterface
         return nroPedido;
     }
 
+    //Busca Maximo pedido por IDTMP, Es decir codigo autonumerico de SQLITE
+    public long findByLastAndroidIdAndEstadoId(Integer estado){
+
+        long nroPedido = 0;
+        try{
+            String sSelect = "select max("+PedidoDataBaseHelper.CAMPO_ID_TMP +") ";
+            String sFrom = "  from "+ PedidoDataBaseHelper.TABLE_NAME  ;
+            String sWhere = " where " + PedidoDataBaseHelper.CAMPO_ESTADO_ID + " = " + String.valueOf(estado);
+            String selectQuery = sSelect + sFrom + sWhere;
+            dbHelper = new PedidoDataBaseHelper(context);
+            db = dbHelper.getReadableDatabase();
+
+            Cursor c = db.rawQuery(selectQuery, null);
+            if(c.getCount()>0){
+                c.moveToFirst();
+                nroPedido =  c.getLong(0);
+            }
+            c.close();
+            db.close();
+
+        }catch (Exception e){
+            Toast.makeText(this.context, "PedidoController" + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+        return nroPedido;
+    }
+
     public void modificar(Pedido item, boolean isIdTmp )
     {
         try{

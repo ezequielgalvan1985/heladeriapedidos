@@ -95,11 +95,11 @@ public class RVAdapterPote extends RecyclerView.Adapter<RVAdapterPote.PoteViewHo
                                                             switch (item.getItemId()) {
                                                                 case R.id.menu_editar_helados:
                                                                     openEditarHelados(pote);
-                                                                    Toast.makeText(ctx, "Click en Elegir Helados", Toast.LENGTH_LONG).show();
+
                                                                     break;
                                                                 case R.id.menu_eliminar_pote:
                                                                     openEliminarHelados(pote);
-                                                                    Toast.makeText(ctx, "Click en Elegir Helados", Toast.LENGTH_LONG).show();
+
                                                                     break;
                                                                 default:
                                                                     break;

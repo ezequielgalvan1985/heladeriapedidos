@@ -40,6 +40,8 @@ public class Constants {
     public static final String PARAM_PEDIDODETALLE_ANDROID_ID   = "pedidodetalle_android_id";
     public static final String PARAM_PEDIDO_NRO_POTE            = "nro_pte";
     public static final String PARAM_MODE_EDIT_USER             = "datos_user";
+    public static final String PARAM_PRECIO_CUCURUCHO           = "preciocucurucho";
+
     public static final boolean PARAM_MODE_EDIT_USER_ON         = true;
     public static final boolean PARAM_MODE_EDIT_USER_OFF        = false;
     public static final String PARAM_TIPO_LISTADO               = "tipo_listado";

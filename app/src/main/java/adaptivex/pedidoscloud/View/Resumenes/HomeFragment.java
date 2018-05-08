@@ -6,16 +6,19 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import adaptivex.pedidoscloud.Config.Constants;
 import adaptivex.pedidoscloud.Config.GlobalValues;
 import adaptivex.pedidoscloud.Config.InsertRowsTest;
 import adaptivex.pedidoscloud.R;
 import adaptivex.pedidoscloud.View.Pedidos.CargarDireccionFragment;
+import adaptivex.pedidoscloud.View.Pedidos.ResumenPedidoFragment;
 import adaptivex.pedidoscloud.View.Productos.ListadoHeladosFragment;
 import adaptivex.pedidoscloud.View.Promos.ListadoPromosFragment;
 
@@ -29,7 +32,7 @@ import adaptivex.pedidoscloud.View.Promos.ListadoPromosFragment;
  */
 public class HomeFragment extends Fragment implements View.OnClickListener {
 
-    private Button btn_nuevo, btn_micuenta, btn_postres, btn_helados, btn_promos;
+    private Button btn_nuevo, btn_micuenta, btn_postres, btn_helados, btn_promos, btn_mi_pedido;
     private OnFragmentInteractionListener mListener;
 
     public HomeFragment() {
@@ -60,13 +63,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         btn_nuevo    = (Button) vista.findViewById(R.id.home_btn_nuevo_pedido);
         btn_postres  = (Button) vista.findViewById(R.id.home_btn_postres);
         btn_promos  = (Button) vista.findViewById(R.id.home_btn_promos);
+        btn_mi_pedido  = (Button) vista.findViewById(R.id.home_btn_mi_pedido);
 
         btn_nuevo.setOnClickListener(this);
         btn_postres.setOnClickListener(this);
         btn_micuenta.setOnClickListener(this);
         btn_helados.setOnClickListener(this);
         btn_promos.setOnClickListener(this);
-
+        btn_mi_pedido.setOnClickListener(this);
 
         return vista;
     }
@@ -132,6 +136,15 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 Fragment fragment4 = new ListadoPromosFragment();
                 openFragment(fragment4);
                 break;
+
+            case R.id.home_btn_mi_pedido:
+                Fragment fragment5 = new ResumenPedidoFragment();
+                if (GlobalValues.getINSTANCIA().FL_VerPedidoActual(getContext())){
+                    openFragment(fragment5);
+                }else{
+                    Toast.makeText(getContext(), "No Hay Pedidos Generados", Toast.LENGTH_LONG);
+                    Log.println(Log.ERROR, "MainActivity:", " No Hay Pedidos Generados ");
+                }
 
         }
     }

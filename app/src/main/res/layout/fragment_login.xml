@@ -2,7 +2,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="adaptivex.pedidoscloud.View.Users.LoginFragment">
+    tools:context="adaptivex.pedidoscloud.View.Users.LoginFragment"
+    android:background="@drawable/background_helado2"
+    android:scaleType = "centerCrop">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,6 +20,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/prompt_email_username"
             android:inputType="textEmailAddress"
+
             android:maxLines="1"
             />
 
@@ -36,6 +39,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/login_btn_login"
             android:text="Iniciar Sesion"
+            android:drawableLeft="@mipmap/ic_login_1"
+
             />
 
         <Button
@@ -43,6 +48,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/login_btn_register"
             android:text="Crear Cuenta"
+            android:drawableLeft="@mipmap/ic_create_user"
+
             />
 
     </LinearLayout>
