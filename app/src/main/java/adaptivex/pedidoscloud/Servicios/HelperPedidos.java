@@ -129,7 +129,8 @@ public class HelperPedidos extends AsyncTask<Void, Void, Void> {
                 JSONObject item = new JSONObject();
                 Pedidodetalle pd = (Pedidodetalle) paramPedido.getDetalles().get(x);
                 item.put("producto_id", pd.getProductoId().toString());
-                item.put("cantidad",  String.valueOf(pd.getCantidad()));
+                item.put("cantidad",  String.valueOf(pd.getCantidad())); //Proporcion
+                item.put("medidapote",  String.valueOf(pd.getMedidaPote())); //Proporcion
                 item.put("android_id",  String.valueOf(pd.getIdTmp()));
                 item.put("nropote",  String.valueOf(pd.getNroPote()));
                 pedidodetalles.put(item);
