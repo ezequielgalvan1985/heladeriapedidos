@@ -26,6 +26,13 @@ public class PromoDataBaseHelper extends SQLiteOpenHelper
     public static final String CAMPO_PRECIO_ANTERIOR    = "precioanterior";
     public static final String CAMPO_ENABLED            = "enabled";
 
+    public static final String CAMPO_CANTIDAD_POTE_CUARTO     = "cantidadpotecuarto";
+    public static final String CAMPO_CANTIDAD_POTE_MEDIO      = "cantidadpotemedio";
+    public static final String CAMPO_CANTIDAD_POTE_TRESCUARTO = "cantidadpotetrescuarto";
+    public static final String CAMPO_CANTIDAD_POTE_KILO       = "cantidadpotekilo";
+
+
+
     public static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
 
     public static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" +
@@ -39,6 +46,12 @@ public class PromoDataBaseHelper extends SQLiteOpenHelper
             CAMPO_PRECIO_PROMO      + " real null, " +
             CAMPO_PRECIO_ANTERIOR   + " real null, " +
             CAMPO_ENABLED           + " integer null, " +
+
+            CAMPO_CANTIDAD_POTE_CUARTO           + " integer null, " +
+            CAMPO_CANTIDAD_POTE_MEDIO            + " integer null, " +
+            CAMPO_CANTIDAD_POTE_TRESCUARTO       + " integer null, " +
+            CAMPO_CANTIDAD_POTE_KILO             + " integer null, " +
+
             CAMPO_ID_ANDROID        + " integer primary key autoincrement not null" +
             " )";
 

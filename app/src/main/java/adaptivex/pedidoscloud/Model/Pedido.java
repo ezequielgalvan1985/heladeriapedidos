@@ -20,10 +20,10 @@ import adaptivex.pedidoscloud.Core.WorkNumber;
  */
 public class Pedido {
     private Integer id;
-    private long idTmp;
+    private long    idTmp;
     private String  created;
-    private Date  fechaWebRecibido;
-    private Date  fechaWebEnviado;
+    private Date    fechaWebRecibido;
+    private Date    fechaWebEnviado;
 
     private Double  subtotal;
     private Double  iva;
@@ -33,6 +33,7 @@ public class Pedido {
     private Integer estadoId;
     private Integer nroPedidoReal;
     private Double  montoabona;
+
 
 
 
@@ -64,14 +65,21 @@ public class Pedido {
     private Integer cantidadKilos= 0;
     private Integer cucuruchos= 0 ;
     private Integer cucharitas= 0 ;
-    private Double montoCucuruchos;
-    private Double montoHelados;
+    private Double  montoCucuruchos;
+    private Double  montoHelados;
     private boolean envioDomicilio;
     private Integer cantidadPotes = 0 ;
 
-    private Date horaRecepcion;
+    private Date     horaRecepcion;
     private Integer  tiempoDemora;
-    private Date horaentrega;
+    private Date     horaentrega;
+
+
+    private Integer cantPoteCuarto;
+    private Integer cantPoteMedio;
+    private Integer cantPoteTresCuarto;
+    private Integer cantPoteKilo;
+
 
     public String getProporcionDesc(Integer proporcion){
         String cadena = "";
@@ -121,15 +129,49 @@ public class Pedido {
     //Cantidad, es la medida del pote
     public void agregarPote(Integer cantidad){
         try{
-            this.cantidadKilos += cantidad;
-            this.setCantidadPotes(this.getCantidadPotes() + 1);
-            this.setMontoHelados(this.getMontoHelados() + getPrecioMedidaPote(cantidad));
+            cantidadKilos += cantidad;
+            setCantidadPotes(getCantidadPotes() + 1);
+            addCantPoteMedida(cantidad);
+            setMontoHelados(getMontoHelados() + getPrecioMedidaPote(cantidad));
             refreshMontoTotal();
         }catch (Exception e){
             Log.d("PedidoError", e.getMessage());
         }
-
     }
+    public void addCantPoteMedida(Integer cantidad){
+        switch (cantidad){
+            case Constants.MEDIDA_CUARTO:
+                cantPoteCuarto +=1;
+                break;
+            case Constants.MEDIDA_MEDIO:
+                cantPoteMedio +=1;
+                break;
+            case Constants.MEDIDA_TRESCUARTOS:
+                cantPoteTresCuarto +=1;
+                break;
+            case Constants.MEDIDA_KILO:
+                cantPoteKilo +=1;
+                break;
+        }
+    }
+
+    public void deleteCantPoteMedida(Integer cantidad){
+        switch (cantidad){
+            case Constants.MEDIDA_CUARTO:
+                cantPoteCuarto -=1;
+                break;
+            case Constants.MEDIDA_MEDIO:
+                cantPoteMedio -=1;
+                break;
+            case Constants.MEDIDA_TRESCUARTOS:
+                cantPoteTresCuarto -=1;
+                break;
+            case Constants.MEDIDA_KILO:
+                cantPoteKilo -=1;
+                break;
+        }
+    }
+
     public String getKilosHeladosString(){
         //String cartel = String.valueOf(this.cantidadKilos/1000)+ " KG " ;
         String cartel =  GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getCantidadKilos().toString() +"Kg";
@@ -554,5 +596,37 @@ public class Pedido {
 
     public void setMontoabona(Double montoabona) {
         this.montoabona = montoabona;
+    }
+
+    public Integer getCantPoteCuarto() {
+        return cantPoteCuarto;
+    }
+
+    public void setCantPoteCuarto(Integer cantPoteCuarto) {
+        this.cantPoteCuarto = cantPoteCuarto;
+    }
+
+    public Integer getCantPoteMedio() {
+        return cantPoteMedio;
+    }
+
+    public void setCantPoteMedio(Integer cantPoteMedio) {
+        this.cantPoteMedio = cantPoteMedio;
+    }
+
+    public Integer getCantPoteTresCuarto() {
+        return cantPoteTresCuarto;
+    }
+
+    public void setCantPoteTresCuarto(Integer cantPoteTresCuarto) {
+        this.cantPoteTresCuarto = cantPoteTresCuarto;
+    }
+
+    public Integer getCantPoteKilo() {
+        return cantPoteKilo;
+    }
+
+    public void setCantPoteKilo(Integer cantPoteKilo) {
+        this.cantPoteKilo = cantPoteKilo;
     }
 }

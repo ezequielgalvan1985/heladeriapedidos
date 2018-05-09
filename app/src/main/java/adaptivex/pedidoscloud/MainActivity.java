@@ -109,34 +109,7 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
-/*
-        MenuItem searchItem = menu.findItem(R.id.mnu_search);
-        SearchView searchView = (SearchView) searchItem.getActionView();
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener(){
 
-            @Override
-            public boolean onQueryTextSubmit(String s) {
-                Toast.makeText(MainActivity.this, s, Toast.LENGTH_LONG).show();
-                SearchHelper sh = new SearchHelper(MainActivity.this);
-                if (sh.buscar(s)){
-                    getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.content_main, sh.getFragment()).addToBackStack(null)
-                            .commit();
-                }
-
-
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String s) {
-
-                return true;
-            }
-
-
-        });
-*/
         return  super.onCreateOptionsMenu(menu);
     }
 

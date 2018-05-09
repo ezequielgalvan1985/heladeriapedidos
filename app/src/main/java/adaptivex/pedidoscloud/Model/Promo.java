@@ -24,6 +24,12 @@ public class Promo {
     private Double precioAnterior;
     private boolean enabled;
 
+    private Integer cantPoteCuarto;
+    private Integer cantPoteMedio;
+    private Integer cantPoteTresCuarto;
+    private Integer cantPoteKilo;
+
+
     //atributos, que no se guardan en la base de datos
     private Double mountDiscount;
     private Integer countDiscount;
@@ -175,5 +181,37 @@ public class Promo {
 
     public void setPrecioAnterior(Double precioAnterior) {
         this.precioAnterior = precioAnterior;
+    }
+
+    public Integer getCantPoteCuarto() {
+        return cantPoteCuarto;
+    }
+
+    public void setCantPoteCuarto(Integer cantPoteCuarto) {
+        this.cantPoteCuarto = cantPoteCuarto;
+    }
+
+    public Integer getCantPoteMedio() {
+        return cantPoteMedio;
+    }
+
+    public void setCantPoteMedio(Integer cantPoteMedio) {
+        this.cantPoteMedio = cantPoteMedio;
+    }
+
+    public Integer getCantPoteTresCuarto() {
+        return cantPoteTresCuarto;
+    }
+
+    public void setCantPoteTresCuarto(Integer cantPoteTresCuarto) {
+        this.cantPoteTresCuarto = cantPoteTresCuarto;
+    }
+
+    public Integer getCantPoteKilo() {
+        return cantPoteKilo;
+    }
+
+    public void setCantPoteKilo(Integer cantPoteKilo) {
+        this.cantPoteKilo = cantPoteKilo;
     }
 }

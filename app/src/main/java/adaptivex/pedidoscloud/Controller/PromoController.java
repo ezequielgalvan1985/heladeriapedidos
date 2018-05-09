@@ -8,8 +8,10 @@ import android.database.sqlite.SQLiteException;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+import adaptivex.pedidoscloud.Model.Pedido;
 import adaptivex.pedidoscloud.Model.Promo;
 import adaptivex.pedidoscloud.Model.PromoDataBaseHelper;
 
@@ -63,6 +65,11 @@ public class PromoController
             valores.put(PromoDataBaseHelper.CAMPO_PRECIO_PROMO, item.getPrecioPromo());
             valores.put(PromoDataBaseHelper.CAMPO_PRECIO_ANTERIOR, item.getPrecioAnterior());
 
+            valores.put(PromoDataBaseHelper.CAMPO_CANTIDAD_POTE_CUARTO, item.getCantPoteCuarto());
+            valores.put(PromoDataBaseHelper.CAMPO_CANTIDAD_POTE_KILO, item.getCantPoteKilo());
+            valores.put(PromoDataBaseHelper.CAMPO_CANTIDAD_POTE_TRESCUARTO, item.getCantPoteTresCuarto());
+            valores.put(PromoDataBaseHelper.CAMPO_CANTIDAD_POTE_MEDIO, item.getCantPoteMedio());
+
             valores.put(PromoDataBaseHelper.CAMPO_ENABLED, true);
             return db.insert(PromoDataBaseHelper.TABLE_NAME, null, valores);
         }catch (Exception e){
@@ -91,6 +98,11 @@ public class PromoController
             valores.put(PromoDataBaseHelper.CAMPO_IMPORTE_DESCUENTO, item.getImporteDescuento());
             valores.put(PromoDataBaseHelper.CAMPO_PRECIO_PROMO, item.getPrecioPromo());
             valores.put(PromoDataBaseHelper.CAMPO_PRECIO_ANTERIOR, item.getPrecioAnterior());
+
+            valores.put(PromoDataBaseHelper.CAMPO_CANTIDAD_POTE_CUARTO, item.getCantPoteCuarto());
+            valores.put(PromoDataBaseHelper.CAMPO_CANTIDAD_POTE_KILO, item.getCantPoteKilo());
+            valores.put(PromoDataBaseHelper.CAMPO_CANTIDAD_POTE_TRESCUARTO, item.getCantPoteTresCuarto());
+            valores.put(PromoDataBaseHelper.CAMPO_CANTIDAD_POTE_MEDIO, item.getCantPoteMedio());
 
             valores.put(PromoDataBaseHelper.CAMPO_ENABLED, item.isEnabled());
 
@@ -138,7 +150,11 @@ public class PromoController
                     PromoDataBaseHelper.CAMPO_PRECIO_PROMO,
                     PromoDataBaseHelper.CAMPO_PRECIO_ANTERIOR,
                     PromoDataBaseHelper.CAMPO_ID_ANDROID,
-                    PromoDataBaseHelper.CAMPO_ENABLED
+                    PromoDataBaseHelper.CAMPO_ENABLED,
+                    PromoDataBaseHelper.CAMPO_CANTIDAD_POTE_CUARTO,
+                    PromoDataBaseHelper.CAMPO_CANTIDAD_POTE_KILO,
+                    PromoDataBaseHelper.CAMPO_CANTIDAD_POTE_TRESCUARTO,
+                    PromoDataBaseHelper.CAMPO_CANTIDAD_POTE_MEDIO
 
             };
             Cursor resultado = db.query(PromoDataBaseHelper.TABLE_NAME, campos,
@@ -168,7 +184,11 @@ public class PromoController
                     PromoDataBaseHelper.CAMPO_PRECIO_PROMO,
                     PromoDataBaseHelper.CAMPO_PRECIO_ANTERIOR,
                     PromoDataBaseHelper.CAMPO_ID_ANDROID,
-                    PromoDataBaseHelper.CAMPO_ENABLED
+                    PromoDataBaseHelper.CAMPO_ENABLED,
+                    PromoDataBaseHelper.CAMPO_CANTIDAD_POTE_CUARTO,
+                    PromoDataBaseHelper.CAMPO_CANTIDAD_POTE_KILO,
+                    PromoDataBaseHelper.CAMPO_CANTIDAD_POTE_TRESCUARTO,
+                    PromoDataBaseHelper.CAMPO_CANTIDAD_POTE_MEDIO
             };
             String[] argumentos = {String.valueOf(1)};
 
@@ -251,7 +271,11 @@ public class PromoController
                     PromoDataBaseHelper.CAMPO_PRECIO_PROMO,
                     PromoDataBaseHelper.CAMPO_PRECIO_ANTERIOR,
                     PromoDataBaseHelper.CAMPO_ID_ANDROID,
-                    PromoDataBaseHelper.CAMPO_ENABLED
+                    PromoDataBaseHelper.CAMPO_ENABLED,
+                    PromoDataBaseHelper.CAMPO_CANTIDAD_POTE_CUARTO,
+                    PromoDataBaseHelper.CAMPO_CANTIDAD_POTE_KILO,
+                    PromoDataBaseHelper.CAMPO_CANTIDAD_POTE_TRESCUARTO,
+                    PromoDataBaseHelper.CAMPO_CANTIDAD_POTE_MEDIO
             };
             String[] argumentos = {String.valueOf(1), String.valueOf(paramKilos)};
             String where   = PromoDataBaseHelper.CAMPO_ENABLED + " = ? AND " + PromoDataBaseHelper.CAMPO_CANTIDAD_KILOS + " <= ? ";
@@ -307,7 +331,11 @@ public class PromoController
                 PromoDataBaseHelper.CAMPO_PRECIO_ANTERIOR,
                 PromoDataBaseHelper.CAMPO_PRECIO_PROMO,
                 PromoDataBaseHelper.CAMPO_ID_ANDROID,
-                PromoDataBaseHelper.CAMPO_ENABLED
+                PromoDataBaseHelper.CAMPO_ENABLED,
+                PromoDataBaseHelper.CAMPO_CANTIDAD_POTE_CUARTO,
+                PromoDataBaseHelper.CAMPO_CANTIDAD_POTE_KILO,
+                PromoDataBaseHelper.CAMPO_CANTIDAD_POTE_TRESCUARTO,
+                PromoDataBaseHelper.CAMPO_CANTIDAD_POTE_MEDIO
         };
         String[] argumentos = {String.valueOf(idAndroid)};
 
@@ -336,7 +364,11 @@ public class PromoController
                 PromoDataBaseHelper.CAMPO_PRECIO_ANTERIOR,
                 PromoDataBaseHelper.CAMPO_PRECIO_PROMO,
                 PromoDataBaseHelper.CAMPO_ID_ANDROID,
-                PromoDataBaseHelper.CAMPO_ENABLED
+                PromoDataBaseHelper.CAMPO_ENABLED,
+                PromoDataBaseHelper.CAMPO_CANTIDAD_POTE_CUARTO,
+                PromoDataBaseHelper.CAMPO_CANTIDAD_POTE_KILO,
+                PromoDataBaseHelper.CAMPO_CANTIDAD_POTE_TRESCUARTO,
+                PromoDataBaseHelper.CAMPO_CANTIDAD_POTE_MEDIO
         };
         String[] argumentos = {String.valueOf(id)};
 
@@ -372,6 +404,12 @@ public class PromoController
                 registro.setPrecioAnterior(c.getDouble(c.getColumnIndex(PromoDataBaseHelper.CAMPO_PRECIO_ANTERIOR)));
                 registro.setEnabled(c.getInt(c.getColumnIndex(PromoDataBaseHelper.CAMPO_ENABLED))>0);
 
+                registro.setCantPoteCuarto(c.getInt(c.getColumnIndex(PromoDataBaseHelper.CAMPO_CANTIDAD_POTE_CUARTO)));
+                registro.setCantPoteMedio(c.getInt(c.getColumnIndex(PromoDataBaseHelper.CAMPO_CANTIDAD_POTE_MEDIO)));
+                registro.setCantPoteTresCuarto(c.getInt(c.getColumnIndex(PromoDataBaseHelper.CAMPO_CANTIDAD_POTE_TRESCUARTO)));
+                registro.setCantPoteKilo(c.getInt(c.getColumnIndex(PromoDataBaseHelper.CAMPO_CANTIDAD_POTE_KILO)));
+
+
                 //registro = parseObjectFromRecord(c);
                 lista.add(registro);
                 registro = null;
@@ -400,11 +438,62 @@ public class PromoController
                     object.setPrecioPromo(c.getDouble(c.getColumnIndex(PromoDataBaseHelper.CAMPO_PRECIO_PROMO)));
                     object.setPrecioAnterior(c.getDouble(c.getColumnIndex(PromoDataBaseHelper.CAMPO_PRECIO_ANTERIOR)));
                     object.setEnabled(c.getInt(c.getColumnIndex(PromoDataBaseHelper.CAMPO_ENABLED))>0);
+
+                    object.setCantPoteCuarto(c.getInt(c.getColumnIndex(PromoDataBaseHelper.CAMPO_CANTIDAD_POTE_CUARTO)));
+                    object.setCantPoteMedio(c.getInt(c.getColumnIndex(PromoDataBaseHelper.CAMPO_CANTIDAD_POTE_MEDIO)));
+                    object.setCantPoteTresCuarto(c.getInt(c.getColumnIndex(PromoDataBaseHelper.CAMPO_CANTIDAD_POTE_TRESCUARTO)));
+                    object.setCantPoteKilo(c.getInt(c.getColumnIndex(PromoDataBaseHelper.CAMPO_CANTIDAD_POTE_KILO)));
                 }
             }
             return object;
         }catch(Exception e){
             Toast.makeText(context,"Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            return null;
+        }
+    }
+
+    public Promo matchPromoForPedido(Pedido pedido ){
+        try{
+            Promo promomatching = new Promo();
+            boolean matching = false;
+            ArrayList<Promo> listapromos = abrir().findByEnabledToArrayList();
+            for(Promo promoindex : listapromos){
+
+                if (promoindex.getCantPoteCuarto()> 0 ){
+                    if (promoindex.getCantPoteCuarto() != pedido.getCantPoteCuarto()){
+                        matching = false;
+                    }else{
+                        matching = true;
+                    }
+                }
+                if (promoindex.getCantPoteTresCuarto()> 0 ){
+                    if (promoindex.getCantPoteTresCuarto() != pedido.getCantPoteTresCuarto()){
+                        matching = false;
+                    }else{
+                        matching = true;
+                    }
+                }
+                if (promoindex.getCantPoteMedio()> 0 ){
+                    if (promoindex.getCantPoteMedio() != pedido.getCantPoteMedio()){
+                        matching = false;
+                    }else{
+                        matching = true;
+                    }
+                }
+                if (promoindex.getCantPoteKilo()> 0 ){
+                    if (promoindex.getCantPoteKilo() != pedido.getCantPoteKilo()){
+                        matching = false;
+                    }else{
+                        matching = true;
+                    }
+                }
+
+                if (matching){
+                    promomatching = promoindex;
+                }
+            }
+            return promomatching;
+        }catch(Exception e ){
             return null;
         }
     }

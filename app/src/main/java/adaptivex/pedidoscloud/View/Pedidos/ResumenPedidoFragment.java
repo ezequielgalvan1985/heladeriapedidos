@@ -67,7 +67,7 @@ public class ResumenPedidoFragment extends Fragment implements View.OnClickListe
         txt_tiempo_demora    = (TextView) v.findViewById(R.id.resumen_pedido_txt_tiempo_demora);
         txt_pedido_id        = (TextView) v.findViewById(R.id.resumen_pedido_txt_pedido_id);
 
-        txt_cantidad_descuento = (TextView) v.findViewById(R.id.resumen_pedido_txt_descuento_cantidad);
+        //txt_cantidad_descuento = (TextView) v.findViewById(R.id.resumen_pedido_txt_descuento_cantidad);
         txt_monto_descuento    = (TextView) v.findViewById(R.id.resumen_pedido_txt_descuento_monto);
         txt_monto_abona        = (TextView) v.findViewById(R.id.resumen_pedido_txt_monto_abona);
 
@@ -101,7 +101,7 @@ public class ResumenPedidoFragment extends Fragment implements View.OnClickListe
 
             txt_tiempo_demora.setText(WorkDate.calculateDiffereceDatesFormatMM(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getHoraentrega(),WorkDate.getNowDate() ));
 
-            txt_cantidad_descuento.setText(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getCantidadDescuento().toString());
+            //txt_cantidad_descuento.setText(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getCantidadDescuento().toString());
             txt_monto_descuento.setText(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getMontoDescuentoFormatMoney());
             txt_monto_total.setText(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getMontoFormatMoney());
             lbl_kilos_monto.setText(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getMontoHeladoFormatMoney());

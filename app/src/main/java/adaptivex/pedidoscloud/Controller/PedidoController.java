@@ -410,6 +410,26 @@ public class PedidoController implements ControllerInterface
          }
     }
 
+    public boolean calculatePromoBeforeEdit2(Pedido pedido){
+        try{
+            PromoController promoCtr = new PromoController(context);
+            Promo promo = promoCtr.abrir().matchPromoForPedido(pedido);
+            if (promo!= null){
+                if (promo.getMountDiscount()!=null ){
+                    pedido.setMontoDescuento(promo.getMountDiscount());
+
+                    //pedido.setCantidadDescuento(Integer.parseInt(promo.getCountDiscount().toString()));
+
+                }
+            }
+            this.edit(pedido);
+            return true;
+        }catch (Exception e){
+            Toast.makeText(context,"Error:" + e.getMessage(),Toast.LENGTH_LONG).show();
+            return false;
+        }
+    }
+
 
 
     //Metodos de Interface

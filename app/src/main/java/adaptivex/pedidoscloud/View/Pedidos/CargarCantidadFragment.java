@@ -171,6 +171,8 @@ public class CargarCantidadFragment extends Fragment implements View.OnClickList
         GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.agregarPote(getSpinnerSelection());
         GlobalValues.getINSTANCIA().PEDIDO_ACTUAL_NRO_POTE    = GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getCantidadPotes();
         GlobalValues.getINSTANCIA().PEDIDO_ACTUAL_MEDIDA_POTE = getSpinnerSelection();
+
+
         PedidoController pc = new PedidoController(getContext());
         pc.abrir().edit(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL);
         openCargarHelados();
@@ -180,7 +182,7 @@ public class CargarCantidadFragment extends Fragment implements View.OnClickList
         //Obtiene valores del formulario, y luego lo guarda en la base de datos
         try{
             PedidoController pc = new PedidoController(getContext());
-            pc.abrir().calculatePromoBeforeEdit(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL);
+            pc.abrir().calculatePromoBeforeEdit2(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL);
             return true;
         }catch (Exception e){
             Toast.makeText(getContext(),"Error: " + e.getMessage(),Toast.LENGTH_LONG).show();

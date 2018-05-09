@@ -61,6 +61,12 @@ public class PromoParser {
                     if (registro.has(PromoDataBaseHelper.CAMPO_IMPORTE_DESCUENTO)) promo.setImporteDescuento(registro.getDouble(PromoDataBaseHelper.CAMPO_IMPORTE_DESCUENTO)); else promo.setImporteDescuento(0.0);
                     if (registro.has(PromoDataBaseHelper.CAMPO_PRECIO_ANTERIOR)) promo.setPrecioAnterior(registro.getDouble(PromoDataBaseHelper.CAMPO_PRECIO_ANTERIOR)); else promo.setPrecioAnterior(0.0);
                     if (registro.has(PromoDataBaseHelper.CAMPO_PRECIO_PROMO)) promo.setPrecioPromo(registro.getDouble(PromoDataBaseHelper.CAMPO_PRECIO_PROMO)); else promo.setPrecioPromo(0.0);
+
+                    if (registro.has(PromoDataBaseHelper.CAMPO_CANTIDAD_POTE_CUARTO))       promo.setCantPoteCuarto(registro.getInt(PromoDataBaseHelper.CAMPO_CANTIDAD_POTE_CUARTO)); else promo.setCantPoteCuarto(0);
+                    if (registro.has(PromoDataBaseHelper.CAMPO_CANTIDAD_POTE_MEDIO))        promo.setCantPoteMedio(registro.getInt(PromoDataBaseHelper.CAMPO_CANTIDAD_POTE_MEDIO)); else promo.setCantPoteMedio(0);
+                    if (registro.has(PromoDataBaseHelper.CAMPO_CANTIDAD_POTE_TRESCUARTO))   promo.setCantPoteTresCuarto(registro.getInt(PromoDataBaseHelper.CAMPO_CANTIDAD_POTE_TRESCUARTO)); else promo.setCantPoteTresCuarto(0);
+                    if (registro.has(PromoDataBaseHelper.CAMPO_CANTIDAD_POTE_KILO))         promo.setCantPoteKilo(registro.getInt(PromoDataBaseHelper.CAMPO_CANTIDAD_POTE_KILO)); else promo.setCantPoteKilo(0);
+
                     listadoPromos.add(promo);
                     promo = new Promo();
                 }//endfor
