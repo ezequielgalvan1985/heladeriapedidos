@@ -75,10 +75,10 @@ public class Pedido {
     private Date     horaentrega;
 
 
-    private Integer cantPoteCuarto;
-    private Integer cantPoteMedio;
-    private Integer cantPoteTresCuarto;
-    private Integer cantPoteKilo;
+    private Integer cantPoteCuarto= 0 ;
+    private Integer cantPoteMedio= 0 ;
+    private Integer cantPoteTresCuarto= 0 ;
+    private Integer cantPoteKilo= 0 ;
 
 
     public String getProporcionDesc(Integer proporcion){
