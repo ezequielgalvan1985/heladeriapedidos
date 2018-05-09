@@ -75,7 +75,7 @@ public class CargarOtrosDatosFragment extends Fragment implements View.OnClickLi
             btnListo.setOnClickListener(this);
             ParameterController pc = new ParameterController(getContext());
             Parameter p = pc.abrir().findByNombre(Constants.PARAM_PRECIO_CUCURUCHO);
-            txtCucuruchoPrecio.setText(WorkNumber.parseDoubleToString(p.getValor_decimal()));
+            txtCucuruchoPrecio.setText("Cucurucho ($"+WorkNumber.parseDoubleToString(p.getValor_decimal())+" c/u):");
 
             return v;
         }catch (Exception e){
