@@ -81,7 +81,6 @@ public class CargarCantidadFragment extends Fragment implements View.OnClickList
         GlobalValues.getINSTANCIA().CURRENT_FRAGMENT_NUEVO_PEDIDO = GlobalValues.getINSTANCIA().NP_CARGAR_CANTIDAD;
 
         btnAgregar      = (Button)   v.findViewById(R.id.cantidad_btn_agregar);
-        //btnEditar     = (Button)    v.findViewById(R.id.cantidad_btn_editar);
         btnListo        = (Button)   v.findViewById(R.id.cargar_cantidad_btn_listo);
         spn_cantidad    = (Spinner)  v.findViewById(R.id.cantidad_spn_cantidad);
         btnPromos       =(Button)   v.findViewById(R.id.cantidad_btn_promos);
@@ -101,8 +100,6 @@ public class CargarCantidadFragment extends Fragment implements View.OnClickList
 
         // attaching data adapter to spinner
         spn_cantidad.setAdapter(dataAdapter);
-
-        //btnEditar.setOnClickListener(this);
         btnAgregar.setOnClickListener(this);
         btnListo.setOnClickListener(this);
         btnPromos.setOnClickListener(this);
@@ -111,7 +108,7 @@ public class CargarCantidadFragment extends Fragment implements View.OnClickList
         //Se agrega Recycle view de Potes Cargados
         PedidoController pc = new PedidoController(v.getContext());
         ArrayList<Pote> listaPotes = new ArrayList<Pote>();
-        listaPotes = pc.abrir().getPotesArrayList(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getIdTmp());
+        listaPotes = pc.abrir().getPotesArrayList2(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getIdTmp());
         rvPotes = (RecyclerView)v.findViewById(R.id.cargar_cantidad_rvPotes);
         rvPotes.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         LinearLayoutManager llm = new LinearLayoutManager(v.getContext());

@@ -35,7 +35,16 @@ public class PedidoDataBaseHelper extends SQLiteOpenHelper
 
     //CANTIDADES
     public static final String CAMPO_CANTIDAD_POTES  = "cantidadpotes";
+
+    public static final String CAMPO_CANTIDAD_POTE_CUARTO     = "cantidadpotecuarto";
+    public static final String CAMPO_CANTIDAD_POTE_MEDIO      = "cantidadpotemedio";
+    public static final String CAMPO_CANTIDAD_POTE_TRESCUARTO = "cantidadpotetrescuarto";
+    public static final String CAMPO_CANTIDAD_POTE_KILO       = "cantidadpotekilo";
+
+
     public static final String CAMPO_CANTIDAD_KILOS  = "cantidadkilos";
+
+
     public static final String CAMPO_CUCHARITAS      = "cucharitas";
     public static final String CAMPO_CUCURUCHOS      = "cucuruchos";
     public static final String CAMPO_ENVIO_DOMICILIO = "envio";
@@ -92,6 +101,13 @@ public class PedidoDataBaseHelper extends SQLiteOpenHelper
             CAMPO_HORA_ENTREGA       + " date null ," +
             CAMPO_HORA_RECEPCION     + " date null ," +
             CAMPO_TIEMPO_DEMORA      + " integer null ," +
+
+            CAMPO_CANTIDAD_POTE_CUARTO           + " integer null, " +
+            CAMPO_CANTIDAD_POTE_MEDIO            + " integer null, " +
+            CAMPO_CANTIDAD_POTE_TRESCUARTO       + " integer null, " +
+            CAMPO_CANTIDAD_POTE_KILO             + " integer null, " +
+
+
             CAMPO_ID_TMP             + " integer primary key autoincrement not null" +
             ")";
 

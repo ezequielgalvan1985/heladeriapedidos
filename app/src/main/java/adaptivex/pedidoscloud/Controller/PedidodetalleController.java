@@ -107,6 +107,7 @@ public class PedidodetalleController
 
 
 
+
     public Cursor obtenerTodos()
     {
         String[] campos = {PedidodetalleDataBaseHelper.CAMPO_ID,
@@ -129,6 +130,55 @@ public class PedidodetalleController
             resultado.moveToFirst();
         }
         return resultado;
+    }
+
+    public Cursor findAll()
+    {
+        String[] campos = {
+                PedidodetalleDataBaseHelper.CAMPO_ID,
+                PedidodetalleDataBaseHelper.CAMPO_ID_TMP,
+                PedidodetalleDataBaseHelper.CAMPO_PEDIDO_ID,
+                PedidodetalleDataBaseHelper.CAMPO_PEDIDO_ID_TMP,
+                PedidodetalleDataBaseHelper.CAMPO_PRODUCTO_ID,
+                PedidodetalleDataBaseHelper.CAMPO_CANTIDAD,
+                PedidodetalleDataBaseHelper.CAMPO_PRECIOUNITARIO,
+                PedidodetalleDataBaseHelper.CAMPO_MONTO,
+                PedidodetalleDataBaseHelper.CAMPO_ESTADO_ID,
+
+        };
+
+
+        Cursor resultado = db.query(PedidodetalleDataBaseHelper.TABLE_NAME, campos,
+                null, null, null, null, null);
+        if (resultado != null)
+        {
+            resultado.moveToFirst();
+        }
+        return resultado;
+    }
+
+    public  ArrayList<Pedidodetalle> findAllToArrayList(){
+        try{
+            ArrayList<Pedidodetalle> listaPedidodetalle = new  ArrayList<Pedidodetalle>();
+            Cursor c = abrir().findAll();
+            listaPedidodetalle = parseCursorToArrayList(c);
+            return listaPedidodetalle;
+        }catch (Exception e){
+            Log.e("Error: ", e.getMessage());
+            return null;
+        }
+    }
+
+
+    public ArrayList<Pedidodetalle> findByPedido_android_idToArrayList(long android_id ){
+        try{
+            Cursor c = abrir().findByPedidoIdTmp(android_id);
+            ArrayList<Pedidodetalle> lista = parseCursorToArrayList(c);
+            return lista;
+        }catch (Exception e){
+            Log.e("Error: ", e.getMessage());
+            return null;
+        }
     }
 
     public ArrayList<Pedidodetalle> parseCursorToArrayList(Cursor c){
@@ -208,7 +258,7 @@ public class PedidodetalleController
     }
 
 
-    public Cursor findByPedidoIdTmp(long pedidoIdTmp)
+    private Cursor findByPedidoIdTmp(long pedidoIdTmp)
     {
         String[] campos = {
                 PedidodetalleDataBaseHelper.CAMPO_ID,
@@ -226,14 +276,12 @@ public class PedidodetalleController
         };
 
 
-        //String[] argumentos =   {String.valueOf(pedido.getIdTmp())};
         Cursor resultado = db.query(PedidodetalleDataBaseHelper.TABLE_NAME, campos,
-                PedidodetalleDataBaseHelper.CAMPO_PEDIDO_ID_TMP + " = "+ String.valueOf(pedidoIdTmp), null, null, null, null);
+                PedidodetalleDataBaseHelper.CAMPO_PEDIDO_ID_TMP + " = "+ String.valueOf(pedidoIdTmp), null, null, null, PedidodetalleDataBaseHelper.CAMPO_NRO_POTE );
         if (resultado != null)
         {
             resultado.moveToFirst();
         }
-        //Completar objecto que sirva de
 
 
         return resultado;

@@ -53,7 +53,7 @@ public class ListadoPotesFragment extends Fragment {
 
         PedidoController pc = new PedidoController(v.getContext());
 
-        ArrayList<Pote> listaPotes = pc.abrir().getPotesArrayList(androidId);
+        ArrayList<Pote> listaPotes = pc.abrir().getPotesArrayList2(androidId);
 
         rvPotes = (RecyclerView)v.findViewById(R.id.rvPotes);
         rvPotes.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));

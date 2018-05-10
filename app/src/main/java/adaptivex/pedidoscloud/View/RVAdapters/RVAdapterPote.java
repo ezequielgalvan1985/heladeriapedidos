@@ -25,8 +25,10 @@ import java.util.ArrayList;
 
 import adaptivex.pedidoscloud.Config.Constants;
 import adaptivex.pedidoscloud.Config.GlobalValues;
+import adaptivex.pedidoscloud.Controller.PedidoController;
 import adaptivex.pedidoscloud.Controller.PedidodetalleController;
 import adaptivex.pedidoscloud.Core.Components.ListAdapterHelados;
+import adaptivex.pedidoscloud.Model.Pedidodetalle;
 import adaptivex.pedidoscloud.Model.Pote;
 import adaptivex.pedidoscloud.Model.PoteItem;
 import adaptivex.pedidoscloud.Model.Producto;
@@ -120,9 +122,12 @@ public class RVAdapterPote extends RecyclerView.Adapter<RVAdapterPote.PoteViewHo
             Bundle args =new Bundle();
             args.putLong(Constants.PARAM_PEDIDO_ANDROID_ID, p.getPedido().getIdTmp());
             args.putInt(Constants.PARAM_PEDIDO_NRO_POTE, p.getNroPote());
+
             //Estas variables se usan cuando se da de alta un nuevo pedidodetalle
             GlobalValues.getINSTANCIA().PEDIDO_ACTUAL_NRO_POTE    = p.getNroPote();
             GlobalValues.getINSTANCIA().PEDIDO_ACTUAL_MEDIDA_POTE = p.getKilos();
+
+
 
             CargarHeladosFragment fragment      = new CargarHeladosFragment();
             fragment.setArguments(args);
@@ -137,21 +142,26 @@ public class RVAdapterPote extends RecyclerView.Adapter<RVAdapterPote.PoteViewHo
         }
     }
 
-    public void openEliminarHelados(Pote p){
+    public void openEliminarHelados(Pote pote){
         try{
-
+            PedidoController pc = new PedidoController(getCtx());
             PedidodetalleController pdc = new PedidodetalleController(getCtx());
-            pdc.abrir().deleteByPote(p);
 
-            Toast.makeText(getCtx(), "Pote Eliminado Correctamente" , Toast.LENGTH_LONG).show();
+            GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.quitarPote(pote);
+            pdc.abrir().deleteByPote(pote);
+            pc.abrir().edit(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL);
+            ArrayList<Pedidodetalle> lista = pdc.abrir().findByPedido_android_idToArrayList(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getIdTmp());
+            GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.setDetalles(lista);
 
-            Fragment fragment = new CargarCantidadFragment();
 
-            getFragmentManager()
-                    .beginTransaction()
-                    .detach(fragment)
-                    .attach(fragment)
-                    .commit();
+
+
+            Fragment fragment                       = new CargarCantidadFragment();
+            FragmentManager fragmentManager         = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.content_main, fragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
 
         }catch (Exception e){
             Toast.makeText(getCtx(), "Error: " +e.getMessage(), Toast.LENGTH_LONG).show();

@@ -9,18 +9,17 @@ import adaptivex.pedidoscloud.Core.WorkNumber;
  */
 
 public class Pote {
-    private Pedido pedido;
+    private Pedido  pedido;
     private Integer nroPote;
     private Integer kilos;
-    private Double heladomonto;
+    private Double  heladomonto;
     private ArrayList <PoteItem> itemsPote; // es el helado que va a estar en el pote
 
     public Pote(){
-        nroPote = 0;
-        kilos = 0;
+        nroPote     = 0;
+        kilos       = 0;
         heladomonto = 0.0;
-        itemsPote = new ArrayList <PoteItem>();
-
+        itemsPote   = new ArrayList <PoteItem>();
     }
 
     public void addItemPote(PoteItem it){

@@ -68,17 +68,17 @@ public class Pedido {
     private Double  montoCucuruchos;
     private Double  montoHelados;
     private boolean envioDomicilio;
-    private Integer cantidadPotes = 0 ;
+
 
     private Date     horaRecepcion;
     private Integer  tiempoDemora;
     private Date     horaentrega;
 
 
-    private Integer cantPoteCuarto= 0 ;
-    private Integer cantPoteMedio= 0 ;
-    private Integer cantPoteTresCuarto= 0 ;
-    private Integer cantPoteKilo= 0 ;
+    private Integer cantPoteCuarto      = 0 ;
+    private Integer cantPoteMedio       = 0 ;
+    private Integer cantPoteTresCuarto  = 0 ;
+    private Integer cantPoteKilo        = 0 ;
 
 
     public String getProporcionDesc(Integer proporcion){
@@ -116,7 +116,6 @@ public class Pedido {
     public Pedido(){
         this.detalles = new ArrayList<Pedidodetalle>();
         this.cantidadKilos = 0;
-        this.cantidadPotes = 0;
         this.cucharitas = 0 ;
         this.cucuruchos = 0;
         this.montoCucuruchos = 0.0;
@@ -130,7 +129,6 @@ public class Pedido {
     public void agregarPote(Integer cantidad){
         try{
             cantidadKilos += cantidad;
-            setCantidadPotes(getCantidadPotes() + 1);
             addCantPoteMedida(cantidad);
             setMontoHelados(getMontoHelados() + getPrecioMedidaPote(cantidad));
             refreshMontoTotal();
@@ -153,6 +151,7 @@ public class Pedido {
                 cantPoteKilo +=1;
                 break;
         }
+
     }
 
     public void deleteCantPoteMedida(Integer cantidad){
@@ -183,9 +182,11 @@ public class Pedido {
     }
 
 
-    public void quitarPote(Integer cantidad){
-        this.cantidadKilos -= cantidad;
-        this.setCantidadPotes(this.getCantidadPotes() - 1);
+    public void quitarPote(Pote pote){
+        cantidadKilos -= pote.getKilos();
+        deleteCantPoteMedida(pote.getKilos());
+        setMontoHelados(getMontoHelados() - getPrecioMedidaPote(pote.getKilos()));
+        refreshMontoTotal();
     }
 
     public void addPedidodetalle(Pedidodetalle pd){
@@ -484,12 +485,12 @@ public class Pedido {
     }
 
     public Integer getCantidadPotes() {
-        return WorkNumber.getValue(cantidadPotes);
+        Integer cantidadpotes = WorkNumber.getValue(cantPoteCuarto) +WorkNumber.getValue(cantPoteMedio) + WorkNumber.getValue(cantPoteTresCuarto) + WorkNumber.getValue(cantPoteKilo);
+
+        return cantidadpotes;
     }
 
-    public void setCantidadPotes(Integer cantidadPotes) {
-        this.cantidadPotes = cantidadPotes;
-    }
+
 
     public double getMontoCucuruchos() {
         return WorkNumber.getValue(montoCucuruchos);

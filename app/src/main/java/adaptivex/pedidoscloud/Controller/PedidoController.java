@@ -52,46 +52,53 @@ public class PedidoController implements ControllerInterface
 
 
 
-    public ArrayList<Pote> getPotesArrayList(long idAndroid ){
+
+
+
+    public ArrayList<Pote> getPotesArrayList2(long idAndroid ){
         try{
             PedidodetalleController pdc = new PedidodetalleController(context);
             //Crear arraylist de potes
             ArrayList<Pote> listaPotes = new ArrayList<Pote>();
             Pedido p = new Pedido();
 
-            //Debe Buscar el
-            //Buscar el Pedido
             p = this.abrir().findByIdTmp(idAndroid);
-            //obtener total de potes
-            int potesTotal = p.getCantidadPotes();
-            int poteActual = 0;
+            //obtener todos los pedido detalles
+            ArrayList  <Pedidodetalle> lista = pdc.findByPedido_android_idToArrayList(idAndroid);
+            Integer currentnropote = 0;
+            Pote pote            = new Pote();
+            Pote poteanterior    = null;
+            for (Pedidodetalle pd :lista){
 
-            //hacer un for por cantidad total de potes
-            for(int i= 1; i <= potesTotal; i++){
-                poteActual = i;
-                //crear un pote
-                Pote pote = new Pote();
-                pote.setPedido(p);
+                if  (currentnropote != pd.getNroPote()) {
 
-                //buscar pedido detalle por idpedido y nro pote
-                Cursor c = pdc.abrir().findByPedidoAndroidIdAndNroPote(idAndroid,poteActual);
-                ArrayList<Pedidodetalle> listaHeladosPote = pdc.abrir().parseCursorToArrayList(c);
-                //recorrer arraylist
-                for(Pedidodetalle pd: listaHeladosPote){
-                    //Crear poteitem
+                    //Crear Pote
+                    pote = new Pote();
+                    pote.setPedido(p);
                     pote.setNroPote(pd.getNroPote());
                     pote.setKilos(pd.getMedidaPote());
                     pote.setHeladomonto(pd.getMonto());
-
-                    PoteItem item = new PoteItem();
-                    item.setCantidad(pd.getProporcionHelado());
-                    item.setProducto(pd.getProducto());
-                    //agregar poteitem al pote
-                    pote.addItemPote(item);
+                    // FIn creacion de pote
                 }
-                //Agregar pote al arraylist de potes
-                listaPotes.add(pote);
+                // Crea el item del pote
+                PoteItem item = new PoteItem();
+                item.setCantidad(pd.getProporcionHelado());
+                item.setProducto(pd.getProducto());
+                pote.addItemPote(item);
+
+                //
+                poteanterior = pote;
+                if  (currentnropote != pd.getNroPote()) {
+                    if (poteanterior != null ) {
+                        listaPotes.add(poteanterior);
+                    }
+                }
+                currentnropote = pd.getNroPote();
+
             }
+
+
+
             return listaPotes;
         }catch(Exception e ){
             Toast.makeText(context, "Error:" + e.getMessage(),Toast.LENGTH_LONG).show();
@@ -148,7 +155,13 @@ public class PedidoController implements ControllerInterface
 
             //CANTIDAD
             valores.put(PedidoDataBaseHelper.CAMPO_CANTIDAD_KILOS,   item.getCantidadKilos());
-            valores.put(PedidoDataBaseHelper.CAMPO_CANTIDAD_POTES,   item.getCantidadPotes()  );
+
+            //POTES
+            valores.put(PedidoDataBaseHelper.CAMPO_CANTIDAD_POTE_CUARTO, item.getCantPoteCuarto());
+            valores.put(PedidoDataBaseHelper.CAMPO_CANTIDAD_POTE_MEDIO, item.getCantPoteMedio());
+            valores.put(PedidoDataBaseHelper.CAMPO_CANTIDAD_POTE_TRESCUARTO, item.getCantPoteTresCuarto());
+            valores.put(PedidoDataBaseHelper.CAMPO_CANTIDAD_POTE_KILO, item.getCantPoteKilo());
+
             valores.put(PedidoDataBaseHelper.CAMPO_CUCHARITAS,       item.getCucharitas());
             valores.put(PedidoDataBaseHelper.CAMPO_CUCURUCHOS,       item.getCucuruchos());
             valores.put(PedidoDataBaseHelper.CAMPO_ENVIO_DOMICILIO,  item.isEnvioDomicilio());
@@ -247,7 +260,13 @@ public class PedidoController implements ControllerInterface
 
             //CANTIDAD
             valores.put(PedidoDataBaseHelper.CAMPO_CANTIDAD_KILOS,   item.getCantidadKilos());
-            valores.put(PedidoDataBaseHelper.CAMPO_CANTIDAD_POTES,   item.getCantidadPotes()  );
+
+            //POTES
+            valores.put(PedidoDataBaseHelper.CAMPO_CANTIDAD_POTE_CUARTO, item.getCantPoteCuarto());
+            valores.put(PedidoDataBaseHelper.CAMPO_CANTIDAD_POTE_MEDIO, item.getCantPoteMedio());
+            valores.put(PedidoDataBaseHelper.CAMPO_CANTIDAD_POTE_TRESCUARTO, item.getCantPoteTresCuarto());
+            valores.put(PedidoDataBaseHelper.CAMPO_CANTIDAD_POTE_KILO, item.getCantPoteKilo());
+
             valores.put(PedidoDataBaseHelper.CAMPO_CUCHARITAS,       item.getCucharitas());
             valores.put(PedidoDataBaseHelper.CAMPO_CUCURUCHOS,       item.getCucuruchos());
             valores.put(PedidoDataBaseHelper.CAMPO_ENVIO_DOMICILIO,  item.isEnvioDomicilio());
@@ -341,6 +360,12 @@ public class PedidoController implements ControllerInterface
                     PedidoDataBaseHelper.CAMPO_CUCURUCHOS,
                     PedidoDataBaseHelper.CAMPO_CANTIDAD_DESCUENTO,
 
+                    //POTES
+                    PedidoDataBaseHelper.CAMPO_CANTIDAD_POTE_CUARTO,
+                    PedidoDataBaseHelper.CAMPO_CANTIDAD_POTE_MEDIO,
+                    PedidoDataBaseHelper.CAMPO_CANTIDAD_POTE_TRESCUARTO,
+                    PedidoDataBaseHelper.CAMPO_CANTIDAD_POTE_KILO,
+
                     PedidoDataBaseHelper.CAMPO_MONTO_CUCURUCHOS,
                     PedidoDataBaseHelper.CAMPO_MONTO_DESCUENTO,
                     PedidoDataBaseHelper.CAMPO_MONTO_ABONA,
@@ -388,27 +413,7 @@ public class PedidoController implements ControllerInterface
 
 
 
-    public boolean calculatePromoBeforeEdit(Pedido pedido){
-         try{
-             // Primero calcula el descuento
-             // Actualiza los valores en el pedido
-             // y luego lo guarda en la base de datos
-             PromoController promoCtr = new PromoController(context);
-             Promo promo = promoCtr.abrir().calculateDiscount(pedido.getCantidadKilos());
-             promoCtr.cerrar();
-             if (promo!=null){
-                 if (promo.getMountDiscount()!=null ){
-                     pedido.setMontoDescuento(promo.getMountDiscount());
-                     pedido.setCantidadDescuento(Integer.parseInt(promo.getCountDiscount().toString()));
-                 }
-             }
-             this.edit(pedido);
-             return true;
-         }catch (Exception e){
-             Toast.makeText(context,"Error:" + e.getMessage(),Toast.LENGTH_LONG).show();
-             return false;
-         }
-    }
+
 
     public boolean calculatePromoBeforeEdit2(Pedido pedido){
         try{
@@ -459,7 +464,14 @@ public class PedidoController implements ControllerInterface
 
             //CANTIDAD
             valores.put(PedidoDataBaseHelper.CAMPO_CANTIDAD_KILOS,   item.getCantidadKilos());
-            valores.put(PedidoDataBaseHelper.CAMPO_CANTIDAD_POTES,   item.getCantidadPotes()  );
+
+            //POTES
+            valores.put(PedidoDataBaseHelper.CAMPO_CANTIDAD_POTE_CUARTO, item.getCantPoteCuarto());
+            valores.put(PedidoDataBaseHelper.CAMPO_CANTIDAD_POTE_MEDIO, item.getCantPoteMedio());
+            valores.put(PedidoDataBaseHelper.CAMPO_CANTIDAD_POTE_TRESCUARTO, item.getCantPoteTresCuarto());
+            valores.put(PedidoDataBaseHelper.CAMPO_CANTIDAD_POTE_KILO, item.getCantPoteKilo());
+
+
             valores.put(PedidoDataBaseHelper.CAMPO_CUCHARITAS,       item.getCucharitas());
             valores.put(PedidoDataBaseHelper.CAMPO_CUCURUCHOS,       item.getCucuruchos());
             valores.put(PedidoDataBaseHelper.CAMPO_ENVIO_DOMICILIO,  item.isEnvioDomicilio());
@@ -508,7 +520,14 @@ public class PedidoController implements ControllerInterface
 
             //CANTIDAD
             valores.put(PedidoDataBaseHelper.CAMPO_CANTIDAD_KILOS, item.getCantidadKilos());
-            valores.put(PedidoDataBaseHelper.CAMPO_CANTIDAD_POTES, item.getCantidadPotes());
+
+            //POTES
+            valores.put(PedidoDataBaseHelper.CAMPO_CANTIDAD_POTE_CUARTO, item.getCantPoteCuarto());
+            valores.put(PedidoDataBaseHelper.CAMPO_CANTIDAD_POTE_MEDIO, item.getCantPoteMedio());
+            valores.put(PedidoDataBaseHelper.CAMPO_CANTIDAD_POTE_TRESCUARTO, item.getCantPoteTresCuarto());
+            valores.put(PedidoDataBaseHelper.CAMPO_CANTIDAD_POTE_KILO, item.getCantPoteKilo());
+
+
             valores.put(PedidoDataBaseHelper.CAMPO_CUCHARITAS, item.getCucharitas());
             valores.put(PedidoDataBaseHelper.CAMPO_CUCURUCHOS, item.getCucuruchos());
             valores.put(PedidoDataBaseHelper.CAMPO_ENVIO_DOMICILIO, item.isEnvioDomicilio());
@@ -561,8 +580,13 @@ public class PedidoController implements ControllerInterface
                     PedidoDataBaseHelper.CAMPO_TELEFONO,
                     PedidoDataBaseHelper.CAMPO_CONTACTO,
 
-                    PedidoDataBaseHelper.CAMPO_CANTIDAD_POTES,
                     PedidoDataBaseHelper.CAMPO_CANTIDAD_KILOS,
+
+                    PedidoDataBaseHelper.CAMPO_CANTIDAD_POTE_CUARTO,
+                    PedidoDataBaseHelper.CAMPO_CANTIDAD_POTE_MEDIO,
+                    PedidoDataBaseHelper.CAMPO_CANTIDAD_POTE_TRESCUARTO,
+                    PedidoDataBaseHelper.CAMPO_CANTIDAD_POTE_KILO,
+
                     PedidoDataBaseHelper.CAMPO_CUCHARITAS,
                     PedidoDataBaseHelper.CAMPO_CUCURUCHOS,
                     PedidoDataBaseHelper.CAMPO_ENVIO_DOMICILIO,
@@ -613,8 +637,13 @@ public class PedidoController implements ControllerInterface
                     PedidoDataBaseHelper.CAMPO_TELEFONO,
                     PedidoDataBaseHelper.CAMPO_CONTACTO,
 
-                    PedidoDataBaseHelper.CAMPO_CANTIDAD_POTES,
                     PedidoDataBaseHelper.CAMPO_CANTIDAD_KILOS,
+
+                    PedidoDataBaseHelper.CAMPO_CANTIDAD_POTE_CUARTO,
+                    PedidoDataBaseHelper.CAMPO_CANTIDAD_POTE_MEDIO,
+                    PedidoDataBaseHelper.CAMPO_CANTIDAD_POTE_TRESCUARTO,
+                    PedidoDataBaseHelper.CAMPO_CANTIDAD_POTE_KILO,
+
                     PedidoDataBaseHelper.CAMPO_CUCHARITAS,
                     PedidoDataBaseHelper.CAMPO_CUCURUCHOS,
                     PedidoDataBaseHelper.CAMPO_ENVIO_DOMICILIO,
@@ -675,7 +704,12 @@ public class PedidoController implements ControllerInterface
                 registro.setCucuruchos(resultado.getInt(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_CUCURUCHOS)));
                 registro.setCucharitas(resultado.getInt(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_CUCHARITAS)));
                 registro.setCantidadKilos(resultado.getInt(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_CANTIDAD_KILOS)));
-                registro.setCantidadPotes(resultado.getInt(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_CANTIDAD_POTES)));
+
+                //POTES
+                registro.setCantPoteCuarto(resultado.getInt(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_CANTIDAD_POTE_CUARTO)));
+                registro.setCantPoteMedio(resultado.getInt(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_CANTIDAD_POTE_MEDIO)));
+                registro.setCantPoteTresCuarto(resultado.getInt(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_CANTIDAD_POTE_TRESCUARTO)));
+                registro.setCantPoteKilo(resultado.getInt(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_CANTIDAD_POTE_KILO)));
 
                 registro.setMontoHelados(resultado.getDouble(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_MONTO_HELADOS)));
                 registro.setMontoCucuruchos(resultado.getDouble(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_MONTO_CUCURUCHOS)));
@@ -713,7 +747,12 @@ public class PedidoController implements ControllerInterface
                     PedidoDataBaseHelper.CAMPO_TELEFONO,
                     PedidoDataBaseHelper.CAMPO_CONTACTO,
 
-                    PedidoDataBaseHelper.CAMPO_CANTIDAD_POTES,
+                    PedidoDataBaseHelper.CAMPO_CANTIDAD_POTE_CUARTO,
+                    PedidoDataBaseHelper.CAMPO_CANTIDAD_POTE_MEDIO,
+                    PedidoDataBaseHelper.CAMPO_CANTIDAD_POTE_TRESCUARTO,
+                    PedidoDataBaseHelper.CAMPO_CANTIDAD_POTE_KILO,
+
+
                     PedidoDataBaseHelper.CAMPO_CANTIDAD_KILOS,
                     PedidoDataBaseHelper.CAMPO_CUCHARITAS,
                     PedidoDataBaseHelper.CAMPO_CUCURUCHOS,
@@ -786,7 +825,7 @@ public class PedidoController implements ControllerInterface
                 PedidoDataBaseHelper.CAMPO_ENVIO_DOMICILIO,
                 PedidoDataBaseHelper.CAMPO_CUCURUCHOS,
 
-                PedidoDataBaseHelper.CAMPO_CANTIDAD_POTES,
+
                 PedidoDataBaseHelper.CAMPO_CUCHARITAS,
                 PedidoDataBaseHelper.CAMPO_CANTIDAD_KILOS,
                 PedidoDataBaseHelper.CAMPO_CANTIDAD_DESCUENTO,
@@ -796,6 +835,10 @@ public class PedidoController implements ControllerInterface
                 PedidoDataBaseHelper.CAMPO_MONTO_DESCUENTO,
                 PedidoDataBaseHelper.CAMPO_MONTO_ABONA,
 
+                PedidoDataBaseHelper.CAMPO_CANTIDAD_POTE_CUARTO,
+                PedidoDataBaseHelper.CAMPO_CANTIDAD_POTE_MEDIO,
+                PedidoDataBaseHelper.CAMPO_CANTIDAD_POTE_TRESCUARTO,
+                PedidoDataBaseHelper.CAMPO_CANTIDAD_POTE_KILO,
 
                 PedidoDataBaseHelper.CAMPO_LOCALIDAD,
                 PedidoDataBaseHelper.CAMPO_CALLE,
@@ -840,7 +883,12 @@ public class PedidoController implements ControllerInterface
             registro.setCucuruchos(resultado.getInt(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_CUCURUCHOS)));
             registro.setCucharitas(resultado.getInt(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_CUCHARITAS)));
             registro.setCantidadKilos(resultado.getInt(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_CANTIDAD_KILOS)));
-            registro.setCantidadPotes(resultado.getInt(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_CANTIDAD_POTES)));
+
+            //POTES
+            registro.setCantPoteCuarto(resultado.getInt(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_CANTIDAD_POTE_CUARTO)));
+            registro.setCantPoteMedio(resultado.getInt(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_CANTIDAD_POTE_MEDIO)));
+            registro.setCantPoteTresCuarto(resultado.getInt(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_CANTIDAD_POTE_TRESCUARTO)));
+            registro.setCantPoteKilo(resultado.getInt(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_CANTIDAD_POTE_KILO)));
 
             registro.setLocalidad(resultado.getString(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_LOCALIDAD)));
             registro.setCalle(resultado.getString(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_CALLE)));
@@ -850,8 +898,8 @@ public class PedidoController implements ControllerInterface
             registro.setTelefono(resultado.getString(resultado.getColumnIndex(PedidoDataBaseHelper.CAMPO_TELEFONO)));
 
             //Carga Detalles
-            Cursor detallecursor = dbDetalles.abrir().findByPedidoIdTmp(registro.getIdTmp());
-            ArrayList<Pedidodetalle> lista = dbDetalles.abrir().parseCursorToArrayList(detallecursor);
+
+            ArrayList<Pedidodetalle> lista =  dbDetalles.abrir().findByPedido_android_idToArrayList(registro.getIdTmp());
             registro.setDetalles(lista);
             dbDetalles.cerrar();
 
