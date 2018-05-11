@@ -185,7 +185,8 @@ public class Pedido {
     public void quitarPote(Pote pote){
         cantidadKilos -= pote.getKilos();
         deleteCantPoteMedida(pote.getKilos());
-        setMontoHelados(getMontoHelados() - getPrecioMedidaPote(pote.getKilos()));
+        Double mh = getMontoHelados() - getPrecioMedidaPote(pote.getKilos());
+        setMontoHelados(mh);
         refreshMontoTotal();
     }
 
@@ -283,7 +284,7 @@ public class Pedido {
 
     public void refreshMontoTotal(){
         subtotal =  WorkNumber.getValue(montoHelados) + WorkNumber.getValue(montoCucuruchos);
-        monto = WorkNumber.getValue(montoHelados) + WorkNumber.getValue(montoCucuruchos) - WorkNumber.getValue(montoDescuento);
+        monto    =  WorkNumber.getValue(montoHelados) + WorkNumber.getValue(montoCucuruchos) - WorkNumber.getValue(montoDescuento);
     }
 
     public Integer getCucharitas() {

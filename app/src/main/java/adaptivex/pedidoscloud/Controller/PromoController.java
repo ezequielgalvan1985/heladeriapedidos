@@ -455,42 +455,56 @@ public class PromoController
     public Promo matchPromoForPedido(Pedido pedido ){
         try{
             Promo promomatching = new Promo();
-            boolean matching = false;
+            boolean matching           = false;
+            boolean cancelarAplicacion = false;
+            boolean matchTemp          = false;
+
+
             ArrayList<Promo> listapromos = abrir().findByEnabledToArrayList();
             for(Promo promoindex : listapromos){
-
+                matchTemp           = false;
+                cancelarAplicacion  = false;
                 if (promoindex.getCantPoteCuarto()> 0 ){
                     if (promoindex.getCantPoteCuarto() != pedido.getCantPoteCuarto()){
-                        matching = false;
+                        cancelarAplicacion = true;
                     }else{
-                        matching = true;
-                    }
-                }
-                if (promoindex.getCantPoteTresCuarto()> 0 ){
-                    if (promoindex.getCantPoteTresCuarto() != pedido.getCantPoteTresCuarto()){
-                        matching = false;
-                    }else{
-                        matching = true;
-                    }
-                }
-                if (promoindex.getCantPoteMedio()> 0 ){
-                    if (promoindex.getCantPoteMedio() != pedido.getCantPoteMedio()){
-                        matching = false;
-                    }else{
-                        matching = true;
-                    }
-                }
-                if (promoindex.getCantPoteKilo()> 0 ){
-                    if (promoindex.getCantPoteKilo() != pedido.getCantPoteKilo()){
-                        matching = false;
-                    }else{
-                        matching = true;
+                        matchTemp = true;
                     }
                 }
 
-                if (matching){
+                if (promoindex.getCantPoteTresCuarto()> 0 ){
+                    if (promoindex.getCantPoteTresCuarto() != pedido.getCantPoteTresCuarto()){
+                        cancelarAplicacion = true;
+                    }else{
+                        matchTemp = true;
+                    }
+                }
+
+                if (promoindex.getCantPoteMedio()> 0 ){
+
+                    if (promoindex.getCantPoteMedio() != pedido.getCantPoteMedio()){
+
+                        cancelarAplicacion = true;
+                    }else{
+                        matchTemp = true;
+                    }
+                }
+
+                if (promoindex.getCantPoteKilo()> 0 ){
+
+                    if (promoindex.getCantPoteKilo() != pedido.getCantPoteKilo()){
+
+                        cancelarAplicacion = true;
+                    }else{
+                        matchTemp = true;
+                    }
+                }
+
+                if (matchTemp == true && cancelarAplicacion == false){
                     promomatching = promoindex;
                 }
+
+
             }
             return promomatching;
         }catch(Exception e ){
