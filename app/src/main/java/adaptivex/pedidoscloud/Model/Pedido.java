@@ -80,6 +80,7 @@ public class Pedido {
     private Integer cantPoteTresCuarto  = 0 ;
     private Integer cantPoteKilo        = 0 ;
 
+    private boolean entregado = false;
 
     public String getProporcionDesc(Integer proporcion){
         String cadena = "";
@@ -631,4 +632,20 @@ public class Pedido {
     public void setCantPoteKilo(Integer cantPoteKilo) {
         this.cantPoteKilo = cantPoteKilo;
     }
+
+    public String getDireccion(){
+        String direccion ="";
+        direccion += getCalle() +" " + getNro() + ", " +getLocalidad();
+        return direccion;
+
+    }
+
+    public boolean isEntregado() {
+        return entregado;
+    }
+
+    public void setEntregado(boolean entregado) {
+        this.entregado = entregado;
+    }
+
 }
