@@ -213,7 +213,7 @@ public class HelperPedidos extends AsyncTask<Void, Void, Void> {
     private void onPostFindEstadoEnCamino(){
         try{
             PedidoParser cp = new PedidoParser(TEXT_RESPONSE);
-            cp.parseJsonToObject();
+            cp.parseResponseToArrayList();
         }catch (Exception e){
             Log.println(Log.ERROR,"ErrorHelper:",e.getMessage());
         }

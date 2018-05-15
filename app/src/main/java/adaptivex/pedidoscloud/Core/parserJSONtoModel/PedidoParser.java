@@ -103,6 +103,15 @@ public class PedidoParser {
                 if (pedidoJson.has(PedidoDataBaseHelper.CAMPO_HORA_ENTREGA_JSON))   pedido.setHoraentrega(WorkDate.parseStringToDate(pedidoJson.getString(PedidoDataBaseHelper.CAMPO_HORA_ENTREGA_JSON))); else pedido.setHoraentrega(null);
                 if (pedidoJson.has(PedidoDataBaseHelper.CAMPO_HORA_RECEPCION_JSON)) pedido.setHoraRecepcion(WorkDate.parseStringToDate(pedidoJson.getString(PedidoDataBaseHelper.CAMPO_HORA_RECEPCION_JSON))); else pedido.setHoraRecepcion(null);
 
+
+
+                if (pedidoJson.has(PedidoDataBaseHelper.CAMPO_TIEMPO_DEMORA))       pedido.setTiempoDemora(pedidoJson.getInt(PedidoDataBaseHelper.CAMPO_TIEMPO_DEMORA)); else pedido.setTiempoDemora(0);
+                if (pedidoJson.has(PedidoDataBaseHelper.CAMPO_TIEMPO_DEMORA))       pedido.setTiempoDemora(pedidoJson.getInt(PedidoDataBaseHelper.CAMPO_TIEMPO_DEMORA)); else pedido.setTiempoDemora(0);
+                if (pedidoJson.has(PedidoDataBaseHelper.CAMPO_TIEMPO_DEMORA))       pedido.setTiempoDemora(pedidoJson.getInt(PedidoDataBaseHelper.CAMPO_TIEMPO_DEMORA)); else pedido.setTiempoDemora(0);
+                if (pedidoJson.has(PedidoDataBaseHelper.CAMPO_TIEMPO_DEMORA))       pedido.setTiempoDemora(pedidoJson.getInt(PedidoDataBaseHelper.CAMPO_TIEMPO_DEMORA)); else pedido.setTiempoDemora(0);
+                if (pedidoJson.has(PedidoDataBaseHelper.CAMPO_TIEMPO_DEMORA))       pedido.setTiempoDemora(pedidoJson.getInt(PedidoDataBaseHelper.CAMPO_TIEMPO_DEMORA)); else pedido.setTiempoDemora(0);
+                if (pedidoJson.has(PedidoDataBaseHelper.CAMPO_TIEMPO_DEMORA))       pedido.setTiempoDemora(pedidoJson.getInt(PedidoDataBaseHelper.CAMPO_TIEMPO_DEMORA)); else pedido.setTiempoDemora(0);
+                
             }
 
             return listadoPedidos;
