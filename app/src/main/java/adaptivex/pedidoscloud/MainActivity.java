@@ -187,6 +187,10 @@ public class MainActivity extends AppCompatActivity
         Bundle args = new Bundle();
         try{
             switch (id){
+                case R.id.nav_ver_delivery:
+                    Intent maps = new Intent(this, MapsActivity.class);
+                    startActivity(maps);
+                    break;
                 case R.id.nav_pedidodetalles:
                     fragment = new ListadoPedidodetallesFragment();
                     fragmentTransaction = true;

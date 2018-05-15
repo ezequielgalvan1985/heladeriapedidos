@@ -11,7 +11,9 @@
                 <item
                     android:id="@+id/nav_home"
                     android:title="Inicio" />
-
+                <item
+                    android:id="@+id/nav_ver_delivery"
+                    android:title="Ver Delivery (En Vivo)" />
                 <item
                     android:id="@+id/nav_datos_user"
                     android:title="Mis Datos" />

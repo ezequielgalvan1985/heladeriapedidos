@@ -8,6 +8,7 @@ import adaptivex.pedidoscloud.Model.PedidoDataBaseHelper;
 
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -59,15 +60,11 @@ public class PedidoParser {
                 pedido.setEstadoId(pedidoJson.getInt(PedidoDataBaseHelper.CAMPO_ESTADO_ID));
 
                 //Parsear
-                if (pedidoJson.has(PedidoDataBaseHelper.CAMPO_TIEMPO_DEMORA)) pedido.setTiempoDemora(pedidoJson.getInt(PedidoDataBaseHelper.CAMPO_TIEMPO_DEMORA)); else pedido.setTiempoDemora(0);
-                if (pedidoJson.has(PedidoDataBaseHelper.CAMPO_HORA_ENTREGA_JSON)) pedido.setHoraentrega(WorkDate.parseStringToDate(pedidoJson.getString(PedidoDataBaseHelper.CAMPO_HORA_ENTREGA_JSON))); else pedido.setHoraentrega(null);
+                if (pedidoJson.has(PedidoDataBaseHelper.CAMPO_TIEMPO_DEMORA))       pedido.setTiempoDemora(pedidoJson.getInt(PedidoDataBaseHelper.CAMPO_TIEMPO_DEMORA)); else pedido.setTiempoDemora(0);
+                if (pedidoJson.has(PedidoDataBaseHelper.CAMPO_HORA_ENTREGA_JSON))   pedido.setHoraentrega(WorkDate.parseStringToDate(pedidoJson.getString(PedidoDataBaseHelper.CAMPO_HORA_ENTREGA_JSON))); else pedido.setHoraentrega(null);
                 if (pedidoJson.has(PedidoDataBaseHelper.CAMPO_HORA_RECEPCION_JSON)) pedido.setHoraRecepcion(WorkDate.parseStringToDate(pedidoJson.getString(PedidoDataBaseHelper.CAMPO_HORA_RECEPCION_JSON))); else pedido.setHoraRecepcion(null);
 
-                //pedido.setHoraentrega(WorkDate.parseStringToDate(pedidoJson.getString(PedidoDataBaseHelper.CAMPO_HORA_ENTREGA)));
 
-                //Cliente - User
-                //JSONObject user = pedidoJson.getJSONObject(PedidoDataBaseHelper.USER_JSON);
-                //pedido.setCliente_id(user.getInt(PedidoDataBaseHelper.USER_ID_JSON));
             }
 
             return pedido;
@@ -77,6 +74,43 @@ public class PedidoParser {
         }
     }
 
+
+    public ArrayList<Pedido> parseResponseToArrayList() {
+        /* Completa datos del objeto  */
+        try {
+            //leer raiz
+            listadoPedidos = new ArrayList<Pedido>();
+
+            setJsonobj(new JSONObject(getJsonstr()));
+            setStatus(getJsonobj().getString("code"));
+            setMessage(getJsonobj().getString("message"));
+            setData(getJsonobj().getJSONObject("data"));
+
+            if ((Integer.parseInt(getStatus()) == 200)|| (Integer.parseInt(getStatus()) == 300)) {
+                //parser Usuario
+
+                pedido = new Pedido();
+                JSONObject pedidoJson = getData();
+                //Pedido header
+
+                pedido.setId(pedidoJson.getInt(PedidoDataBaseHelper.CAMPO_ID));
+                pedido.setIdTmp(pedidoJson.getInt(PedidoDataBaseHelper.ANDROID_ID_JSON));
+                pedido.setCreated(pedidoJson.getString(PedidoDataBaseHelper.FECHA_JSON));
+                pedido.setEstadoId(pedidoJson.getInt(PedidoDataBaseHelper.CAMPO_ESTADO_ID));
+
+                //Parsear
+                if (pedidoJson.has(PedidoDataBaseHelper.CAMPO_TIEMPO_DEMORA))       pedido.setTiempoDemora(pedidoJson.getInt(PedidoDataBaseHelper.CAMPO_TIEMPO_DEMORA)); else pedido.setTiempoDemora(0);
+                if (pedidoJson.has(PedidoDataBaseHelper.CAMPO_HORA_ENTREGA_JSON))   pedido.setHoraentrega(WorkDate.parseStringToDate(pedidoJson.getString(PedidoDataBaseHelper.CAMPO_HORA_ENTREGA_JSON))); else pedido.setHoraentrega(null);
+                if (pedidoJson.has(PedidoDataBaseHelper.CAMPO_HORA_RECEPCION_JSON)) pedido.setHoraRecepcion(WorkDate.parseStringToDate(pedidoJson.getString(PedidoDataBaseHelper.CAMPO_HORA_RECEPCION_JSON))); else pedido.setHoraRecepcion(null);
+
+            }
+
+            return listadoPedidos;
+        } catch (Exception e) {
+            Log.d("PedidoParser: ", e.getMessage().toString());
+            return null;
+        }
+    }
 
 
     public JSONObject getRespuesta() {

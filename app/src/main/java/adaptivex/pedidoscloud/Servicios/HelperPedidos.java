@@ -28,6 +28,7 @@ import adaptivex.pedidoscloud.Config.Constants;
 import adaptivex.pedidoscloud.Config.GlobalValues;
 import adaptivex.pedidoscloud.Controller.PedidoController;
 import adaptivex.pedidoscloud.Controller.PedidodetalleController;
+import adaptivex.pedidoscloud.Core.parserJSONtoModel.ParameterParser;
 import adaptivex.pedidoscloud.Core.parserJSONtoModel.PedidoParser;
 import adaptivex.pedidoscloud.Model.PoteItem;
 import adaptivex.pedidoscloud.Model.Pedido;
@@ -48,9 +49,16 @@ public class HelperPedidos extends AsyncTask<Void, Void, Void> {
     private int respuesta; //1=ok, 200=error
     private int opcion; //1 enviar Post Pedido, 2 ENVIAR TODOS LOS PEDIDOS PENDIENTES
 
+
+    private String TEXT_RESPONSE;
+    private int CURRENT_OPTION = 0; //1 enviar Post Parameter
+
+
     public static final int OPTION_ENVIAR_PEDIDO = 1;
     public static final int OPTION_ENVIAR_PEDIDOSPENDIENTES = 2;
     public static final int OPTION_CHECK_STATUS = 3;
+
+    public static final int OPTION_FIND_ESTADO_ENCAMINO = 4;
 
     //Constructor donde le pasas el numero de pedido temporal y la opcion
     //ID pedido temporal, es el ID que tiene en la base de datos SQLITE
@@ -83,6 +91,133 @@ public class HelperPedidos extends AsyncTask<Void, Void, Void> {
 
 
 
+    @Override
+    protected Void doInBackground(Void... voids) {
+        try{
+            switch (getOpcion()){
+                case OPTION_ENVIAR_PEDIDO:
+                    enviarPedido2(getPedido());
+                    break;
+
+                case OPTION_ENVIAR_PEDIDOSPENDIENTES:
+                    enviarPedidosPendientes();
+                    break;
+
+                case OPTION_CHECK_STATUS:
+                    checkStatusPedido(getPedido());
+                    break;
+
+                case OPTION_FIND_ESTADO_ENCAMINO:
+                    findByEstadoEnCamino();
+                    break;
+            }
+
+
+            return null;
+        }catch (Exception e){
+            if (pDialog.isShowing())
+                pDialog.dismiss();
+                setRespuesta(GlobalValues.getINSTANCIA().RETURN_ERROR);
+            //Toast.makeText(this.getCtx(),"Error: "+e.getMessage(),Toast.LENGTH_LONG);
+
+            Log.println(Log.ERROR,"ErrorHelper:",e.getMessage());
+            return null;
+        }
+
+    }
+
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+        // Showing progress dialog
+        pDialog = new ProgressDialog(this.getCtx());
+        pDialog.setMessage("Enviando Pedido...");
+        pDialog.setCancelable(false);
+        pDialog.show();
+    }
+
+
+    @Override
+    protected void onPostExecute(Void result) {
+        super.onPostExecute(result);
+
+        switch(getOpcion()){
+            case OPTION_CHECK_STATUS:
+                GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.setEstadoId(getPedido().getEstadoId());
+                GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.setHoraentrega(getPedido().getHoraentrega());
+                GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.setHoraRecepcion(getPedido().getHoraRecepcion());
+                GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.setTiempoDemora(getPedido().getTiempoDemora());
+                break;
+
+            case OPTION_FIND_ESTADO_ENCAMINO:
+                onPostFindEstadoEnCamino();
+                break;
+        }
+
+
+
+
+        if (pDialog.isShowing()){
+            pDialog.dismiss();
+            if (getRespuesta()== GlobalValues.getINSTANCIA().RETURN_OK){
+
+            }
+        }
+    }
+    public Context getCtx() {
+        return ctx;
+    }
+
+    public void setCtx(Context ctx) {
+        this.ctx = ctx;
+    }
+
+    public int getRespuesta() {
+        return respuesta;
+    }
+
+    public void setRespuesta(int respuesta) {
+        this.respuesta = respuesta;
+    }
+
+    public int getOpcion() {
+        return opcion;
+    }
+
+    public void setOpcion(int opcion) {
+        this.opcion = opcion;
+    }
+
+    public Pedido getPedido() {
+        return pedido;
+    }
+
+    public void setPedido(Pedido pedido) {
+        this.pedido = pedido;
+    }
+
+
+
+    /* ======================  Tratamiento de Datos =============================================== */
+    private void findByEstadoEnCamino(){
+        try{
+            WebRequest webreq = new WebRequest();
+            registro = new HashMap<String, String>();
+            registro.put("estado_id", String.valueOf(Constants.ESTADO_ENCAMINO));
+            TEXT_RESPONSE = webreq.makeWebServiceCall(Configurador.urlPedidos, WebRequest.POST,registro);
+        }catch (Exception e){
+            Log.println(Log.ERROR,"ErrorHelper:",e.getMessage());
+        }
+    }
+
+    private void onPostFindEstadoEnCamino(){
+        try{
+            PedidoParser cp = new PedidoParser(TEXT_RESPONSE);
+            cp.parseJsonToObject();
+        }catch (Exception e){
+            Log.println(Log.ERROR,"ErrorHelper:",e.getMessage());
+        }
+    }
 
 
     public JSONObject parseObjectToJson(Pedido paramPedido){
@@ -313,104 +448,4 @@ public class HelperPedidos extends AsyncTask<Void, Void, Void> {
         }
     }
 
-
-    @Override
-    protected Void doInBackground(Void... voids) {
-        try{
-            switch (getOpcion()){
-                case OPTION_ENVIAR_PEDIDO:
-                    enviarPedido2(getPedido());
-                    break;
-
-                case OPTION_ENVIAR_PEDIDOSPENDIENTES:
-                    enviarPedidosPendientes();
-                    break;
-
-                case OPTION_CHECK_STATUS:
-                    checkStatusPedido(getPedido());
-
-                    break;
-
-
-            }
-
-
-            return null;
-        }catch (Exception e){
-            if (pDialog.isShowing())
-                pDialog.dismiss();
-                setRespuesta(GlobalValues.getINSTANCIA().RETURN_ERROR);
-            //Toast.makeText(this.getCtx(),"Error: "+e.getMessage(),Toast.LENGTH_LONG);
-
-            Log.println(Log.ERROR,"ErrorHelper:",e.getMessage());
-            return null;
-        }
-
-    }
-
-    @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
-        // Showing progress dialog
-        pDialog = new ProgressDialog(this.getCtx());
-        pDialog.setMessage("Enviando Pedido...");
-        pDialog.setCancelable(false);
-        pDialog.show();
-    }
-
-
-    @Override
-    protected void onPostExecute(Void result) {
-        super.onPostExecute(result);
-        // Showing progress dialog
-        switch(getOpcion()){
-            case OPTION_CHECK_STATUS:
-                GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.setEstadoId(getPedido().getEstadoId());
-                GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.setHoraentrega(getPedido().getHoraentrega());
-                GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.setHoraRecepcion(getPedido().getHoraRecepcion());
-                GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.setTiempoDemora(getPedido().getTiempoDemora());
-                break;
-        }
-
-
-
-
-        if (pDialog.isShowing()){
-            pDialog.dismiss();
-            if (getRespuesta()== GlobalValues.getINSTANCIA().RETURN_OK){
-
-            }
-        }
-    }
-    public Context getCtx() {
-        return ctx;
-    }
-
-    public void setCtx(Context ctx) {
-        this.ctx = ctx;
-    }
-
-    public int getRespuesta() {
-        return respuesta;
-    }
-
-    public void setRespuesta(int respuesta) {
-        this.respuesta = respuesta;
-    }
-
-    public int getOpcion() {
-        return opcion;
-    }
-
-    public void setOpcion(int opcion) {
-        this.opcion = opcion;
-    }
-
-    public Pedido getPedido() {
-        return pedido;
-    }
-
-    public void setPedido(Pedido pedido) {
-        this.pedido = pedido;
-    }
 }
