@@ -2,6 +2,7 @@ package adaptivex.pedidoscloud.Servicios;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
@@ -54,11 +55,10 @@ public class HelperPedidos extends AsyncTask<Void, Void, Void> {
     private int CURRENT_OPTION = 0; //1 enviar Post Parameter
 
 
-    public static final int OPTION_ENVIAR_PEDIDO = 1;
+    public static final int OPTION_ENVIAR_PEDIDO            = 1;
     public static final int OPTION_ENVIAR_PEDIDOSPENDIENTES = 2;
-    public static final int OPTION_CHECK_STATUS = 3;
-
-    public static final int OPTION_FIND_ESTADO_ENCAMINO = 4;
+    public static final int OPTION_CHECK_STATUS             = 3;
+    public static final int OPTION_FIND_ESTADO_ENCAMINO     = 4;
 
     //Constructor donde le pasas el numero de pedido temporal y la opcion
     //ID pedido temporal, es el ID que tiene en la base de datos SQLITE
@@ -151,7 +151,9 @@ public class HelperPedidos extends AsyncTask<Void, Void, Void> {
 
             case OPTION_FIND_ESTADO_ENCAMINO:
                 onPostFindEstadoEnCamino();
+
                 break;
+
         }
 
 
@@ -163,6 +165,7 @@ public class HelperPedidos extends AsyncTask<Void, Void, Void> {
 
             }
         }
+       
     }
     public Context getCtx() {
         return ctx;
@@ -199,6 +202,7 @@ public class HelperPedidos extends AsyncTask<Void, Void, Void> {
 
 
     /* ======================  Tratamiento de Datos =============================================== */
+
     private void findByEstadoEnCamino(){
         try{
             WebRequest webreq = new WebRequest();

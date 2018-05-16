@@ -25,6 +25,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+import adaptivex.pedidoscloud.Controller.PedidoController;
+import adaptivex.pedidoscloud.Core.Interfaces.OnPostExecuteInterface;
+import adaptivex.pedidoscloud.Servicios.HelperPedidos;
 import adaptivex.pedidoscloud.Vendor.DeliveryTracker.Behavior.DirectionFinder;
 import adaptivex.pedidoscloud.Vendor.DeliveryTracker.Behavior.DirectionFinderListener;
 import adaptivex.pedidoscloud.Model.Pedido;
@@ -33,7 +36,7 @@ import adaptivex.pedidoscloud.Vendor.DeliveryTracker.Entity.Route;
 
 
 public class MapsActivity extends FragmentActivity
-        implements  OnMapReadyCallback, DirectionFinderListener{
+        implements  OnMapReadyCallback, DirectionFinderListener, OnPostExecuteInterface{
 
     private GoogleMap mMap;
     private Button btnFindPath, btnDibujarRecorrido;
@@ -149,6 +152,9 @@ public class MapsActivity extends FragmentActivity
 
     private ArrayList<Pedido> getListaPedidos(){
         try{
+            HelperPedidos hp = new HelperPedidos(this);
+            hp.setOpcion(HelperPedidos.OPTION_FIND_ESTADO_ENCAMINO);
+
             listaPedidos = new ArrayList<Pedido>();
 
             Pedido p1 = new Pedido();

@@ -6,7 +6,10 @@ import adaptivex.pedidoscloud.Core.WorkDate;
 import adaptivex.pedidoscloud.Core.WorkJsonField;
 import adaptivex.pedidoscloud.Model.Pedido;
 import adaptivex.pedidoscloud.Model.PedidoDataBaseHelper;
+import adaptivex.pedidoscloud.Model.Pedidodetalle;
+import adaptivex.pedidoscloud.Model.PedidodetalleDataBaseHelper;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.lang.reflect.Array;
@@ -87,56 +90,80 @@ public class PedidoParser {
             setData(getJsonobj().getJSONObject("data"));
 
             if ((Integer.parseInt(getStatus()) == 200)|| (Integer.parseInt(getStatus()) == 300)) {
-                //parser Usuario
 
-                pedido = new Pedido();
-                JSONObject pedidoJson = getData();
-                //Pedido header
+                JSONArray listaPedidos = getJsonobj().getJSONArray("data");
 
-                pedido.setId(WorkJsonField.getInt(pedidoJson,    PedidoDataBaseHelper.CAMPO_ID));
-                pedido.setIdTmp(WorkJsonField.getInt(pedidoJson, PedidoDataBaseHelper.ANDROID_ID_JSON));
-                pedido.setCreated(WorkJsonField.getString(pedidoJson, PedidoDataBaseHelper.FECHA_JSON));
-                pedido.setEstadoId(WorkJsonField.getInt(pedidoJson, PedidoDataBaseHelper.CAMPO_ESTADO_ID));
-                pedido.setCliente_id(WorkJsonField.getInt(pedidoJson, PedidoDataBaseHelper.CAMPO_CLIENTE_ID));
+                for (int i = 0; i < listaPedidos.length(); i++) {
+                    pedido = new Pedido();
+                    JSONObject pedidoJson = (JSONObject) listaPedidos.get(i);
+                    JSONArray pedidodetallesJson = pedidoJson.getJSONArray("pedidodetalles");
+                    ArrayList <Pedidodetalle> detalles  = new ArrayList<Pedidodetalle> ();
 
-                pedido.setTiempoDemora(WorkJsonField.getInt(pedidoJson, PedidoDataBaseHelper.CAMPO_TIEMPO_DEMORA));
-                pedido.setHoraentrega(WorkJsonField.getDate(pedidoJson, PedidoDataBaseHelper.CAMPO_HORA_ENTREGA_JSON));
-                pedido.setHoraRecepcion(WorkJsonField.getDate(pedidoJson, PedidoDataBaseHelper.CAMPO_HORA_RECEPCION_JSON));
+                    //Pedido header
+                    pedido.setId(WorkJsonField.getInt(pedidoJson,    PedidoDataBaseHelper.CAMPO_ID));
+                    pedido.setIdTmp(WorkJsonField.getInt(pedidoJson, PedidoDataBaseHelper.ANDROID_ID_JSON));
+                    pedido.setCreated(WorkJsonField.getString(pedidoJson, PedidoDataBaseHelper.FECHA_JSON));
+                    pedido.setEstadoId(WorkJsonField.getInt(pedidoJson, PedidoDataBaseHelper.CAMPO_ESTADO_ID));
+                    pedido.setCliente_id(WorkJsonField.getInt(pedidoJson, PedidoDataBaseHelper.CAMPO_CLIENTE_ID));
+
+                    pedido.setTiempoDemora(WorkJsonField.getInt(pedidoJson, PedidoDataBaseHelper.CAMPO_TIEMPO_DEMORA));
+                    pedido.setHoraentrega(WorkJsonField.getDate(pedidoJson, PedidoDataBaseHelper.CAMPO_HORA_ENTREGA_JSON));
+                    pedido.setHoraRecepcion(WorkJsonField.getDate(pedidoJson, PedidoDataBaseHelper.CAMPO_HORA_RECEPCION_JSON));
+
+                    pedido.setBonificacion(WorkJsonField.getDouble(pedidoJson, PedidoDataBaseHelper.CAMPO_BONIFICACION));
+                    pedido.setSubtotal(WorkJsonField.getDouble(pedidoJson, PedidoDataBaseHelper.CAMPO_SUBTOTAL));
+                    pedido.setIva(WorkJsonField.getDouble(pedidoJson, PedidoDataBaseHelper.CAMPO_IVA));
+                    pedido.setMonto(WorkJsonField.getDouble(pedidoJson, PedidoDataBaseHelper.CAMPO_MONTO));
+                    pedido.setMontoabona(WorkJsonField.getDouble(pedidoJson, PedidoDataBaseHelper.CAMPO_MONTO_ABONA));
+
+                    pedido.setCantidadDescuento(WorkJsonField.getInt(pedidoJson, PedidoDataBaseHelper.CAMPO_CANTIDAD_DESCUENTO));
+                    pedido.setCantidadKilos(WorkJsonField.getInt(pedidoJson, PedidoDataBaseHelper.CAMPO_CANTIDAD_KILOS));
+                    pedido.setCucuruchos(WorkJsonField.getInt(pedidoJson, PedidoDataBaseHelper.CAMPO_CUCURUCHOS));
+                    pedido.setCucharitas(WorkJsonField.getInt(pedidoJson, PedidoDataBaseHelper.CAMPO_CUCHARITAS));
+
+                    pedido.setMontoDescuento(WorkJsonField.getDouble(pedidoJson, PedidoDataBaseHelper.CAMPO_MONTO_DESCUENTO));
+                    pedido.setMontoCucuruchos(WorkJsonField.getDouble(pedidoJson, PedidoDataBaseHelper.CAMPO_MONTO_CUCURUCHOS));
+                    pedido.setMontoHelados(WorkJsonField.getDouble(pedidoJson, PedidoDataBaseHelper.CAMPO_MONTO_HELADOS));
+
+                    pedido.setLocalidad(WorkJsonField.getString(pedidoJson, PedidoDataBaseHelper.CAMPO_LOCALIDAD));
+                    pedido.setCalle(WorkJsonField.getString(pedidoJson, PedidoDataBaseHelper.CAMPO_CALLE));
+                    pedido.setNro(WorkJsonField.getString(pedidoJson, PedidoDataBaseHelper.CAMPO_NRO));
+                    pedido.setPiso(WorkJsonField.getString(pedidoJson, PedidoDataBaseHelper.CAMPO_PISO));
+                    pedido.setTelefono(WorkJsonField.getString(pedidoJson, PedidoDataBaseHelper.CAMPO_TELEFONO));
+                    pedido.setContacto(WorkJsonField.getString(pedidoJson, PedidoDataBaseHelper.CAMPO_CONTACTO));
+
+                    pedido.setEnvioDomicilio(WorkJsonField.getBoolean(pedidoJson, PedidoDataBaseHelper.CAMPO_ENVIO_DOMICILIO));
+
+                    pedido.setCantPoteCuarto(WorkJsonField.getInt(pedidoJson, PedidoDataBaseHelper.CAMPO_CANTIDAD_POTE_CUARTO));
+                    pedido.setCantPoteMedio(WorkJsonField.getInt(pedidoJson, PedidoDataBaseHelper.CAMPO_CANTIDAD_POTE_MEDIO));
+                    pedido.setCantPoteTresCuarto(WorkJsonField.getInt(pedidoJson, PedidoDataBaseHelper.CAMPO_CANTIDAD_POTE_TRESCUARTO));
+                    pedido.setCantPoteKilo(WorkJsonField.getInt(pedidoJson, PedidoDataBaseHelper.CAMPO_CANTIDAD_POTE_KILO));
+
+                    /*
+                    * Leer detalle del pedido
+                    * */
+                    for (int d = 0; i < pedidodetallesJson.length(); d++) {
+                        JSONObject pedidodetalleJson = (JSONObject) pedidodetallesJson.get(d);
+                        Pedidodetalle pd = new Pedidodetalle();
+
+                        pd.setIdTmp(WorkJsonField.getInt(pedidodetalleJson, PedidodetalleDataBaseHelper.CAMPO_ID_TMP));
+                        pd.setId(WorkJsonField.getInt(pedidodetalleJson, PedidodetalleDataBaseHelper.CAMPO_ID));
+                        pd.setMonto(WorkJsonField.getDouble(pedidodetalleJson, PedidodetalleDataBaseHelper.CAMPO_MONTO));
+                        pd.setCantidad(WorkJsonField.getDouble(pedidodetalleJson, PedidodetalleDataBaseHelper.CAMPO_CANTIDAD));
+                        pd.setMedidaPote(WorkJsonField.getInt(pedidodetalleJson, PedidodetalleDataBaseHelper.CAMPO_MONTO));
+                        pd.setProporcionHelado(WorkJsonField.getInt(pedidodetalleJson, PedidodetalleDataBaseHelper.CAMPO_PROPORCION_HELADO));
+                        pd.setNroPote(WorkJsonField.getInt(pedidodetalleJson, PedidodetalleDataBaseHelper.CAMPO_NRO_POTE));
+                        pd.setPedidoId(WorkJsonField.getInt(pedidodetalleJson, PedidodetalleDataBaseHelper.CAMPO_PEDIDO_ID));
+                        pd.setPedidoTmpId(WorkJsonField.getInt(pedidodetalleJson, PedidodetalleDataBaseHelper.CAMPO_PEDIDO_ID_TMP));
+
+                        detalles.add(pd);
+                    }
+                    pedido.setDetalles(detalles);
+
+                }
 
 
-                pedido.setBonificacion(WorkJsonField.getDouble(pedidoJson, PedidoDataBaseHelper.CAMPO_BONIFICACION));
-                pedido.setSubtotal(WorkJsonField.getDouble(pedidoJson, PedidoDataBaseHelper.CAMPO_SUBTOTAL));
-                pedido.setIva(WorkJsonField.getDouble(pedidoJson, PedidoDataBaseHelper.CAMPO_IVA));
-                pedido.setMonto(WorkJsonField.getDouble(pedidoJson, PedidoDataBaseHelper.CAMPO_MONTO));
-                pedido.setMontoabona(WorkJsonField.getDouble(pedidoJson, PedidoDataBaseHelper.CAMPO_MONTO_ABONA));
 
-                pedido.setCantidadDescuento(WorkJsonField.getInt(pedidoJson, PedidoDataBaseHelper.CAMPO_CANTIDAD_DESCUENTO));
-                pedido.setCantidadKilos(WorkJsonField.getInt(pedidoJson, PedidoDataBaseHelper.CAMPO_CANTIDAD_KILOS));
-                pedido.setCucuruchos(WorkJsonField.getInt(pedidoJson, PedidoDataBaseHelper.CAMPO_CUCURUCHOS));
-                pedido.setCucharitas(WorkJsonField.getInt(pedidoJson, PedidoDataBaseHelper.CAMPO_CUCHARITAS));
-
-                pedido.setMontoDescuento(WorkJsonField.getDouble(pedidoJson, PedidoDataBaseHelper.CAMPO_MONTO_DESCUENTO));
-                pedido.setMontoCucuruchos(WorkJsonField.getDouble(pedidoJson, PedidoDataBaseHelper.CAMPO_MONTO_CUCURUCHOS));
-                pedido.setMontoHelados(WorkJsonField.getDouble(pedidoJson, PedidoDataBaseHelper.CAMPO_MONTO_HELADOS));
-
-                pedido.setLocalidad(WorkJsonField.getString(pedidoJson, PedidoDataBaseHelper.CAMPO_LOCALIDAD));
-                pedido.setCalle(WorkJsonField.getString(pedidoJson, PedidoDataBaseHelper.CAMPO_CALLE));
-                pedido.setNro(WorkJsonField.getString(pedidoJson, PedidoDataBaseHelper.CAMPO_NRO));
-                pedido.setPiso(WorkJsonField.getString(pedidoJson, PedidoDataBaseHelper.CAMPO_PISO));
-                pedido.setTelefono(WorkJsonField.getString(pedidoJson, PedidoDataBaseHelper.CAMPO_TELEFONO));
-                pedido.setContacto(WorkJsonField.getString(pedidoJson, PedidoDataBaseHelper.CAMPO_CONTACTO));
-
-                pedido.setEnvioDomicilio(WorkJsonField.getBoolean(pedidoJson, PedidoDataBaseHelper.CAMPO_ENVIO_DOMICILIO));
-
-                pedido.setCantPoteCuarto(WorkJsonField.getInt(pedidoJson, PedidoDataBaseHelper.CAMPO_CANTIDAD_POTE_CUARTO));
-                pedido.setCantPoteMedio(WorkJsonField.getInt(pedidoJson, PedidoDataBaseHelper.CAMPO_CANTIDAD_POTE_MEDIO));
-                pedido.setCantPoteTresCuarto(WorkJsonField.getInt(pedidoJson, PedidoDataBaseHelper.CAMPO_CANTIDAD_POTE_TRESCUARTO));
-                pedido.setCantPoteKilo(WorkJsonField.getInt(pedidoJson, PedidoDataBaseHelper.CAMPO_CANTIDAD_POTE_KILO));
-
-
-                /*
-                * Leer detalle del pedido
-                * */
             }
 
             return listadoPedidos;
