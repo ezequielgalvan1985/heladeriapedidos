@@ -35,8 +35,6 @@ public class Pedido {
     private Double  montoabona;
 
 
-
-
     //Datos que no se guardan en la DB
     //Para la heladeria
     private ArrayList<Pote> potes;
@@ -44,9 +42,6 @@ public class Pedido {
     //Entidades externas
     private Cliente cliente;
     private ArrayList<Pedidodetalle> detalles ;
-
-
-
 
 
     //Direccion

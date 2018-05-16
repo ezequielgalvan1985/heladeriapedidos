@@ -3,6 +3,7 @@ package adaptivex.pedidoscloud.Core.parserJSONtoModel;
 import android.util.Log;
 
 import adaptivex.pedidoscloud.Core.WorkDate;
+import adaptivex.pedidoscloud.Core.WorkJsonField;
 import adaptivex.pedidoscloud.Model.Pedido;
 import adaptivex.pedidoscloud.Model.PedidoDataBaseHelper;
 
@@ -64,7 +65,6 @@ public class PedidoParser {
                 if (pedidoJson.has(PedidoDataBaseHelper.CAMPO_HORA_ENTREGA_JSON))   pedido.setHoraentrega(WorkDate.parseStringToDate(pedidoJson.getString(PedidoDataBaseHelper.CAMPO_HORA_ENTREGA_JSON))); else pedido.setHoraentrega(null);
                 if (pedidoJson.has(PedidoDataBaseHelper.CAMPO_HORA_RECEPCION_JSON)) pedido.setHoraRecepcion(WorkDate.parseStringToDate(pedidoJson.getString(PedidoDataBaseHelper.CAMPO_HORA_RECEPCION_JSON))); else pedido.setHoraRecepcion(null);
 
-
             }
 
             return pedido;
@@ -74,7 +74,7 @@ public class PedidoParser {
         }
     }
 
-
+    // Devuelve una lista de pedidos, procesa los datos de getJsonstr
     public ArrayList<Pedido> parseResponseToArrayList() {
         /* Completa datos del objeto  */
         try {
@@ -93,25 +93,50 @@ public class PedidoParser {
                 JSONObject pedidoJson = getData();
                 //Pedido header
 
-                pedido.setId(pedidoJson.getInt(PedidoDataBaseHelper.CAMPO_ID));
-                pedido.setIdTmp(pedidoJson.getInt(PedidoDataBaseHelper.ANDROID_ID_JSON));
-                pedido.setCreated(pedidoJson.getString(PedidoDataBaseHelper.FECHA_JSON));
-                pedido.setEstadoId(pedidoJson.getInt(PedidoDataBaseHelper.CAMPO_ESTADO_ID));
+                pedido.setId(WorkJsonField.getInt(pedidoJson,    PedidoDataBaseHelper.CAMPO_ID));
+                pedido.setIdTmp(WorkJsonField.getInt(pedidoJson, PedidoDataBaseHelper.ANDROID_ID_JSON));
+                pedido.setCreated(WorkJsonField.getString(pedidoJson, PedidoDataBaseHelper.FECHA_JSON));
+                pedido.setEstadoId(WorkJsonField.getInt(pedidoJson, PedidoDataBaseHelper.CAMPO_ESTADO_ID));
+                pedido.setCliente_id(WorkJsonField.getInt(pedidoJson, PedidoDataBaseHelper.CAMPO_CLIENTE_ID));
 
-                //Parsear
-                if (pedidoJson.has(PedidoDataBaseHelper.CAMPO_TIEMPO_DEMORA))       pedido.setTiempoDemora(pedidoJson.getInt(PedidoDataBaseHelper.CAMPO_TIEMPO_DEMORA)); else pedido.setTiempoDemora(0);
-                if (pedidoJson.has(PedidoDataBaseHelper.CAMPO_HORA_ENTREGA_JSON))   pedido.setHoraentrega(WorkDate.parseStringToDate(pedidoJson.getString(PedidoDataBaseHelper.CAMPO_HORA_ENTREGA_JSON))); else pedido.setHoraentrega(null);
-                if (pedidoJson.has(PedidoDataBaseHelper.CAMPO_HORA_RECEPCION_JSON)) pedido.setHoraRecepcion(WorkDate.parseStringToDate(pedidoJson.getString(PedidoDataBaseHelper.CAMPO_HORA_RECEPCION_JSON))); else pedido.setHoraRecepcion(null);
+                pedido.setTiempoDemora(WorkJsonField.getInt(pedidoJson, PedidoDataBaseHelper.CAMPO_TIEMPO_DEMORA));
+                pedido.setHoraentrega(WorkJsonField.getDate(pedidoJson, PedidoDataBaseHelper.CAMPO_HORA_ENTREGA_JSON));
+                pedido.setHoraRecepcion(WorkJsonField.getDate(pedidoJson, PedidoDataBaseHelper.CAMPO_HORA_RECEPCION_JSON));
 
 
+                pedido.setBonificacion(WorkJsonField.getDouble(pedidoJson, PedidoDataBaseHelper.CAMPO_BONIFICACION));
+                pedido.setSubtotal(WorkJsonField.getDouble(pedidoJson, PedidoDataBaseHelper.CAMPO_SUBTOTAL));
+                pedido.setIva(WorkJsonField.getDouble(pedidoJson, PedidoDataBaseHelper.CAMPO_IVA));
+                pedido.setMonto(WorkJsonField.getDouble(pedidoJson, PedidoDataBaseHelper.CAMPO_MONTO));
+                pedido.setMontoabona(WorkJsonField.getDouble(pedidoJson, PedidoDataBaseHelper.CAMPO_MONTO_ABONA));
 
-                if (pedidoJson.has(PedidoDataBaseHelper.CAMPO_TIEMPO_DEMORA))       pedido.setTiempoDemora(pedidoJson.getInt(PedidoDataBaseHelper.CAMPO_TIEMPO_DEMORA)); else pedido.setTiempoDemora(0);
-                if (pedidoJson.has(PedidoDataBaseHelper.CAMPO_TIEMPO_DEMORA))       pedido.setTiempoDemora(pedidoJson.getInt(PedidoDataBaseHelper.CAMPO_TIEMPO_DEMORA)); else pedido.setTiempoDemora(0);
-                if (pedidoJson.has(PedidoDataBaseHelper.CAMPO_TIEMPO_DEMORA))       pedido.setTiempoDemora(pedidoJson.getInt(PedidoDataBaseHelper.CAMPO_TIEMPO_DEMORA)); else pedido.setTiempoDemora(0);
-                if (pedidoJson.has(PedidoDataBaseHelper.CAMPO_TIEMPO_DEMORA))       pedido.setTiempoDemora(pedidoJson.getInt(PedidoDataBaseHelper.CAMPO_TIEMPO_DEMORA)); else pedido.setTiempoDemora(0);
-                if (pedidoJson.has(PedidoDataBaseHelper.CAMPO_TIEMPO_DEMORA))       pedido.setTiempoDemora(pedidoJson.getInt(PedidoDataBaseHelper.CAMPO_TIEMPO_DEMORA)); else pedido.setTiempoDemora(0);
-                if (pedidoJson.has(PedidoDataBaseHelper.CAMPO_TIEMPO_DEMORA))       pedido.setTiempoDemora(pedidoJson.getInt(PedidoDataBaseHelper.CAMPO_TIEMPO_DEMORA)); else pedido.setTiempoDemora(0);
-                
+                pedido.setCantidadDescuento(WorkJsonField.getInt(pedidoJson, PedidoDataBaseHelper.CAMPO_CANTIDAD_DESCUENTO));
+                pedido.setCantidadKilos(WorkJsonField.getInt(pedidoJson, PedidoDataBaseHelper.CAMPO_CANTIDAD_KILOS));
+                pedido.setCucuruchos(WorkJsonField.getInt(pedidoJson, PedidoDataBaseHelper.CAMPO_CUCURUCHOS));
+                pedido.setCucharitas(WorkJsonField.getInt(pedidoJson, PedidoDataBaseHelper.CAMPO_CUCHARITAS));
+
+                pedido.setMontoDescuento(WorkJsonField.getDouble(pedidoJson, PedidoDataBaseHelper.CAMPO_MONTO_DESCUENTO));
+                pedido.setMontoCucuruchos(WorkJsonField.getDouble(pedidoJson, PedidoDataBaseHelper.CAMPO_MONTO_CUCURUCHOS));
+                pedido.setMontoHelados(WorkJsonField.getDouble(pedidoJson, PedidoDataBaseHelper.CAMPO_MONTO_HELADOS));
+
+                pedido.setLocalidad(WorkJsonField.getString(pedidoJson, PedidoDataBaseHelper.CAMPO_LOCALIDAD));
+                pedido.setCalle(WorkJsonField.getString(pedidoJson, PedidoDataBaseHelper.CAMPO_CALLE));
+                pedido.setNro(WorkJsonField.getString(pedidoJson, PedidoDataBaseHelper.CAMPO_NRO));
+                pedido.setPiso(WorkJsonField.getString(pedidoJson, PedidoDataBaseHelper.CAMPO_PISO));
+                pedido.setTelefono(WorkJsonField.getString(pedidoJson, PedidoDataBaseHelper.CAMPO_TELEFONO));
+                pedido.setContacto(WorkJsonField.getString(pedidoJson, PedidoDataBaseHelper.CAMPO_CONTACTO));
+
+                pedido.setEnvioDomicilio(WorkJsonField.getBoolean(pedidoJson, PedidoDataBaseHelper.CAMPO_ENVIO_DOMICILIO));
+
+                pedido.setCantPoteCuarto(WorkJsonField.getInt(pedidoJson, PedidoDataBaseHelper.CAMPO_CANTIDAD_POTE_CUARTO));
+                pedido.setCantPoteMedio(WorkJsonField.getInt(pedidoJson, PedidoDataBaseHelper.CAMPO_CANTIDAD_POTE_MEDIO));
+                pedido.setCantPoteTresCuarto(WorkJsonField.getInt(pedidoJson, PedidoDataBaseHelper.CAMPO_CANTIDAD_POTE_TRESCUARTO));
+                pedido.setCantPoteKilo(WorkJsonField.getInt(pedidoJson, PedidoDataBaseHelper.CAMPO_CANTIDAD_POTE_KILO));
+
+
+                /*
+                * Leer detalle del pedido
+                * */
             }
 
             return listadoPedidos;
@@ -120,6 +145,7 @@ public class PedidoParser {
             return null;
         }
     }
+
 
 
     public JSONObject getRespuesta() {
