@@ -8,9 +8,9 @@ import java.util.ArrayList;
  * Created by egalvan on 22/3/2018.
  */
 
-public interface OnPostExecuteInterface {
+public interface OnTaskCompleted {
 
-    void onPostExecuteSuccess();
-    void onPostExecuteError();
+    void onTaskCompleted();
+    void onTaskError();
 
 }

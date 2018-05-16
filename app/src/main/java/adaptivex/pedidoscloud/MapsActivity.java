@@ -25,8 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-import adaptivex.pedidoscloud.Controller.PedidoController;
-import adaptivex.pedidoscloud.Core.Interfaces.OnPostExecuteInterface;
+import adaptivex.pedidoscloud.Core.Interfaces.OnTaskCompleted;
 import adaptivex.pedidoscloud.Servicios.HelperPedidos;
 import adaptivex.pedidoscloud.Vendor.DeliveryTracker.Behavior.DirectionFinder;
 import adaptivex.pedidoscloud.Vendor.DeliveryTracker.Behavior.DirectionFinderListener;
@@ -36,7 +35,7 @@ import adaptivex.pedidoscloud.Vendor.DeliveryTracker.Entity.Route;
 
 
 public class MapsActivity extends FragmentActivity
-        implements  OnMapReadyCallback, DirectionFinderListener, OnPostExecuteInterface{
+        implements  OnMapReadyCallback, DirectionFinderListener, OnTaskCompleted {
 
     private GoogleMap mMap;
     private Button btnFindPath, btnDibujarRecorrido;
@@ -47,6 +46,7 @@ public class MapsActivity extends FragmentActivity
     private List<Polyline> polylinePaths = new ArrayList<>();
     private ProgressDialog progressDialog;
 
+    private HelperPedidos restPedidos;
     private int durationValue = 0;
     private int distanceValue = 0;
 
@@ -61,16 +61,28 @@ public class MapsActivity extends FragmentActivity
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
+        restPedidos = new HelperPedidos(this);
+        listaPedidos = new ArrayList<Pedido>();
         btnDibujarRecorrido = (Button) findViewById(R.id.btnDibujarRecorrido);
 
         btnDibujarRecorrido.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dibujarRecorrido();
+                procesarRecorrido();
             }
         });
 
+    }
+
+    private void procesarRecorrido(){
+        try{
+            listaPedidos = new ArrayList<Pedido>();
+            restPedidos.setOpcion(HelperPedidos.OPTION_FIND_ESTADO_ENCAMINO);
+            restPedidos.execute();
+        }catch (Exception e){
+            Log.e("Error", e.getMessage().toString());
+
+        }
     }
 
     private void dibujarRecorrido(){
@@ -95,6 +107,7 @@ public class MapsActivity extends FragmentActivity
             Log.e("Error", e.getMessage().toString());
         }
     }
+
     private void dibujarUbicacionDelivery(){
         try{
             originMarkers.add(mMap.addMarker(new MarkerOptions()
@@ -110,12 +123,11 @@ public class MapsActivity extends FragmentActivity
     private ArrayList<PointDirection> getListaPoints(){
         try{
             //Obtener lista de pedido para entregar
-            ArrayList<Pedido> lista = getListaPedidos();
             Integer point = 0;
             listaPoint = new ArrayList<PointDirection>();
             PointDirection pd = new PointDirection();
             Pedido pedidoanterior = null;
-            for (Pedido p :lista){
+            for (Pedido p :listaPedidos){
                 point = point +1;
 
                 if (point==1){
@@ -150,48 +162,6 @@ public class MapsActivity extends FragmentActivity
         }
     }
 
-    private ArrayList<Pedido> getListaPedidos(){
-        try{
-            HelperPedidos hp = new HelperPedidos(this);
-            hp.setOpcion(HelperPedidos.OPTION_FIND_ESTADO_ENCAMINO);
-
-            listaPedidos = new ArrayList<Pedido>();
-
-            Pedido p1 = new Pedido();
-            p1.setCalle("Llavallol");
-            p1.setNro("3500");
-            p1.setLocalidad("caba");
-            p1.setEntregado(true);
-
-            Pedido p2 = new Pedido();
-            p2.setCalle("corrientes");
-            p2.setNro("3500");
-            p2.setLocalidad("caba");
-            p2.setEntregado(true);
-
-            Pedido p3 = new Pedido();
-            p3.setCalle("av mellian");
-            p3.setNro("2780");
-            p3.setLocalidad("caba");
-            p3.setEntregado(false);
-
-            Pedido p4 = new Pedido();
-            p4.setCalle("av cabildo y echeverria");
-            p4.setNro("");
-            p4.setLocalidad("caba");
-            p4.setEntregado(false);
-
-            listaPedidos.add(p1);
-            listaPedidos.add(p2);
-            listaPedidos.add(p3);
-            listaPedidos.add(p4);
-            return listaPedidos;
-
-        }catch (Exception e){
-            Log.e("Error", e.getMessage().toString());
-            return null;
-        }
-    }
 
 
     @Override
@@ -250,5 +220,23 @@ public class MapsActivity extends FragmentActivity
 
 
     }
+
+    @Override
+    public void onTaskCompleted() {
+        switch (restPedidos.getOpcion()){
+            case HelperPedidos.OPTION_FIND_ESTADO_ENCAMINO:
+                dibujarRecorrido();
+                break;
+        }
+    }
+
+    @Override
+    public void onTaskError() {
+
+    }
+
+
+
+
 
 }

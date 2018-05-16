@@ -29,6 +29,7 @@ import adaptivex.pedidoscloud.Config.Constants;
 import adaptivex.pedidoscloud.Config.GlobalValues;
 import adaptivex.pedidoscloud.Controller.PedidoController;
 import adaptivex.pedidoscloud.Controller.PedidodetalleController;
+import adaptivex.pedidoscloud.Core.Interfaces.OnTaskCompleted;
 import adaptivex.pedidoscloud.Core.parserJSONtoModel.ParameterParser;
 import adaptivex.pedidoscloud.Core.parserJSONtoModel.PedidoParser;
 import adaptivex.pedidoscloud.Model.PoteItem;
@@ -50,6 +51,7 @@ public class HelperPedidos extends AsyncTask<Void, Void, Void> {
     private int respuesta; //1=ok, 200=error
     private int opcion; //1 enviar Post Pedido, 2 ENVIAR TODOS LOS PEDIDOS PENDIENTES
 
+    private OnTaskCompleted listener;
 
     private String TEXT_RESPONSE;
     private int CURRENT_OPTION = 0; //1 enviar Post Parameter
@@ -66,6 +68,11 @@ public class HelperPedidos extends AsyncTask<Void, Void, Void> {
     //OPCION: 1 enviar solo un pedido
     //OPCION: 2 enviar todos los pedidos pendientes
     public HelperPedidos(Context pCtx){
+        this.setCtx(pCtx);
+    }
+
+    public HelperPedidos(Context pCtx, OnTaskCompleted quienescucha){
+        this.listener = quienescucha;
         this.setCtx(pCtx);
     }
 
@@ -151,13 +158,9 @@ public class HelperPedidos extends AsyncTask<Void, Void, Void> {
 
             case OPTION_FIND_ESTADO_ENCAMINO:
                 onPostFindEstadoEnCamino();
-
                 break;
-
         }
-
-
-
+        listener.onTaskCompleted();
 
         if (pDialog.isShowing()){
             pDialog.dismiss();
