@@ -87,15 +87,15 @@ public class PedidoParser {
             setJsonobj(new JSONObject(getJsonstr()));
             setStatus(getJsonobj().getString("code"));
             setMessage(getJsonobj().getString("message"));
-            setData(getJsonobj().getJSONObject("data"));
+            //setData(getJsonobj().getJSONObject("data"));
 
             if ((Integer.parseInt(getStatus()) == 200)|| (Integer.parseInt(getStatus()) == 300)) {
 
-                JSONArray listaPedidos = getJsonobj().getJSONArray("data");
+                JSONArray listaPedidosJson = getJsonobj().getJSONArray("data");
 
-                for (int i = 0; i < listaPedidos.length(); i++) {
+                for (int i = 0; i < listaPedidosJson.length(); i++) {
                     pedido = new Pedido();
-                    JSONObject pedidoJson = (JSONObject) listaPedidos.get(i);
+                    JSONObject pedidoJson = (JSONObject) listaPedidosJson.get(i);
                     JSONArray pedidodetallesJson = pedidoJson.getJSONArray("pedidodetalles");
                     ArrayList <Pedidodetalle> detalles  = new ArrayList<Pedidodetalle> ();
 
@@ -142,7 +142,7 @@ public class PedidoParser {
                     /*
                     * Leer detalle del pedido
                     * */
-                    for (int d = 0; i < pedidodetallesJson.length(); d++) {
+                    for (int d = 0; d < pedidodetallesJson.length(); d++) {
                         JSONObject pedidodetalleJson = (JSONObject) pedidodetallesJson.get(d);
                         Pedidodetalle pd = new Pedidodetalle();
 
@@ -159,7 +159,7 @@ public class PedidoParser {
                         detalles.add(pd);
                     }
                     pedido.setDetalles(detalles);
-
+                    listadoPedidos.add(pedido);
                 }
 
 

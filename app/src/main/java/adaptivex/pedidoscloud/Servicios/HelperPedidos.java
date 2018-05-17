@@ -52,7 +52,7 @@ public class HelperPedidos extends AsyncTask<Void, Void, Void> {
     private int opcion; //1 enviar Post Pedido, 2 ENVIAR TODOS LOS PEDIDOS PENDIENTES
 
     private OnTaskCompleted listener;
-
+    private ArrayList<Pedido> pedidos;
     private String TEXT_RESPONSE;
     private int CURRENT_OPTION = 0; //1 enviar Post Parameter
 
@@ -125,7 +125,7 @@ public class HelperPedidos extends AsyncTask<Void, Void, Void> {
             if (pDialog.isShowing())
                 pDialog.dismiss();
                 setRespuesta(GlobalValues.getINSTANCIA().RETURN_ERROR);
-            //Toast.makeText(this.getCtx(),"Error: "+e.getMessage(),Toast.LENGTH_LONG);
+
 
             Log.println(Log.ERROR,"ErrorHelper:",e.getMessage());
             return null;
@@ -209,9 +209,10 @@ public class HelperPedidos extends AsyncTask<Void, Void, Void> {
     private void findByEstadoEnCamino(){
         try{
             WebRequest webreq = new WebRequest();
-            registro = new HashMap<String, String>();
-            registro.put("estado_id", String.valueOf(Constants.ESTADO_ENCAMINO));
-            TEXT_RESPONSE = webreq.makeWebServiceCall(Configurador.urlPedidos, WebRequest.POST,registro);
+
+            JSONObject json = new JSONObject();
+            json.put("estado_id", String.valueOf(Constants.ESTADO_ENCAMINO));
+            TEXT_RESPONSE = webreq.makeWebServiceCallJson(Configurador.urlPedidos, WebRequest.POST, json);
         }catch (Exception e){
             Log.println(Log.ERROR,"ErrorHelper:",e.getMessage());
         }
@@ -220,7 +221,8 @@ public class HelperPedidos extends AsyncTask<Void, Void, Void> {
     private void onPostFindEstadoEnCamino(){
         try{
             PedidoParser cp = new PedidoParser(TEXT_RESPONSE);
-            cp.parseResponseToArrayList();
+            setPedidos(cp.parseResponseToArrayList());
+
         }catch (Exception e){
             Log.println(Log.ERROR,"ErrorHelper:",e.getMessage());
         }
@@ -455,4 +457,11 @@ public class HelperPedidos extends AsyncTask<Void, Void, Void> {
         }
     }
 
+    public ArrayList<Pedido> getPedidos() {
+        return pedidos;
+    }
+
+    public void setPedidos(ArrayList<Pedido> pedidos) {
+        this.pedidos = pedidos;
+    }
 }

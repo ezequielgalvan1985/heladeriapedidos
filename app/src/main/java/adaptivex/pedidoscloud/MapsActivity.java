@@ -28,11 +28,12 @@ import java.util.List;
 import adaptivex.pedidoscloud.Core.Interfaces.OnTaskCompleted;
 import adaptivex.pedidoscloud.Servicios.HelperPedidos;
 import adaptivex.pedidoscloud.Vendor.DeliveryTracker.Behavior.DirectionFinder;
-import adaptivex.pedidoscloud.Vendor.DeliveryTracker.Behavior.DirectionFinderListener;
 import adaptivex.pedidoscloud.Model.Pedido;
-import adaptivex.pedidoscloud.Vendor.DeliveryTracker.Entity.PointDirection;
+import adaptivex.pedidoscloud.Vendor.DeliveryTracker.Controller.RouteLineController;
+import adaptivex.pedidoscloud.Vendor.DeliveryTracker.Entity.RouteLine;
 import adaptivex.pedidoscloud.Vendor.DeliveryTracker.Entity.Route;
 
+import adaptivex.pedidoscloud.Vendor.DeliveryTracker.Interfaces.DirectionFinderListener;
 
 public class MapsActivity extends FragmentActivity
         implements  OnMapReadyCallback, DirectionFinderListener, OnTaskCompleted {
@@ -47,11 +48,12 @@ public class MapsActivity extends FragmentActivity
     private ProgressDialog progressDialog;
 
     private HelperPedidos restPedidos;
+
     private int durationValue = 0;
     private int distanceValue = 0;
 
-    private ArrayList<Pedido> listaPedidos = new ArrayList<Pedido>();
-    private ArrayList<PointDirection> listaPoint = new ArrayList<PointDirection>();
+    private ArrayList<Pedido>    listaPedidos = new ArrayList<Pedido>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +63,7 @@ public class MapsActivity extends FragmentActivity
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        restPedidos = new HelperPedidos(this);
+
         listaPedidos = new ArrayList<Pedido>();
         btnDibujarRecorrido = (Button) findViewById(R.id.btnDibujarRecorrido);
 
@@ -76,7 +78,8 @@ public class MapsActivity extends FragmentActivity
 
     private void procesarRecorrido(){
         try{
-            listaPedidos = new ArrayList<Pedido>();
+            /* Descargar los pedidos que hay en estado ENCAMINO*/
+            restPedidos  = new HelperPedidos(this, (OnTaskCompleted) this);
             restPedidos.setOpcion(HelperPedidos.OPTION_FIND_ESTADO_ENCAMINO);
             restPedidos.execute();
         }catch (Exception e){
@@ -93,12 +96,14 @@ public class MapsActivity extends FragmentActivity
             destinationMarkers = new ArrayList<>();
             durationValue = 0;
             distanceValue = 0;
+            //listaPedidos = new ArrayList<Pedido>();
+            //listaPedidos = restPedidos.getPedidos();
 
             //Obtener lista de pedido para entregar
-            ArrayList<PointDirection> lista = new ArrayList<PointDirection>();
-            lista = getListaPoints();
-            for (PointDirection point :lista){
-                new DirectionFinder((adaptivex.pedidoscloud.Vendor.DeliveryTracker.Interfaces.DirectionFinderListener) this, point.getOrigin(), point.getDestine()).execute();
+            RouteLineController contrRL = new RouteLineController();
+            ArrayList<RouteLine> lista = contrRL.getListRouteLine(restPedidos.getPedidos());
+            for (RouteLine routeLine :lista){
+                new DirectionFinder(this, routeLine.getOrigin(), routeLine.getDestine(), routeLine.isOriginEntregado(), routeLine.isDestineEntregado()).execute();
             }
 
             //Obtener las direcciones
@@ -120,47 +125,7 @@ public class MapsActivity extends FragmentActivity
         }
     };
 
-    private ArrayList<PointDirection> getListaPoints(){
-        try{
-            //Obtener lista de pedido para entregar
-            Integer point = 0;
-            listaPoint = new ArrayList<PointDirection>();
-            PointDirection pd = new PointDirection();
-            Pedido pedidoanterior = null;
-            for (Pedido p :listaPedidos){
-                point = point +1;
 
-                if (point==1){
-                    pd = new PointDirection();
-                }
-
-                if (pedidoanterior != null){
-                    if (pedidoanterior.getDireccion()!= null){
-                        pd.setOrigin(pedidoanterior.getDireccion());
-                        pd.setDestine(p.getDireccion());
-                        if (pedidoanterior.isEntregado() && p.isEntregado()){
-                            pd.setEntregado(true);
-                        }else{
-                            pd.setEntregado(false);
-                        }
-                        listaPoint.add(pd);
-                        point = 0;
-                    }
-                }else{
-                    pd.setOrigin(p.getDireccion());
-                }
-                pedidoanterior = p;
-
-            }
-            return listaPoint;
-
-            //Obtener las direcciones
-
-        }catch (Exception e){
-            Log.e("Error", e.getMessage().toString());
-            return null;
-        }
-    }
 
 
 
@@ -170,6 +135,19 @@ public class MapsActivity extends FragmentActivity
 
 
     }
+
+    private int getIcon(boolean isEntregado){
+        int icon = 0 ;
+        if (isEntregado){
+            icon = R.mipmap.ic_check;
+        }else{
+            icon = R.mipmap.ic_launcher;
+        }
+        return icon;
+    }
+
+
+
 
     @Override
     public void onDirectionFinderSuccess(List<Route> routes) {
@@ -184,14 +162,13 @@ public class MapsActivity extends FragmentActivity
             durationValue += route.duration.value;
             distanceValue += route.distance.value;
 
-
             originMarkers.add(mMap.addMarker(new MarkerOptions()
-                    .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher))
+                    .icon(BitmapDescriptorFactory.fromResource(getIcon(route.originEntregado)))
                     .title(route.startAddress)
                     .position(route.startLocation)));
 
             destinationMarkers.add(mMap.addMarker(new MarkerOptions()
-                    .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher))
+                    .icon(BitmapDescriptorFactory.fromResource(getIcon(route.destineEntregado)))
                     .title(route.endAddress)
                     .position(route.endLocation)));
 

@@ -33,6 +33,19 @@ public class DirectionFinder {
     private DirectionFinderListener listener;
     private String origin;
     private String destination;
+    private boolean originEntregado;
+    private boolean destineEntregado;
+
+
+
+
+    public DirectionFinder(DirectionFinderListener listener, String origin, String destination, boolean _originEntregado, boolean _destineEntregado ) {
+        this.listener           = listener;
+        this.origin             = origin;
+        this.destination        = destination;
+        this.originEntregado    = _originEntregado;
+        this.destineEntregado   = _destineEntregado;
+    }
 
     public DirectionFinder(DirectionFinderListener listener, String origin, String destination) {
         this.listener = listener;
@@ -107,14 +120,15 @@ public class DirectionFinder {
             JSONObject jsonEndLocation = jsonLeg.getJSONObject("end_location");
             JSONObject jsonStartLocation = jsonLeg.getJSONObject("start_location");
 
-            route.distance = new Distance(jsonDistance.getString("text"), jsonDistance.getInt("value"));
-            route.duration = new Duration(jsonDuration.getString("text"), jsonDuration.getInt("value"));
-            route.endAddress = jsonLeg.getString("end_address");
-            route.startAddress = jsonLeg.getString("start_address");
-            route.startLocation = new LatLng(jsonStartLocation.getDouble("lat"), jsonStartLocation.getDouble("lng"));
-            route.endLocation = new LatLng(jsonEndLocation.getDouble("lat"), jsonEndLocation.getDouble("lng"));
-            route.points = decodePolyLine(overview_polylineJson.getString("points"));
-
+            route.distance          = new Distance(jsonDistance.getString("text"), jsonDistance.getInt("value"));
+            route.duration          = new Duration(jsonDuration.getString("text"), jsonDuration.getInt("value"));
+            route.endAddress        = jsonLeg.getString("end_address");
+            route.startAddress      = jsonLeg.getString("start_address");
+            route.startLocation     = new LatLng(jsonStartLocation.getDouble("lat"), jsonStartLocation.getDouble("lng"));
+            route.endLocation       = new LatLng(jsonEndLocation.getDouble("lat"), jsonEndLocation.getDouble("lng"));
+            route.points            = decodePolyLine(overview_polylineJson.getString("points"));
+            route.originEntregado   = originEntregado;
+            route.destineEntregado  = destineEntregado;
             routes.add(route);
         }
 

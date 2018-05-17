@@ -1,7 +1,10 @@
 package adaptivex.pedidoscloud.Servicios;
 
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -54,6 +57,7 @@ public class WebRequest {
             conn.setDoInput(true);
             conn.setDoOutput(true);
 
+
             if (requestmethod == POST) {
                 conn.setRequestMethod("POST");
             } else if (requestmethod == GET) {
@@ -102,5 +106,58 @@ public class WebRequest {
 
         return response;
     }
+
+
+    /**
+     * Making service call
+     *
+     * @url - url to make request
+     * @requestmethod - http request method
+     * @params - http request params
+     */
+    public String makeWebServiceCallJson(String urladdress, int requestmethod, JSONObject jsonParam) {
+        URL url;
+        String response = "";
+        try {
+            url = new URL(urladdress);
+
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setReadTimeout(15000);
+            conn.setConnectTimeout(15000);
+            conn.setDoInput(true);
+            conn.setDoOutput(true);
+            conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
+            conn.setRequestProperty("Accept","application/json");
+
+
+            if (requestmethod == POST) {
+                conn.setRequestMethod("POST");
+            } else if (requestmethod == GET) {
+                conn.setRequestMethod("GET");
+            }
+
+            DataOutputStream os = new DataOutputStream(conn.getOutputStream());
+            os.writeBytes(jsonParam.toString());
+            os.flush();
+            os.close();
+            int responseCode = conn.getResponseCode();
+
+            if (responseCode == HttpsURLConnection.HTTP_OK) {
+                String line;
+                BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                while ((line = br.readLine()) != null) {
+                    response += line;
+                }
+            } else {
+                response = "";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return response;
+    }
+
+
 
 }
