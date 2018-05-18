@@ -240,22 +240,6 @@ public  class IniciarApp  {
         }
     }
 
-    public boolean isDatabaseDownload(){
-        try {
-            boolean respuesta = false;
-            ProductoController proc = new ProductoController(getContext());
-            if (proc.count() < 1) {
-                respuesta = false;
-            } else {
-                respuesta = true;
-            }
-            return respuesta;
-        }catch(Exception e ){
-            Log.d("IniciarApp", e.getMessage());
-            return false;
-        }
-
-    }
     public boolean isInstalled(){
         //Leer Archivo de sistema el parametro INSTALLED
         try {
