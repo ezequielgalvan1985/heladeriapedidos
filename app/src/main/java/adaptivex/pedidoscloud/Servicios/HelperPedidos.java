@@ -2,10 +2,8 @@ package adaptivex.pedidoscloud.Servicios;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -30,9 +28,7 @@ import adaptivex.pedidoscloud.Config.GlobalValues;
 import adaptivex.pedidoscloud.Controller.PedidoController;
 import adaptivex.pedidoscloud.Controller.PedidodetalleController;
 import adaptivex.pedidoscloud.Core.Interfaces.OnTaskCompleted;
-import adaptivex.pedidoscloud.Core.parserJSONtoModel.ParameterParser;
 import adaptivex.pedidoscloud.Core.parserJSONtoModel.PedidoParser;
-import adaptivex.pedidoscloud.Model.PoteItem;
 import adaptivex.pedidoscloud.Model.Pedido;
 import adaptivex.pedidoscloud.Model.Pedidodetalle;
 
@@ -72,7 +68,7 @@ public class HelperPedidos extends AsyncTask<Void, Void, Void> {
     }
 
     public HelperPedidos(Context pCtx, OnTaskCompleted quienescucha){
-        this.listener = quienescucha;
+        this.setListener(quienescucha);
         this.setCtx(pCtx);
     }
 
@@ -160,7 +156,7 @@ public class HelperPedidos extends AsyncTask<Void, Void, Void> {
                 onPostFindEstadoEnCamino();
                 break;
         }
-        listener.onTaskCompleted();
+        getListener().onTaskCompleted();
 
         if (pDialog.isShowing()){
             pDialog.dismiss();
@@ -463,5 +459,13 @@ public class HelperPedidos extends AsyncTask<Void, Void, Void> {
 
     public void setPedidos(ArrayList<Pedido> pedidos) {
         this.pedidos = pedidos;
+    }
+
+    public OnTaskCompleted getListener() {
+        return listener;
+    }
+
+    public void setListener(OnTaskCompleted listener) {
+        this.listener = listener;
     }
 }

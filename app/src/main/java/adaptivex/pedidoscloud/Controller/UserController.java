@@ -225,30 +225,34 @@ public class UserController extends AppController{
 
     public User findUser()
     {
-        User registro = new User();
-        String[] campos = {
-                UserDataBaseHelper.ID,
-                UserDataBaseHelper.USERNAME,
-                UserDataBaseHelper.ENTIDAD_ID,
-                UserDataBaseHelper.GROUP_ID,
-                UserDataBaseHelper.EMAIL,
-                UserDataBaseHelper.LOCALIDAD,
-                UserDataBaseHelper.CALLE,
-                UserDataBaseHelper.NRO,
-                UserDataBaseHelper.PISO,
-                UserDataBaseHelper.TELEFONO,
-                UserDataBaseHelper.CONTACTO,
-                UserDataBaseHelper.LOGUED,
-        };
-        String[] argumentos = new String[] {String.valueOf(GlobalValues.getINSTANCIA().ID_ANDROID)};
+        try {
+            User registro = new User();
+            String[] campos = {
+                    UserDataBaseHelper.ID,
+                    UserDataBaseHelper.USERNAME,
+                    UserDataBaseHelper.ENTIDAD_ID,
+                    UserDataBaseHelper.GROUP_ID,
+                    UserDataBaseHelper.EMAIL,
+                    UserDataBaseHelper.LOCALIDAD,
+                    UserDataBaseHelper.CALLE,
+                    UserDataBaseHelper.NRO,
+                    UserDataBaseHelper.PISO,
+                    UserDataBaseHelper.TELEFONO,
+                    UserDataBaseHelper.CONTACTO,
+                    UserDataBaseHelper.LOGUED,
+            };
+            String[] argumentos = new String[]{String.valueOf(GlobalValues.getINSTANCIA().ID_ANDROID)};
 
-        Cursor resultado = db.query(UserDataBaseHelper.TABLE_NAME, campos,
-                UserDataBaseHelper.ID_ANDROID + " = ?", argumentos, null, null, null);
-        if (resultado != null)
-        {
-            registro = parseObjectFromRecord(resultado);
+            Cursor resultado = db.query(UserDataBaseHelper.TABLE_NAME, campos,
+                    UserDataBaseHelper.ID_ANDROID + " = ?", argumentos, null, null, null);
+            if (resultado != null) {
+                registro = parseObjectFromRecord(resultado);
+            }
+            return registro;
+        }catch(Exception e){
+            return null;
         }
-        return registro;
+
     }
 
 
@@ -275,7 +279,7 @@ public class UserController extends AppController{
 
             return object;
         }catch(Exception e){
-            Toast.makeText(context,"Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+
             return null;
         }
     }

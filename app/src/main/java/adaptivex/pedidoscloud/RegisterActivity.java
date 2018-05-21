@@ -46,9 +46,7 @@ public class RegisterActivity
         //hp.setCURRENT_OPTION(HelperParameters.OPTION_ALL);
         //hp.execute();
         if (!ia.isInstalled()){
-            ia.iniciarBD();
-            ia.downloadDatabase();
-            ia.setInstalledDatabase();
+            ia.instalarApp();
             openRegisterFragment();
         }else {
             //Esta Instalada, pregunta Esta recordado el usuario, entonces se inicia la app directamente,

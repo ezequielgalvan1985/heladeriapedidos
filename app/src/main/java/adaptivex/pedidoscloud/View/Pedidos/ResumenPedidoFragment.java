@@ -16,13 +16,14 @@ import java.util.Date;
 
 import adaptivex.pedidoscloud.Config.Constants;
 import adaptivex.pedidoscloud.Config.GlobalValues;
+import adaptivex.pedidoscloud.Core.Interfaces.OnTaskCompleted;
 import adaptivex.pedidoscloud.Core.WorkDate;
 import adaptivex.pedidoscloud.Core.WorkNumber;
 import adaptivex.pedidoscloud.Model.Pedido;
 import adaptivex.pedidoscloud.R;
 import adaptivex.pedidoscloud.Servicios.HelperPedidos;
 
-public class ResumenPedidoFragment extends Fragment implements View.OnClickListener {
+public class ResumenPedidoFragment extends Fragment implements View.OnClickListener ,OnTaskCompleted {
 
 
     private TextView lbl_cantidad_kilos, lbl_kilos_monto, lbl_cucuruchos_monto, lbl_monto_total;
@@ -30,6 +31,7 @@ public class ResumenPedidoFragment extends Fragment implements View.OnClickListe
                      txt_pedido_id, txt_hora_entrega, txt_estado,
                      txt_monto_descuento, txt_cantidad_descuento, txt_tiempo_demora, txt_monto_abona;
     private Button   btnEnviarPedido;
+    private HelperPedidos hp;
     public ResumenPedidoFragment() {
 
     }
@@ -126,7 +128,8 @@ public class ResumenPedidoFragment extends Fragment implements View.OnClickListe
             if(p.getId()!=null){
                 if (p.getId() > 0 ){
 
-                    HelperPedidos hp = new HelperPedidos(getContext());
+                    hp = new HelperPedidos(getContext());
+                    hp.setListener(this);
                     hp.setOpcion(HelperPedidos.OPTION_CHECK_STATUS);
                     hp.setPedido(p);
                     hp.execute();
@@ -149,11 +152,23 @@ public class ResumenPedidoFragment extends Fragment implements View.OnClickListe
     }
 
     public void enviarPedido(){
-        HelperPedidos hp = new HelperPedidos(getContext(),  GlobalValues.getINSTANCIA().OPTION_HELPER_ENVIO_PEDIDO, GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL );
-        Toast.makeText(getContext(),"Enviando pedido..." ,Toast.LENGTH_LONG).show();
+        hp = new HelperPedidos(getContext(),  GlobalValues.getINSTANCIA().OPTION_HELPER_ENVIO_PEDIDO, GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL);
+        hp.setListener(this);
         hp.execute();
 
 
     }
 
+    @Override
+    public void onTaskCompleted() {
+        if (hp.getOpcion() != HelperPedidos.OPTION_CHECK_STATUS){
+            Toast.makeText(getContext(),"Enviado OK" ,Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    public void onTaskError() {
+        Toast.makeText(getContext(),"Hubo un Error" ,Toast.LENGTH_LONG).show();
+
+    }
 }

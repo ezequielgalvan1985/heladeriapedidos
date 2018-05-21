@@ -7,6 +7,7 @@ package adaptivex.pedidoscloud.Core;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.provider.Settings;
 import android.util.Log;
 import android.util.Property;
 import android.widget.Toast;
@@ -239,6 +240,32 @@ public  class IniciarApp  {
             Log.d("refreshDataFromServer", e.getMessage());
         }
     }
+    public boolean instalarApp(){
+        try {
+            this.iniciarBD();
+            this.downloadDatabase();
+            this.createUserSystem();
+            this.setInstalledDatabase();
+            return true;
+        }catch (Exception e){
+            Log.d("IniciarApp", e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean createUserSystem() {
+        try {
+            User u = new User();
+            u.setId(GlobalValues.getINSTANCIA().ID_ANDROID);
+            UserController uc = new UserController(this.getContext());
+            uc.abrir().addDB(u);
+            return true;
+        } catch (Exception e) {
+            Log.d("IniciarApp", e.getMessage());
+            return false;
+        }
+    }
+
 
     public boolean isInstalled(){
         //Leer Archivo de sistema el parametro INSTALLED
