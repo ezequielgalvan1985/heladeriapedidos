@@ -8,7 +8,7 @@ import adaptivex.pedidoscloud.Model.User;
  */
 public class Configurador {
 
-    public static final int DBVersion = 9;
+    public static final int DBVersion = 10;
     public static final String DBName = "heladeria_02";
     private static Configurador INSTANCIA;
     public static  User userlogin;
@@ -40,7 +40,7 @@ public class Configurador {
     public static String urlPostClientes = strRoot+"/api/clientes";
     public static String urlPostLogin = strRoot+"/api/user/login";
     public static String urlPostRegister = strRoot+"/api/user/register";
-    public static String urlPostUpdateUser = strRoot+"/api/user/register";
+    public static String urlPostUpdateUser = strRoot+"/api/user/update";
     public static String urlPromos = strRoot+"/api/promos";
     public static String urlParameters = strRoot+"/api/parametros";
 

@@ -25,7 +25,7 @@ import adaptivex.pedidoscloud.R;
 public class CargarOtrosDatosFragment extends Fragment implements View.OnClickListener {
 
     private EditText txtCucuruchos, txtMontoAbona,txtCucharitas;
-    private TextView txtCucuruchoPrecio;
+    private TextView txtCucuruchoPrecio, txt_monto_total_helados;
     private CheckBox chkEnvio;
     private Button   btnListo;
 
@@ -64,18 +64,21 @@ public class CargarOtrosDatosFragment extends Fragment implements View.OnClickLi
         // Inflate the layout for this fragment
         try{
             View v = inflater.inflate(R.layout.fragment_cargar_otros_datos, container, false);
-            txtCucuruchoPrecio  = (TextView) v.findViewById(R.id.cargar_otros_datos_txt_cucuruchos_precio);
-            txtCucuruchos       = (EditText) v.findViewById(R.id.otros_datos_cantidad_cucuruchos);
-            txtCucharitas       = (EditText) v.findViewById(R.id.otros_datos_cantidad_cucharitas);
-            txtMontoAbona       = (EditText) v.findViewById(R.id.otros_datos_txt_monto_abona);
-            chkEnvio            = (CheckBox) v.findViewById(R.id.otros_datos_chk_envio);
-            btnListo            = (Button)   v.findViewById(R.id.otros_datos_btn_listo);
+            //Inicializacion de Objetos
+            txtCucuruchoPrecio      = (TextView) v.findViewById(R.id.cargar_otros_datos_txt_cucuruchos_precio);
+            txtCucuruchos           = (EditText) v.findViewById(R.id.otros_datos_cantidad_cucuruchos);
+            txtCucharitas           = (EditText) v.findViewById(R.id.otros_datos_cantidad_cucharitas);
+            txtMontoAbona           = (EditText) v.findViewById(R.id.otros_datos_txt_monto_abona);
+            chkEnvio                = (CheckBox) v.findViewById(R.id.otros_datos_chk_envio);
+            btnListo                = (Button)   v.findViewById(R.id.otros_datos_btn_listo);
+            txt_monto_total_helados = (TextView) v.findViewById(R.id.otros_datos_txt_monto_total_helados);
 
-
+            //Cargar datos en los Objetos
             btnListo.setOnClickListener(this);
-            ParameterController pc = new ParameterController(getContext());
-            Parameter p = pc.abrir().findByNombre(Constants.PARAM_PRECIO_CUCURUCHO);
-            txtCucuruchoPrecio.setText("Cucurucho ($"+WorkNumber.parseDoubleToString(p.getValor_decimal())+" c/u):");
+
+            txtCucuruchoPrecio.setText("Cucurucho ("+GlobalValues.getINSTANCIA().PRECIO_CUCURUCHO_MONEY+" c/u):");
+            txt_monto_total_helados.setText("Monto a Pagar: "+ GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getMontoHeladoFormatMoney());
+
 
             return v;
         }catch (Exception e){

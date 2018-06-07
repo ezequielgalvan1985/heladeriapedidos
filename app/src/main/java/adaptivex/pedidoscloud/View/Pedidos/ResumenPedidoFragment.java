@@ -11,14 +11,18 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 import java.util.Calendar;
 import java.util.Date;
 
 import adaptivex.pedidoscloud.Config.Constants;
 import adaptivex.pedidoscloud.Config.GlobalValues;
+import adaptivex.pedidoscloud.Controller.ParameterController;
 import adaptivex.pedidoscloud.Core.Interfaces.OnTaskCompleted;
 import adaptivex.pedidoscloud.Core.WorkDate;
 import adaptivex.pedidoscloud.Core.WorkNumber;
+import adaptivex.pedidoscloud.Model.Parameter;
 import adaptivex.pedidoscloud.Model.Pedido;
 import adaptivex.pedidoscloud.R;
 import adaptivex.pedidoscloud.Servicios.HelperPedidos;
@@ -29,7 +33,7 @@ public class ResumenPedidoFragment extends Fragment implements View.OnClickListe
     private TextView lbl_cantidad_kilos, lbl_kilos_monto, lbl_cucuruchos_monto, lbl_monto_total;
     private TextView txt_cucuruchos, txt_direccion, txt_cucharitas, txt_monto_total, txtEnvio,
                      txt_pedido_id, txt_hora_entrega, txt_estado,
-                     txt_monto_descuento, txt_cantidad_descuento, txt_tiempo_demora, txt_monto_abona;
+                     txt_monto_descuento, txt_cantidad_descuento, txt_tiempo_demora, txt_monto_abona, lbl_cucuruchos;
     private Button   btnEnviarPedido;
     private HelperPedidos hp;
     public ResumenPedidoFragment() {
@@ -72,8 +76,10 @@ public class ResumenPedidoFragment extends Fragment implements View.OnClickListe
         //txt_cantidad_descuento = (TextView) v.findViewById(R.id.resumen_pedido_txt_descuento_cantidad);
         txt_monto_descuento    = (TextView) v.findViewById(R.id.resumen_pedido_txt_descuento_monto);
         txt_monto_abona        = (TextView) v.findViewById(R.id.resumen_pedido_txt_monto_abona);
+        lbl_cucuruchos         =  (TextView) v.findViewById(R.id.resumen_pedido_lbl_cucuruchos);
 
 
+        lbl_cucuruchos.setText("Cucuruchos ("+ GlobalValues.getINSTANCIA().PRECIO_CUCURUCHO_MONEY +" C/u): ");
         btnEnviarPedido        =  (Button) v.findViewById(R.id.resumen_pedido_btn_enviar);
         btnEnviarPedido.setOnClickListener(this);
         checkStatusPedido();

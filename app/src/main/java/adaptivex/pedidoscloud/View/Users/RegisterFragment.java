@@ -71,11 +71,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         txtpassword = (AutoCompleteTextView) v.findViewById(R.id.register_password);
 
         txtEmail    = (AutoCompleteTextView) v.findViewById(R.id.register_email);
-        txtTelefono = (AutoCompleteTextView) v.findViewById(R.id.register_telefono);
-        txtCalle    = (AutoCompleteTextView) v.findViewById(R.id.register_calle);
-        txtNro      = (AutoCompleteTextView) v.findViewById(R.id.register_nro);
-        txtPiso     = (AutoCompleteTextView) v.findViewById(R.id.register_piso);
-        txtContacto = (AutoCompleteTextView) v.findViewById(R.id.register_contacto);
+
 
         register_btn_register = (Button) v.findViewById(R.id.register_btn_register);
         register_btn_login    = (Button) v.findViewById(R.id.register_btn_login);
@@ -170,14 +166,14 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
             user.setUsername(txtusername.getText().toString());
             user.setPassword(txtpassword.getText().toString());
             user.setEmail(txtEmail.getText().toString());
-
-            if (txtLocalidad!=null) user.setLocalidad(txtLocalidad.getText().toString());
-            if (txtCalle!=null)     user.setCalle(txtCalle.getText().toString());
-            if (txtNro!=null)       user.setNro(txtNro.getText().toString());
-            if (txtPiso!=null)      user.setPiso(txtPiso.getText().toString());
-            if (txtTelefono!=null)  user.setTelefono(txtTelefono.getText().toString());
-            if (txtContacto!=null)  user.setContacto(txtContacto.getText().toString());
-
+            /*
+                if (txtLocalidad!=null) user.setLocalidad(txtLocalidad.getText().toString());
+                if (txtCalle!=null)     user.setCalle(txtCalle.getText().toString());
+                if (txtNro!=null)       user.setNro(txtNro.getText().toString());
+                if (txtPiso!=null)      user.setPiso(txtPiso.getText().toString());
+                if (txtTelefono!=null)  user.setTelefono(txtTelefono.getText().toString());
+                if (txtContacto!=null)  user.setContacto(txtContacto.getText().toString());
+            */
             if (!validate){
                 Toast.makeText(getContext(), message , Toast.LENGTH_LONG).show();
             }

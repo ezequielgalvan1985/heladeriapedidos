@@ -12,10 +12,13 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import adaptivex.pedidoscloud.Controller.ParameterController;
 import adaptivex.pedidoscloud.Controller.PedidoController;
 import adaptivex.pedidoscloud.Controller.PromoController;
 import adaptivex.pedidoscloud.Core.IniciarApp;
+import adaptivex.pedidoscloud.Core.WorkNumber;
 import adaptivex.pedidoscloud.Model.ItemHelado;
+import adaptivex.pedidoscloud.Model.Parameter;
 import adaptivex.pedidoscloud.Model.Pedido;
 import adaptivex.pedidoscloud.Model.Pote;
 import adaptivex.pedidoscloud.Model.Promo;
@@ -31,9 +34,12 @@ public class GlobalValues {
     private static GlobalValues INSTANCIA;
     public  static final String ACTION_GET_STOCK_PRECIOS = "1";
 
-
+    //DATOS PARA EL PEDIDO
     public Pedido PEDIDO_TEMPORAL;
     public Integer CURRENT_FRAGMENT_NUEVO_PEDIDO;
+    public String PRECIO_CUCURUCHO_MONEY;
+    public Double PRECIO_CUCURUCHO_DOUBLE;
+
     public Context ctxTemporal;
 
     public static final Integer ID_ANDROID = 1;
@@ -105,16 +111,9 @@ public class GlobalValues {
 
 
     private int PEDIDO_ACTION_VALUE;
-    public static final int PEDIDO_ACTION_DELETE = 1;
-    public static final int PEDIDO_ACTION_SEND = 2;
+
     public static final int PEDIDO_ACTION_VIEW = 3;
 
-    public static final int LUNES =1;
-    public static final int MARTES =2;
-    public static final int MIERCOLES =3;
-    public static final int JUEVES =4;
-    public static final int VIERNES =5;
-    public static final int SABADO =6;
     private int diaSelecionado;
 
 
@@ -318,6 +317,11 @@ public class GlobalValues {
 
             ia.refreshPriceFromServer();
             //ia.loginRemember(u);
+
+            ParameterController pc = new ParameterController(ctx);
+            Parameter p = pc.abrir().findByNombre(Constants.PARAM_PRECIO_CUCURUCHO);
+            this.PRECIO_CUCURUCHO_MONEY =  WorkNumber.moneyFormat(p.getValor_decimal());
+            this.PRECIO_CUCURUCHO_DOUBLE =  WorkNumber.getValue(p.getValor_decimal());
 
             return id;
         }catch (Exception e ){
