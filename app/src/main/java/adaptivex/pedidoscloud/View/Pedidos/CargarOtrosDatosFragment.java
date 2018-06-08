@@ -115,6 +115,27 @@ public class CargarOtrosDatosFragment extends Fragment implements View.OnClickLi
         fragmentTransaction.commit();
     }
 
+
+    private boolean validateForm(){
+        boolean validate = true;
+        String message = "";
+
+        String montoabona = txtMontoAbona.getText().toString();
+        Double monto =  WorkNumber.parseDouble(montoabona);
+        if (txtMontoAbona.getText() != null && monto > 0 && monto < GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getMontoHelados() )
+        {
+            validate  = false;
+            message ="* Monto Abonado debe ser Mayor a Monto de Helados \n";
+        }
+
+
+
+        if (validate == false){
+            Toast.makeText(getView().getContext(),message,Toast.LENGTH_LONG).show();
+        }
+        return validate;
+    }
+
     public boolean savePedido(){
         //Obtiene valores del formulario, y luego lo guarda en la base de datos
         try{

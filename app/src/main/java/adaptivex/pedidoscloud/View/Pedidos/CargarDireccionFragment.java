@@ -57,28 +57,30 @@ public class CargarDireccionFragment extends Fragment {
         txtPiso      = (AutoCompleteTextView) getView().findViewById(R.id.cargar_direccion_piso);
         txtContacto  = (AutoCompleteTextView) getView().findViewById(R.id.cargar_direccion_contacto);
 
-        if (txtTelefono.getText().equals(""))
+        if (txtTelefono.getText() == null || txtTelefono.getText().toString().isEmpty())
         {
             validate  = false;
             message ="* Telefono es Obligatorio \n";
         }
-        if (txtLocalidad.getText().equals(""))
+
+        if (txtLocalidad.getText() == null || txtLocalidad.getText().toString().isEmpty())
         {
-            message ="* Localidad es Obligatorio \n";
+            message +="* Localidad es Obligatorio \n";
             validate = false;
         }
-        if (txtCalle.getText().equals("")){
+
+        if (txtCalle.getText() == null || txtCalle.getText().toString().isEmpty()){
             validate     = false;
-            message ="* Calle es Obligatorio \n";
+            message +="* Calle es Obligatorio \n";
         }
-        if (txtNro.getText().equals("")){
-            validate       = false;
-            message ="* Nro es Obligatorio \n";
-        }
-        //if (txtPiso.getText().equals("")) validate      = false;
-        if (txtContacto.getText().equals("")){
+
+        if (txtNro.getText() == null || txtNro.getText().toString().isEmpty()){
             validate  = false;
-            message ="* Contacto es Obligatorio \n";
+            message  +="* Nro es Obligatorio \n";
+        }
+        if (txtContacto.getText() == null || txtContacto.getText().toString().isEmpty()){
+            validate  = false;
+            message +="* Contacto es Obligatorio \n";
         }
 
         if (validate == false){
