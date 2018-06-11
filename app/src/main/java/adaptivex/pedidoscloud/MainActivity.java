@@ -138,7 +138,7 @@ public class MainActivity extends AppCompatActivity
             if (GlobalValues.getINSTANCIA().FL_VerPedidoActual(this)){
                 fragmentTransaction = true;
             }else{
-                Toast.makeText(this, "MainActivity: No Hay Pedidos Generados", Toast.LENGTH_LONG);
+                Toast.makeText(this, "No Hay Pedidos EN PREPARACIÓN", Toast.LENGTH_LONG).show();
                 Log.println(Log.ERROR, "MainActivity:", " No Hay Pedidos Generados ");
             }
 

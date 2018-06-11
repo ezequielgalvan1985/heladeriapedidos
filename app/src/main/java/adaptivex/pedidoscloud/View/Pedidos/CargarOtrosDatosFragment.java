@@ -100,9 +100,11 @@ public class CargarOtrosDatosFragment extends Fragment implements View.OnClickLi
     public void clickListo(){
         //Se usa ClickListo por si en el futuro se tiene que hacer alguna otra cosa en el
         //evento click del boton listo
-        if (savePedido()){
-            openResumenFragment();
-        };
+        if (validateForm()){
+            if (savePedido()){
+                openResumenFragment();
+            };
+        }
     }
 
     public void openResumenFragment(){
@@ -119,13 +121,11 @@ public class CargarOtrosDatosFragment extends Fragment implements View.OnClickLi
     private boolean validateForm(){
         boolean validate = true;
         String message = "";
-
-        String montoabona = txtMontoAbona.getText().toString();
-        Double monto =  WorkNumber.parseDouble(montoabona);
-        if (txtMontoAbona.getText() != null && monto > 0 && monto < GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getMontoHelados() )
+        Double monto = WorkNumber.parseDouble(txtMontoAbona.getText().toString());
+        if (monto > 0.00 && monto < GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getMontoHelados() )
         {
             validate  = false;
-            message ="* Monto Abonado debe ser Mayor a Monto de Helados \n";
+            message ="* Monto ABONADO debe ser mayor a Monto a PAGAR \n";
         }
 
 
@@ -140,6 +140,7 @@ public class CargarOtrosDatosFragment extends Fragment implements View.OnClickLi
         //Obtiene valores del formulario, y luego lo guarda en la base de datos
         try{
             getDataForm();
+
             PedidoController pc = new PedidoController(getContext());
             pc.abrir().edit(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL);
             return true;

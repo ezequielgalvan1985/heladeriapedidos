@@ -341,8 +341,11 @@ public class GlobalValues {
                 Cursor c = pdba.abrir().findByIdAndroid(nroPedido);
                 Pedido p = pdba.abrir().parseCursorToPedido(c);
                 GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL = p;
+                return true;
+            }else{
+                return false;
             }
-            return true;
+
         }catch(Exception e ){
             return false;
         }
