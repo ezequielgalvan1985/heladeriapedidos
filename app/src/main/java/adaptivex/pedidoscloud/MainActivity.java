@@ -145,7 +145,7 @@ public class MainActivity extends AppCompatActivity
         }else if (id==R.id.mnu_continuar_pedido_actual){
 
             PedidoController pdba = new PedidoController(this);
-            long nroPedido = pdba.getMaxIdTmpPedido();
+            long nroPedido = pdba.findByLastAndroidId();
             if (nroPedido > 0) {
                 Cursor c = pdba.abrir().findByIdAndroid(nroPedido);
                 Pedido p = pdba.abrir().parseCursorToPedido(c);

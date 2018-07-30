@@ -336,7 +336,7 @@ public class GlobalValues {
         try {
             //BUSCAR ULTIMO PEDIDO GENERADO EN EL DISPOSITIVO
             PedidoController pdba = new PedidoController(ctx);
-            long nroPedido = pdba.findByLastAndroidIdAndEstadoId(Constants.ESTADO_ENPREPARACION);
+            long nroPedido = pdba.findByLastAndroidId();
             if (nroPedido > 0) {
                 Cursor c = pdba.abrir().findByIdAndroid(nroPedido);
                 Pedido p = pdba.abrir().parseCursorToPedido(c);

@@ -185,15 +185,14 @@ public class PedidoController implements ControllerInterface
 
 
     //Busca Maximo pedido por IDTMP, Es decir codigo autonumerico de SQLITE
-    public long getMaxIdTmpPedido(){
+    public long findByLastAndroidId(){
 
         long nroPedido = 0;
         try{
             String sSelect = "select max("+PedidoDataBaseHelper.CAMPO_ID_TMP +") ";
             String sFrom = " from "+ PedidoDataBaseHelper.TABLE_NAME  ;
-            //String sWhere = " where " + PedidoDataBaseHelper.CAMPO_ESTADO_ID + " = " + Constants.ESTADO_ENPREPARACION;
+
             String selectQuery = sSelect + sFrom ;
-            Log.println(Log.ERROR,"MainActivity:"," No Hay Pedidos Generados "+selectQuery);
             dbHelper = new PedidoDataBaseHelper(context);
             db = dbHelper.getReadableDatabase();
 

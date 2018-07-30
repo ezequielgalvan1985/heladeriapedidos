@@ -1,9 +1,17 @@
 package adaptivex.pedidoscloud.View.Pedidos;
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.provider.Settings;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.telephony.SmsManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,9 +35,11 @@ import adaptivex.pedidoscloud.Model.Pedido;
 import adaptivex.pedidoscloud.R;
 import adaptivex.pedidoscloud.Servicios.HelperPedidos;
 
+import static android.Manifest.permission.SEND_SMS;
+
 public class ResumenPedidoFragment extends Fragment implements View.OnClickListener ,OnTaskCompleted {
 
-
+    private static final int MY_PERMISSIONS_REQUEST_SEND_SMS = 1;
     private TextView lbl_cantidad_kilos, lbl_kilos_monto, lbl_cucuruchos_monto, lbl_monto_total;
     private TextView txt_cucuruchos, txt_direccion, txt_cucharitas, txt_monto_total, txtEnvio,
                      txt_pedido_id, txt_hora_entrega, txt_estado,
@@ -50,7 +60,20 @@ public class ResumenPedidoFragment extends Fragment implements View.OnClickListe
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        try{
+            if (ContextCompat.checkSelfPermission(getActivity(),Manifest.permission.SEND_SMS )!= PackageManager.PERMISSION_GRANTED){
+                if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.SEND_SMS)){
+                    ActivityCompat.requestPermissions(getActivity(), new String[] {Manifest.permission.SEND_SMS}, 1);
+                }else{
+                    ActivityCompat.requestPermissions(getActivity(), new String[] {Manifest.permission.SEND_SMS}, 1);
+                }
+            }else{
+                // algo
 
+            }
+        }catch(Exception e){
+            Toast.makeText(getContext(),"Error: " + e.getMessage(),Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
@@ -154,8 +177,39 @@ public class ResumenPedidoFragment extends Fragment implements View.OnClickListe
             case R.id.resumen_pedido_btn_enviar:
                 enviarPedido();
 
+
+
         }
     }
+
+
+    public void sendSMS(String number, String message){
+         try{
+            SmsManager smsManager = SmsManager.getDefault();
+            smsManager.sendTextMessage(number, null, message, null, null);
+         }catch(Exception e){
+             Toast.makeText(getContext(),"Error: " + e.getMessage(),Toast.LENGTH_LONG).show();
+         }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults){
+        switch (requestCode){
+            case 1 :{
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED){
+                        Toast.makeText(getContext(),"Permisos otorgados: " ,Toast.LENGTH_LONG).show();
+                    }
+                }else{
+                    Toast.makeText(getContext(),"NO Permisos otorgados: " ,Toast.LENGTH_LONG).show();
+                }
+                return ;
+            }
+
+
+        }
+    }
+
 
     public void enviarPedido(){
         hp = new HelperPedidos(getContext(),  GlobalValues.getINSTANCIA().OPTION_HELPER_ENVIO_PEDIDO, GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL);
@@ -165,10 +219,14 @@ public class ResumenPedidoFragment extends Fragment implements View.OnClickListe
 
     }
 
+
+
+
     @Override
     public void onTaskCompleted() {
         if (hp.getOpcion() != HelperPedidos.OPTION_CHECK_STATUS){
             Toast.makeText(getContext(),"Enviado OK" ,Toast.LENGTH_LONG).show();
+            sendSMS(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getTelefono(),  GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getHoraEntregaForSMS());
         }
     }
 

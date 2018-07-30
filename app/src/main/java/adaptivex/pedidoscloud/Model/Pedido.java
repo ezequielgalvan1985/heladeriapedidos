@@ -7,6 +7,7 @@ import android.widget.Toast;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -570,6 +571,21 @@ public class Pedido {
     public void setHoraEntregaStringToDate(String paramHoraentrega){
         this.horaentrega = WorkDate.parseStringToDate(paramHoraentrega);
 
+    }
+
+    public String getHoraEntrega(){
+        return  WorkDate.parseDateToStringFormatHHmmss(this.horaentrega);
+
+    }
+    public String getHoraEntregaForSMS(){
+        Date fecha = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.MINUTE, 45);
+        fecha = cal.getTime();
+        DateFormat df1 = new SimpleDateFormat("HH:mm:00");
+        String fechaHMS = df1.format(fecha);
+
+        return "ROMA HELADOS te comunica que tu pedido llegara aproximadamente a las  "+ fechaHMS +" hs. Dentro de los siguientes 45 minutos.";
     }
 
     public Date getHoraRecepcion() {
