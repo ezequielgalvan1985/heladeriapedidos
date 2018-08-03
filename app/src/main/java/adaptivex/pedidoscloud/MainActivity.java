@@ -16,7 +16,24 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.mercadopago.core.MercadoPago;
+import com.mercadopago.core.MerchantServer;
+import com.mercadopago.exceptions.MPException;
+import com.mercadopago.model.ApiException;
+import com.mercadopago.model.CheckoutPreference;
+import com.mercadopago.model.Payment;
+import com.mercadopago.util.JsonUtil;
+// Cuidado! Es el callback de Mercado Pago.
+import com.mercadopago.callbacks.Callback;
+
+
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 
 import adaptivex.pedidoscloud.Config.Constants;
 import adaptivex.pedidoscloud.Config.GlobalValues;
@@ -55,6 +72,11 @@ public class MainActivity extends AppCompatActivity
 {
     private FloatingActionButton BTN_PRINCIPAL;
     protected Intent intentServiceStockPrecios;
+
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,12 +102,84 @@ public class MainActivity extends AppCompatActivity
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.content_main, fragment).addToBackStack(Constants.FRAGMENT_CARGAR_HOME)
                 .commit();
+    }
+
+    // Método ejecutado al hacer clic en el botón
+    public void submit(View view) {
+        try{
+
+            // Crea un mapa con los datos de la compra y el mail de tu cliente.
+            Map<String, Object> preferenceMap = new HashMap<>();
+            preferenceMap.put("item_id", "1");
+            preferenceMap.put("amount", new BigDecimal(10));
+            preferenceMap.put("currency_id", "ARS");
+            preferenceMap.put("payer_email", "mail_de_tu_cliente@gmail.com");
 
 
+            // Envía la información a tu servidor
+            MerchantServer.createPreference(this, "https://api.tunombre.com",
+                    "/create_preference", preferenceMap, new Callback<CheckoutPreference>() {
 
+                        @Override
+                        public void success(CheckoutPreference checkoutPreference) {
+                            // La preferencia se creó correctamente.
+                            // Aquí puedes iniciar el Checkout de MercadoPago.
+                            new MercadoPago.StartActivityBuilder()
+                                    .setActivity(this)
+                                    .setPublicKey("TEST-ad365c37-8012-4014-84f5-6c895b3f8e0a")
+                                    .setCheckoutPreferenceId(checkoutPreference.getId())
+                                    .startCheckoutActivity();
+                        }
+
+                        @Override
+                        public void failure(ApiException error) {
+                            // Ups, ocurrió un error
+                        }
+                    });
+            /*
+            // Iniciar el checkout de Mercado Pago
+            new MercadoPago.StartActivityBuilder()
+                    .setActivity(this)
+                    .setPublicKey("TEST-ad365c37-8012-4014-84f5-6c895b3f8e0a")
+                    .setCheckoutPreferenceId("150216849-ceed1ee4-8ab9-4449-869f-f4a8565d386f")
+                    .startCheckoutActivity();
+            */
+
+
+        }catch (Exception e){
+            Toast.makeText(this,e.getMessage(),Toast.LENGTH_LONG).show();
+        }
     }
 
 
+    // Espera los resultados del checkout
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == MercadoPago.CHECKOUT_REQUEST_CODE) {
+            if (resultCode == RESULT_OK && data != null) {
+
+                // Listo! El pago ya fue procesado por MP.
+                Payment payment = JsonUtil.getInstance()
+                        .fromJson(data.getStringExtra("payment"), Payment.class);
+                TextView results = (TextView) findViewById(R.id.mp_results);
+
+                if (payment != null) {
+                    results.setText("PaymentID: " + payment.getId() +
+                            " - PaymentStatus: " + payment.getStatus());
+                } else {
+                    results.setText("El usuario no concretó el pago.");
+                }
+
+            } else {
+                if ((data != null) && (data.hasExtra("mpException"))) {
+                    MPException mpException = JsonUtil.getInstance()
+                            .fromJson(data.getStringExtra("mpException"), MPException.class);
+                    // Manejá tus errores.
+                }
+            }
+        }
+    }
 
     @Override
     public void onResume() {

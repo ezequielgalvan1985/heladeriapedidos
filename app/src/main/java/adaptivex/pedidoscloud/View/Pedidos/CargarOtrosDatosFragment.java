@@ -13,6 +13,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mercadopago.core.MercadoPago;
+
 import adaptivex.pedidoscloud.Config.Constants;
 import adaptivex.pedidoscloud.Config.GlobalValues;
 import adaptivex.pedidoscloud.Controller.ParameterController;
@@ -95,6 +97,8 @@ public class CargarOtrosDatosFragment extends Fragment implements View.OnClickLi
                 clickListo();
         }
     }
+
+
 
 
     public void clickListo(){
