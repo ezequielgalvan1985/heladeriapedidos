@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "27.0.1"
+    buildToolsVersion '27.0.3'
     defaultConfig {
         applicationId "adaptivetech.romahelados"
         minSdkVersion 21
@@ -36,7 +36,7 @@ dependencies {
     compile 'com.android.support:support-v4:25.0.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.google.android.gms:play-services-maps:11.0.4'
-    compile 'com.mercadopago:sdk:3.8.1'
+    compile 'com.mercadopago:sdk:2.5.4'
 
     testCompile 'junit:junit:4.12'
 }
