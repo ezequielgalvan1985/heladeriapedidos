@@ -43,6 +43,7 @@ public class Configurador {
     public static String urlPostUpdateUser = strRoot+"/api/user/update";
     public static String urlPromos = strRoot+"/api/promos";
     public static String urlParameters = strRoot+"/api/parametros";
+    public static String urlHorarios = strRoot+"/api/horarios";
 
     public  static Configurador getConfigurador() {
 

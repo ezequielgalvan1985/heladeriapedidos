@@ -1,6 +1,7 @@
 package adaptivex.pedidoscloud.Model;
 
-import java.sql.Time;
+import java.sql.Date;
+import java.sql.Date;
 
 /**
  * Created by ezequiel on 23/05/2016.
@@ -8,8 +9,8 @@ import java.sql.Time;
 public class Horario {
     private Integer id;
     private Integer dia;
-    private Time apertura;
-    private Time cierre;
+    private Date apertura;
+    private Date cierre;
     private String observaciones;
 
 
@@ -29,19 +30,19 @@ public class Horario {
         this.dia = dia;
     }
 
-    public Time getApertura() {
+    public Date getApertura() {
         return apertura;
     }
 
-    public void setApertura(Time apertura) {
+    public void setApertura(Date apertura) {
         this.apertura = apertura;
     }
 
-    public Time getCierre() {
+    public Date getCierre() {
         return cierre;
     }
 
-    public void setCierre(Time cierre) {
+    public void setCierre(Date cierre) {
         this.cierre = cierre;
     }
 
