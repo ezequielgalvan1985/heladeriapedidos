@@ -23,12 +23,12 @@ public class BusinessRules {
 
 
 
-    public boolean checkLocalOpen(Time hour){
+    public boolean checkLocalOpen(long hourInMiliseconds){
         boolean validate = false;
         try{
             //obtener dia de la semana  de hoy
-            Date date = new Date();
-            Calendar c = Calendar.getInstance();
+            Date date       = new Date();
+            Calendar c      = Calendar.getInstance();
             c.setTime(date);
             int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
             // obtener hora actual
@@ -37,9 +37,9 @@ public class BusinessRules {
             HorarioController controller = new HorarioController(this.ctx);
             Horario h = controller.abrir().getByDayOfWeekObject(dayOfWeek);
 
-            long from = h.getApertura().getTime();
-            long to =  h.getCierre().getTime();
-            long t = c.get(Calendar.HOUR_OF_DAY) * 100 + c.get(Calendar.MINUTE);
+            long from   = h.getApertura().getTime();
+            long to     = h.getCierre().getTime();
+            long t      = hourInMiliseconds ;//c.get(Calendar.HOUR_OF_DAY) * 100 + c.get(Calendar.MINUTE);
 
             //comparar si hour esta entre las dos horas
             boolean isBetween = to > from && t >= from && t <= to || to < from && (t >= from || t <= to);

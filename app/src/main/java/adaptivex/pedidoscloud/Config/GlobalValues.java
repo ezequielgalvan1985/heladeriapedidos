@@ -6,6 +6,7 @@ import android.os.SystemClock;
 import android.provider.Settings;
 import android.widget.Toast;
 
+import java.sql.Time;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -15,6 +16,7 @@ import java.util.List;
 import adaptivex.pedidoscloud.Controller.ParameterController;
 import adaptivex.pedidoscloud.Controller.PedidoController;
 import adaptivex.pedidoscloud.Controller.PromoController;
+import adaptivex.pedidoscloud.Core.BusinessRules;
 import adaptivex.pedidoscloud.Core.IniciarApp;
 import adaptivex.pedidoscloud.Core.WorkNumber;
 import adaptivex.pedidoscloud.Model.ItemHelado;
@@ -286,13 +288,21 @@ public class GlobalValues {
     public long crearNuevoPedido(Context ctx){
         try{
 
-
-
             PedidoController gestdb = new PedidoController(ctx);
-            Date fecha = new Date();
-            Calendar cal = Calendar.getInstance();
-            fecha = cal.getTime();
-            DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd");
+            Date fecha      = new Date();
+            Calendar cal    = Calendar.getInstance();
+            fecha           = cal.getTime();
+
+            long horaactual = cal.getTimeInMillis();
+
+            BusinessRules br = new BusinessRules(ctx);
+            if (br.checkLocalOpen(horaactual)){
+
+
+            }
+
+
+            DateFormat df1  = new SimpleDateFormat("yyyy-MM-dd");
             String fechaDMY = df1.format(fecha);
 
             //Nuevo Pedido

@@ -248,8 +248,6 @@ public  class IniciarApp  {
             hp.setOPTION(HelperProductos.OPTION_UPDATE_ENABLED);
             hp.execute();
 
-
-
         }catch (Exception e ){
             Log.d("refreshDataFromServer", e.getMessage());
         }
