@@ -23,12 +23,19 @@ public class HelperProductos extends AsyncTask<Void, Void, Void> {
     private Producto producto;
     private ProductoController productoCtr;
     private int respuesta; //1=ok, 200=error
-    private int opcion; //1 enviar Post Producto
     private ProductoParser cp;
     private String jsonStr;
+    private int OPTION                      = 0 ;
+    public static final int OPTION_ALL             = 1;
+    public static final int OPTION_UPDATE_ENABLED  = 2;
+
+
+
+
     public HelperProductos(Context pCtx){
         this.setCtx(pCtx);
         this.productoCtr = new ProductoController(this.getCtx());
+        this.OPTION = OPTION_ALL; // por default trae todos
     }
 
 
@@ -36,7 +43,17 @@ public class HelperProductos extends AsyncTask<Void, Void, Void> {
     protected Void doInBackground(Void... voids) {
         try{
             WebRequest webreq = new WebRequest();
-            jsonStr = webreq.makeWebServiceCall(Configurador.urlProductos, WebRequest.POST,null);
+            switch (OPTION){
+                case OPTION_ALL:
+                    jsonStr = webreq.makeWebServiceCall(Configurador.urlProductos, WebRequest.POST,null);
+                    break;
+
+                case OPTION_UPDATE_ENABLED:
+                    jsonStr = webreq.makeWebServiceCall(Configurador.urlProductos, WebRequest.POST,null);
+                    break;
+
+            }
+
 
         }catch (Exception e){
                 setRespuesta(GlobalValues.getINSTANCIA().RETURN_ERROR);
@@ -57,20 +74,38 @@ public class HelperProductos extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPostExecute(Void result) {
         super.onPostExecute(result);
-        productoCtr.abrir().limpiar();
-        cp = new ProductoParser(jsonStr);
-        cp.parseJsonToObject();
 
-        //Recorrer Lista
-        for (int i = 0; i < cp.getListadoProductos().size(); i++) {
-            productoCtr.abrir().add(cp.getListadoProductos().get(i));
-            productoCtr.cerrar();
+        switch (OPTION){
+
+            case OPTION_ALL:
+                productoCtr.abrir().limpiar();
+                cp = new ProductoParser(jsonStr);
+                cp.parseJsonToObject();
+
+                //Recorrer Lista
+                for (int i = 0; i < cp.getListadoProductos().size(); i++) {
+                    productoCtr.abrir().add(cp.getListadoProductos().get(i));
+                    productoCtr.cerrar();
+                }
+                break;
+
+            case OPTION_UPDATE_ENABLED:
+                cp = new ProductoParser(jsonStr);
+                cp.parseJsonToObject();
+                for (int i = 0; i < cp.getListadoProductos().size(); i++) {
+                    productoCtr.abrir().edit(cp.getListadoProductos().get(i));
+                    productoCtr.cerrar();
+                }
+
+                break;
+
+
+
         }
+
         setRespuesta(GlobalValues.getINSTANCIA().RETURN_OK);
 
-        if (getRespuesta()== GlobalValues.getINSTANCIA().RETURN_OK){
 
-        }
     }
     public Context getCtx() {
         return ctx;
@@ -88,11 +123,13 @@ public class HelperProductos extends AsyncTask<Void, Void, Void> {
         this.respuesta = respuesta;
     }
 
-    public int getOpcion() {
-        return opcion;
+
+
+    public int getOPTION() {
+        return OPTION;
     }
 
-    public void setOpcion(int opcion) {
-        this.opcion = opcion;
+    public void setOPTION(int OPTION) {
+        this.OPTION = OPTION;
     }
 }

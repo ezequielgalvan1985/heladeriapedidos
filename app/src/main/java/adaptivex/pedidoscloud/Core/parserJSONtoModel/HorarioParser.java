@@ -25,23 +25,22 @@ public class HorarioParser {
     private Horario horario;
     private ArrayList<Horario> listadoHorarios;
     /* Solamente parsea los datos de un String Json, al Objeto HorarioParser */
+
+
     public HorarioParser(){
     }
 
-    public HorarioParser(String jsonstr){
-        setJsonstr(jsonstr);
-    }
-
-    public Horario parseJsonToObject(){
+    public Horario parseJsonToObject(String textJson){
         /* Completa datos del objeto  */
         try{
             //leer raiz
             listadoHorarios  = new ArrayList<Horario>();
-            setJsonobj(new JSONObject(getJsonstr()));
+            jsonobj          = new JSONObject(textJson);
 
-            setStatus(getJsonobj().getString("code"));
-            setMessage(getJsonobj().getString("message"));
-            setData(getJsonobj().getJSONArray("data"));
+
+            setStatus(jsonobj.getString("code"));
+            setMessage(jsonobj.getString("message"));
+            setData(jsonobj.getJSONArray("data"));
 
             if (Integer.parseInt(getStatus())== 200){
                 //parser Usuario
@@ -55,6 +54,7 @@ public class HorarioParser {
                     horario.setApertura(WorkDate.parseStringToDate(c.getString(HorarioDataBaseHelper.CAMPO_APERTURA)));
                     horario.setCierre(WorkDate.parseStringToDate(HorarioDataBaseHelper.CAMPO_CIERRE));
                     horario.setObservaciones(c.getString(HorarioDataBaseHelper.CAMPO_OBSERVACIONES));
+
                     listadoHorarios.add(horario);
                     horario =  new Horario();
 
@@ -111,13 +111,8 @@ public class HorarioParser {
         this.jsonobj = jsonobj;
     }
 
-    public String getJsonstr() {
-        return jsonstr;
-    }
 
-    public void setJsonstr(String jsonstr) {
-        this.jsonstr = jsonstr;
-    }
+
 
     public JSONObject getHorariojson() {
         return horariojson;

@@ -1,7 +1,8 @@
 package adaptivex.pedidoscloud.Model;
 
-import java.sql.Date;
-import java.sql.Date;
+
+import java.util.Date;
+
 
 /**
  * Created by ezequiel on 23/05/2016.

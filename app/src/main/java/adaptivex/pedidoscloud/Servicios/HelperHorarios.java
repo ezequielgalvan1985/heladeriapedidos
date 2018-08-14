@@ -4,34 +4,14 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLConnection;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 
 import adaptivex.pedidoscloud.Config.Configurador;
-import adaptivex.pedidoscloud.Config.Constants;
 import adaptivex.pedidoscloud.Config.GlobalValues;
-import adaptivex.pedidoscloud.Controller.PedidoController;
-import adaptivex.pedidoscloud.Controller.PedidodetalleController;
-import adaptivex.pedidoscloud.Core.Interfaces.OnTaskCompleted;
-import adaptivex.pedidoscloud.Core.parserJSONtoModel.PedidoParser;
+import adaptivex.pedidoscloud.Controller.HorarioController;
+
+import adaptivex.pedidoscloud.Core.parserJSONtoModel.HorarioParser;
 import adaptivex.pedidoscloud.Model.Horario;
-import adaptivex.pedidoscloud.Model.Pedido;
-import adaptivex.pedidoscloud.Model.Pedidodetalle;
 
 
 /**
@@ -39,11 +19,10 @@ import adaptivex.pedidoscloud.Model.Pedidodetalle;
  */
 
 public class HelperHorarios extends AsyncTask<Void, Void, Void> {
-    private Context ctx;
-    private ProgressDialog pDialog;
-    private HashMap<String,String> registro;
-    private Pedido pedido;
-    private PedidoController pedidoCtr;
+    private Context                 ctx;
+    private ProgressDialog          pDialog;
+    private HashMap<String,String>  registro;
+    private HorarioController       controller ;
 
     private int respuesta; //1=ok, 200=error
     private int opcion; //1 enviar Post Pedido, 2 ENVIAR TODOS LOS PEDIDOS PENDIENTES
@@ -60,31 +39,15 @@ public class HelperHorarios extends AsyncTask<Void, Void, Void> {
     //ID pedido real, es el ID que se asigna en MYSQL
     //OPCION: 1 enviar solo un pedido
     //OPCION: 2 enviar todos los pedidos pendientes
-    public HelperHorarios(Context pCtx){
-        this.setCtx(pCtx);
-    }
 
 
-    public HelperHorarios(Context pCtx, long pNroPedidoTmp, int opcion){
-        this.setCtx(pCtx);
-        this.pedidoCtr = new PedidoController(this.getCtx());
-        //this.setPedido(pedidoCtr.abrir().buscar(pNroPedidoTmp, true));
-        this.opcion = opcion;
-    }
+
 
     public HelperHorarios(Context pCtx, int opcion){
         this.setCtx(pCtx);
-        this.pedidoCtr = new PedidoController(this.getCtx());
+        this.controller = new HorarioController(this.getCtx());
         this.opcion = opcion;
     }
-
-    public HelperHorarios(Context pCtx, int opcion, Pedido pedido){
-        this.setCtx(pCtx);
-        this.pedidoCtr = new PedidoController(this.getCtx());
-        this.opcion = opcion;
-        this.pedido = pedido;
-    }
-
 
 
     @Override
@@ -126,8 +89,18 @@ public class HelperHorarios extends AsyncTask<Void, Void, Void> {
 
         switch(getOpcion()){
             case OPTION_FIND_ALL:
-                HorarioParser hp = new HorarioParser(TEXT_RESPONSE);
-                hp.parseJsonToObject();
+                HorarioParser hp = new HorarioParser();
+                hp.parseJsonToObject(TEXT_RESPONSE);
+                controller.abrir().limpiar();
+                //Recorrer Lista
+                for (int i = 0; i < hp.getListadoHorarios().size(); i++) {
+                    controller.abrir().agregar(hp.getListadoHorarios().get(i));
+                }
+                setRespuesta(GlobalValues.getINSTANCIA().RETURN_OK);
+
+                if (getRespuesta()== GlobalValues.getINSTANCIA().RETURN_OK){
+
+                }
                 break;
 
         }
@@ -173,7 +146,6 @@ public class HelperHorarios extends AsyncTask<Void, Void, Void> {
     private void findAll(){
         try{
             WebRequest webreq = new WebRequest();
-//            JSONObject json = new JSONObject();
             TEXT_RESPONSE = webreq.makeWebServiceCallJson(Configurador.urlHorarios, WebRequest.POST, null);
         }catch (Exception e){
             Log.println(Log.ERROR,"ErrorHelperHorarios:",e.getMessage());

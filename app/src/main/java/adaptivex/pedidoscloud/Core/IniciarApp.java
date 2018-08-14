@@ -240,6 +240,21 @@ public  class IniciarApp  {
             Log.d("refreshDataFromServer", e.getMessage());
         }
     }
+
+    public void refreshHeladosDisponiblesFromServer(){
+        try{
+
+            HelperProductos hp = new HelperProductos(getContext());
+            hp.setOPTION(HelperProductos.OPTION_UPDATE_ENABLED);
+            hp.execute();
+
+
+
+        }catch (Exception e ){
+            Log.d("refreshDataFromServer", e.getMessage());
+        }
+    }
+
     public boolean instalarApp(){
         try {
             this.iniciarBD();

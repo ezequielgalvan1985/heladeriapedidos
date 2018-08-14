@@ -5,16 +5,16 @@ package adaptivex.pedidoscloud.Model;
  */
 public class Producto {
     private Integer id;
-    private String nombre;
-    private String descripcion;
-    private float precio;
-    private String imagen;
-    private String imagenurl;
+    private String  nombre;
+    private String  descripcion;
+    private float   precio;
+    private String  imagen;
+    private String  imagenurl;
     private Integer stock;
-    private String codigoexterno;
+    private String  codigoexterno;
     private Integer categoriaId;
     private Integer marcaId;
-
+    private Integer enabled;
 
     public Integer getId() {
         return id;
@@ -95,5 +95,13 @@ public class Producto {
 
     public void setMarcaId(Integer marcaId) {
         this.marcaId = marcaId;
+    }
+
+    public Integer getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Integer enabled) {
+        this.enabled = enabled;
     }
 }

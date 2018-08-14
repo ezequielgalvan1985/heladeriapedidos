@@ -314,9 +314,8 @@ public class GlobalValues {
             User u = GlobalValues.getINSTANCIA().getUserlogued();
             IniciarApp ia = new IniciarApp(ctx);
             ia.refreshPromosFromServer();
-
             ia.refreshPriceFromServer();
-            //ia.loginRemember(u);
+            ia.refreshHeladosDisponiblesFromServer();
 
             ParameterController pc = new ParameterController(ctx);
             Parameter p = pc.abrir().findByNombre(Constants.PARAM_PRECIO_CUCURUCHO);

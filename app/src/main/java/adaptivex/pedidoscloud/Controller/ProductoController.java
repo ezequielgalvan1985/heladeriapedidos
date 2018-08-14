@@ -76,6 +76,7 @@ public class ProductoController implements ControllerInterface
 
             valores.put(ProductoDataBaseHelper.CAMPO_CATEGORIA_ID, item.getCategoriaId());
             valores.put(ProductoDataBaseHelper.CAMPO_MARCA_ID, item.getMarcaId());
+            valores.put(ProductoDataBaseHelper.CAMPO_ENABLED, item.getEnabled());
 
             return db.insert(ProductoDataBaseHelper.TABLE_NAME, null, valores);
         }catch(Exception e ){
@@ -101,6 +102,7 @@ public class ProductoController implements ControllerInterface
             valores.put(ProductoDataBaseHelper.CAMPO_STOCK, item.getStock());
             valores.put(ProductoDataBaseHelper.CAMPO_CATEGORIA_ID, item.getCategoriaId());
             valores.put(ProductoDataBaseHelper.CAMPO_MARCA_ID, item.getMarcaId());
+            valores.put(ProductoDataBaseHelper.CAMPO_ENABLED, item.getEnabled());
 
             db.update(ProductoDataBaseHelper.TABLE_NAME, valores,
                     ProductoDataBaseHelper.CAMPO_ID + " = ?", argumentos);
@@ -139,7 +141,8 @@ public class ProductoController implements ControllerInterface
                     ProductoDataBaseHelper.CAMPO_STOCK,
                     ProductoDataBaseHelper.CAMPO_CODIGOEXTERNO,
                     ProductoDataBaseHelper.CAMPO_CATEGORIA_ID,
-                    ProductoDataBaseHelper.CAMPO_MARCA_ID
+                    ProductoDataBaseHelper.CAMPO_MARCA_ID,
+                    ProductoDataBaseHelper.CAMPO_ENABLED
             };
             String orderBy=  ProductoDataBaseHelper.CAMPO_NOMBRE + " ASC ";
             Cursor resultado = db.query(ProductoDataBaseHelper.TABLE_NAME, campos, null, null, null, null, orderBy);
@@ -168,7 +171,8 @@ public class ProductoController implements ControllerInterface
                     ProductoDataBaseHelper.CAMPO_STOCK,
                     ProductoDataBaseHelper.CAMPO_CODIGOEXTERNO,
                     ProductoDataBaseHelper.CAMPO_CATEGORIA_ID,
-                    ProductoDataBaseHelper.CAMPO_MARCA_ID
+                    ProductoDataBaseHelper.CAMPO_MARCA_ID,
+                    ProductoDataBaseHelper.CAMPO_ENABLED
             };
             String orderBy = ProductoDataBaseHelper.CAMPO_NOMBRE + " ASC ";
             String[] argumentos = sm.getArguments();
@@ -242,6 +246,7 @@ public class ProductoController implements ControllerInterface
                 registro.setStock(c.getInt(c.getColumnIndex(ProductoDataBaseHelper.CAMPO_STOCK)));
                 registro.setCategoriaId(c.getInt(c.getColumnIndex(ProductoDataBaseHelper.CAMPO_CATEGORIA_ID)));
                 registro.setMarcaId(c.getInt(c.getColumnIndex(ProductoDataBaseHelper.CAMPO_MARCA_ID)));
+                registro.setEnabled(c.getInt(c.getColumnIndex(ProductoDataBaseHelper.CAMPO_ENABLED)));
                 al.add(registro);
                 registro = null;
             }while (c.moveToNext());
@@ -265,6 +270,7 @@ public class ProductoController implements ControllerInterface
             registro.setStock(c.getInt(c.getColumnIndex(ProductoDataBaseHelper.CAMPO_STOCK)));
             registro.setCategoriaId(c.getInt(c.getColumnIndex(ProductoDataBaseHelper.CAMPO_CATEGORIA_ID)));
             registro.setMarcaId(c.getInt(c.getColumnIndex(ProductoDataBaseHelper.CAMPO_MARCA_ID)));
+            registro.setEnabled(c.getInt(c.getColumnIndex(ProductoDataBaseHelper.CAMPO_ENABLED)));
             return registro;
         }catch(Exception e ){
             Log.d("ProductosController", e.getMessage());
@@ -305,7 +311,9 @@ public class ProductoController implements ControllerInterface
                 ProductoDataBaseHelper.CAMPO_STOCK,
                 ProductoDataBaseHelper.CAMPO_CODIGOEXTERNO,
                 ProductoDataBaseHelper.CAMPO_CATEGORIA_ID,
-                ProductoDataBaseHelper.CAMPO_MARCA_ID
+                ProductoDataBaseHelper.CAMPO_MARCA_ID,
+                ProductoDataBaseHelper.CAMPO_ENABLED
+
         };
 
         String[] argumentos = {"%"+ String.valueOf(pNombre)+"%"};
@@ -333,7 +341,8 @@ public class ProductoController implements ControllerInterface
                     ProductoDataBaseHelper.CAMPO_STOCK,
                     ProductoDataBaseHelper.CAMPO_CODIGOEXTERNO,
                     ProductoDataBaseHelper.CAMPO_CATEGORIA_ID,
-                    ProductoDataBaseHelper.CAMPO_MARCA_ID
+                    ProductoDataBaseHelper.CAMPO_MARCA_ID,
+                    ProductoDataBaseHelper.CAMPO_ENABLED
             };
             String[] argumentos = {String.valueOf(id)};
             Cursor resultado = db.query(ProductoDataBaseHelper.TABLE_NAME, campos,
@@ -353,6 +362,7 @@ public class ProductoController implements ControllerInterface
                 registro.setCodigoexterno(resultado.getString(resultado.getColumnIndex(ProductoDataBaseHelper.CAMPO_CODIGOEXTERNO)));
                 registro.setCategoriaId(resultado.getInt(resultado.getColumnIndex(ProductoDataBaseHelper.CAMPO_CATEGORIA_ID)));
                 registro.setMarcaId(resultado.getInt(resultado.getColumnIndex(ProductoDataBaseHelper.CAMPO_MARCA_ID)));
+                registro.setEnabled(resultado.getInt(resultado.getColumnIndex(ProductoDataBaseHelper.CAMPO_ENABLED)));
 
             }
             return registro;
@@ -376,7 +386,9 @@ public class ProductoController implements ControllerInterface
                     ProductoDataBaseHelper.CAMPO_STOCK,
                     ProductoDataBaseHelper.CAMPO_CODIGOEXTERNO,
                     ProductoDataBaseHelper.CAMPO_CATEGORIA_ID,
-                    ProductoDataBaseHelper.CAMPO_MARCA_ID
+                    ProductoDataBaseHelper.CAMPO_MARCA_ID,
+                    ProductoDataBaseHelper.CAMPO_ENABLED
+
 
             };
             String[] argumentos = {codigoExterno};
@@ -398,6 +410,7 @@ public class ProductoController implements ControllerInterface
                     registro.setCodigoexterno(resultado.getString(resultado.getColumnIndex(ProductoDataBaseHelper.CAMPO_CODIGOEXTERNO)));
                     registro.setCategoriaId(resultado.getInt(resultado.getColumnIndex(ProductoDataBaseHelper.CAMPO_CATEGORIA_ID)));
                     registro.setMarcaId(resultado.getInt(resultado.getColumnIndex(ProductoDataBaseHelper.CAMPO_MARCA_ID)));
+                    registro.setEnabled(resultado.getInt(resultado.getColumnIndex(ProductoDataBaseHelper.CAMPO_ENABLED)));
 
                 }
             }
