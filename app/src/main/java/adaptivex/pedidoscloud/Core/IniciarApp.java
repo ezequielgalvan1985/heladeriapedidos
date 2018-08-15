@@ -8,6 +8,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.provider.Settings;
+import android.support.v7.widget.ThemedSpinnerAdapter;
 import android.util.Log;
 import android.util.Property;
 import android.widget.Toast;
@@ -16,29 +17,23 @@ import adaptivex.pedidoscloud.Config.Constants;
 import adaptivex.pedidoscloud.Config.GlobalValues;
 import adaptivex.pedidoscloud.Controller.ClienteController;
 import adaptivex.pedidoscloud.Controller.ParameterController;
-import adaptivex.pedidoscloud.Controller.ProductoController;
-import adaptivex.pedidoscloud.Controller.PromoController;
 import adaptivex.pedidoscloud.Controller.UserController;
 import adaptivex.pedidoscloud.Model.CategoriaDataBaseHelper;
 import adaptivex.pedidoscloud.Model.ClienteDataBaseHelper;
-import adaptivex.pedidoscloud.Model.HojarutaDataBaseHelper;
-import adaptivex.pedidoscloud.Model.HojarutadetalleDataBaseHelper;
+import adaptivex.pedidoscloud.Model.HorarioDataBaseHelper;
 import adaptivex.pedidoscloud.Model.MarcaDataBaseHelper;
-import adaptivex.pedidoscloud.Model.MemoDataBaseHelper;
 import adaptivex.pedidoscloud.Model.Parameter;
 import adaptivex.pedidoscloud.Model.ParameterDataBaseHelper;
 import adaptivex.pedidoscloud.Model.PedidoDataBaseHelper;
 import adaptivex.pedidoscloud.Model.PedidodetalleDataBaseHelper;
 import adaptivex.pedidoscloud.Model.ProductoDataBaseHelper;
-import adaptivex.pedidoscloud.Model.Promo;
 import adaptivex.pedidoscloud.Model.PromoDataBaseHelper;
 import adaptivex.pedidoscloud.Model.User;
 import adaptivex.pedidoscloud.Model.UserDataBaseHelper;
 import adaptivex.pedidoscloud.Servicios.HelperCategorias;
 import adaptivex.pedidoscloud.Servicios.HelperClientes;
-import adaptivex.pedidoscloud.Servicios.HelperHojarutas;
+import adaptivex.pedidoscloud.Servicios.HelperHorarios;
 import adaptivex.pedidoscloud.Servicios.HelperMarcas;
-import adaptivex.pedidoscloud.Servicios.HelperMemo;
 import adaptivex.pedidoscloud.Servicios.HelperParameters;
 import adaptivex.pedidoscloud.Servicios.HelperProductos;
 import adaptivex.pedidoscloud.Servicios.HelperPromos;
@@ -117,6 +112,12 @@ public  class IniciarApp  {
             db.execSQL(userdb.CREATE_TABLE);
             db.close();
 
+            HorarioDataBaseHelper horario = new HorarioDataBaseHelper(getContext());
+            db = horario.getWritableDatabase();
+            db.execSQL(horario.DROP_TABLE);
+            db.execSQL(horario.CREATE_TABLE);
+            db.close();
+
             return true;
         }catch(Exception e ){
             Log.println(Log.DEBUG,"IniciarrApp: ", e.getMessage());
@@ -129,7 +130,7 @@ public  class IniciarApp  {
 
     public boolean loginRemember(User user){
         try{
-        /* Lee parametros, y los setea con el valor del usuario. Si no existen, los crea */
+            /* Lee parametros, y los setea con el valor del usuario. Si no existen, los crea */
             boolean respuesta = true;
             //ParameterController pc = new ParameterController(this.getContext());
             UserController uc = new UserController(this.getContext());
@@ -208,6 +209,10 @@ public  class IniciarApp  {
             HelperPromos ph = new HelperPromos(getContext());
             ph.execute();
 
+            HelperHorarios hh = new HelperHorarios(getContext());
+            hh.setOpcion(HelperHorarios.OPTION_FIND_ALL);
+            hh.execute();
+
             return true;
         }catch (Exception e ){
           Log.d("IniciarAPP", e.getMessage());
@@ -216,7 +221,16 @@ public  class IniciarApp  {
         }
     }
 
+    public void refreshHorariosOpenFromServer(){
+        try{
+            HelperHorarios helper = new HelperHorarios(getContext());
+            helper.setOpcion(HelperHorarios.OPTION_FIND_ALL);
+            helper.execute();
 
+        }catch (Exception e ){
+            Log.d("refreshDataFromServer", e.getMessage());
+        }
+    }
 
     public void refreshPromosFromServer(){
         try{

@@ -9,7 +9,7 @@ import adaptivex.pedidoscloud.Model.User;
 public class Configurador {
 
     public static final int DBVersion = 11;
-    public static final String DBName = "heladeria_02";
+    public static final String DBName = "heladeria";
     private static Configurador INSTANCIA;
     public static  User userlogin;
     public static final String urlImgClientes = "http://www.ellechero.com.ar/files/producto/imagen/";

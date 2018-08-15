@@ -126,9 +126,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 break;
 
             case R.id.home_btn_nuevo_pedido:
-                GlobalValues.getINSTANCIA().crearNuevoPedido(getContext());
-                Fragment fragment3 =  new CargarDireccionFragment();
-                openFragment(fragment3);
+                if (GlobalValues.getINSTANCIA().crearNuevoPedido(getContext()) > 0) {
+                    Fragment fragment3 = new CargarDireccionFragment();
+                    openFragment(fragment3);
+                }
                 break;
 
             case R.id.home_btn_promos:

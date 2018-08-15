@@ -24,7 +24,7 @@ public class HelperCategorias extends AsyncTask<Void, Void, Void> {
     private CategoriaController categoriaCtr;
     private int respuesta; //1=ok, 200=error
     private int opcion; //1 enviar Post Categoria
-
+    private String jsonStr ="";
     public HelperCategorias(Context pCtx){
         this.setCtx(pCtx);
         this.categoriaCtr = new CategoriaController(this.getCtx());
@@ -37,14 +37,8 @@ public class HelperCategorias extends AsyncTask<Void, Void, Void> {
             WebRequest webreq = new WebRequest();
             registro = new HashMap<String, String>();
             registro.put("empresa_id", String.valueOf(GlobalValues.getINSTANCIA().getUserlogued().getEntidad_id()));
-            String jsonStr = webreq.makeWebServiceCall(Configurador.urlCategorias, WebRequest.POST,registro);
-            CategoriaParser cp = new CategoriaParser(jsonStr);
-            cp.parseJsonToObject();
-            categoriaCtr.abrir().limpiar();
-            //Recorrer Lista
-            for (int i = 0; i < cp.getListadoCategorias().size(); i++) {
-                categoriaCtr.abrir().agregar(cp.getListadoCategorias().get(i));
-            }
+            jsonStr = webreq.makeWebServiceCall(Configurador.urlCategorias, WebRequest.POST,registro);
+
             setRespuesta(GlobalValues.getINSTANCIA().RETURN_OK);
         }catch (Exception e){
                 setRespuesta(GlobalValues.getINSTANCIA().RETURN_ERROR);
@@ -67,7 +61,13 @@ public class HelperCategorias extends AsyncTask<Void, Void, Void> {
     protected void onPostExecute(Void result) {
         super.onPostExecute(result);
         if (getRespuesta()== GlobalValues.getINSTANCIA().RETURN_OK){
-
+            CategoriaParser cp = new CategoriaParser(jsonStr);
+            cp.parseJsonToObject();
+            categoriaCtr.abrir().limpiar();
+            //Recorrer Lista
+            for (int i = 0; i < cp.getListadoCategorias().size(); i++) {
+                categoriaCtr.abrir().agregar(cp.getListadoCategorias().get(i));
+            }
         }
     }
     public Context getCtx() {

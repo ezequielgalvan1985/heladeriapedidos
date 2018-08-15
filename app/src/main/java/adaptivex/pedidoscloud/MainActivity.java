@@ -128,10 +128,10 @@ public class MainActivity extends AppCompatActivity
 
 
         if (id == R.id.mnu_nuevo_pedido) {
-            GlobalValues.getINSTANCIA().crearNuevoPedido(this);
-            fragment = new CargarDireccionFragment();
-            fragmentTransaction = true;
-
+            if (GlobalValues.getINSTANCIA().crearNuevoPedido(this) > 0){
+                fragment = new CargarDireccionFragment();
+                fragmentTransaction = true;
+            }
 
         }else if (id == R.id.mnu_ver_pedido_actual) {
             fragment = new ResumenPedidoFragment();

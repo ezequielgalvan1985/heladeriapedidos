@@ -145,8 +145,8 @@ public class HorarioController
                 registro = new Horario();
                 registro.setId(c.getInt(c.getColumnIndex(HorarioDataBaseHelper.CAMPO_ID)));
                 registro.setDia(c.getInt(c.getColumnIndex(HorarioDataBaseHelper.CAMPO_DIA)));
-                registro.setApertura(WorkDate.parseStringToDate(c.getString(c.getColumnIndex(HorarioDataBaseHelper.CAMPO_APERTURA))));
-                registro.setCierre(WorkDate.parseStringToDate(c.getString(c.getColumnIndex(HorarioDataBaseHelper.CAMPO_CIERRE))));
+                registro.setApertura(WorkDate.parseStringToTime(c.getString(c.getColumnIndex(HorarioDataBaseHelper.CAMPO_APERTURA))));
+                registro.setCierre(WorkDate.parseStringToTime(c.getString(c.getColumnIndex(HorarioDataBaseHelper.CAMPO_CIERRE))));
             }
             return registro;
         }catch(Exception e ){

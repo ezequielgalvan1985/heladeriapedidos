@@ -23,7 +23,7 @@ public class BusinessRules {
 
 
 
-    public boolean checkLocalOpen(long hourInMiliseconds){
+    public boolean checkLocalOpen(Date hour){
         boolean validate = false;
         try{
             //obtener dia de la semana  de hoy
@@ -37,9 +37,9 @@ public class BusinessRules {
             HorarioController controller = new HorarioController(this.ctx);
             Horario h = controller.abrir().getByDayOfWeekObject(dayOfWeek);
 
-            long from   = h.getApertura().getTime();
-            long to     = h.getCierre().getTime();
-            long t      = hourInMiliseconds ;//c.get(Calendar.HOUR_OF_DAY) * 100 + c.get(Calendar.MINUTE);
+            long from   = h.getApertura().getHours() * 60 + h.getApertura().getMinutes();
+            long to     = h.getCierre().getHours() * 60 + h.getCierre().getMinutes();
+            long t      = hour.getHours() *60 + hour.getMinutes() ;//c.get(Calendar.HOUR_OF_DAY) * 100 + c.get(Calendar.MINUTE);
 
             //comparar si hour esta entre las dos horas
             boolean isBetween = to > from && t >= from && t <= to || to < from && (t >= from || t <= to);
@@ -49,10 +49,14 @@ public class BusinessRules {
             //Preguntar si el horario del pedido esta dentro del horario de apretura y cierre
 
 
-
-
-
             validate = isBetween;
+            if (!validate){
+                String horapertura = WorkDate.getHourMinutesStringFromDate(h.getApertura());
+                String horacierre  = WorkDate.getHourMinutesStringFromDate(h.getCierre());
+                String texto       = "En este momento el ROMA HELADOS se encuentra cerrado, nuestro horario de antención es de "+ horapertura+ " a " + horacierre + ". ";
+                Toast.makeText(ctx, texto,Toast.LENGTH_LONG).show();
+            }
+
             return validate;
 
         }catch(Exception e){

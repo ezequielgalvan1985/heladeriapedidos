@@ -41,7 +41,7 @@ public class RegisterActivity
 
     private void preLoadActivity(){
         //Si no esta instalada, se instala, y luego se pide registrarse
-        IniciarApp ia = new IniciarApp(this.getBaseContext());
+        IniciarApp ia = new IniciarApp(this);
         //HelperParameters hp = new HelperParameters(getBaseContext());
         //hp.setCURRENT_OPTION(HelperParameters.OPTION_ALL);
         //hp.execute();

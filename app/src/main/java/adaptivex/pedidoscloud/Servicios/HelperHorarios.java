@@ -23,13 +23,9 @@ public class HelperHorarios extends AsyncTask<Void, Void, Void> {
     private ProgressDialog          pDialog;
     private HashMap<String,String>  registro;
     private HorarioController       controller ;
-
     private int respuesta; //1=ok, 200=error
     private int opcion; //1 enviar Post Pedido, 2 ENVIAR TODOS LOS PEDIDOS PENDIENTES
-
-
     private String TEXT_RESPONSE;
-    private int CURRENT_OPTION = 0; //1 enviar Post Parameter
 
 
     public static final int OPTION_FIND_ALL            = 1;
@@ -41,7 +37,10 @@ public class HelperHorarios extends AsyncTask<Void, Void, Void> {
     //OPCION: 2 enviar todos los pedidos pendientes
 
 
-
+    public HelperHorarios(Context pCtx){
+        this.setCtx(pCtx);
+        this.controller = new HorarioController(this.getCtx());
+    }
 
     public HelperHorarios(Context pCtx, int opcion){
         this.setCtx(pCtx);
@@ -55,7 +54,12 @@ public class HelperHorarios extends AsyncTask<Void, Void, Void> {
         try{
             switch (getOpcion()){
                 case OPTION_FIND_ALL:
-                    findAll();
+                    try{
+                        WebRequest webreq = new WebRequest();
+                        TEXT_RESPONSE = webreq.makeWebServiceCall(Configurador.urlHorarios, WebRequest.GET);
+                    }catch (Exception e){
+                        Log.println(Log.ERROR,"ErrorHelperHorarios:",e.getMessage());
+                    }
                     break;
             }
 
@@ -98,19 +102,12 @@ public class HelperHorarios extends AsyncTask<Void, Void, Void> {
                 }
                 setRespuesta(GlobalValues.getINSTANCIA().RETURN_OK);
 
-                if (getRespuesta()== GlobalValues.getINSTANCIA().RETURN_OK){
-
-                }
                 break;
 
         }
 
-        if (pDialog.isShowing()){
-            pDialog.dismiss();
-            if (getRespuesta()== GlobalValues.getINSTANCIA().RETURN_OK){
+        if (pDialog.isShowing()) pDialog.dismiss();
 
-            }
-        }
 
     }
     public Context getCtx() {
@@ -144,12 +141,7 @@ public class HelperHorarios extends AsyncTask<Void, Void, Void> {
     /* ======================  Tratamiento de Datos =============================================== */
 
     private void findAll(){
-        try{
-            WebRequest webreq = new WebRequest();
-            TEXT_RESPONSE = webreq.makeWebServiceCallJson(Configurador.urlHorarios, WebRequest.POST, null);
-        }catch (Exception e){
-            Log.println(Log.ERROR,"ErrorHelperHorarios:",e.getMessage());
-        }
+
     }
 
 

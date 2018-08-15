@@ -1,5 +1,6 @@
 package adaptivex.pedidoscloud.Servicios;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -28,7 +29,7 @@ public class HelperProductos extends AsyncTask<Void, Void, Void> {
     private int OPTION                      = 0 ;
     public static final int OPTION_ALL             = 1;
     public static final int OPTION_UPDATE_ENABLED  = 2;
-
+    private ProgressDialog          pDialog;
 
 
 
@@ -51,7 +52,6 @@ public class HelperProductos extends AsyncTask<Void, Void, Void> {
                 case OPTION_UPDATE_ENABLED:
                     jsonStr = webreq.makeWebServiceCall(Configurador.urlProductos, WebRequest.POST,null);
                     break;
-
             }
 
 
@@ -66,8 +66,19 @@ public class HelperProductos extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        // Showing progress dialog
-
+        pDialog = new ProgressDialog(this.getCtx());
+        String texto = "";
+        switch (OPTION) {
+            case OPTION_ALL:
+                texto = "Actualizando Helados...";
+                break;
+            case OPTION_UPDATE_ENABLED:
+                texto = "Verificando Helados Disponibles...";
+                break;
+        }
+        pDialog.setMessage(texto);
+        pDialog.setCancelable(false);
+        pDialog.show();
     }
 
 
@@ -104,7 +115,7 @@ public class HelperProductos extends AsyncTask<Void, Void, Void> {
         }
 
         setRespuesta(GlobalValues.getINSTANCIA().RETURN_OK);
-
+        if (pDialog.isShowing()) pDialog.dismiss();
 
     }
     public Context getCtx() {

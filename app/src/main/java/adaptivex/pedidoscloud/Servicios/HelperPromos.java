@@ -55,7 +55,10 @@ public class HelperPromos extends AsyncTask<Void, Void, Void> {
 
         super.onPreExecute();
         // Showing progress dialog
-
+        pDialog = new ProgressDialog(this.getCtx());
+        pDialog.setMessage("Actualizando Promos...");
+        pDialog.setCancelable(false);
+        pDialog.show();
 
     }
 
@@ -85,9 +88,7 @@ public class HelperPromos extends AsyncTask<Void, Void, Void> {
             }
             setRespuesta(GlobalValues.getINSTANCIA().RETURN_OK);
 
-            if (getRespuesta()== GlobalValues.getINSTANCIA().RETURN_ERROR){
-
-            }
+            if (pDialog.isShowing()) pDialog.dismiss();
 
         }catch(Exception e){
             Toast.makeText(this.getCtx(), "Error "+ e.getMessage(), Toast.LENGTH_SHORT).show();

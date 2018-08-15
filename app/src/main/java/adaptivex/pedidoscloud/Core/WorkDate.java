@@ -50,6 +50,7 @@ public class WorkDate {
             return null;
         }
     }
+
     public static Date parseStringToDate(String paramFecha){
         try {
             SimpleDateFormat  format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
@@ -57,7 +58,31 @@ public class WorkDate {
             System.out.println(date);
             return date;
         } catch (ParseException e) {
-            e.printStackTrace();
+            Log.d("WorkDate: " , e.getMessage());
+            return null;
+        }
+    }
+    public static Date parseStringToTime(String paramFecha){
+        try {
+            String fecha = paramFecha.substring(0,19);
+            //String fecha = paramFecha.replace(" ","'T'");
+            SimpleDateFormat  format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date date = format.parse(fecha);
+            System.out.println(date);
+            return date;
+        } catch (ParseException e) {
+            Log.d("WorkDate: " , e.getMessage());
+            return null;
+        }
+    }
+
+    public static String getHourMinutesStringFromDate(Date date){
+        try{
+            DateFormat df1 = new SimpleDateFormat("HH:mm");
+            String fechaStr = df1.format(date);
+            return fechaStr;
+        }catch(Exception e){
+            Log.d("Pedido: ", e.getMessage().toString());
             return null;
         }
     }
