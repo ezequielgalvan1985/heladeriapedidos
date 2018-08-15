@@ -158,6 +158,39 @@ public class ProductoController implements ControllerInterface
     }
 
 
+    public Cursor findByEnabled(){
+        try{
+            String[] campos = {
+                    ProductoDataBaseHelper.CAMPO_ID,
+                    ProductoDataBaseHelper.CAMPO_NOMBRE,
+                    ProductoDataBaseHelper.CAMPO_DESCRIPCION,
+                    ProductoDataBaseHelper.CAMPO_IMAGEN,
+                    ProductoDataBaseHelper.CAMPO_IMAGENURL,
+                    ProductoDataBaseHelper.CAMPO_PRECIO,
+                    ProductoDataBaseHelper.CAMPO_STOCK,
+                    ProductoDataBaseHelper.CAMPO_CODIGOEXTERNO,
+                    ProductoDataBaseHelper.CAMPO_CATEGORIA_ID,
+                    ProductoDataBaseHelper.CAMPO_MARCA_ID,
+                    ProductoDataBaseHelper.CAMPO_ENABLED
+            };
+            String orderBy=  ProductoDataBaseHelper.CAMPO_NOMBRE + " ASC ";
+            String selection = ProductoDataBaseHelper.CAMPO_ENABLED +" = ? ";
+            String[] argumentos   = new String[]{String.valueOf(true)};
+
+
+            Cursor resultado = db.query(ProductoDataBaseHelper.TABLE_NAME, campos, selection, argumentos, null, null, orderBy);
+            if (resultado != null)
+            {
+                resultado.moveToFirst();
+            }
+            return resultado;
+        }catch(Exception e ){
+            Toast.makeText(context, "Error " +e.getMessage().toString(), Toast.LENGTH_SHORT).show();
+            return null;
+        }
+    }
+
+
     public Cursor findWhere(SqlManager sm){
         try{
 
@@ -202,7 +235,9 @@ public class ProductoController implements ControllerInterface
     public ArrayList<Object> findAllToArrayList() {
         try{
             ArrayList<Object> lista = new  ArrayList<Object>();
-            Cursor c = findAll();
+            //Cursor c = findAll();
+            Cursor c = findByEnabled();
+
             lista = parseCursorToArrayList(c);
             return lista;
 
