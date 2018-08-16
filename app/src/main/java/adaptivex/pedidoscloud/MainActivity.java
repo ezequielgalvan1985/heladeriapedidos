@@ -11,18 +11,26 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
+
+import com.mercadopago.core.MercadoPago;
+import com.mercadopago.model.PaymentMethod;
+import com.mercadopago.util.JsonUtil;
+import com.mercadopago.util.LayoutUtil;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 import adaptivex.pedidoscloud.Config.Constants;
 import adaptivex.pedidoscloud.Config.GlobalValues;
 import adaptivex.pedidoscloud.Controller.PedidoController;
 import adaptivex.pedidoscloud.Core.IniciarApp;
-import adaptivex.pedidoscloud.Core.SearchHelper;
 import adaptivex.pedidoscloud.Model.Pedido;
 import adaptivex.pedidoscloud.Servicios.HelperPedidos;
 import adaptivex.pedidoscloud.View.Categorias.ListadoCategoriasFragment;
@@ -30,6 +38,8 @@ import adaptivex.pedidoscloud.View.Consulting.ConfigFragment;
 import adaptivex.pedidoscloud.View.Consulting.ResumenFragment;
 import adaptivex.pedidoscloud.View.Hojarutas.ListadoHojarutasFragment;
 import adaptivex.pedidoscloud.View.Marcas.ListadoMarcasFragment;
+import adaptivex.pedidoscloud.View.Mercadopago.Card2Activity;
+import adaptivex.pedidoscloud.View.Mercadopago.Utils;
 import adaptivex.pedidoscloud.View.Pedidodetalles.ListadoPedidodetallesFragment;
 import adaptivex.pedidoscloud.View.Pedidos.CargarDireccionFragment;
 import adaptivex.pedidoscloud.View.Pedidos.CargarHeladosFragment;
@@ -55,13 +65,19 @@ public class MainActivity extends AppCompatActivity
 {
     private FloatingActionButton BTN_PRINCIPAL;
     protected Intent intentServiceStockPrecios;
+
+    private List<String> supportedPaymentTypes = new ArrayList<>();
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        supportedPaymentTypes.add("credit_card");
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -81,17 +97,82 @@ public class MainActivity extends AppCompatActivity
                 .replace(R.id.content_main, fragment).addToBackStack(Constants.FRAGMENT_CARGAR_HOME)
                 .commit();
 
-
-
     }
 
 
 
+
+
+
+
+
+    //Respuesta de mercadopago
     @Override
-    public void onResume() {
-        super.onResume();
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
 
+
+
+
+
+        if (requestCode == MercadoPago.PAYMENT_METHODS_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                PaymentMethod paymentMethod = JsonUtil.getInstance().fromJson(data.getStringExtra("paymentMethod"), PaymentMethod.class);
+                Utils.startCardActivity(this, Utils.PUBLIC_KEY, paymentMethod);
+            } else {
+                if ((data != null) && (data.getStringExtra("apiException") != null)) {
+                    Toast.makeText(getApplicationContext(), data.getStringExtra("apiException"), Toast.LENGTH_LONG).show();
+                }
+            }
+        } else if (requestCode == Utils.CARD_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                try {
+                    String cardToken = data.getStringExtra("token");
+                    Utils.createPayment(this,
+                            data.getStringExtra("token"),
+                            1, //Custom installments
+                            null,
+                            BigDecimal.valueOf(100), //Custom price
+                            JsonUtil.getInstance().fromJson(data.getStringExtra("paymentMethod"), PaymentMethod.class), null);
+                } catch (Exception exc) {
+                    exc.printStackTrace();
+                    Toast.makeText(this, "Ocurrio un error al procesar al pago", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                if (data != null) {
+                    if (data.getStringExtra("apiException") != null) {
+                        Toast.makeText(getApplicationContext(), data.getStringExtra("apiException"), Toast.LENGTH_LONG).show();
+                    } else if (data.getBooleanExtra("backButtonPressed", false)) {
+                        new MercadoPago.StartActivityBuilder()
+                                .setActivity(this)
+                                .setPublicKey(Utils.PUBLIC_KEY)
+                                .setSupportedPaymentTypes(supportedPaymentTypes)
+                                .startPaymentMethodsActivity();
+                    }
+                }
+            }
+        } else if (requestCode == MercadoPago.CONGRATS_REQUEST_CODE) {
+            LayoutUtil.showRegularLayout(this);
+            Intent intent = new Intent(this, Card2Activity.class);
+
+            //Intent intent = new Intent(SummaryActivity.this, HomeActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
+
+        }
     }
+
+
+
+
+
+
+    //Respuesta de mercadopago
+    public void send(View view) {
+        new MercadoPago.StartActivityBuilder().setActivity(this).setPublicKey(Utils.PUBLIC_KEY).setSupportedPaymentTypes(supportedPaymentTypes).startPaymentMethodsActivity();
+    }
+    @Override
+    public void onResume(){super.onResume();}
 
 
     @Override

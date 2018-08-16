@@ -1,5 +1,6 @@
 package adaptivex.pedidoscloud.View.Pedidos;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -13,6 +14,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mercadopago.core.MercadoPago;
+import com.mercadopago.model.PaymentMethod;
+import com.mercadopago.util.JsonUtil;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import adaptivex.pedidoscloud.Config.Constants;
 import adaptivex.pedidoscloud.Config.GlobalValues;
 import adaptivex.pedidoscloud.Controller.ParameterController;
@@ -22,14 +30,15 @@ import adaptivex.pedidoscloud.Core.WorkString;
 import adaptivex.pedidoscloud.Model.Parameter;
 import adaptivex.pedidoscloud.R;
 
+import static android.app.Activity.RESULT_OK;
+
 public class CargarOtrosDatosFragment extends Fragment implements View.OnClickListener {
 
     private EditText txtCucuruchos, txtMontoAbona,txtCucharitas;
     private TextView txtCucuruchoPrecio, txt_monto_total_helados;
     private CheckBox chkEnvio;
-    private Button   btnListo;
-
-
+    private Button   btnListo, btnMercadopago;
+    // Set the supported payment method types
 
     private void getDataForm(){
         if (txtCucuruchos.getText()!= null) GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.setCucuruchos(WorkNumber.parseInteger(txtCucuruchos.getText().toString()));
@@ -71,10 +80,12 @@ public class CargarOtrosDatosFragment extends Fragment implements View.OnClickLi
             txtMontoAbona           = (EditText) v.findViewById(R.id.otros_datos_txt_monto_abona);
             chkEnvio                = (CheckBox) v.findViewById(R.id.otros_datos_chk_envio);
             btnListo                = (Button)   v.findViewById(R.id.otros_datos_btn_listo);
+            btnMercadopago          = (Button)   v.findViewById(R.id.otros_datos_btn_mercadopago);
             txt_monto_total_helados = (TextView) v.findViewById(R.id.otros_datos_txt_monto_total_helados);
 
             //Cargar datos en los Objetos
             btnListo.setOnClickListener(this);
+            btnMercadopago.setOnClickListener(this);
 
             txtCucuruchoPrecio.setText("Cucurucho ("+GlobalValues.getINSTANCIA().PRECIO_CUCURUCHO_MONEY+" c/u):");
             txt_monto_total_helados.setText("Monto a Pagar: "+ GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getMontoHeladoFormatMoney());
@@ -93,6 +104,9 @@ public class CargarOtrosDatosFragment extends Fragment implements View.OnClickLi
         switch (v.getId()){
             case R.id.otros_datos_btn_listo:
                 clickListo();
+            case R.id.otros_datos_btn_mercadopago:
+                getPaymentMethods();
+                break;
         }
     }
 
@@ -149,6 +163,21 @@ public class CargarOtrosDatosFragment extends Fragment implements View.OnClickLi
             return false;
         }
     }
+
+
+    public void getPaymentMethods() {
+
+        List<String> mSupportedPaymentTypes = new ArrayList<String>();
+        mSupportedPaymentTypes.add("credit_card");
+
+        new MercadoPago.StartActivityBuilder()
+                .setActivity(getActivity())
+                .setPublicKey("TEST-924835fe-e6df-4199-baa0-26ba59811a31")
+                .setSupportedPaymentTypes(mSupportedPaymentTypes)
+                .startPaymentMethodsActivity();
+    }
+
+
 
 
 

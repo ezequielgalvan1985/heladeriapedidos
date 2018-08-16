@@ -22,5 +22,15 @@
         <color name="background_login_color_start">#aa49da</color>
         <color name="background_login_color_center">#ffa3df</color>
         <color name="background_login_color_end">#f3f97fca</color>
+
+
+
+
+
+
+        <color name="button">#00B2EB</color>
+        <color name="button_pressed">#0277BD</color>
+        <color name="button_disabled">#CCCCCC</color>
+
     </resources>
 

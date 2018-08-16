@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="adaptivex.pedidoscloud.View.Mercadopago.Card2Activity">
+
+
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+
+        <ScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+
+            android:id="@+id/regularLayout">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <android.support.v7.widget.CardView
+                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_marginBottom="10dp">
+
+                            <LinearLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginBottom="10dp"
+                                    android:layout_marginTop="10dp"/>
+
+                                <ImageView
+                                    android:id="@+id/pmImage"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="fill_parent"
+                                    android:layout_gravity="left"
+                                    tools:src="@drawable/ico_tc_visa"
+                                    android:layout_marginLeft="5dp"
+                                    android:paddingTop="10dp"
+                                    android:layout_marginBottom="10dp"/>
+
+                            </LinearLayout>
+
+                            <EditText
+                                android:id="@+id/cardNumber"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+
+                                android:hint="Nro de Tarjeta"
+                                android:inputType="number"
+                                android:maxLength="16" />
+
+                            <TextView
+                                android:id="@+id/text_cod_seg"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+
+                                android:layout_marginTop="10dp"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp" />
+
+                            <EditText
+                                android:id="@+id/securityCode"
+                                android:layout_width="120dp"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/text_cod_seg"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:layout_marginTop="10dp"
+
+                                android:hint="Cod. Seguridad"
+                                android:inputType="number"
+                                android:maxLength="4"
+                                android:singleLine="true" />
+
+                            <TextView
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+
+                                android:layout_marginTop="10dp"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"/>
+
+                            <LinearLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <EditText
+                                    android:id="@+id/expiryMonth"
+                                    android:layout_width="30dp"
+                                    android:layout_height="wrap_content"
+                                    android:maxLength="2"
+                                    android:inputType="number"
+                                    android:singleLine="true"
+
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginRight="10dp"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="/"
+
+                                    android:layout_marginBottom="5dp"
+                                    android:layout_gravity="bottom" />
+
+                                <EditText
+                                    android:id="@+id/expiryYear"
+                                    android:layout_width="30dp"
+                                    android:layout_height="wrap_content"
+                                    android:maxLength="2"
+                                    android:inputType="number"
+                                    android:singleLine="true"
+
+                                    android:layout_marginLeft="10dp"/>
+
+                                <TextView
+                                    android:id="@+id/expiryError"
+                                    android:layout_width="30dp"
+                                    android:layout_height="wrap_content"
+
+                                    android:visibility="gone"/>
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <RelativeLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="10dp"
+                            android:layout_marginBottom="10dp">
+
+                            <TextView
+                                android:id="@+id/cardholderNameText"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+
+                                android:layout_marginBottom="10dp"/>
+
+                            <EditText
+                                android:id="@+id/cardholderName"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/cardholderNameText"
+                                android:inputType="textPersonName"
+                                />
+
+                            <RelativeLayout
+                                android:id="@+id/identificationLayout"
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_below="@+id/cardholderName">
+
+                                <TextView
+                                    android:id="@+id/identificationTypeText"
+                                    android:layout_width="100dp"
+                                    android:layout_height="wrap_content"
+
+                                    android:layout_marginBottom="10dp"
+                                    android:layout_marginTop="10dp"/>
+
+                                <TextView
+                                    android:id="@+id/identificationNumberText"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="wrap_content"
+
+                                    android:layout_toRightOf="@id/identificationTypeText"
+                                    android:layout_marginBottom="10dp"
+                                    android:layout_marginTop="10dp"
+                                    />
+
+                                <EditText
+                                    android:id="@+id/identificationNumber"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:maxLength="11"
+                                    android:inputType="text"
+                                    android:layout_below="@+id/identificationNumberText"
+                                    android:layout_alignLeft="@+id/identificationNumberText"
+                                    android:singleLine="true"
+                                    android:imeOptions="actionGo"
+                                    />
+
+                                <Spinner
+                                    android:id="@+id/identificationType"
+                                    android:layout_width="100dp"
+                                    android:layout_height="36dp"
+                                    android:layout_below="@+id/identificationTypeText"
+                                    android:layout_alignBottom="@id/identificationNumber"/>
+
+                            </RelativeLayout>
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <Button
+                    style="@android:style/Widget.Button.Inset"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:onClick="submitForm"
+                    android:text="Realizar el Pago" />
+
+            </LinearLayout>
+
+        </ScrollView>
+
+
+
+    </RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>
