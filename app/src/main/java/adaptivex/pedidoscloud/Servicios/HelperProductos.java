@@ -73,7 +73,7 @@ public class HelperProductos extends AsyncTask<Void, Void, Void> {
                 texto = "Actualizando Helados...";
                 break;
             case OPTION_UPDATE_ENABLED:
-                texto = "Verificando Helados Disponibles...";
+                texto = "Comprobando Helados disponibles...";
                 break;
         }
         pDialog.setMessage(texto);

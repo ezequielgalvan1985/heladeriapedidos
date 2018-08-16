@@ -290,13 +290,15 @@ public class GlobalValues {
             fecha           = cal.getTime();
             IniciarApp ia = new IniciarApp(ctx);
             ia.refreshHorariosOpenFromServer();
-            ia.refreshPromosFromServer();
-            ia.refreshPriceFromServer();
-            ia.refreshHeladosDisponiblesFromServer();
+
 
             BusinessRules br = new BusinessRules(ctx);
 
             if (br.checkLocalOpen(fecha)){
+                ia.refreshPromosFromServer();
+                ia.refreshPriceFromServer();
+                ia.refreshHeladosDisponiblesFromServer();
+
                 PedidoController gestdb = new PedidoController(ctx);
                 DateFormat df1  = new SimpleDateFormat("yyyy-MM-dd");
                 String fechaDMY = df1.format(fecha);

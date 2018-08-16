@@ -48,7 +48,7 @@ public class ProductoParser {
                 Producto producto = new Producto();
                 for (int i = 0; i < productos.length(); i++) {
                     JSONObject registro = productos.getJSONObject(i);
-
+                    int enabled = 0;
                     producto.setId(registro.getInt("id"));
                     if (registro.has(ProductoDataBaseHelper.CAMPO_NOMBRE)) producto.setNombre(registro.getString(ProductoDataBaseHelper.CAMPO_NOMBRE)); else producto.setNombre("");
                     if (registro.has(ProductoDataBaseHelper.CAMPO_DESCRIPCION)) producto.setDescripcion(registro.getString(ProductoDataBaseHelper.CAMPO_DESCRIPCION)); else producto.setDescripcion("");
@@ -56,6 +56,8 @@ public class ProductoParser {
                     if (registro.has(ProductoDataBaseHelper.CAMPO_PRECIO)) producto.setPrecio(registro.getInt(ProductoDataBaseHelper.CAMPO_PRECIO)); else producto.setPrecio(0);
                     if (registro.has(ProductoDataBaseHelper.CAMPO_STOCK)) producto.setStock(registro.getInt(ProductoDataBaseHelper.CAMPO_STOCK)); else producto.setStock(0);
                     if (registro.has(ProductoDataBaseHelper.CAMPO_CODIGOEXTERNO)) producto.setCodigoexterno(registro.getString(ProductoDataBaseHelper.CAMPO_CODIGOEXTERNO)); else producto.setCodigoexterno("");
+                    if (registro.has(ProductoDataBaseHelper.CAMPO_ENABLED)) {  enabled = registro.getBoolean(ProductoDataBaseHelper.CAMPO_ENABLED) ? 1 : 0; }
+                    producto.setEnabled(enabled);
 
                     if (registro.has(ProductoDataBaseHelper.JSON_CAMPO_CATEGORIA)){
                         JSONObject categoria = registro.getJSONObject(ProductoDataBaseHelper.JSON_CAMPO_CATEGORIA);

@@ -174,8 +174,8 @@ public class ProductoController implements ControllerInterface
                     ProductoDataBaseHelper.CAMPO_ENABLED
             };
             String orderBy=  ProductoDataBaseHelper.CAMPO_NOMBRE + " ASC ";
-            String selection = ProductoDataBaseHelper.CAMPO_ENABLED +" = ? ";
-            String[] argumentos   = new String[]{String.valueOf(true)};
+            String selection = ProductoDataBaseHelper.CAMPO_ENABLED +"=?";
+            String[] argumentos   = new String[]{String.valueOf(1)};
 
 
             Cursor resultado = db.query(ProductoDataBaseHelper.TABLE_NAME, campos, selection, argumentos, null, null, orderBy);
