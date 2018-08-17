@@ -64,7 +64,7 @@ public class Card2Activity extends AppCompatActivity implements CustomDatePicker
         try{
             setContentView(R.layout.activity_card2);
             activity = this;
-            String mMerchantPublicKey = this.getIntent().getStringExtra("TEST-924835fe-e6df-4199-baa0-26ba59811a31");
+            String mMerchantPublicKey = this.getIntent().getStringExtra("merchantPublicKey");
             cardNumber                = (EditText) findViewById(R.id.cardNumber);
             securityCode              = (EditText) findViewById(R.id.securityCode);
             cardHolderName            = (EditText) findViewById(R.id.cardholderName);

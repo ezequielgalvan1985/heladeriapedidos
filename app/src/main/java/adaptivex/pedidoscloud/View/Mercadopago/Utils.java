@@ -28,8 +28,10 @@ public class Utils {
     public static final int CARD_REQUEST_CODE = 13;
 
     //Custom your MercadoPago PUBLIC_KEY and ACCESS_TOKEN
-    public static String PUBLIC_KEY = "TEST-d840bf4c-ee1e-4563-8813-7707e73e1c05";
-    public static String ACCESS_TOKEN = "TEST-2919128858572145-060511-c777c7825bfb2a8c43627d88f4bbcff1__LC_LD__-184272638";
+    //public static String PUBLIC_KEY = "TEST-d840bf4c-ee1e-4563-8813-7707e73e1c05";
+    //public static String ACCESS_TOKEN = "TEST-2919128858572145-060511-c777c7825bfb2a8c43627d88f4bbcff1__LC_LD__-184272638";
+    public static String PUBLIC_KEY = "TEST-924835fe-e6df-4199-baa0-26ba59811a31";
+    public static String ACCESS_TOKEN = "TEST-2207797945420831-122010-06933213e1f9eda6452bffee4786b2bd__LC_LA__-214222883";
 
     //Custom your BASE_URL and CREATE_PAYMENT_URI if you dont have an api
     public static final String BASE_URL = "https://www.mercadopago.com";

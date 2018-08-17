@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity
         if (requestCode == MercadoPago.PAYMENT_METHODS_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 PaymentMethod paymentMethod = JsonUtil.getInstance().fromJson(data.getStringExtra("paymentMethod"), PaymentMethod.class);
-                Utils.startCardActivity(this, Utils.PUBLIC_KEY, paymentMethod);
+                Utils.startCardActivity(this,  "TEST-924835fe-e6df-4199-baa0-26ba59811a31", paymentMethod);
             } else {
                 if ((data != null) && (data.getStringExtra("apiException") != null)) {
                     Toast.makeText(getApplicationContext(), data.getStringExtra("apiException"), Toast.LENGTH_LONG).show();

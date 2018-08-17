@@ -33,9 +33,6 @@
     <dimen name="textsize_subsuper_title">25dp</dimen>
 
 
-
-
-
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="big_text">20dp</dimen>
