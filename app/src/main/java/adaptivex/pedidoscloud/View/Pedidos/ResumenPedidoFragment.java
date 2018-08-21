@@ -226,6 +226,7 @@ public class ResumenPedidoFragment extends Fragment implements View.OnClickListe
     public void onTaskCompleted() {
         if (hp.getOpcion() != HelperPedidos.OPTION_CHECK_STATUS){
             Toast.makeText(getContext(),"Enviado OK" ,Toast.LENGTH_LONG).show();
+            btnEnviarPedido.setEnabled(false);
             sendSMS(GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getTelefono(),  GlobalValues.getINSTANCIA().PEDIDO_TEMPORAL.getHoraEntregaForSMS());
         }
     }
